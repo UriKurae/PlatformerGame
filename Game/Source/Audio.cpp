@@ -28,7 +28,7 @@ bool Audio::Awake(pugi::xml_node& config)
 	LOG("Loading Audio Mixer");
 	bool ret = true;
 	SDL_Init(0);
-
+	
 	if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 	{
 		LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -54,7 +54,12 @@ bool Audio::Awake(pugi::xml_node& config)
 		active = false;
 		ret = true;
 	}
-
+	else
+	{
+		musicVolume = config.child("music").attribute("value").as_float(100.0f);
+		fxVolume = config.child("fx").attribute("value").as_float(100.0f);
+	}
+	
 	return ret;
 }
 
@@ -108,7 +113,7 @@ bool Audio::PlayMusic(const char* path, float fade_time)
 	}
 
 	music = Mix_LoadMUS(path);
-
+	
 	if(music == NULL)
 	{
 		LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
@@ -116,6 +121,8 @@ bool Audio::PlayMusic(const char* path, float fade_time)
 	}
 	else
 	{
+		Mix_VolumeMusic(musicVolume);
+
 		if(fade_time > 0.0f)
 		{
 			if(Mix_FadeInMusic(music, -1, (int) (fade_time * 1000.0f)) < 0)
@@ -147,7 +154,7 @@ unsigned int Audio::LoadFx(const char* path)
 		return 0;
 
 	Mix_Chunk* chunk = Mix_LoadWAV(path);
-
+	
 	if(chunk == NULL)
 	{
 		LOG("Cannot load wav %s. Mix_GetError(): %s", path, Mix_GetError());
@@ -171,6 +178,7 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 
 	if(id > 0 && id <= fx.count())
 	{
+		Mix_VolumeChunk(fx[id - 1], fxVolume);
 		Mix_PlayChannel(-1, fx[id - 1], repeat);
 	}
 

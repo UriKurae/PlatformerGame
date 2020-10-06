@@ -36,6 +36,12 @@ private:
 
 	_Mix_Music* music;
 	List<Mix_Chunk *>	fx;
+	
+	pugi::xml_node configAudio;
+
+	float musicVolume;
+	float fxVolume;
+
 };
 
 #endif // __AUDIO_H__
