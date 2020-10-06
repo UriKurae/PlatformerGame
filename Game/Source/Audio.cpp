@@ -56,8 +56,8 @@ bool Audio::Awake(pugi::xml_node& config)
 	}
 	else
 	{
-		musicVolume = config.child("music").attribute("value").as_float(100.0f);
-		fxVolume = config.child("fx").attribute("value").as_float(100.0f);
+		musicVolume = config.child("music").attribute("value").as_int(100);
+		fxVolume = config.child("fx").attribute("value").as_int(100);
 	}
 	
 	return ret;

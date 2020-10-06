@@ -39,8 +39,8 @@ private:
 	
 	pugi::xml_node configAudio;
 
-	float musicVolume;
-	float fxVolume;
+	uint musicVolume;
+	uint fxVolume;
 
 };
 
