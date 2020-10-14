@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Audio.h"
+#include "Input.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -183,4 +184,52 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 	}
 
 	return ret;
+}
+
+bool Audio::Save(pugi::xml_node& audioNode)
+{
+	audioNode.append_child("music_volume");
+	audioNode.child("music_volume").append_attribute("value").set_value(musicVolume);
+
+	return true;
+}
+
+bool Audio::Load(pugi::xml_node& audioNode)
+{
+	musicVolume = audioNode.child("volume").attribute("value").as_int(100);
+
+	return true;
+}
+
+void Audio::VolumeControl()
+{
+	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS))
+	{
+		if (musicVolume >= 125)
+		{
+			musicVolume = 128;
+			LOG("Max music volume reached");
+		}
+		else
+		{
+			musicVolume += 4;
+			Mix_VolumeMusic(musicVolume);
+			LOG("%i", musicVolume);
+		}
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS))
+	{
+		if (musicVolume <= 0)
+		{
+			musicVolume = 0;
+			LOG("Min music volume reached");
+		}
+		else
+		{
+			musicVolume -= 4;
+			Mix_VolumeMusic(musicVolume);
+			LOG("%i", musicVolume);
+		}
+	}
 }

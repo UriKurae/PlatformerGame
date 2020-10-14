@@ -42,12 +42,21 @@ public:
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
 
+	// Load the module
+	bool Load(pugi::xml_node&) override;
+
+	// Save the module
+	bool Save(pugi::xml_node&) override;
+
 public:
 
 	SDL_Renderer* renderer;
 	SDL_Rect camera;
 	SDL_Rect viewport;
 	SDL_Color background;
+
+	int cameraX;
+	int cameraY;
 };
 
 #endif // __RENDER_H__

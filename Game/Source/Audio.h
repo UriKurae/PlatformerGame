@@ -32,6 +32,15 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
+	// Save module content
+	bool Save(pugi::xml_node&) override;
+
+	//Load module content
+	bool Load(pugi::xml_node&) override;
+
+	// Control the volume
+	void VolumeControl();
+
 private:
 
 	_Mix_Music* music;
@@ -39,8 +48,8 @@ private:
 	
 	pugi::xml_node configAudio;
 
-	uint musicVolume;
-	uint fxVolume;
+	int musicVolume = 0;
+	int fxVolume = 0;
 
 };
 

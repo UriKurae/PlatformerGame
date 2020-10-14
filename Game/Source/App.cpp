@@ -158,7 +158,11 @@ void App::PrepareUpdate()
 // ---------------------------------------------
 void App::FinishUpdate()
 {
-	// This is a good place to call Load / Save functions
+	// L02: TODO 1: This is a good place to call Load / Save methods
+	if (loadRequest)
+		Load();
+	if (saveRequest)
+		Save();
 }
 
 // Call modules before each loop iteration
@@ -269,4 +273,74 @@ const char* App::GetOrganization() const
 	return organization.GetString();
 }
 
+void App::RequestLoadGame()
+{
+	loadRequest = !loadRequest;
+}
 
+void App::RequestSaveGame()
+{
+	saveRequest = !saveRequest;
+}
+
+// L02: TODO 5: Create a method to actually load an xml file
+// then call all the modules to load themselves
+bool App::Load()
+{
+	loadRequest = false;
+	bool ret = true;
+
+	pugi::xml_parse_result resul = saveLoadFile.load_file("savegame.xml");
+
+	if (resul == NULL)
+	{
+		LOG("Could not load save and load xml file. pugi error: %s", resul.description());
+		return false;
+	}
+	else
+	{
+		saveState = saveLoadFile.child("save_state");
+
+		ListItem<Module*>* item;
+		item = modules.start;
+
+		while (item != NULL && ret)
+		{
+			ret = item->data->Load(saveState.child(item->data->name.GetString()));
+			item = item->next;
+		}
+
+		LOG("File loaded successfully!");
+	}
+
+	return true;
+}
+
+// L02: TODO 7: Implement the xml save method for current state
+bool App::Save()
+{
+	LOG("Saving Results!!");
+
+	saveRequest = false;
+	bool ret = true;
+
+	ListItem<Module*>* item = modules.start;
+	pugi::xml_document file;
+
+	auto root = file.append_child("save_status");
+
+	while (item != NULL)
+	{
+		root.append_child(item->data->name.GetString());
+		ret = item->data->Save(root.child(item->data->name.GetString()));
+		item = item->next;
+	}
+
+	bool saveSucceed = file.save_file("savedgame.xml", PUGIXML_TEXT("  "));
+	if (saveSucceed == false)
+	{
+		LOG("Couldn't save the file. pugi error: %s", pugi::status_internal_error);
+	}
+
+	return ret;
+}
