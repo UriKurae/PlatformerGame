@@ -11,7 +11,7 @@ Window::Window() : Module()
 {
 	window = NULL;
 	screenSurface = NULL;
-	name.create("window");
+	name.Create("window");
 }
 
 // Destructor
@@ -85,7 +85,7 @@ bool Window::CleanUp()
 // Set new window title
 void Window::SetTitle(const char* new_title)
 {
-	//title.create(new_title);
+	title.Create(new_title);
 	SDL_SetWindowTitle(window, new_title);
 }
 

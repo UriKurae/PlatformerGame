@@ -16,7 +16,7 @@
 Audio::Audio() : Module()
 {
 	music = NULL;
-	name.create("audio");
+	name.Create("audio");
 }
 
 // Destructor

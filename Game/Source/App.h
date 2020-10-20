@@ -6,6 +6,9 @@
 
 #include "PugiXml/src/pugixml.hpp"
 
+#define CONFIG_FILENAME		"config.xml"
+#define SAVE_STATE_FILENAME "save_game.xml"
+
 // Modules
 class Window;
 class Input;
@@ -13,6 +16,7 @@ class Render;
 class Textures;
 class Audio;
 class Scene;
+class Map;
 
 class App
 {
@@ -52,7 +56,7 @@ public:
 private:
 
 	// Load config file
-	bool LoadConfig();
+	pugi::xml_node LoadConfig(pugi::xml_document&) const;
 
 	// Call modules before each loop iteration
 	void PrepareUpdate();
@@ -84,6 +88,7 @@ public:
 	Textures* tex;
 	Audio* audio;
 	Scene* scene;
+	Map* map;
 
 private:
 
@@ -97,9 +102,9 @@ private:
 	// L01: DONE 2: Create new variables from pugui namespace:
 	// xml_document to store the config file and
 	// xml_node(s) to read specific branches of the xml
-	pugi::xml_document configFile;
-	pugi::xml_node config;
-	pugi::xml_node configApp;
+	//pugi::xml_document configFile;
+	//pugi::xml_node config;
+	//pugi::xml_node configApp;
 
 	uint frames;
 	float dt;

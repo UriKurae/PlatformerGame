@@ -5,6 +5,7 @@
 #include "Textures.h"
 #include "Audio.h"
 #include "Scene.h"
+#include "Map.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -23,6 +24,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new Textures();
 	audio = new Audio();
 	scene = new Scene();
+	map = new Map();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -31,6 +33,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(scene);
+	AddModule(map);
 
 	// Render last to swap buffer
 	AddModule(render);
@@ -50,7 +53,7 @@ App::~App()
 
 	modules.clear();
 
-	configFile.reset();
+	//configFile.reset();
 }
 
 void App::AddModule(Module* module)
@@ -62,15 +65,27 @@ void App::AddModule(Module* module)
 // Called before render is available
 bool App::Awake()
 {
+	pugi::xml_document configFile;
+	pugi::xml_node config;
+	pugi::xml_node configApp;
 	// TODO 3: Load config from XML
-	bool ret = LoadConfig();
+	bool ret = LoadConfig(configFile);
 
+	if (config.empty() == false)
+	{
+		ret = true;
+		configApp = config.child("app");
+
+		// L01: DONE 4: Read the title from the config file
+		title.Create(configApp.child("title").child_value());
+		organization.Create(configApp.child("organization").child_value());
+	}
 
 	if(ret == true)
 	{
-		// TODO 4: Read the title from the config file
-		title.create(configApp.child("title").child_value());
-		win->SetTitle(title.GetString());
+		//// TODO 4: Read the title from the config file
+		//title.Create(configApp.child("title").child_value());
+		//win->SetTitle(title.GetString());
 
 		ListItem<Module*>* item;
 		item = modules.start;
@@ -128,24 +143,32 @@ bool App::Update()
 }
 
 // Load config from XML file
-bool App::LoadConfig()
+pugi::xml_node App::LoadConfig(pugi::xml_document& configFile) const
 {
-	bool ret = true;
+	//bool ret = true;
 
-	// TODO 3: Load config.xml file using load_file() method from the xml_document class
-	pugi::xml_parse_result result = configFile.load_file("config.xml");
+	//// TODO 3: Load config.xml file using load_file() method from the xml_document class
+	//pugi::xml_parse_result result = configFile.load_file("config.xml");
 
-	// TODO 3: Check result for loading errors
-	if(result == NULL)
-	{
-		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
-		ret = false;
-	}
-	else
-	{
-		config = configFile.child("config");
-		configApp = config.child("app");
-	}
+	//// TODO 3: Check result for loading errors
+	//if(result == NULL)
+	//{
+	//	LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
+	//	ret = false;
+	//}
+	//else
+	//{
+	//	config = configFile.child("config");
+	//	configApp = config.child("app");
+	//}
+
+	//return ret;
+	pugi::xml_node ret;
+
+	pugi::xml_parse_result result = configFile.load_file(CONFIG_FILENAME);
+
+	if (result == NULL) LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
+	else ret = configFile.child("config");
 
 	return ret;
 }
@@ -290,7 +313,7 @@ bool App::Load()
 	loadRequest = false;
 	bool ret = true;
 
-	pugi::xml_parse_result resul = saveLoadFile.load_file("savegame.xml");
+	pugi::xml_parse_result resul = saveLoadFile.load_file("savedgame.xml");
 
 	if (resul == NULL)
 	{
