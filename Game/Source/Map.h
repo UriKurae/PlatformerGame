@@ -9,30 +9,68 @@
 
 // L03: TODO 2: Create a struct to hold information for a TileSet
 // Ignore Terrain Types and Tile Types for now, but we want the image!
-struct TileSetInfo
+struct TileSet
 {
-    int firstGrid = 1;
-    SString name = "Desert";
-    int tileWidth = 32;
-    int tileHeight = 32;
-    int spacing = 1;
-    int margin = 1;
-    SDL_Texture* imgTexture;
-    int imgWidth = 1;
-    int imgHeight = 1;
+    SString name;
+    int firstgid;
+    int margin;
+    int spacing;
+    int tileWidth;
+    int tileHeight;
+
+    SDL_Texture* texture;
+    int texWidth;
+    int texHeight;
+    int numTilesWidth;
+    int numTilesHeight;
+    int offsetX;
+    int offsetY;
+
+    SDL_Rect GetTileRect(int id) const;
+
+};
+
+enum MapTypes
+{
+    MAPTYPE_UNKNOWN = 0,
+    MAPTYPE_ORTHOGONAL,
+    MAPTYPE_ISOMETRIC,
+    MAPTYPE_STAGGERED
+};
+
+struct MapLayer
+{
+    SString name;
+    int width;
+    int height;
+    uint* data;
+
+    MapLayer() : data(NULL)
+    {}
+
+    ~MapLayer()
+    {
+        RELEASE(data);
+    }
+
+    inline uint Get(int x, int y) const
+    {
+        return data[(y * width) + x];
+    }
 };
 
 // L03: TODO 1: Create a struct needed to hold the information to Map node
-struct MapStruct
+struct MapData
 {
-    float mapVersion = 1.0f;
-    SString orientation = "orthogonal";
-    SString renderorder = "right-down";
-    int width = 50;
-    int height = 15;
-    int tileWidth = 32;
-    int tileHeight = 32;
-    int nextObjectId = 1;
+    int width;
+    int height;
+    int tileWidth;
+    int tileHeight;
+    SDL_Color backgroundColor;
+    MapTypes type;
+    List<TileSet*> tilesets;
+
+    List<MapLayer*> layers;
 };
 
 class Map : public Module
@@ -56,28 +94,29 @@ public:
     // Load new map
     bool Load(const char* path);
 
+    iPoint MapToWorld(int x, int y) const;
 
-    // L03: TODO 1: Add your struct for map info as public for now
-    MapStruct mapInfo;
+    iPoint WorldToMap(int x, int y) const;
 
-    TileSetInfo tileSetData;
-
-    SDL_Texture* fok;
 
 private:
+
+   // Methods for loading the maps
     
+    bool LoadMap();
+    bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
+    bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
+    bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+
+public:
+
+    MapData data;
+
+private:
+
     pugi::xml_document mapFile;
-    pugi::xml_node mapVersion;
     SString folder;
     bool mapLoaded;
-
-private:
-
-    // Load map data
-   void LoadMapData(pugi::xml_node &docInfo);
-
-    // Load TileSet
-   void LoadTileSet(pugi::xml_node& docInfo);
 };
 
 #endif // __MAP_H__

@@ -5,6 +5,7 @@
 #include "Render.h"
 #include "Window.h"
 #include "Scene.h"
+#include "Map.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -30,7 +31,9 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
-	img = app->tex->Load("Assets/textures/test.png");
+	// L03: DONE: Load map
+	//app->map->Load("hello2.tmx");
+	app->map->Load("iso.tmx");
 	app->audio->PlayMusic("Assets/audio/music/music_spy.ogg");
 	return true;
 }
