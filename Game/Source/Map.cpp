@@ -34,13 +34,14 @@ void Map::Draw()
     if (mapLoaded == false) return;
 
     // L04: DONE 5: Prepare the loop to draw all tilesets + DrawTexture()
-    MapLayer* layer = data.layers.start->data;
+    //MapLayer* layer = data.layers.start->data;
+    ListItem<MapLayer*>* layer = data.layers.start;
 
-    for (int y = 0; y < data.height; ++y)
+    for (int y = 0; y < data.height && layer != NULL; ++y, layer = layer->next )
     {
         for (int x = 0; x < data.width; ++x)
         {
-            int tileId = layer->Get(x, y);
+            int tileId = layer->data->Get(x, y);
             if (tileId > 0)
             {
                 // L04: DONE 9: Complete the draw function
@@ -228,15 +229,16 @@ bool Map::LoadMap()
 
         SString tmp("%s", map.attribute("orientation").value());
 
-        if (tmp.GetString() == "orthogonal")
+        
+        if (tmp == "orthogonal")
         {
             data.type = MapTypes::MAPTYPE_ORTHOGONAL;
         }
-        else if (tmp.GetString() == "isometric")
+        else if (tmp == "isometric")
         {
             data.type = MapTypes::MAPTYPE_ISOMETRIC;
         }
-        else if (tmp.GetString() == "staggered")
+        else if (tmp == "staggered")
         {
             data.type = MapTypes::MAPTYPE_STAGGERED;
         }
