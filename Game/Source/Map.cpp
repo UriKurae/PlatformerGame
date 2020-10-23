@@ -226,6 +226,26 @@ bool Map::LoadMap()
         data.tileHeight = map.attribute("tileheight").as_int();
         data.tileWidth = map.attribute("tilewidth").as_int();
 
+        SString tmp("%s", map.attribute("orientation").value());
+
+        if (tmp.GetString() == "orthogonal")
+        {
+            data.type = MapTypes::MAPTYPE_ORTHOGONAL;
+        }
+        else if (tmp.GetString() == "isometric")
+        {
+            data.type = MapTypes::MAPTYPE_ISOMETRIC;
+        }
+        else if (tmp.GetString() == "staggered")
+        {
+            data.type = MapTypes::MAPTYPE_STAGGERED;
+        }
+        else
+        {
+            data.type = MapTypes::MAPTYPE_UNKNOWN;
+        }
+
+
     }
 
     return ret;
@@ -243,9 +263,6 @@ bool Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
     set->tileHeight = tileset_node.attribute("tileheight").as_int();
     set->spacing = tileset_node.attribute("spacing").as_int();
     set->margin = tileset_node.attribute("margin").as_int();
-
-    set->numTilesWidth = set->texWidth / set->tileWidth;
-    set->numTilesWidth = set->texHeight / set->tileHeight;
 
     return ret;
 }

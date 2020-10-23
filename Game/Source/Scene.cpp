@@ -69,7 +69,8 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN || app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
 		app->audio->VolumeControl();
 
-	app->render->DrawTexture(img, 380, 100);
+	app->map->Draw();
+	//app->render->DrawTexture(img, 380, 100);
 
 	return true;
 }
