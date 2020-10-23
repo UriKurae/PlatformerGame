@@ -69,7 +69,8 @@ bool App::Awake()
 	pugi::xml_node config;
 	pugi::xml_node configApp;
 	// TODO 3: Load config from XML
-	bool ret = LoadConfig(configFile);
+	bool ret = false;
+	config = LoadConfig(configFile);
 
 	if (config.empty() == false)
 	{
@@ -83,10 +84,6 @@ bool App::Awake()
 
 	if(ret == true)
 	{
-		//// TODO 4: Read the title from the config file
-		//title.Create(configApp.child("title").child_value());
-		//win->SetTitle(title.GetString());
-
 		ListItem<Module*>* item;
 		item = modules.start;
 
@@ -145,24 +142,6 @@ bool App::Update()
 // Load config from XML file
 pugi::xml_node App::LoadConfig(pugi::xml_document& configFile) const
 {
-	//bool ret = true;
-
-	//// TODO 3: Load config.xml file using load_file() method from the xml_document class
-	//pugi::xml_parse_result result = configFile.load_file("config.xml");
-
-	//// TODO 3: Check result for loading errors
-	//if(result == NULL)
-	//{
-	//	LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
-	//	ret = false;
-	//}
-	//else
-	//{
-	//	config = configFile.child("config");
-	//	configApp = config.child("app");
-	//}
-
-	//return ret;
 	pugi::xml_node ret;
 
 	pugi::xml_parse_result result = configFile.load_file(CONFIG_FILENAME);
@@ -298,12 +277,12 @@ const char* App::GetOrganization() const
 
 void App::RequestLoadGame()
 {
-	loadRequest = !loadRequest;
+	loadRequest = true;
 }
 
 void App::RequestSaveGame()
 {
-	saveRequest = !saveRequest;
+	saveRequest = true;
 }
 
 // L02: TODO 5: Create a method to actually load an xml file

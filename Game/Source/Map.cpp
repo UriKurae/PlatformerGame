@@ -23,10 +23,8 @@ bool Map::Awake(pugi::xml_node& config)
 {
     LOG("Loading Map Parser");
     bool ret = true;
-
+    
     folder.Create(config.child("folder").child_value());
-
-   
 
     return ret;
 }
@@ -246,6 +244,8 @@ bool Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
     set->spacing = tileset_node.attribute("spacing").as_int();
     set->margin = tileset_node.attribute("margin").as_int();
 
+    set->numTilesWidth = set->texWidth / set->tileWidth;
+    set->numTilesWidth = set->texHeight / set->tileHeight;
 
     return ret;
 }

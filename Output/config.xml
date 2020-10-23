@@ -4,9 +4,11 @@
     <title>Game Development Testbed</title>
     <organization>UPC</organization>
   </app>
+	
   <renderer>
     <vsync value="false"/>
   </renderer>
+	
   <window>
     <resolution width="1280" height="720" scale="1"/>
     <fullscreen value="false"/>
@@ -14,8 +16,8 @@
     <resizable value="false"/>
     <fullscreen_window value="false"/>
   </window>
-  <audio>
-	<music value="100"/>
-    <fx value="100"/>
-  </audio>
+	
+  <map>
+	<folder>Assets/maps/</folder>
+  </map>
 </config>
