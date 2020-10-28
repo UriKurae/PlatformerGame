@@ -38,7 +38,7 @@ bool Scene::Start()
 	bgImage = app->tex->Load("Assets/textures/bg.png");
 	app->audio->PlayMusic("Assets/audio/music/music_spy.ogg");
 
-	app->player->SetPosition(140,468);
+	app->player->SetPosition(140,450);
 	
 	return true;
 }

@@ -30,6 +30,7 @@ int Properties::GetProperty(const char* value, int defaultValue) const
         {
             return item->data->value;
         }
+        item = item->next;
     }
 
     return defaultValue;
@@ -371,10 +372,10 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
     bool ret = false;
 
-    Properties::Property* item = new Properties::Property();
-
+  
     for (pugi::xml_node n = node.child("properties").child("property"); n; n = n.next_sibling("property"))
     {
+        Properties::Property* item = new Properties::Property();
         item->name = n.attribute("name").value();
         item->value = n.attribute("value").as_int();
 
