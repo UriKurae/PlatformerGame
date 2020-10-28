@@ -5,6 +5,8 @@
 #include "App.h"
 #include "Input.h"
 #include "Textures.h"
+#include "Map.h"
+#include "List.h"
 
 #include "SDL/include/SDL.h"
 
@@ -18,7 +20,7 @@ Player::Player()
 	idleAnim.PushBack({66,195,65,92});
 	idleAnim.PushBack({0,196,65,92});
 
-	idleAnim.speed = 0.001f;
+	idleAnim.speed = 0.0007f;
 
 	// Run Animation
 	runAnim.PushBack({ 6,1,65,91 });
@@ -47,7 +49,7 @@ bool Player::Start()
 
 	// Load the spritesheet for the player
 	texture = app->tex->Load("Assets/textures/Player/p1_spritesheet.png");
-
+	
 	
 	currentAnim = &idleAnim;
 
@@ -100,11 +102,26 @@ bool Player::Update(float dt)
 
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE &&
+		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE)
+	{
+		if (currentAnim != &idleAnim)
+		{
+			idleAnim.Reset();
+			currentAnim = &idleAnim;
+		}
+	}
+
 	currentAnim->Update();
 
 	position.y += gravity;
 	
-
+	if (OnCollision())
+	{
+		// This is the same as calculating the normal force the ground exerts the body
+		// On result, we have the player with a resultant force of 0.
+		position.y -= gravity;
+	}
 	return true;
 }
 
@@ -131,4 +148,24 @@ void Player::SetPosition(float x, float y)
 	position.x = x;
 	position.y = y;
 
+}
+
+bool Player::OnCollision()
+{
+	bool ret = false;
+	ListItem<MapLayer*>* layer = app->map->data.layers.start;
+
+	while (layer != NULL)
+	{
+		if ((layer->data->name == "hitboxes") && (layer->data->properties.GetProperty("Navigation")) == 0)
+		{
+			ret = true;
+		}
+		layer = layer->next;
+	}
+
+
+
+
+	return ret;
 }
