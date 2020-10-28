@@ -5,6 +5,7 @@
 #include "App.h"
 #include "Input.h"
 #include "Textures.h"
+#include "Window.h"
 
 #include "SDL/include/SDL.h"
 
@@ -97,12 +98,28 @@ bool Player::Update(float dt)
 			currentAnim = &runAnim;
 
 		}
+		jump = true;
+	}
 
+	if (jump == true)
+	{
+		if (position.y <= 468)
+		{
+		position.y -= (speedY + gravity);
+		speedY -= gravity;
+
+		}
+		else
+		{
+			jump = false;
+			speedY = 10.0f;
+		}
+		
 	}
 
 	currentAnim->Update();
 
-	position.y += gravity;
+	//position.y += gravity;
 	
 
 	return true;
@@ -113,8 +130,9 @@ bool Player::PostUpdate()
 
 	SDL_Rect rect = currentAnim->GetCurrentFrame();
 	app->render->DrawTexture(texture,position.x,position.y, &rect);
-	app->render->camera.x = -position.x;
-	//app->render->camera.y = position.y;
+	
+	app->render->camera.x =-(position.x-600);
+	app->render->camera.y = 0;
 	
 
 	return true;
