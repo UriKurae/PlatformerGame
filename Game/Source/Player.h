@@ -39,7 +39,20 @@ public:
 
 public:
 
+private:
 
+	SDL_Texture* texture;
+
+	Point<int> position;
+
+	Animation* currentAnim;
+
+	Animation idle;
+
+	Animation run;
+
+	Animation walk;
+	
 
 
 
