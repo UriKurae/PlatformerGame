@@ -64,6 +64,12 @@ private:
 	// Jump mechanic
 	bool jump = false;
 
+	// Block movements
+	bool blockLeftMovement = false;
+	bool blockRightMovement = false;
+	bool blockJump = false;
+	bool blockFall = false;
+
 	// Texture for the player
 	SDL_Texture* texture;
 	

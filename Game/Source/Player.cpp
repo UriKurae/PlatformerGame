@@ -37,6 +37,9 @@ Player::Player()
 	runRightAnim.PushBack({ 151,475,68,89 });
 	runRightAnim.PushBack({ 221,475,63,90 });
 
+	runRightAnim.speed = 0.01f;
+	runRightAnim.loop = true;
+
 	// Left right Animation
 	runLeftAnim.PushBack({ 437,199,63,90 });
 	runLeftAnim.PushBack({ 502,200,64,90 });
@@ -50,8 +53,8 @@ Player::Player()
 	runLeftAnim.PushBack({ 499,474,63,90 });
 	runLeftAnim.PushBack({ 563,474,68,90 });
 
-	runRightAnim.speed = 0.01f;
-	runRightAnim.loop = true;
+	runLeftAnim.speed = 0.01f;
+	runLeftAnim.loop = true;
 	
 
 	// Jump animation
@@ -80,6 +83,7 @@ bool Player::Update(float dt)
 
 
 	// Detect player's input
+	OnCollision();
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
 	{
@@ -91,8 +95,10 @@ bool Player::Update(float dt)
 			currentAnim = &runRightAnim;
 
 		}
-		
+		if (blockRightMovement == false)
+		{
 		position.x += speedX;
+		}
 
 	}
 	else if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
@@ -106,7 +112,10 @@ bool Player::Update(float dt)
 
 		}
 
+		if (blockLeftMovement == false)
+		{
 		position.x -= speedX;
+		}
 
 	}
 	else if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
@@ -149,14 +158,16 @@ bool Player::Update(float dt)
 
 	currentAnim->Update();
 
-	//position.y += gravity;
-	
-	if (OnCollision())
+	if (blockFall == false)
 	{
-		// This is the same as calculating the normal force the ground exerts the body
-		// On result, we have the player with a resultant force of 0.
-		position.y -= gravity;
+		position.y += gravity;
 	}
+	//if (OnCollision())
+	//{
+	//	// This is the same as calculating the normal force the ground exerts the body
+	//	// On result, we have the player with a resultant force of 0.
+	//	position.y -= gravity;
+	//}
 	return true;
 }
 
@@ -191,22 +202,46 @@ bool Player::OnCollision()
 	bool ret = false;
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
-	iPoint playerPos = app->map->WorldToMap(position.x, position.y+93);
-
+	iPoint playerPosVert = app->map->WorldToMap(position.x, position.y+93);
+	iPoint playerPosRight = app->map->WorldToMap(position.x+65, position.y+46);
+	iPoint playerPosLeft = app->map->WorldToMap(position.x-3, position.y+46);
 
 	while (layer != NULL)
 	{
 
 		if (layer->data->name == "hitboxes")
 		{
-			uint playerId = layer->data->Get(playerPos.x, playerPos.y);
+			uint playerIdVert = layer->data->Get(playerPosVert.x, playerPosVert.y);
+			uint playerIdRight = layer->data->Get(playerPosRight.x, playerPosRight.y);
+			uint playerIdLeft = layer->data->Get(playerPosLeft.x, playerPosLeft.y);
 
-			if (playerId != 157)
+
+			if (playerIdVert == 157)
 			{
-				position.y += gravity;
+				blockFall = true;
 			}
-		
+			else
+			{
+				blockFall = false;
+			}
 
+			if (playerIdRight == 157)
+			{
+				blockRightMovement = true;
+			}
+			else
+			{
+				blockRightMovement = false;
+			}
+
+			if (playerIdLeft == 157)
+			{
+				blockLeftMovement = true;
+			}
+			else
+			{
+				blockLeftMovement = false;
+			}
 
 			break;
 		}
