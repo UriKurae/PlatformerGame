@@ -80,15 +80,11 @@ bool Player::Start()
 
 bool Player::Update(float dt)
 {
-
-
 	// Detect player's input
-	OnCollision();
+	
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
 	{
-
-
 		if (currentAnim != &runRightAnim)
 		{
 			runRightAnim.Reset();
@@ -97,14 +93,12 @@ bool Player::Update(float dt)
 		}
 		if (blockRightMovement == false)
 		{
-		position.x += speedX;
+			position.x += speedX;
 		}
 
 	}
 	else if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
 	{
-
-
 		if (currentAnim != &runLeftAnim)
 		{
 			runLeftAnim.Reset();
@@ -114,13 +108,12 @@ bool Player::Update(float dt)
 
 		if (blockLeftMovement == false)
 		{
-		position.x -= speedX;
+			position.x -= speedX;
 		}
 
 	}
 	else if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
 	{
-
 		if (currentAnim != &jumpAnim)
 		{
 			jumpAnim.Reset();
@@ -128,11 +121,18 @@ bool Player::Update(float dt)
 
 		}
 		jump = true;
+		grounded = false;
 	}
 
 	if (jump == true)
 	{
-		if (position.y <= 468)
+		position.y -= speedY - gravity;
+		speedY -= 0.005f;
+		if (speedY <= 0.5f) speedY = 0;
+
+		
+		
+		/*if (position.y <= 468)
 		{
 		position.y -= (speedY + gravity);
 		speedY -= gravity;
@@ -142,7 +142,7 @@ bool Player::Update(float dt)
 		{
 			jump = false;
 			speedY = 10.0f;
-		}
+		}*/
 		
 	}
 
@@ -155,6 +155,16 @@ bool Player::Update(float dt)
 			currentAnim = &idleAnim;
 		}
 	}
+	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
+		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
+	{
+		if (currentAnim != &idleAnim)
+		{
+			idleAnim.Reset();
+			currentAnim = &idleAnim;
+		}
+	}
+
 
 	currentAnim->Update();
 
@@ -162,12 +172,9 @@ bool Player::Update(float dt)
 	{
 		position.y += gravity;
 	}
-	//if (OnCollision())
-	//{
-	//	// This is the same as calculating the normal force the ground exerts the body
-	//	// On result, we have the player with a resultant force of 0.
-	//	position.y -= gravity;
-	//}
+
+	OnCollision();
+
 	return true;
 }
 
@@ -197,14 +204,13 @@ void Player::SetPosition(float x, float y)
 
 }
 
-bool Player::OnCollision()
+void Player::OnCollision()
 {
-	bool ret = false;
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
-	iPoint playerPosVert = app->map->WorldToMap(position.x, position.y+93);
-	iPoint playerPosRight = app->map->WorldToMap(position.x+65, position.y+46);
-	iPoint playerPosLeft = app->map->WorldToMap(position.x-3, position.y+46);
+	iPoint playerPosVert = app->map->WorldToMap(position.x, position.y + 93);
+	iPoint playerPosRight = app->map->WorldToMap(position.x + 65, position.y + 46);
+	iPoint playerPosLeft = app->map->WorldToMap(position.x - 3, position.y + 46);
 
 	while (layer != NULL)
 	{
@@ -219,10 +225,12 @@ bool Player::OnCollision()
 			if (playerIdVert == 157)
 			{
 				blockFall = true;
+				grounded = false;
 			}
 			else
 			{
 				blockFall = false;
+				grounded = true;
 			}
 
 			if (playerIdRight == 157)
@@ -248,8 +256,13 @@ bool Player::OnCollision()
 
 		layer = layer->next;
 	}
+}
+
+void Player::Jump()
+{
+	int force = 10;
+	grounded = false;
+	//position.y -= speedY - 0.5f * gravity;
 	
 
-
-	return ret;
 }

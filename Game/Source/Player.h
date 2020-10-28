@@ -38,12 +38,9 @@ public:
 
 	void SetPosition(float x, float y);
 
-	
+	void OnCollision();
 
-	// Collision callback, called when the player intersects with another collider
-	//void OnCollision(Collider* c1, Collider* c2) override;
-
-	bool OnCollision();
+	void Jump();
 public:
 
 private:
@@ -53,13 +50,14 @@ private:
 
 	// Speed to run
 	float speedX = 0.1f;
-	float speedY = 10.0f;
+	float speedY = 2.0f;
+	float maxHeight = 10;
 
 	// Camera offset
 	float camOffset = position.x;
 
 	// Constant gravity applied to the player
-	float gravity = 0.3f;
+	float gravity = 0.1f;
 
 	// Jump mechanic
 	bool jump = false;
@@ -69,6 +67,8 @@ private:
 	bool blockRightMovement = false;
 	bool blockJump = false;
 	bool blockFall = false;
+
+	bool grounded = true;
 
 	// Texture for the player
 	SDL_Texture* texture;
