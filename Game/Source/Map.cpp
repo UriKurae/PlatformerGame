@@ -60,7 +60,7 @@ void Map::Draw()
     {
         int noDraw = layer->data->properties.GetProperty("Nodraw");
 
-        if (noDraw == 1)
+        if (noDraw == 0)
         {
             for (int y = 0; y < data.height; ++y)
             {
@@ -130,7 +130,7 @@ TileSet* Map::GetTilesetFromTileId(int id) const
 
     while (item != NULL)
     {
-        if (id <= (set->numTilesHeight * set->numTilesWidth) + set->firstgid)
+        if (id < ((set->numTilesHeight * set->numTilesWidth) + set->firstgid))
         {
             break;
         }

@@ -17,6 +17,7 @@ class Textures;
 class Audio;
 class Scene;
 class Map;
+class Player;
 
 class App
 {
@@ -89,6 +90,7 @@ public:
 	Audio* audio;
 	Scene* scene;
 	Map* map;
+	Player* player;
 
 private:
 
