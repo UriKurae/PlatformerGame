@@ -21,17 +21,34 @@ Player::Player()
 
 	idleAnim.speed = 0.001f;
 
-	// Run Animation
-	runAnim.PushBack({ 6,1,65,91 });
-	runAnim.PushBack({ 78,1,65,91 });
-	runAnim.PushBack({ 146,0,71,92 });
-	runAnim.PushBack({ 218,5,70,92 });
-	runAnim.PushBack({ 1,99,70,91 });
-	runAnim.PushBack({ 74,101,69,91});
-	runAnim.PushBack({ 146,101,70,91});
+	// Run Right Animation
+	runRightAnim.PushBack({ 151,200,63,89 });
+	runRightAnim.PushBack({ 216,200,64,90 });
+	runRightAnim.PushBack({ 281,200,65,90 });
+	runRightAnim.PushBack({ 151,291,63,90 });
+	runRightAnim.PushBack({ 216,291,64,89 });
+	runRightAnim.PushBack({ 281,291,69,91 });
+	runRightAnim.PushBack({ 150,384,69,89 });
+	runRightAnim.PushBack({ 221,384,68,88 });
+	runRightAnim.PushBack({ 290,383,68,90 });
+	runRightAnim.PushBack({ 151,475,68,89 });
+	runRightAnim.PushBack({ 221,475,63,90 });
 
-	runAnim.speed = 0.01f;
-	runAnim.loop = true;
+	// Left right Animation
+	runLeftAnim.PushBack({ 437,199,63,90 });
+	runLeftAnim.PushBack({ 502,200,64,90 });
+	runLeftAnim.PushBack({ 568,200,63,89 });
+	runLeftAnim.PushBack({ 433,292,69,89 });
+	runLeftAnim.PushBack({ 503,292,64,89 });
+	runLeftAnim.PushBack({ 568,292,63,89 });
+	runLeftAnim.PushBack({ 424,383,68,90 });
+	runLeftAnim.PushBack({ 495,383,68,89 });
+	runLeftAnim.PushBack({ 566,383,67,90 });
+	runLeftAnim.PushBack({ 499,474,63,90 });
+	runLeftAnim.PushBack({ 563,474,68,90 });
+
+	runRightAnim.speed = 0.01f;
+	runRightAnim.loop = true;
 	
 
 	// Jump animation
@@ -47,7 +64,7 @@ bool Player::Start()
 	LOG("Loading player textures");
 
 	// Load the spritesheet for the player
-	texture = app->tex->Load("Assets/textures/Player/p1_spritesheet.png");
+	texture = app->tex->Load("Assets/textures/Player/p1_spritesheetWithRun.png");
 
 	
 	currentAnim = &idleAnim;
@@ -65,10 +82,10 @@ bool Player::Update(float dt)
 	{
 
 
-		if (currentAnim != &runAnim)
+		if (currentAnim != &runRightAnim)
 		{
-			runAnim.Reset();
-			currentAnim = &runAnim;
+			runRightAnim.Reset();
+			currentAnim = &runRightAnim;
 
 		}
 		
@@ -79,10 +96,10 @@ bool Player::Update(float dt)
 	{
 
 
-		if (currentAnim != &runAnim)
+		if (currentAnim != &runLeftAnim)
 		{
-			runAnim.Reset();
-			currentAnim = &runAnim;
+			runLeftAnim.Reset();
+			currentAnim = &runLeftAnim;
 
 		}
 
@@ -94,8 +111,8 @@ bool Player::Update(float dt)
 
 		if (currentAnim != &jumpAnim)
 		{
-			runAnim.Reset();
-			currentAnim = &runAnim;
+			jumpAnim.Reset();
+			currentAnim = &jumpAnim;
 
 		}
 		jump = true;

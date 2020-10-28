@@ -70,7 +70,8 @@ private:
 	// Animations
 	Animation* currentAnim;
 	Animation idleAnim;
-	Animation runAnim;
+	Animation runRightAnim;
+	Animation runLeftAnim;
 	Animation jumpAnim;
 
 	
