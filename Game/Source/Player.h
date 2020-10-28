@@ -38,6 +38,8 @@ public:
 
 	void SetPosition(float x, float y);
 
+	
+
 	// Collision callback, called when the player intersects with another collider
 	//void OnCollision(Collider* c1, Collider* c2) override;
 
@@ -51,10 +53,16 @@ private:
 
 	// Speed to run
 	float speedX = 0.1f;
+	float speedY = 10.0f;
+
+	// Camera offset
+	float camOffset = position.x;
 
 	// Constant gravity applied to the player
 	float gravity = 0.3f;
 
+	// Jump mechanic
+	bool jump = false;
 
 	// Texture for the player
 	SDL_Texture* texture;
