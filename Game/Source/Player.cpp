@@ -191,16 +191,29 @@ bool Player::OnCollision()
 	bool ret = false;
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
+	iPoint playerPos = app->map->WorldToMap(position.x, position.y+93);
+
+
 	while (layer != NULL)
 	{
-		if ((layer->data->name == "hitboxes") && (layer->data->properties.GetProperty("Navigation")) == 0)
+
+		if (layer->data->name == "hitboxes")
 		{
-			ret = true;
+			uint playerId = layer->data->Get(playerPos.x, playerPos.y);
+
+			if (playerId != 157)
+			{
+				position.y += gravity;
+			}
+		
+
+
+			break;
 		}
+
 		layer = layer->next;
 	}
-
-
+	
 
 
 	return ret;

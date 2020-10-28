@@ -9,6 +9,7 @@
   <scene />
   <map />
   <player />
+  <:anonymous />
   <renderer>
     <camera x="55" />
   </renderer>
