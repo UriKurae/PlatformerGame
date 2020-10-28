@@ -1,15 +1,17 @@
 #ifndef __MODULE_PLAYER_H__
 #define __MODULE_PLAYER_H__
 
+
+
 #include "Module.h"
 #include "Animation.h"
 #include "Point.h"
-#include "Input.h"
-#include "App.h"
+
+
 
 
 struct SDL_Texture;
-struct Collider;
+
 
 class Player : public Module
 {
@@ -34,6 +36,8 @@ public:
 
 	bool CleanUp() override;
 
+	void SetPosition(float x, float y);
+
 	// Collision callback, called when the player intersects with another collider
 	//void OnCollision(Collider* c1, Collider* c2) override;
 
@@ -41,17 +45,26 @@ public:
 
 private:
 
+	// Position of player
+	Point<float> position;
+
+	// Speed to run
+	float speedX = 0.1f;
+
+	// Constant gravity applied to the player
+	float gravity = 0.3f;
+
+
+	// Texture for the player
 	SDL_Texture* texture;
-
-	Point<int> position;
-
+	
+	
+	// Animations
 	Animation* currentAnim;
+	Animation idleAnim;
+	Animation runAnim;
+	Animation jumpAnim;
 
-	Animation idle;
-
-	Animation run;
-
-	Animation walk;
 	
 
 
