@@ -18,6 +18,23 @@ Map::Map() : Module(), mapLoaded(false)
 Map::~Map()
 {}
 
+
+int Properties::GetProperty(const char* value, int defaultValue) const
+{
+    //...
+    ListItem<Properties::Property*>* item = list.start;
+
+    while (item != NULL)
+    {
+        if (item->data->name == value)
+        {
+            return item->data->value;
+        }
+    }
+
+    return defaultValue;
+}
+
 // Called before render is available
 bool Map::Awake(pugi::xml_node& config)
 {
@@ -37,20 +54,27 @@ void Map::Draw()
     //MapLayer* layer = data.layers.start->data;
     ListItem<MapLayer*>* layer = data.layers.start;
     
+    TileSet* set;
+
     while (layer != NULL)
     {
+        int noDraw = layer->data->properties.GetProperty("Nodraw");
 
-        for (int y = 0; y < data.height; ++y)
+        if (noDraw == 1)
         {
-            for (int x = 0; x < data.width; ++x)
+            for (int y = 0; y < data.height; ++y)
             {
-                int tileId = layer->data->Get(x, y);
-                if (tileId > 0)
+                for (int x = 0; x < data.width; ++x)
                 {
-                    // L04: DONE 9: Complete the draw function
-                    SDL_Rect rect = data.tilesets.start->data->GetTileRect(tileId);
-                    iPoint coords = MapToWorld(x, y);
-                    app->render->DrawTexture(data.tilesets.start->data->texture, coords.x, coords.y, &rect);
+                    int tileId = layer->data->Get(x, y);
+                    if (tileId > 0)
+                    {
+                        set = GetTilesetFromTileId(tileId);
+                        // L04: DONE 9: Complete the draw function
+                        SDL_Rect rect = set->GetTileRect(tileId);
+                        iPoint coords = MapToWorld(x, y);
+                        app->render->DrawTexture(set->texture, coords.x, coords.y, &rect);
+                    }
                 }
             }
         }
@@ -99,6 +123,23 @@ iPoint Map::WorldToMap(int x, int y) const
     return ret;
 }
 
+TileSet* Map::GetTilesetFromTileId(int id) const
+{
+    ListItem<TileSet*>* item = data.tilesets.start;
+    TileSet* set = item->data;
+
+    while (item != NULL)
+    {
+        if (id <= (set->numTilesHeight * set->numTilesWidth) + set->firstgid)
+        {
+            break;
+        }
+        item = item->next;
+        if (item != NULL) set = item->data;
+    }
+
+    return set;
+}
 
 // Get relative Tile rectangle
 SDL_Rect TileSet::GetTileRect(int id) const
@@ -288,10 +329,10 @@ bool Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
     {
         // L03: DONE: Load Tileset image
         SString imgSource;
-        imgSource.Create("%s%s", folder.GetString(), tileset_node.child("image").attribute("source").value());
+        imgSource.Create("%s%s", folder.GetString(), image.attribute("source").value());
         set->texture = app->tex->Load(imgSource.GetString());
-        set->texWidth = tileset_node.child("image").attribute("width").as_int();
-        set->texHeight = tileset_node.child("image").attribute("height").as_int();
+        set->texWidth = image.attribute("width").as_int();
+        set->texHeight = image.attribute("height").as_int();
         set->numTilesWidth = set->texWidth / set->tileWidth;
         set->numTilesHeight = set->texHeight / set->tileHeight;
     }
@@ -321,5 +362,24 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
         sibling = sibling.next_sibling("tile");
     }
 
+    LoadProperties(node, layer->properties);
+
+    return ret;
+}
+
+bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
+{
+    bool ret = false;
+
+    Properties::Property* item = new Properties::Property();
+
+    for (pugi::xml_node n = node.child("properties").child("property"); n; n = n.next_sibling("property"))
+    {
+        item->name = n.attribute("name").value();
+        item->value = n.attribute("value").as_int();
+
+        properties.list.add(item);
+    }
+    
     return ret;
 }

@@ -34,6 +34,7 @@ bool Scene::Start()
 	// L03: DONE: Load map
 	//app->map->Load("hello2.tmx");
 	app->map->Load("testMap.tmx");
+	bgImage = app->tex->Load("Assets/textures/bg.png");
 	app->audio->PlayMusic("Assets/audio/music/music_spy.ogg");
 	return true;
 }
@@ -69,8 +70,9 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN || app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
 		app->audio->VolumeControl();
 
+	app->render->DrawTexture(bgImage, 0, 0, NULL);
 	app->map->Draw();
-	//app->render->DrawTexture(img, 380, 100);
+
 
 	return true;
 }

@@ -38,12 +38,34 @@ enum MapTypes
     MAPTYPE_STAGGERED
 };
 
+struct Properties
+{
+    struct Property
+    {
+        //...
+        SString name;
+        int value;
+    };
+
+    ~Properties()
+    {
+        //...
+    }
+
+    // L06: TODO 7: Method to ask for the value of a custom property
+    int GetProperty(const char* name, int default_value = 0) const;
+
+    List<Property*> list;
+};
+
 struct MapLayer
 {
     SString name;
     int width;
     int height;
     uint* data;
+
+    Properties properties;
 
     MapLayer() : data(NULL)
     {}
@@ -107,6 +129,9 @@ private:
     bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
     bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
     bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+    bool LoadProperties(pugi::xml_node& node, Properties& properties);
+
+    TileSet* GetTilesetFromTileId(int id) const;
 
 public:
 
