@@ -1,8 +1,9 @@
-# {Project Name}
+# Platformer Game
 
 ## Description
 
-{project description}
+This is a project for the Videogame Development subject from CITM.
+It is a 2D Platformer videogame.
 
 ## Key Features
 
@@ -13,15 +14,13 @@
  
 ## Controls
 
- - {ControlsScheme}
+ - Move the player with AWSD.
+ - Jump with Space.
 
 ## Developers
 
- - {Dev01} - {Role(s)}
- - {Dev02} - {Role(s)}
- - {Dev03} - {Role(s)}
- - {Dev04} - {Role(s)}
- - {Dev05} - {Role(s)}
+ - Oriol Bernal Martínez - Coder.
+ - David González López - Coder & QA.
 
 ## License
 
