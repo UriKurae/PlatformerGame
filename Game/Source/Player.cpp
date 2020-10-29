@@ -63,6 +63,22 @@ bool Player::Update(float dt)
 
 	if (speedY == minSpeedY) speedY = 1.5f;
 
+	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
+	{
+		godMode = !godMode;
+	}
+	if (godMode == true)
+	{
+		if (app->input->GetKey(SDL_SCANCODE_W) == KeyState::KEY_REPEAT)
+		{
+			position.y -= 1.0f;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_S) == KeyState::KEY_REPEAT)
+		{
+			position.y += 1.0f;
+		}
+	}
+
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
 	{
 		if (currentAnim != &runRightAnim)
@@ -144,7 +160,7 @@ bool Player::Update(float dt)
 		position.y += 0.5f * speedY;
 	}
 
-	OnCollision();
+	if (godMode == false) { OnCollision(); }
 
 	return true;
 }
