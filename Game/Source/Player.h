@@ -36,6 +36,10 @@ public:
 
 	bool CleanUp() override;
 
+	bool Load(pugi::xml_node&) override;
+
+	bool Save(pugi::xml_node&) override;
+
 	void SetPosition(float x, float y);
 
 	void OnCollision();
