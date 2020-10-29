@@ -107,8 +107,6 @@ bool Player::Update(float dt)
 			idleAnim.Reset();
 			currentAnim = &idleAnim;
 		}
-
-	
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT &&
@@ -121,7 +119,7 @@ bool Player::Update(float dt)
 
 	currentAnim->Update();
 
-	if (blockFall == false)
+	if (blockFall == false || jump == true)
 	{
 		position.y += gravity;
 	}
@@ -185,12 +183,11 @@ void Player::OnCollision()
 			uint playerIdBottomRight = layer->data->Get(playerPosBottomRight.x, playerPosBottomRight.y);
 			uint playerIdBottomLeft = layer->data->Get(playerPosBottomLeft.x, playerPosBottomLeft.y);
 
-
 			if (playerIdTop == 157)
 			{
 				speedY = 0;
 			}
-			if (playerIdBottom == 157)
+			if (playerIdBottom == 157 || (playerIdBottom != 157) && (playerIdBottomLeft == 157))
 			{
 				blockFall = true;
 				jump = false;
@@ -199,8 +196,14 @@ void Player::OnCollision()
 			{
 				blockFall = false;
 			}
-			
-			if (playerIdRight == 157)
+
+			if (playerIdBottom != 157 && playerIdBottomRight == 157)
+			{
+				blockFall = true;
+				jump = false;
+				blockRightMovement = true;
+			}
+			else if (playerIdRight == 157)
 			{
 				blockRightMovement = true;
 			}
@@ -208,6 +211,15 @@ void Player::OnCollision()
 			{
 				blockRightMovement = false;
 			}
+			
+			/*if (playerIdRight == 157 ||	 (playerIdRight != 157) && (playerIdTopRight == 157))
+			{
+				blockRightMovement = true;
+			}
+			else
+			{
+				blockRightMovement = false;
+			}*/
 
 			
 			
@@ -221,7 +233,6 @@ void Player::OnCollision()
 			}
 
 			
-
 			break;
 		}
 
@@ -239,11 +250,13 @@ void Player::SetPosition(float x, float y)
 
 void Player::Jump()
 {
-	position.y -= speedY - gravity;
-	speedY -= 0.005f;
-	if (speedY <= 0.5f) speedY = 0;
+	position.y -= speedY;
+
+	speedY -= 0.006f;
+	if (speedY <= 0.4f) speedY = 0;
 
 }
+
 
 void Player::LoadPushbacks()
 {
