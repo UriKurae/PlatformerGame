@@ -80,8 +80,9 @@ bool Player::Update(float dt)
 			currentAnim = &jumpAnim;
 
 		}
+		// If jump is false, we shall reset the velocity for the next jump.
 		if (jump == false) speedY = 2.0f;
-		jump = true;
+		 jump = true;
 	}
 
 	if (jump == true)
@@ -107,7 +108,7 @@ bool Player::Update(float dt)
 			currentAnim = &idleAnim;
 		}
 
-		//speedX = 0;
+	
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT &&
@@ -153,21 +154,43 @@ void Player::OnCollision()
 {
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
-	iPoint playerPosVert = app->map->WorldToMap(position.x, position.y + 93);
-	iPoint playerPosRight = app->map->WorldToMap(position.x + 65, position.y + 46);
+	iPoint playerPosTop = app->map->WorldToMap(position.x + 32, position.y - 3);
+	iPoint playerPosBottom = app->map->WorldToMap(position.x + 32, position.y + 93);
+	
+	iPoint playerPosRight = app->map->WorldToMap(position.x + 62, position.y + 46);
 	iPoint playerPosLeft = app->map->WorldToMap(position.x - 3, position.y + 46);
+	
+	iPoint playerPosTopRight = app->map->WorldToMap(position.x + 62, position.y - 3);
+	iPoint playerPosTopLeft = app->map->WorldToMap(position.x - 3, position.y - 3);
+	
+	iPoint playerPosBottomRight = app->map->WorldToMap(position.x + 62, position.y + 93);
+	iPoint playerPosBottomLeft = app->map->WorldToMap(position.x - 3, position.y + 93);
+
+
 
 	while (layer != NULL)
 	{
 
 		if (layer->data->name == "hitboxes")
 		{
-			uint playerIdVert = layer->data->Get(playerPosVert.x, playerPosVert.y);
+			uint playerIdTop = layer->data->Get(playerPosTop.x, playerPosTop.y);
+			uint playerIdBottom = layer->data->Get(playerPosBottom.x, playerPosBottom.y);
+
 			uint playerIdRight = layer->data->Get(playerPosRight.x, playerPosRight.y);
 			uint playerIdLeft = layer->data->Get(playerPosLeft.x, playerPosLeft.y);
 
+			uint playerIdTopRight = layer->data->Get(playerPosTopRight.x, playerPosTopRight.y);
+			uint playerIdTopLeft = layer->data->Get(playerPosTopLeft.x, playerPosTopLeft.y);
 
-			if (playerIdVert == 157)
+			uint playerIdBottomRight = layer->data->Get(playerPosBottomRight.x, playerPosBottomRight.y);
+			uint playerIdBottomLeft = layer->data->Get(playerPosBottomLeft.x, playerPosBottomLeft.y);
+
+
+			if (playerIdTop == 157)
+			{
+				speedY = 0;
+			}
+			if (playerIdBottom == 157)
 			{
 				blockFall = true;
 				jump = false;
@@ -175,9 +198,8 @@ void Player::OnCollision()
 			else
 			{
 				blockFall = false;
-				
 			}
-
+			
 			if (playerIdRight == 157)
 			{
 				blockRightMovement = true;
@@ -187,6 +209,8 @@ void Player::OnCollision()
 				blockRightMovement = false;
 			}
 
+			
+			
 			if (playerIdLeft == 157)
 			{
 				blockLeftMovement = true;
@@ -195,6 +219,8 @@ void Player::OnCollision()
 			{
 				blockLeftMovement = false;
 			}
+
+			
 
 			break;
 		}
