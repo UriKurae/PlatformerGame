@@ -8,7 +8,9 @@
   </audio>
   <scene />
   <map />
-  <player />
+  <player>
+    <position positionX="2083.82568" positionY="47.2204742" />
+  </player>
   <:anonymous />
   <renderer>
     <camera x="55" />

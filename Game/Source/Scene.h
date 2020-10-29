@@ -32,7 +32,12 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	// Restart level
+	bool RestartLevel();
+	
+
 private:
+
 	SDL_Texture* bgImage;
 };
 

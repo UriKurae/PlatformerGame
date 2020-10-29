@@ -26,6 +26,24 @@ Player::~Player()
 {
 }
 
+bool Player::Load(pugi::xml_node& playerNode)
+{
+	position.x = playerNode.child("position").attribute("positionX").as_float();
+	position.y = playerNode.child("position").attribute("positionY").as_float();
+
+	return true;
+}
+
+
+bool Player::Save(pugi::xml_node& playerNode)
+{
+	pugi::xml_node player = playerNode.append_child("position");
+	player.append_attribute("positionX").set_value(position.x);
+	player.append_attribute("positionY").set_value(position.y);
+	return true;
+}
+
+
 bool Player::Start()
 {
 	LOG("Loading player textures");
