@@ -53,7 +53,7 @@ private:
 	// Speed to run
 	float speedX = 0.17f;
 	float speedY = 1.5f;
-	float minSpeedY = -0.08f;
+	float minSpeedY = -0.05f;
 	
 	// Camera offset
 	float camOffset = position.x;

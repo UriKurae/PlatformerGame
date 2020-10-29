@@ -43,7 +43,7 @@ bool Player::Update(float dt)
 {
 	// Detect player's input
 
-	if (speedY == minSpeedY) speedY = 1.5f;
+	if ((speedY == minSpeedY) && (blockFall == true)) speedY = 1.5f;
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
 	{
@@ -83,7 +83,7 @@ bool Player::Update(float dt)
 
 		}
 		// If jump is false, we shall reset the velocity for the next jump.
-		if (jump == false) speedY = 1.5f;
+		if (jump == false) speedY = 1.8f;
 		 jump = true;
 	}
 
@@ -123,7 +123,7 @@ bool Player::Update(float dt)
 
 	if (blockFall == false)
 	{
-		position.y += 0.5f * speedY;
+		position.y += 1.7f *gravity;
 	}
 
 	OnCollision();
@@ -187,7 +187,7 @@ void Player::OnCollision()
 
 			if (playerIdTop == 157 || playerIdTopRight == 157 || playerIdTopLeft == 157)
 			{
-				speedY = -speedY;
+				speedY = 0;
 			}
 			if (playerIdBottom == 157 || (playerIdBottom != 157) && (playerIdBottomLeft == 157))
 			{
@@ -202,7 +202,6 @@ void Player::OnCollision()
 			if (playerIdBottom != 157 && playerIdBottomRight == 157)
 			{
 				blockFall = true;
-				//jump = false;
 				blockRightMovement = true;
 			}
 			else if (playerIdRight == 157)
@@ -252,20 +251,18 @@ void Player::SetPosition(float x, float y)
 
 void Player::Jump()
 {
-	if (speedY >= 0)
+	if (speedY > 0)
 	{
-		position.y -= speedY - 0.15f * gravity;
-		speedY -= 0.003f;
-	}
-	if (speedY < 0)
-	{
-		//speedY = -1.0f;
 		position.y -= speedY;
 		speedY -= 0.003f;
+	}
+	if (speedY <= 0)
+	{
+		blockFall = false;
+		/*position.y -= speedY;
+		speedY -= 0.003f;
 		
-		if (speedY > minSpeedY) speedY = minSpeedY;
-
-		//if (speedY == 0) speedY = 2.0f;
+		if (speedY > minSpeedY) speedY = minSpeedY;*/
 	}
 }
 
