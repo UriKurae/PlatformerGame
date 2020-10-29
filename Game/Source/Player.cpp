@@ -5,6 +5,7 @@
 #include "App.h"
 #include "Input.h"
 #include "Textures.h"
+#include "Window.h"
 
 #include "Map.h"
 #include "List.h"
@@ -17,10 +18,212 @@ Player::Player()
 {
 	name.Create("player");
 
+	LoadPushbacks();
+	
+}
 
+Player::~Player()
+{
+}
+
+bool Player::Start()
+{
+	LOG("Loading player textures");
+
+	// Load the spritesheet for the player
+	texture = app->tex->Load("Assets/textures/Player/p1_spritesheetWithRun.png");
+
+	
+	currentAnim = &idleAnim;
+
+	return true;
+}
+
+bool Player::Update(float dt)
+{
+	// Detect player's input
+
+	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
+	{
+		if (currentAnim != &runRightAnim)
+		{
+			runRightAnim.Reset();
+			currentAnim = &runRightAnim;
+
+		}
+		if (blockRightMovement == false)
+		{
+			position.x += speedX;
+		}
+
+	}
+	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
+	{
+		if (currentAnim != &runLeftAnim)
+		{
+			runLeftAnim.Reset();
+			currentAnim = &runLeftAnim;
+
+		}
+
+		if (blockLeftMovement == false)
+		{
+			position.x -= speedX;
+		}
+
+	}
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
+	{
+		if (currentAnim != &jumpAnim)
+		{
+			jumpAnim.Reset();
+			currentAnim = &jumpAnim;
+
+		}
+		if (jump == false) speedY = 2.0f;
+		jump = true;
+	}
+
+	if (jump == true)
+	{
+		Jump();
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE &&
+		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE)
+	{
+		if (currentAnim != &idleAnim)
+		{
+			idleAnim.Reset();
+			currentAnim = &idleAnim;
+		}
+	}
+	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
+		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
+	{
+		if (currentAnim != &idleAnim)
+		{
+			idleAnim.Reset();
+			currentAnim = &idleAnim;
+		}
+
+		//speedX = 0;
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT &&
+		app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
+	{
+		currentAnim = &jumpAnim;
+
+	}
+
+
+	currentAnim->Update();
+
+	if (blockFall == false)
+	{
+		position.y += gravity;
+	}
+
+	OnCollision();
+
+	return true;
+}
+
+bool Player::PostUpdate()
+{
+
+	SDL_Rect rect = currentAnim->GetCurrentFrame();
+	app->render->DrawTexture(texture,position.x,position.y, &rect);
+	
+	app->render->camera.x = -(position.x - 600);
+	app->render->camera.y = 0;
+	
+
+	return true;
+}
+
+bool Player::CleanUp()
+{
+	return true;
+}
+
+
+void Player::OnCollision()
+{
+	ListItem<MapLayer*>* layer = app->map->data.layers.start;
+
+	iPoint playerPosVert = app->map->WorldToMap(position.x, position.y + 93);
+	iPoint playerPosRight = app->map->WorldToMap(position.x + 65, position.y + 46);
+	iPoint playerPosLeft = app->map->WorldToMap(position.x - 3, position.y + 46);
+
+	while (layer != NULL)
+	{
+
+		if (layer->data->name == "hitboxes")
+		{
+			uint playerIdVert = layer->data->Get(playerPosVert.x, playerPosVert.y);
+			uint playerIdRight = layer->data->Get(playerPosRight.x, playerPosRight.y);
+			uint playerIdLeft = layer->data->Get(playerPosLeft.x, playerPosLeft.y);
+
+
+			if (playerIdVert == 157)
+			{
+				blockFall = true;
+				jump = false;
+			}
+			else
+			{
+				blockFall = false;
+				
+			}
+
+			if (playerIdRight == 157)
+			{
+				blockRightMovement = true;
+			}
+			else
+			{
+				blockRightMovement = false;
+			}
+
+			if (playerIdLeft == 157)
+			{
+				blockLeftMovement = true;
+			}
+			else
+			{
+				blockLeftMovement = false;
+			}
+
+			break;
+		}
+
+		layer = layer->next;
+	}
+}
+
+
+void Player::SetPosition(float x, float y)
+{
+	position.x = x;
+	position.y = y;
+
+}
+
+void Player::Jump()
+{
+	position.y -= speedY - gravity;
+	speedY -= 0.005f;
+	if (speedY <= 0.5f) speedY = 0;
+
+}
+
+void Player::LoadPushbacks()
+{
 	// Idle animation
-	idleAnim.PushBack({66,195,65,92});
-	idleAnim.PushBack({0,196,65,92});
+	idleAnim.PushBack({ 66,195,65,92 });
+	idleAnim.PushBack({ 0,196,65,92 });
 
 	idleAnim.speed = 0.0007f;
 
@@ -55,214 +258,9 @@ Player::Player()
 
 	runLeftAnim.speed = 0.01f;
 	runLeftAnim.loop = true;
-	
+
 
 	// Jump animation
-	jumpAnim.PushBack({437,92,68,93});
-}
-
-Player::~Player()
-{
-}
-
-bool Player::Start()
-{
-	LOG("Loading player textures");
-
-	// Load the spritesheet for the player
-	texture = app->tex->Load("Assets/textures/Player/p1_spritesheetWithRun.png");
-
-	
-	currentAnim = &idleAnim;
-
-	return true;
-}
-
-bool Player::Update(float dt)
-{
-	// Detect player's input
-	
-
-	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
-	{
-		if (currentAnim != &runRightAnim)
-		{
-			runRightAnim.Reset();
-			currentAnim = &runRightAnim;
-
-		}
-		if (blockRightMovement == false)
-		{
-			position.x += speedX;
-		}
-
-	}
-	else if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
-	{
-		if (currentAnim != &runLeftAnim)
-		{
-			runLeftAnim.Reset();
-			currentAnim = &runLeftAnim;
-
-		}
-
-		if (blockLeftMovement == false)
-		{
-			position.x -= speedX;
-		}
-
-	}
-	else if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
-	{
-		if (currentAnim != &jumpAnim)
-		{
-			jumpAnim.Reset();
-			currentAnim = &jumpAnim;
-
-		}
-		jump = true;
-		grounded = false;
-	}
-
-	if (jump == true)
-	{
-		position.y -= speedY - gravity;
-		speedY -= 0.005f;
-		if (speedY <= 0.5f) speedY = 0;
-
-		
-		
-		/*if (position.y <= 468)
-		{
-		position.y -= (speedY + gravity);
-		speedY -= gravity;
-
-		}
-		else
-		{
-			jump = false;
-			speedY = 10.0f;
-		}*/
-		
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE &&
-		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE)
-	{
-		if (currentAnim != &idleAnim)
-		{
-			idleAnim.Reset();
-			currentAnim = &idleAnim;
-		}
-	}
-	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
-		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
-	{
-		if (currentAnim != &idleAnim)
-		{
-			idleAnim.Reset();
-			currentAnim = &idleAnim;
-		}
-	}
-
-
-	currentAnim->Update();
-
-	if (blockFall == false)
-	{
-		position.y += gravity;
-	}
-
-	OnCollision();
-
-	return true;
-}
-
-bool Player::PostUpdate()
-{
-
-	SDL_Rect rect = currentAnim->GetCurrentFrame();
-	app->render->DrawTexture(texture,position.x,position.y, &rect);
-	
-	app->render->camera.x =-(position.x-600);
-	app->render->camera.y = 0;
-	
-
-	return true;
-}
-
-bool Player::CleanUp()
-{
-	return true;
-}
-
-
-void Player::SetPosition(float x, float y)
-{
-	position.x = x;
-	position.y = y;
-
-}
-
-void Player::OnCollision()
-{
-	ListItem<MapLayer*>* layer = app->map->data.layers.start;
-
-	iPoint playerPosVert = app->map->WorldToMap(position.x, position.y + 93);
-	iPoint playerPosRight = app->map->WorldToMap(position.x + 65, position.y + 46);
-	iPoint playerPosLeft = app->map->WorldToMap(position.x - 3, position.y + 46);
-
-	while (layer != NULL)
-	{
-
-		if (layer->data->name == "hitboxes")
-		{
-			uint playerIdVert = layer->data->Get(playerPosVert.x, playerPosVert.y);
-			uint playerIdRight = layer->data->Get(playerPosRight.x, playerPosRight.y);
-			uint playerIdLeft = layer->data->Get(playerPosLeft.x, playerPosLeft.y);
-
-
-			if (playerIdVert == 157)
-			{
-				blockFall = true;
-				grounded = false;
-			}
-			else
-			{
-				blockFall = false;
-				grounded = true;
-			}
-
-			if (playerIdRight == 157)
-			{
-				blockRightMovement = true;
-			}
-			else
-			{
-				blockRightMovement = false;
-			}
-
-			if (playerIdLeft == 157)
-			{
-				blockLeftMovement = true;
-			}
-			else
-			{
-				blockLeftMovement = false;
-			}
-
-			break;
-		}
-
-		layer = layer->next;
-	}
-}
-
-void Player::Jump()
-{
-	int force = 10;
-	grounded = false;
-	//position.y -= speedY - 0.5f * gravity;
-	
+	jumpAnim.PushBack({ 437,92,68,93 });
 
 }

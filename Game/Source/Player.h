@@ -41,6 +41,8 @@ public:
 	void OnCollision();
 
 	void Jump();
+
+	void LoadPushbacks();
 public:
 
 private:
@@ -67,8 +69,6 @@ private:
 	bool blockRightMovement = false;
 	bool blockJump = false;
 	bool blockFall = false;
-
-	bool grounded = true;
 
 	// Texture for the player
 	SDL_Texture* texture;
