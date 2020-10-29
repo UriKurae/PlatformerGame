@@ -51,6 +51,9 @@ public:
 
 private:
 
+	// God Mode
+	bool godMode = false;
+
 	// Position of player
 	Point<float> position;
 
