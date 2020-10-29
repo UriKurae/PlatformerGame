@@ -43,6 +43,8 @@ bool Player::Update(float dt)
 {
 	// Detect player's input
 
+	if (speedY == minSpeedY) speedY = 1.5f;
+
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
 	{
 		if (currentAnim != &runRightAnim)
@@ -81,7 +83,7 @@ bool Player::Update(float dt)
 
 		}
 		// If jump is false, we shall reset the velocity for the next jump.
-		if (jump == false) speedY = 2.0f;
+		if (jump == false) speedY = 1.5f;
 		 jump = true;
 	}
 
@@ -119,9 +121,9 @@ bool Player::Update(float dt)
 
 	currentAnim->Update();
 
-	if (blockFall == false || jump == true)
+	if (blockFall == false)
 	{
-		position.y += gravity;
+		position.y += 0.5f * speedY;
 	}
 
 	OnCollision();
@@ -152,7 +154,7 @@ void Player::OnCollision()
 {
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
-	iPoint playerPosTop = app->map->WorldToMap(position.x + 32, position.y - 3);
+	iPoint playerPosTop = app->map->WorldToMap(position.x + 2, position.y - 3);
 	iPoint playerPosBottom = app->map->WorldToMap(position.x + 32, position.y + 93);
 	
 	iPoint playerPosRight = app->map->WorldToMap(position.x + 62, position.y + 46);
@@ -183,9 +185,9 @@ void Player::OnCollision()
 			uint playerIdBottomRight = layer->data->Get(playerPosBottomRight.x, playerPosBottomRight.y);
 			uint playerIdBottomLeft = layer->data->Get(playerPosBottomLeft.x, playerPosBottomLeft.y);
 
-			if (playerIdTop == 157)
+			if (playerIdTop == 157 || playerIdTopRight == 157 || playerIdTopLeft == 157)
 			{
-				speedY = 0;
+				speedY = -speedY;
 			}
 			if (playerIdBottom == 157 || (playerIdBottom != 157) && (playerIdBottomLeft == 157))
 			{
@@ -200,7 +202,7 @@ void Player::OnCollision()
 			if (playerIdBottom != 157 && playerIdBottomRight == 157)
 			{
 				blockFall = true;
-				jump = false;
+				//jump = false;
 				blockRightMovement = true;
 			}
 			else if (playerIdRight == 157)
@@ -250,11 +252,21 @@ void Player::SetPosition(float x, float y)
 
 void Player::Jump()
 {
-	position.y -= speedY;
+	if (speedY >= 0)
+	{
+		position.y -= speedY - 0.15f * gravity;
+		speedY -= 0.003f;
+	}
+	if (speedY < 0)
+	{
+		//speedY = -1.0f;
+		position.y -= speedY;
+		speedY -= 0.003f;
+		
+		if (speedY > minSpeedY) speedY = minSpeedY;
 
-	speedY -= 0.006f;
-	if (speedY <= 0.4f) speedY = 0;
-
+		//if (speedY == 0) speedY = 2.0f;
+	}
 }
 
 

@@ -52,14 +52,14 @@ private:
 
 	// Speed to run
 	float speedX = 0.17f;
-	float speedY = 1.0f;
-	float maxHeight = 10;
-
+	float speedY = 1.5f;
+	float minSpeedY = -0.08f;
+	
 	// Camera offset
 	float camOffset = position.x;
 
 	// Constant gravity applied to the player
-	float gravity = 0.25f;
+	float gravity = 0.23f;
 
 	// Jump mechanic
 	bool jump = false;
