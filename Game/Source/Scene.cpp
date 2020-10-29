@@ -74,6 +74,9 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN || app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
 		app->audio->VolumeControl();
 
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		RestartLevel();
+
 	app->render->DrawTexture(bgImage, 0, 0, NULL);
 	app->map->Draw();
 
@@ -96,6 +99,13 @@ bool Scene::PostUpdate()
 bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
+
+	return true;
+}
+
+bool Scene::RestartLevel()
+{
+	app->player->SetPosition(140, 450);
 
 	return true;
 }
