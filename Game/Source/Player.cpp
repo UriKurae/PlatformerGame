@@ -171,8 +171,8 @@ bool Player::PostUpdate()
 	SDL_Rect rect = currentAnim->GetCurrentFrame();
 	app->render->DrawTexture(texture,position.x,position.y, &rect);
 	
-	app->render->camera.x = -(position.x - 600);
-	app->render->camera.y = 0;
+	//app->render->camera.x = -(position.x - 600);
+	//app->render->camera.y = 0;
 	
 
 	return true;
