@@ -2,6 +2,8 @@
 
 #include "Module.h"
 
+struct SDL_Texture;
+
 class IntroScene : public Module
 {
 public:
@@ -30,7 +32,9 @@ public:
 
 	bool CleanUp() override;
 
-public:
+private:
+
+	SDL_Texture* intro;
 	
 
 };

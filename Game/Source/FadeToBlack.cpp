@@ -20,6 +20,11 @@ FadeToBlack::~FadeToBlack()
 
 }
 
+bool FadeToBlack::Awake(pugi::xml_node& node)
+{
+	return true;
+}
+
 bool FadeToBlack::Start()
 {
 	LOG("Preparing Fade Screen");

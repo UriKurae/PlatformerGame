@@ -7,12 +7,14 @@
 class FadeToBlack : public Module
 {
 public:
+
 	//Constructor
 	FadeToBlack();
 
 	//Destructor
 	~FadeToBlack();
 
+	bool Awake(pugi::xml_node&) override;
 	// Called when the module is activated
 	// Enables the blending mode for transparency
 	bool Start() override;

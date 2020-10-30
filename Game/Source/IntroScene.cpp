@@ -10,6 +10,7 @@
 #include "Scene.h"
 #include "Map.h"
 #include "Player.h"
+#include "FadeToBlack.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -17,7 +18,8 @@
 
 IntroScene::IntroScene()
 {
-	
+	name.Create("introScene");
+
 }
 
 IntroScene::~IntroScene()
@@ -25,15 +27,15 @@ IntroScene::~IntroScene()
 
 }
 
-bool IntroScene::Awake(pugi::xml_node& config)
+bool IntroScene::Awake(pugi::xml_node& node)
 {
-
 	return true;
 }
+
 // Load assets
 bool IntroScene::Start()
 {
-	app->tex->Load("Assets/textures/sky2.png");
+	intro = app->tex->Load("Assets/textures/intro.png");
 
 	return true;
 }
@@ -41,12 +43,15 @@ bool IntroScene::Start()
 bool IntroScene::Update(float dt)
 {
 	
+	app->fade->FadingToBlack(this, app->scene, 30);
 	return true;
 }
 
 // Update: draw background
 bool IntroScene::PostUpdate()
 {
+
+	app->render->DrawTexture(intro,0,0,NULL);
 	return true;
 }
 
