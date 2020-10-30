@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Map.h"
+#include "Player.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -292,7 +293,6 @@ bool Map::LoadMap()
         {
             data.type = MapTypes::MAPTYPE_UNKNOWN;
         }
-
 
     }
 
