@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="150" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+ <properties>
+  <property name="StartPositionX" type="int" value="84"/>
+  <property name="StartPositionY" type="int" value="80"/>
+  <property name="gravity" type="float" value="0.25"/>
+ </properties>
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="1160" columns="58">
   <image source="tileset.png" width="928" height="320"/>
  </tileset>
@@ -1838,9 +1843,9 @@
    <tile gid="309"/>
    <tile gid="310"/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="410"/>
+   <tile gid="411"/>
+   <tile gid="412"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1988,9 +1993,9 @@
    <tile gid="367"/>
    <tile gid="368"/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="468"/>
+   <tile gid="469"/>
+   <tile gid="470"/>
    <tile/>
    <tile/>
    <tile/>
@@ -2138,9 +2143,9 @@
    <tile gid="425"/>
    <tile gid="426"/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="526"/>
+   <tile gid="527"/>
+   <tile gid="528"/>
    <tile/>
    <tile/>
    <tile/>
@@ -9496,9 +9501,9 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="1161"/>
+   <tile gid="1161"/>
+   <tile gid="1161"/>
    <tile/>
    <tile/>
    <tile/>
@@ -9646,9 +9651,9 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="1161"/>
+   <tile gid="1161"/>
+   <tile gid="1161"/>
    <tile/>
    <tile/>
    <tile/>

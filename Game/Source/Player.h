@@ -66,7 +66,7 @@ private:
 	float camOffset = position.x;
 
 	// Constant gravity applied to the player
-	float gravity = 0.23f;
+	float gravity = 0.25f;
 
 	// Jump mechanic
 	bool jump = false;

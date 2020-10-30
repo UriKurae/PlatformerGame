@@ -83,7 +83,7 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
 	{
-		if (currentAnim != &runRightAnim)
+		if ((currentAnim != &runRightAnim) && (jump == false))
 		{
 			runRightAnim.Reset();
 			currentAnim = &runRightAnim;
@@ -97,7 +97,7 @@ bool Player::Update(float dt)
 	}
 	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
 	{
-		if (currentAnim != &runLeftAnim)
+		if ((currentAnim != &runLeftAnim) && (jump == false))
 		{
 			runLeftAnim.Reset();
 			currentAnim = &runLeftAnim;
@@ -120,11 +120,16 @@ bool Player::Update(float dt)
 
 	if (jump == true)
 	{
+		if (currentAnim != &jumpAnim)
+		{
+			jumpAnim.Reset();
+			currentAnim = &jumpAnim;
+		}
 		Jump();
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE &&
-		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE)
+		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE && jump == false)
 	{
 		if (currentAnim != &idleAnim)
 		{
@@ -145,8 +150,11 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT &&
 		app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
 	{
-		if(currentAnim != &jumpAnim)
+		if (currentAnim != &jumpAnim)
+		{
+			jumpAnim.Reset();
 			currentAnim = &jumpAnim;
+		}
 	}
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
 		app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
@@ -154,8 +162,6 @@ bool Player::Update(float dt)
 		if (currentAnim != &jumpAnim)
 			currentAnim = &jumpAnim;
 	}
-
-	
 
 	
 	if (blockFall == false && godMode == false)
@@ -225,16 +231,14 @@ void Player::OnCollision()
 			uint playerIdBottomRight = layer->data->Get(playerPosBottomRight.x, playerPosBottomRight.y);
 			uint playerIdBottomLeft = layer->data->Get(playerPosBottomLeft.x, playerPosBottomLeft.y);
 
-			// Here we get check if the player collides with his upper tile onto another tile
-			if (playerIdTop == 1161 || playerIdTopRight == 1161 || playerIdTopLeft == 1161)
+			if (playerIdTop == 1161)
 			{
-				speedY = 0;
+
 			}
 
+
 			// Check if player is colliding with the ground
-			// Also works for checking left corners platforms / ground (2nd condition)  <-- this leads to problems when facing a collision with left face, reseting the jump and bugging the player
-			// If not, then the player must fall (else)
-			if (playerIdBottom == 1161 /*|| ((playerIdBottom != 1161) && (playerIdBottomLeft == 1161))*/)
+			if (playerIdBottom == 1161)
 			{
 				blockFall = true;
 				jump = false;
@@ -293,27 +297,16 @@ void Player::SetPosition(float x, float y)
 
 void Player::Jump()
 {
-	if (currentAnim != &jumpAnim)
+	if (speedY > 0)
 	{
-		//jumpAnim.Reset();
-		currentAnim = &jumpAnim;
-
-		if (speedY > 0)
-		{
-			position.y -= speedY;
-			speedY -= 0.006f;
-		}
-		if (speedY <= 0)
-		{
-			blockFall = false;
-			/*position.y -= speedY;
-			speedY -= 0.003f;
-
-			if (speedY > minSpeedY) speedY = minSpeedY;*/
-		}
+		position.y -= speedY;
+		speedY -= 0.006f;
+	}
+	if (speedY <= 0)
+	{
+		blockFall = false;
 	}
 
-	
 }
 
 
@@ -364,7 +357,7 @@ void Player::LoadPushbacks()
 	jumpAnim.PushBack({68, 112, 17, 31});
 	jumpAnim.PushBack({118, 113, 18, 30});
 
-	jumpAnim.speed = 10.0f;
-	runLeftAnim.loop = false;
+	jumpAnim.speed = 0.02f;
+	jumpAnim.loop = false;
 
 }
