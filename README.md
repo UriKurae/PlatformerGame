@@ -7,10 +7,12 @@ It is a 2D Platformer videogame.
 
 ## Key Features
 
- - {Feature01}
- - {Feature02}
- - {Feature03}
- - {Feature04}
+ - F1 -> Start from the first level.
+ - F3 -> Start from the begginig of the first level.
+ - F5 -> Save the current game state.
+ - F6 -> Load previous state.
+ - F9 -> View colliders/logic.
+ - F10 -> God Mode.
  
 ## Controls
 
@@ -19,11 +21,16 @@ It is a 2D Platformer videogame.
 
 ## Developers
 
- - Oriol Bernal Martínez - Coder.
+ - Oriol Bernal Martínez - Coder & Level Designer.
  - David González López - Coder & QA.
 
 ## License
 
 This project is licensed under an unmodified MIT license, which is an OSI-certified license that allows static linking with closed source software. Check [LICENSE](LICENSE) for further details.
 
-{AdditionalLicenses}
+Artwork created by Luis Zuno (@ansimuz)
+License for Everyone. This piece is under a CC-BY-3.0 License http://creativecommons.org/licenses/by/3.0/
+You can copy, modify, distribute and perform the work, even for commercial purposes, as long as you give appropiate credit. 
+You are not require to credit this work if you are or had been a Patreon Supporter at https://www.patreon.com/ansimuz
+Thanks get more like these at: https://www.patreon.com/ansimuz
+
