@@ -1,6 +1,6 @@
 #pragma once
 
-#include "App.h"
+#include "Module.h"
 
 class IntroScene : public Module
 {
@@ -12,8 +12,13 @@ public:
 	~IntroScene();
 
 	// Called when the module is activated
+	bool Awake(pugi::xml_node& config) override;
+
+
 	// Loads the necessary textures for the map background
 	bool Start() override;
+
+	// Called before render is available
 
 	// Called at the middle of the application loop
 	// Updates the scene's background animations

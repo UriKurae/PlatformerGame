@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Collisions.h"
 #include "FadeToBlack.h"
+#include "IntroScene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -26,6 +27,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	render = new Render();
 	tex = new Textures();
 	audio = new Audio();
+	intro = new IntroScene();
 	scene = new Scene();
 	map = new Map();
 	player = new Player();
@@ -38,6 +40,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
+	AddModule(intro);
 	AddModule(scene);
 	AddModule(map);
 	AddModule(player);
