@@ -15,10 +15,12 @@ class Input;
 class Render;
 class Textures;
 class Audio;
+class IntroScene;
 class Scene;
 class Map;
 class Player;
 class Collisions;
+class FadeToBlack;
 
 class App
 {
@@ -93,6 +95,7 @@ public:
 	Map* map;
 	Player* player;
 	Collisions* collisions;
+	FadeToBlack* fade;
 
 private:
 
