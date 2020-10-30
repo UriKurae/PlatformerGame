@@ -6,12 +6,14 @@
   <audio>
     <music_volume value="100" />
   </audio>
+  <introScene />
   <scene />
   <map />
   <player>
-    <position positionX="1337.31494" positionY="937.220276" />
+    <position positionX="412.752563" positionY="243.198242" />
   </player>
   <:anonymous />
+  <FADE />
   <renderer>
     <camera x="55" />
   </renderer>

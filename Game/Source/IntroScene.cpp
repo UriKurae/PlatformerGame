@@ -51,7 +51,7 @@ bool IntroScene::Update(float dt)
 bool IntroScene::PostUpdate()
 {
 
-	app->render->DrawTexture(intro,0,0,NULL);
+//	app->render->DrawTexture(intro,0,0,NULL);
 	return true;
 }
 

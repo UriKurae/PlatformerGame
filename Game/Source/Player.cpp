@@ -236,7 +236,7 @@ void Player::OnCollision()
 			uint playerMidTile = layer->data->Get(playerPosTop.x + 15, playerPosTop.y + 15);
 
 			// Check if player is colliding with the ground
-			if (playerIdBottom == 1161)
+			if (playerIdBottom == 1161 && upwards == false)
 			{
 				blockFall = true;
 				jump = false;
@@ -293,9 +293,11 @@ void Player::Jump()
 	{
 		position.y -= speedY;
 		speedY -= 0.006f;
+		upwards = true;
 	}
 	if (speedY <= 0)
 	{
+		upwards = false;
 		blockFall = false;
 	}
 

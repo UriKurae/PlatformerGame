@@ -67,6 +67,7 @@ private:
 
 	// Jump mechanic
 	bool jump = false;
+	bool upwards = false;
 
 	// Block movements
 	bool blockLeftMovement = false;
