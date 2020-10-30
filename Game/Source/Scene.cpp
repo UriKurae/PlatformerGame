@@ -34,8 +34,8 @@ bool Scene::Start()
 {
 	// L03: DONE: Load map
 	//app->map->Load("hello2.tmx");
-	app->map->Load("MapTest.tmx");
-	bgImage = app->tex->Load("Assets/textures/bg.png");
+	app->map->Load("Level1.tmx");
+	//bgImage = app->tex->Load("Assets/textures/bg.png");
 	app->audio->PlayMusic("Assets/audio/music/music_spy.ogg");
 
 	app->player->SetPosition(140,450);
@@ -77,7 +77,7 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		RestartLevel();
 
-	app->render->DrawTexture(bgImage, 0, 0, NULL);
+	//app->render->DrawTexture(bgImage, 0, 0, NULL);
 	app->map->Draw();
 
 
