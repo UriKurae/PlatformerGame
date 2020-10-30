@@ -49,7 +49,7 @@ bool Player::Start()
 	LOG("Loading player textures");
 
 	// Load the spritesheet for the player
-	texture = app->tex->Load("Assets/textures/Player/p1_spritesheetWithRun.png");
+	texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
 
 	
 	currentAnim = &idleAnim;
@@ -66,9 +66,11 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 	{
 		godMode = !godMode;
+		blockFall = !blockFall;
 	}
 	if (godMode == true)
 	{
+		
 		if (app->input->GetKey(SDL_SCANCODE_W) == KeyState::KEY_REPEAT)
 		{
 			position.y -= 1.0f;
@@ -155,12 +157,14 @@ bool Player::Update(float dt)
 
 	currentAnim->Update();
 
-	if (blockFall == false)
-	{
-		position.y += 1.7f *gravity;
-	}
+	
+		if (blockFall == false)
+		{
+			position.y += 1.7f * gravity;
+		}
 
-	if (godMode == false) { OnCollision(); }
+		OnCollision();
+	
 
 	return true;
 }
@@ -304,39 +308,32 @@ void Player::Jump()
 void Player::LoadPushbacks()
 {
 	// Idle animation
-	idleAnim.PushBack({ 66,195,65,92 });
-	idleAnim.PushBack({ 0,196,65,92 });
+	idleAnim.PushBack({ 13,7,19,29 });
+	idleAnim.PushBack({ 65,5,17,30 });
+	idleAnim.PushBack({ 114,5,19,30 });
+	idleAnim.PushBack({ 162,6,20,29 });
 
 	idleAnim.speed = 0.0007f;
 
 	// Run Right Animation
-	runRightAnim.PushBack({ 151,200,63,89 });
-	runRightAnim.PushBack({ 216,200,64,90 });
-	runRightAnim.PushBack({ 281,200,65,90 });
-	runRightAnim.PushBack({ 151,291,63,90 });
-	runRightAnim.PushBack({ 216,291,64,89 });
-	runRightAnim.PushBack({ 281,291,69,91 });
-	runRightAnim.PushBack({ 150,384,69,89 });
-	runRightAnim.PushBack({ 221,384,68,88 });
-	runRightAnim.PushBack({ 290,383,68,90 });
-	runRightAnim.PushBack({ 151,475,68,89 });
-	runRightAnim.PushBack({ 221,475,63,90 });
+	runRightAnim.PushBack({ 66,44,20,28 });
+	runRightAnim.PushBack({ 115,45,20,27 });
+	runRightAnim.PushBack({ 165,47,20,25 });
+	runRightAnim.PushBack({ 216,44,23,28 });
+	runRightAnim.PushBack({ 266,45,20,27 });
+	runRightAnim.PushBack({ 315,47,20,25 });
+	
 
 	runRightAnim.speed = 0.01f;
 	runRightAnim.loop = true;
 
 	// Left right Animation
-	runLeftAnim.PushBack({ 437,199,63,90 });
-	runLeftAnim.PushBack({ 502,200,64,90 });
-	runLeftAnim.PushBack({ 568,200,63,89 });
-	runLeftAnim.PushBack({ 433,292,69,89 });
-	runLeftAnim.PushBack({ 503,292,64,89 });
-	runLeftAnim.PushBack({ 568,292,63,89 });
-	runLeftAnim.PushBack({ 424,383,68,90 });
-	runLeftAnim.PushBack({ 495,383,68,89 });
-	runLeftAnim.PushBack({ 566,383,67,90 });
-	runLeftAnim.PushBack({ 499,474,63,90 });
-	runLeftAnim.PushBack({ 563,474,68,90 });
+	runLeftAnim.PushBack({ 618,45,20,28 });
+	runLeftAnim.PushBack({ 568,46,20,27 });
+	runLeftAnim.PushBack({ 518,48,20,25 });
+	runLeftAnim.PushBack({ 465,45,23,28 });
+	runLeftAnim.PushBack({ 419,46,20,27 });
+	runLeftAnim.PushBack({ 368,49,20,25 });
 
 	runLeftAnim.speed = 0.01f;
 	runLeftAnim.loop = true;
