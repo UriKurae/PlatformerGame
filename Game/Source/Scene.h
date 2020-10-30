@@ -43,6 +43,7 @@ private:
 	Point<float> playerStartPosition;
 	SDL_Texture* sky;
 	SDL_Texture* clouds;
+	SDL_Texture* sea;
 };
 
 #endif // __SCENE_H__

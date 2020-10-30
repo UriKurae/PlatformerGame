@@ -71,7 +71,7 @@ bool Render::PreUpdate()
 
 bool Render::Update(float dt)
 {
-	camera.x = -app->player->GetPosition().x * 1.5f;
+	camera.x = -app->player->GetPosition().x * 1.7f;
 	return true;
 }
 

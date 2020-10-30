@@ -119,11 +119,11 @@ bool Player::Update(float dt)
 
 	if (jump == true)
 	{
-		if (currentAnim != &jumpAnim)
+		/*if (currentAnim != &jumpRightAnim)
 		{
-			jumpAnim.Reset();
-			currentAnim = &jumpAnim;
-		}
+			jumpRightAnim.Reset();
+			currentAnim = &jumpRightAnim;
+		}*/
 		Jump();
 	}
 
@@ -149,17 +149,20 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT &&
 		app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
 	{
-		if (currentAnim != &jumpAnim)
+		if (currentAnim != &jumpLeftAnim)
 		{
-			jumpAnim.Reset();
-			currentAnim = &jumpAnim;
+			jumpLeftAnim.Reset();
+			currentAnim = &jumpLeftAnim;
 		}
 	}
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
 		app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
 	{
-		if (currentAnim != &jumpAnim)
-			currentAnim = &jumpAnim;
+		if (currentAnim != &jumpRightAnim)
+		{
+			jumpRightAnim.Reset();
+			currentAnim = &jumpRightAnim;
+		}
 	}
 
 	
@@ -334,20 +337,37 @@ void Player::LoadPushbacks()
 	runLeftAnim.loop = true;
 
 
-	// Jump animation
-	jumpAnim.PushBack({15, 86, 20, 24});
-	jumpAnim.PushBack({65, 88, 20, 22});
-	jumpAnim.PushBack({117, 81, 19, 27});
-	jumpAnim.PushBack({164, 79, 21, 23});
-	jumpAnim.PushBack({218, 82, 21, 23});
-	jumpAnim.PushBack({264, 84, 23, 17});
-	jumpAnim.PushBack({320, 84, 18, 20});
-	jumpAnim.PushBack({14, 124, 23, 17});
-	jumpAnim.PushBack({68, 112, 17, 31});
-	jumpAnim.PushBack({118, 113, 18, 30});
+	// Jump right animation
+	jumpRightAnim.PushBack({15, 86, 20, 24});
+	jumpRightAnim.PushBack({65, 88, 20, 22});
+	jumpRightAnim.PushBack({117, 81, 19, 27});
+	jumpRightAnim.PushBack({164, 79, 21, 23});
+	jumpRightAnim.PushBack({218, 82, 21, 23});
+	jumpRightAnim.PushBack({264, 84, 23, 17});
+	jumpRightAnim.PushBack({320, 84, 18, 20});
+	jumpRightAnim.PushBack({14, 124, 23, 17});
+	jumpRightAnim.PushBack({68, 112, 17, 31});
+	jumpRightAnim.PushBack({118, 113, 18, 30});
 
-	jumpAnim.speed = 0.02f;
-	jumpAnim.loop = false;
+	jumpRightAnim.speed = 0.02f;
+	jumpRightAnim.loop = false;
+
+
+	// Jump left animation
+
+	jumpLeftAnim.PushBack({ 620,89,20,22 });
+	jumpLeftAnim.PushBack({ 569,82,19,27 });
+	jumpLeftAnim.PushBack({ 520,80,21,23 });
+	jumpLeftAnim.PushBack({ 472,83,15,20 });
+	jumpLeftAnim.PushBack({ 418,85,23,17 });
+	jumpLeftAnim.PushBack({ 367,85,18,20 });
+	jumpLeftAnim.PushBack({ 668,125,23,17 });
+	jumpLeftAnim.PushBack({ 620,113,17,31 });
+	jumpLeftAnim.PushBack({ 570,114,17,30 });
+	
+	jumpLeftAnim.speed = 0.02f;
+	jumpLeftAnim.loop = false;
+
 
 }
 

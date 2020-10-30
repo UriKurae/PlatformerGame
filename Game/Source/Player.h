@@ -55,7 +55,7 @@ private:
 	Point<float> position;
 
 	// Speed to run
-	float speedX = 0.15f;
+	float speedX = 0.12f;
 	float speedY = 1.5f;
 	float minSpeedY = -0.05f;
 	
@@ -83,7 +83,8 @@ private:
 	Animation idleAnim;
 	Animation runRightAnim;
 	Animation runLeftAnim;
-	Animation jumpAnim;
+	Animation jumpRightAnim;
+	Animation jumpLeftAnim;
 
 	
 
