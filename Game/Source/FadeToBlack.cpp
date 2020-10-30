@@ -5,14 +5,14 @@
 
 #include "Render.h"
 #include "Audio.h"
+#include "Window.h"
 
 #include "SDL/include/SDL_render.h"
 
 FadeToBlack::FadeToBlack()
 {
-	name = "FADE";
+	name.Create("fade");
 
-	//screenRect = { 0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE };
 }
 
 FadeToBlack::~FadeToBlack()
@@ -20,14 +20,14 @@ FadeToBlack::~FadeToBlack()
 
 }
 
-bool FadeToBlack::Awake(pugi::xml_node& node)
-{
-	return true;
-}
-
 bool FadeToBlack::Start()
 {
 	LOG("Preparing Fade Screen");
+
+	uint w, h;
+	app->win->GetWindowSize(w, h);
+
+	screenRect = { 0, 0, (int)w * (int)app->win->GetScale(),  (int)h * (int)app->win->GetScale() };
 
 	// Enable blending mode for transparency
 	SDL_SetRenderDrawBlendMode(app->render->renderer, SDL_BLENDMODE_BLEND);
@@ -45,9 +45,8 @@ bool FadeToBlack::Update(float dt)
 		++frameCount;
 		if (frameCount >= maxFadeFrames)
 		{
-			
-			//moduleToDisable->Disable();
-			//moduleToEnable->Enable();
+			moduleToDisable->Disable();
+			moduleToEnable->Enable();
 
 			currentStep = Fade_Step::FROM_BLACK;
 		}

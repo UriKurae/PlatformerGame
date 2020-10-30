@@ -16,9 +16,9 @@ public:
 	Module() : active(false)
 	{}
 
-	void Init()
+	void Init(bool _active)
 	{
-		active = true;
+		active = _active;
 	}
 
 	// Called before render is available
@@ -72,6 +72,26 @@ public:
 	{
 
 	}
+
+	void Enable()
+	{
+		if (!active)
+		{
+			active = true;
+			Start();
+		}
+	}
+
+	void Disable()
+	{
+		if (active)
+		{
+			active = false;
+			CleanUp();
+		}
+	}
+
+
 public:
 
 	SString name;

@@ -36,6 +36,11 @@ bool Scene::Awake(pugi::xml_node& config)
 bool Scene::Start()
 {
 
+
+	if (this->active == true) 
+	{
+		app->player->Enable();
+	}
 	// L03: DONE: Load map
 	app->map->Load("Level1.tmx");
 	//bgImage = app->tex->Load("Assets/textures/bg.png");

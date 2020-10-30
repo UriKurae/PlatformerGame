@@ -7,7 +7,6 @@
 #include "Scene.h"
 #include "Map.h"
 #include "Player.h"
-#include "Collisions.h"
 #include "FadeToBlack.h"
 #include "IntroScene.h"
 
@@ -31,24 +30,22 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene();
 	map = new Map();
 	player = new Player();
-	collisions = new Collisions();
 	fade = new FadeToBlack();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
-	AddModule(input);
-	AddModule(win);
-	AddModule(tex);
-	AddModule(audio);
-	AddModule(intro);
-	AddModule(scene);
-	AddModule(map);
-	AddModule(player);
-	AddModule(collisions);
-	AddModule(fade);
+	AddModule(input,true);
+	AddModule(win, true);
+	AddModule(tex, true);
+	AddModule(audio, true);
+	AddModule(intro, true);
+	AddModule(scene, false);
+	AddModule(map, false);
+	AddModule(player, false);
+	AddModule(fade, true);
 
 	// Render last to swap buffer
-	AddModule(render);
+	AddModule(render, true);
 }
 
 // Destructor
@@ -68,9 +65,9 @@ App::~App()
 	//configFile.reset();
 }
 
-void App::AddModule(Module* module)
+void App::AddModule(Module* module, bool active)
 {
-	module->Init();
+	module->Init(active);
 	modules.add(module);
 }
 

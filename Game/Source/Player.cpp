@@ -112,6 +112,11 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
 	{
 		// If jump is false, we shall reset the velocity for the next jump.
+		if (currentAnim != &jumpRightAnim)
+		{
+			jumpRightAnim.Reset();
+			currentAnim = &jumpRightAnim;
+		}
 		if (jump == false) speedY = 1.8f;
 		
 		jump = true;
@@ -119,11 +124,6 @@ bool Player::Update(float dt)
 
 	if (jump == true)
 	{
-		/*if (currentAnim != &jumpRightAnim)
-		{
-			jumpRightAnim.Reset();
-			currentAnim = &jumpRightAnim;
-		}*/
 		Jump();
 	}
 

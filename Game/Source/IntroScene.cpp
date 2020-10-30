@@ -43,7 +43,11 @@ bool IntroScene::Start()
 bool IntroScene::Update(float dt)
 {
 	
-	app->fade->FadingToBlack(this, app->scene, 30);
+	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) 
+	{ 
+		app->fade->FadingToBlack(this, app->scene, 60.0f);
+	}
+	
 	return true;
 }
 
@@ -51,7 +55,7 @@ bool IntroScene::Update(float dt)
 bool IntroScene::PostUpdate()
 {
 
-//	app->render->DrawTexture(intro,0,0,NULL);
+	app->render->DrawTexture(intro,0,0,NULL);
 	return true;
 }
 

@@ -1,5 +1,5 @@
-#ifndef __MODULEFADETOBLACK_H__
-#define __MODULEFADETOBLACK_H__
+#ifndef __FADETOBLACK_H__
+#define __FADETOBLACK_H__
 
 #include "Module.h"
 #include "SDL\include\SDL_rect.h"
@@ -7,14 +7,12 @@
 class FadeToBlack : public Module
 {
 public:
-
 	//Constructor
 	FadeToBlack();
 
 	//Destructor
 	~FadeToBlack();
 
-	bool Awake(pugi::xml_node&) override;
 	// Called when the module is activated
 	// Enables the blending mode for transparency
 	bool Start() override;
