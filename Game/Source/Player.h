@@ -58,7 +58,7 @@ private:
 	Point<float> position;
 
 	// Speed to run
-	float speedX = 0.17f;
+	float speedX = 0.15f;
 	float speedY = 1.5f;
 	float minSpeedY = -0.05f;
 	

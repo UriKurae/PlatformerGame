@@ -158,10 +158,10 @@ bool Player::Update(float dt)
 	currentAnim->Update();
 
 	
-		if (blockFall == false)
-		{
-			position.y += 1.7f * gravity;
-		}
+	if (blockFall == false)
+	{
+		position.y += 1.7f * gravity;
+	}
 
 		OnCollision();
 	
@@ -175,8 +175,8 @@ bool Player::PostUpdate()
 	SDL_Rect rect = currentAnim->GetCurrentFrame();
 	app->render->DrawTexture(texture,position.x,position.y, &rect);
 	
-	//app->render->camera.x = -(position.x - 600);
-	//app->render->camera.y = 0;
+	app->render->camera.x = -position.x;
+	app->render->camera.y = 0;
 	
 
 	return true;
@@ -193,24 +193,25 @@ void Player::OnCollision()
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
 	iPoint playerPosTop = app->map->WorldToMap(position.x + 2, position.y - 3);
-	iPoint playerPosBottom = app->map->WorldToMap(position.x + 32, position.y + 93);
+	iPoint playerPosBottom = app->map->WorldToMap(position.x + 10, position.y + 29);
 	
-	iPoint playerPosRight = app->map->WorldToMap(position.x + 62, position.y + 46);
-	iPoint playerPosLeft = app->map->WorldToMap(position.x - 3, position.y + 46);
+	iPoint playerPosRight = app->map->WorldToMap(position.x + 10, position.y + 15);
+	iPoint playerPosLeft = app->map->WorldToMap(position.x - 3, position.y + 15);
 	
-	iPoint playerPosTopRight = app->map->WorldToMap(position.x + 62, position.y - 3);
+	iPoint playerPosTopRight = app->map->WorldToMap(position.x + 30, position.y - 3);
 	iPoint playerPosTopLeft = app->map->WorldToMap(position.x - 3, position.y - 3);
 	
-	iPoint playerPosBottomRight = app->map->WorldToMap(position.x + 62, position.y + 93);
-	iPoint playerPosBottomLeft = app->map->WorldToMap(position.x - 3, position.y + 93);
+	iPoint playerPosBottomRight = app->map->WorldToMap(position.x + 30, position.y + 30);
+	iPoint playerPosBottomLeft = app->map->WorldToMap(position.x - 3, position.y + 30);
 
 
 
 	while (layer != NULL)
 	{
 
-		if (layer->data->name == "hitboxes")
+		if (layer->data->name == "HitBoxes")
 		{
+			// Here we get the surrounders player's tiles
 			uint playerIdTop = layer->data->Get(playerPosTop.x, playerPosTop.y);
 			uint playerIdBottom = layer->data->Get(playerPosBottom.x, playerPosBottom.y);
 
@@ -223,11 +224,16 @@ void Player::OnCollision()
 			uint playerIdBottomRight = layer->data->Get(playerPosBottomRight.x, playerPosBottomRight.y);
 			uint playerIdBottomLeft = layer->data->Get(playerPosBottomLeft.x, playerPosBottomLeft.y);
 
-			if (playerIdTop == 157 || playerIdTopRight == 157 || playerIdTopLeft == 157)
+			// Here we get check if the player collides with his upper tile onto another tile
+			if (playerIdTop == 1161 || playerIdTopRight == 1161 || playerIdTopLeft == 1161)
 			{
 				speedY = 0;
 			}
-			if (playerIdBottom == 157 || (playerIdBottom != 157) && (playerIdBottomLeft == 157))
+
+			// Check if player is colliding with the ground
+			// Also works for checking left corners platforms / ground (2nd condition)  <-- this leads to problems when facing a collision with left face, reseting the jump and bugging the player
+			// If not, then the player must fall (else)
+			if (playerIdBottom == 1161 /*|| ((playerIdBottom != 1161) && (playerIdBottomLeft == 1161))*/)
 			{
 				blockFall = true;
 				jump = false;
@@ -237,32 +243,30 @@ void Player::OnCollision()
 				blockFall = false;
 			}
 
-			if (playerIdBottom != 157 && playerIdBottomRight == 157)
+			// Check if player collides with the right corner and his bottom middle tile is not collision
+			// Then block the falling and the right movement because he is colliding 
+			if (playerIdBottom != 1161 && playerIdBottomRight == 1161)
 			{
-				blockFall = true;
+				blockFall = false;
 				blockRightMovement = true;
-			}
-			else if (playerIdRight == 157)
-			{
-				blockRightMovement = true;
-			}
-			else
-			{
-				blockRightMovement = false;
 			}
 			
-			/*if (playerIdRight == 157 ||	 (playerIdRight != 157) && (playerIdTopRight == 157))
+			// Check if the player is facing a collision with his right tile
+			// If he does, we dont allow to walk to the right
+			// If he doesn't, we allow to walk to the right
+			if (playerIdRight == 1161)
 			{
 				blockRightMovement = true;
 			}
 			else
 			{
 				blockRightMovement = false;
-			}*/
-
+			}
 			
-			
-			if (playerIdLeft == 157)
+			// Here we check if the player is facing a wall with his left tile
+			// If he does, we dont allow to move to the left
+			// If he doesn't, we allow to move to the left
+			if (playerIdLeft == 1161)
 			{
 				blockLeftMovement = true;
 			}
@@ -270,7 +274,6 @@ void Player::OnCollision()
 			{
 				blockLeftMovement = false;
 			}
-
 			
 			break;
 		}
@@ -292,7 +295,7 @@ void Player::Jump()
 	if (speedY > 0)
 	{
 		position.y -= speedY;
-		speedY -= 0.003f;
+		speedY -= 0.006f;
 	}
 	if (speedY <= 0)
 	{
@@ -314,6 +317,7 @@ void Player::LoadPushbacks()
 	idleAnim.PushBack({ 162,6,20,29 });
 
 	idleAnim.speed = 0.0007f;
+	idleAnim.loop = true;
 
 	// Run Right Animation
 	runRightAnim.PushBack({ 66,44,20,28 });
