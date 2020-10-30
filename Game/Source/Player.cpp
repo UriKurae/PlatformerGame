@@ -50,7 +50,6 @@ bool Player::Start()
 
 	// Load the spritesheet for the player
 	texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
-
 	
 	currentAnim = &idleAnim;
 
@@ -87,7 +86,7 @@ bool Player::Update(float dt)
 		{
 			runRightAnim.Reset();
 			currentAnim = &runRightAnim;
-
+			
 		}
 		if (blockRightMovement == false)
 		{
@@ -101,7 +100,7 @@ bool Player::Update(float dt)
 		{
 			runLeftAnim.Reset();
 			currentAnim = &runLeftAnim;
-
+			
 		}
 
 		if (blockLeftMovement == false)
@@ -166,7 +165,7 @@ bool Player::Update(float dt)
 	
 	if (blockFall == false && godMode == false)
 	{
-		position.y += 1.7f * gravity;
+		position.y += gravity;
 	}
 
 	OnCollision();
@@ -182,15 +181,15 @@ bool Player::PostUpdate()
 	SDL_Rect rect = currentAnim->GetCurrentFrame();
 	app->render->DrawTexture(texture,position.x,position.y, &rect);
 	
-	app->render->camera.x = -position.x;
-	app->render->camera.y = 0;
-	
+		
 
 	return true;
 }
 
 bool Player::CleanUp()
 {
+	app->tex->UnLoad(texture);
+
 	return true;
 }
 
@@ -231,11 +230,7 @@ void Player::OnCollision()
 			uint playerIdBottomRight = layer->data->Get(playerPosBottomRight.x, playerPosBottomRight.y);
 			uint playerIdBottomLeft = layer->data->Get(playerPosBottomLeft.x, playerPosBottomLeft.y);
 
-			if (playerIdTop == 1161)
-			{
-
-			}
-
+			uint playerMidTile = layer->data->Get(playerPosTop.x + 15, playerPosTop.y + 15);
 
 			// Check if player is colliding with the ground
 			if (playerIdBottom == 1161)
@@ -247,14 +242,15 @@ void Player::OnCollision()
 			{
 				blockFall = false;
 			}
+			
 
 			// Check if player collides with the right corner and his bottom middle tile is not collision
 			// Then block the falling and the right movement because he is colliding 
-			if (playerIdBottom != 1161 && playerIdBottomRight == 1161)
+			/*if (playerIdBottom != 1161 && playerIdBottomRight == 1161)
 			{
 				blockFall = false;
 				blockRightMovement = true;
-			}
+			}*/
 			
 			// Check if the player is facing a collision with his right tile
 			// If he does, we dont allow to walk to the right
@@ -287,13 +283,6 @@ void Player::OnCollision()
 	}
 }
 
-
-void Player::SetPosition(float x, float y)
-{
-	position.x = x;
-	position.y = y;
-
-}
 
 void Player::Jump()
 {
@@ -360,4 +349,19 @@ void Player::LoadPushbacks()
 	jumpAnim.speed = 0.02f;
 	jumpAnim.loop = false;
 
+}
+
+
+Point<float> Player::SetPosition(float x, float y)
+{
+	position.x = x;
+	position.y = y;
+
+	return position;
+
+}
+
+Point<float> Player::GetPosition()
+{
+	return position;
 }

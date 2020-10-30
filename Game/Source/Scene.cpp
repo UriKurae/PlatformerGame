@@ -21,10 +21,12 @@ Scene::~Scene()
 {}
 
 // Called before render is available
-bool Scene::Awake()
+bool Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	bool ret = true;
+
+	folder.Create(config.child("folder").child_value());
 
 	return ret;
 }
@@ -32,13 +34,14 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
+
 	// L03: DONE: Load map
 	app->map->Load("Level1.tmx");
-	bgImage = app->tex->Load("Assets/textures/bg.png");
+	//bgImage = app->tex->Load("Assets/textures/bg.png");
 	app->audio->PlayMusic("Assets/audio/music/music_spy.ogg");
 
-	app->player->SetPosition(230, 128);
-
+	playerStartPosition = app->player->SetPosition(230, 128);
+	
 	return true;
 }
 
@@ -76,7 +79,7 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		RestartLevel();
 
-	app->render->DrawTexture(bgImage, 0, 0, NULL);
+	app->render->DrawTexture(sky, 0, 0, NULL);
 	app->map->Draw();
 
 
@@ -104,7 +107,7 @@ bool Scene::CleanUp()
 
 bool Scene::RestartLevel()
 {
-	app->player->SetPosition(140, 450);
+	app->player->SetPosition(playerStartPosition.x, playerStartPosition.y);
 
 	return true;
 }

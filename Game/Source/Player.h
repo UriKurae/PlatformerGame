@@ -1,14 +1,9 @@
 #ifndef __MODULE_PLAYER_H__
 #define __MODULE_PLAYER_H__
 
-
-
 #include "Module.h"
 #include "Animation.h"
 #include "Point.h"
-
-
-
 
 struct SDL_Texture;
 
@@ -40,13 +35,15 @@ public:
 
 	bool Save(pugi::xml_node&) override;
 
-	void SetPosition(float x, float y);
+	Point<float> SetPosition(float x, float y);
+	Point<float> GetPosition();
 
 	void OnCollision();
 
 	void Jump();
 
 	void LoadPushbacks();
+
 public:
 
 private:
@@ -66,7 +63,7 @@ private:
 	float camOffset = position.x;
 
 	// Constant gravity applied to the player
-	float gravity = 0.25f;
+	float gravity = 0.4f;
 
 	// Jump mechanic
 	bool jump = false;
