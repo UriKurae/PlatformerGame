@@ -88,9 +88,9 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		RestartLevel();
 
-	app->render->DrawTexture(sky, 0, 0, NULL);
-	app->render->DrawTexture(clouds, 0, 100, NULL);
-	app->render->DrawTexture(sea, 0, 265, NULL);
+	app->render->DrawTexture(sky, 0, 0, NULL, 0.65f);
+	app->render->DrawTexture(clouds, 0, 180, NULL, 0.75f);
+	app->render->DrawTexture(sea, 0, 395, NULL, 0.85f);
 	
 
 	app->map->Draw();

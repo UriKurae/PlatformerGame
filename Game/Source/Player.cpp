@@ -73,11 +73,11 @@ bool Player::Update(float dt)
 		
 		if (app->input->GetKey(SDL_SCANCODE_W) == KeyState::KEY_REPEAT)
 		{
-			position.y -= 1.0f;
+			position.y -= 3.0f;
 		}
 		if (app->input->GetKey(SDL_SCANCODE_S) == KeyState::KEY_REPEAT)
 		{
-			position.y += 1.0f;
+			position.y += 3.0f;
 		}
 	}
 
@@ -92,6 +92,10 @@ bool Player::Update(float dt)
 		if (jump == true)
 		{
 			currentAnim = &jumpRightAnim;
+		}
+		if (godMode)
+		{
+			position.x += 3.0f;
 		}
 		if (blockRightMovement == false)
 		{
@@ -111,10 +115,15 @@ bool Player::Update(float dt)
 		{
 			currentAnim = &jumpLeftAnim;
 		}
+		if (godMode)
+		{
+			position.x -= 3.0f;
+		}
 		if (blockLeftMovement == false)
 		{
 			position.x -= speedX;
 		}
+		
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
@@ -179,8 +188,10 @@ bool Player::Update(float dt)
 		position.y += gravity;
 	}
 
-	OnCollision();
-	
+	if (godMode == false)
+	{
+		OnCollision();
+	}
 	currentAnim->Update();
 
 	return true;
@@ -243,12 +254,25 @@ void Player::OnCollision()
 
 			uint playerMidTile = layer->data->Get(playerPosTop.x + 15, playerPosTop.y + 15);
 
-			// Check if player is colliding with the ground
-			if (playerIdBottom == 1161 && upwards == false)
+			if (playerIdTop == 1161)
+			{
+				speedY = 0;
+			}
+
+			if (playerIdBottom == 1162 && upwards == false)
 			{
 				blockFall = true;
 				jump = false;
 			}
+			else if (playerIdBottom == 1161 && upwards == false)
+			{
+				blockFall = true;
+				jump = false;
+			}
+
+
+			// Check if player is colliding with the ground
+			
 			else
 			{
 				blockFall = false;
@@ -300,7 +324,7 @@ void Player::Jump()
 	if (speedY > 0)
 	{
 		position.y -= speedY;
-		speedY -= 0.006f;
+		speedY -= 0.01f;
 		upwards = true;
 	}
 	if (speedY <= 0)
@@ -359,7 +383,7 @@ void Player::LoadPushbacks()
 	jumpRightAnim.PushBack({68, 112, 17, 31});
 	jumpRightAnim.PushBack({118, 113, 18, 30});
 
-	jumpRightAnim.speed = 0.02f;
+	jumpRightAnim.speed = 0.025f;
 	jumpRightAnim.loop = false;
 
 
@@ -375,7 +399,7 @@ void Player::LoadPushbacks()
 	jumpLeftAnim.PushBack({ 620,113,17,31 });
 	jumpLeftAnim.PushBack({ 570,114,17,30 });
 	
-	jumpLeftAnim.speed = 0.02f;
+	jumpLeftAnim.speed = 0.025f;
 	jumpLeftAnim.loop = false;
 
 
