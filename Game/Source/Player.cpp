@@ -236,7 +236,7 @@ void Player::OnCollision()
 			uint playerMidTile = layer->data->Get(playerPosTop.x + 15, playerPosTop.y + 15);
 
 			// Check if player is colliding with the ground
-			if (playerIdBottom == 1161 && upwards == false && app->input->GetKey(SDL_SCANCODE_S) != KeyState::KEY_REPEAT)
+			if (playerIdBottom == 1161 && upwards == false)
 			{
 				blockFall = true;
 				jump = false;
