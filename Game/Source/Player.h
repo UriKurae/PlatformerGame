@@ -17,8 +17,6 @@ public:
 	// Destructor
 	virtual ~Player();
 
-	bool Awake(pugi::xml_node& config) override;
-
 	// Called when the module is activated
 	// Loads the necessary textures for the player
 	bool Start() override;
@@ -37,7 +35,8 @@ public:
 
 	bool Save(pugi::xml_node&) override;
 
-	bool BecomeInvisible(int x, int y);
+	Point<float> SetPosition(float x, float y);
+	Point<float> GetPosition();
 
 	void OnCollision();
 
@@ -45,27 +44,15 @@ public:
 
 	void LoadPushbacks();
 
-	// Setters
-	Point<float> SetPosition(float x, float y);
-	
-	// Getters
-	Point<float> GetPosition();
-
-
 public:
 
 private:
-	// Folder where are all the assets
-	SString folder;
 
 	// God Mode
 	bool godMode = false;
 
 	// Position of player
 	Point<float> position;
-
-	//Control if player is alive
-	bool isAlive;
 
 	// Speed to run
 	float speedX = 0.20f;

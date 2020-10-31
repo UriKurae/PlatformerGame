@@ -34,9 +34,6 @@ public:
 
 private:
 
-	SString folder;
-
-
 	SDL_Texture* intro;
 	
 

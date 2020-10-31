@@ -36,9 +36,11 @@ bool Scene::Awake(pugi::xml_node& config)
 bool Scene::Start()
 {
 
+
 	if (this->active == true) 
 	{
 		app->player->Enable();
+		
 	}
 	// L03: DONE: Load map
 	app->map->Load("Level1.tmx");
@@ -86,9 +88,9 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		RestartLevel();
 
-	app->render->DrawTexture(sky, 0, 0, NULL, 0.75f);
-	app->render->DrawTexture(clouds, 0, 100, NULL, 0.75f);
-	app->render->DrawTexture(sea, 0, 265, NULL, 0.75f);
+	app->render->DrawTexture(sky, 0, 0, NULL);
+	app->render->DrawTexture(clouds, 0, 100, NULL);
+	app->render->DrawTexture(sea, 0, 265, NULL);
 	
 
 	app->map->Draw();

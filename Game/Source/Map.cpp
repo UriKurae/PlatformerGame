@@ -330,7 +330,8 @@ bool Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
     {
         // L03: DONE: Load Tileset image
         SString imgSource;
-        imgSource.Create("%s%s", folder, image.attribute("source").value());
+        imgSource.Create("%s%s", folder.GetString(), image.attribute("source").value());
+
         set->texture = app->tex->Load(imgSource.GetString());
         set->texWidth = image.attribute("width").as_int();
         set->texHeight = image.attribute("height").as_int();

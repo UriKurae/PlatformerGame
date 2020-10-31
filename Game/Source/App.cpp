@@ -9,7 +9,6 @@
 #include "Player.h"
 #include "FadeToBlack.h"
 #include "IntroScene.h"
-#include "WinScene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -29,7 +28,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new Audio();
 	intro = new IntroScene();
 	scene = new Scene();
-	winScene = new WinScene();
 	map = new Map();
 	player = new Player();
 	fade = new FadeToBlack();
@@ -42,7 +40,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio, true);
 	AddModule(intro, true);
 	AddModule(scene, false);
-	AddModule(winScene, false);
 	AddModule(map, false);
 	AddModule(player, false);
 	AddModule(fade, true);

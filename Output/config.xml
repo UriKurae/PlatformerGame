@@ -16,13 +16,13 @@
     <resizable value="false"/>
     <fullscreen_window value="false"/>
   </window>
-	
-  <textures>
+
+  <scene>
 	<folder>Assets/textures/</folder>
-  </textures>
-  
+	<images clouds ="clouds.png" fargrounds="far-grounds.png" sea ="sea.png" sky ="sky2.png"/>
+  </scene>
+	
   <map>
 	<folder>Assets/maps/</folder>
   </map>
-	
 </config>

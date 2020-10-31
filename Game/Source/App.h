@@ -21,7 +21,6 @@ class Map;
 class Player;
 class Collisions;
 class FadeToBlack;
-class WinScene;
 
 class App
 {
@@ -98,7 +97,6 @@ public:
 	Player* player;
 	Collisions* collisions;
 	FadeToBlack* fade;
-	WinScene* winScene;
 
 private:
 
