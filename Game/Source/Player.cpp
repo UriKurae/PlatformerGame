@@ -39,7 +39,7 @@ bool Player::Start()
 	LOG("Loading player textures");
 
 	//SString tmp("%s%s", folder, "adventurer-Sheet.png");
-	texture = app->tex->LoadTexture("adventurer-Sheet.png");
+	texture = app->tex->Load("Assets/textures/adventurer-Sheet.png");
 	
 	currentAnim = &idleAnim;
 

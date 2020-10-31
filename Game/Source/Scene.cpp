@@ -44,9 +44,9 @@ bool Scene::Start()
 	app->map->Load("Level1.tmx");
 	//bgImage = app->tex->Load("Assets/textures/bg.png");
 	app->audio->PlayMusic("Assets/audio/music/music_spy.ogg");
-	sky = app->tex->LoadTexture("sky2.png");
-	sea = app->tex->LoadTexture("sea2.png");
-	clouds = app->tex->LoadTexture("clouds2.png");
+	sky = app->tex->Load("Assets/textures/sky2.png");
+	sea = app->tex->Load("Assets/textures/sea2.png");
+	clouds = app->tex->Load("Assets/textures/clouds2.png");
 	playerStartPosition = app->player->SetPosition(230, 128);
 	
 	return true;
