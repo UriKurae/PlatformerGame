@@ -42,6 +42,13 @@ public:
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
 
+	// Set camera position
+	inline void SetCameraPosition(float x, float y)
+	{
+		camera.x = x;
+		camera.y = y;
+	}
+
 	// Load the module
 	bool Load(pugi::xml_node&) override;
 

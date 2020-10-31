@@ -36,6 +36,8 @@ bool IntroScene::Awake(pugi::xml_node& node)
 bool IntroScene::Start()
 {
 	intro = app->tex->Load("Assets/textures/intro.png");
+	
+	app->render->SetCameraPosition(0,0);
 
 	return true;
 }

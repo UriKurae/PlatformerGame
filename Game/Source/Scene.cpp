@@ -40,6 +40,7 @@ bool Scene::Start()
 	if (this->active == true) 
 	{
 		app->player->Enable();
+		
 	}
 	// L03: DONE: Load map
 	app->map->Load("Level1.tmx");
