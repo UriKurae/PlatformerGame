@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Textures.h"
 #include "Window.h"
+#include "FadeToBlack.h"
 
 #include "Map.h"
 #include "List.h"
@@ -26,6 +27,168 @@ Player::~Player()
 {
 }
 
+bool Player::Awake(pugi::xml_node& config)
+{
+	folder.Create(config.child("folder").child_value());
+
+	return true;
+}
+
+bool Player::Start()
+{
+	LOG("Loading player textures");
+
+	//SString tmp("%s%s", folder, "adventurer-Sheet.png");
+	texture = app->tex->LoadTexture("adventurer-Sheet.png");
+	
+	currentAnim = &idleAnim;
+
+	return true;
+}
+
+bool Player::Update(float dt)
+{
+	// Detect player's input
+
+	//if (isAlive)
+	//{
+		if ((speedY == minSpeedY) && (blockFall == true)) speedY = 1.5f;
+
+		if (app->input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
+		{
+			godMode = !godMode;
+			blockFall = !blockFall;
+		}
+		if (godMode == true)
+		{
+
+			if (app->input->GetKey(SDL_SCANCODE_W) == KeyState::KEY_REPEAT)
+			{
+				position.y -= 1.0f;
+			}
+			if (app->input->GetKey(SDL_SCANCODE_S) == KeyState::KEY_REPEAT)
+			{
+				position.y += 1.0f;
+			}
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
+		{
+			if ((currentAnim != &runRightAnim) && (jump == false))
+			{
+				runRightAnim.Reset();
+				currentAnim = &runRightAnim;
+
+			}
+			if (blockRightMovement == false)
+			{
+				position.x += speedX;
+			}
+
+		}
+		if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
+		{
+			if ((currentAnim != &runLeftAnim) && (jump == false))
+			{
+				runLeftAnim.Reset();
+				currentAnim = &runLeftAnim;
+
+			}
+
+			if (blockLeftMovement == false)
+			{
+				position.x -= speedX;
+			}
+
+		}
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
+		{
+			// If jump is false, we shall reset the velocity for the next jump.
+			if (currentAnim != &jumpRightAnim)
+			{
+				jumpRightAnim.Reset();
+				currentAnim = &jumpRightAnim;
+			}
+			if (jump == false) speedY = 1.8f;
+
+			jump = true;
+		}
+
+		if (jump == true)
+		{
+			Jump();
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE &&
+			app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE && jump == false)
+		{
+			if (currentAnim != &idleAnim)
+			{
+				idleAnim.Reset();
+				currentAnim = &idleAnim;
+			}
+		}
+		if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
+			app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
+		{
+			if (currentAnim != &idleAnim)
+			{
+				idleAnim.Reset();
+				currentAnim = &idleAnim;
+			}
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT &&
+			app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
+		{
+			if (currentAnim != &jumpLeftAnim)
+			{
+				jumpLeftAnim.Reset();
+				currentAnim = &jumpLeftAnim;
+			}
+		}
+		if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
+			app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
+		{
+			if (currentAnim != &jumpRightAnim)
+			{
+				jumpRightAnim.Reset();
+				currentAnim = &jumpRightAnim;
+			}
+		}
+
+
+		if (blockFall == false && godMode == false)
+		{
+			position.y += gravity;
+		}
+
+		OnCollision();
+
+		currentAnim->Update();
+	//}
+	//else
+	//{
+		//app->fade->FadingToBlack(this, )
+	//}
+	return true;
+}
+
+bool Player::PostUpdate()
+{
+	SDL_Rect rect = currentAnim->GetCurrentFrame();
+	app->render->DrawTexture(texture,position.x,position.y, &rect);
+	
+	return true;
+}
+
+bool Player::CleanUp()
+{
+	app->tex->UnLoad(texture);
+
+	return true;
+}
+
 bool Player::Load(pugi::xml_node& playerNode)
 {
 	position.x = playerNode.child("position").attribute("positionX").as_float();
@@ -43,157 +206,23 @@ bool Player::Save(pugi::xml_node& playerNode)
 	return true;
 }
 
-
-bool Player::Start()
+bool Player::BecomeInvisible(int x, int y)
 {
-	LOG("Loading player textures");
-
-	// Load the spritesheet for the player
-	texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
-	
-	currentAnim = &idleAnim;
-
-	return true;
-}
-
-bool Player::Update(float dt)
-{
-	// Detect player's input
-
-	if ((speedY == minSpeedY) && (blockFall == true)) speedY = 1.5f;
-
-	if (app->input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
+	bool becomeDead = false;
+	uint auxX, auxY;
+	app->win->GetWindowSize(auxX, auxY);
+	if (x > auxX)
 	{
-		godMode = !godMode;
-		blockFall = !blockFall;
+		becomeDead = true;
+		//isAlive = false;
 	}
-	if (godMode == true)
+	else if (x < auxX || y < auxY)
 	{
-		
-		if (app->input->GetKey(SDL_SCANCODE_W) == KeyState::KEY_REPEAT)
-		{
-			position.y -= 1.0f;
-		}
-		if (app->input->GetKey(SDL_SCANCODE_S) == KeyState::KEY_REPEAT)
-		{
-			position.y += 1.0f;
-		}
+		becomeDead = true;
+		//isAlive = false;
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
-	{
-		if ((currentAnim != &runRightAnim) && (jump == false))
-		{
-			runRightAnim.Reset();
-			currentAnim = &runRightAnim;
-			
-		}
-		if (blockRightMovement == false)
-		{
-			position.x += speedX;
-		}
-
-	}
-	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
-	{
-		if ((currentAnim != &runLeftAnim) && (jump == false))
-		{
-			runLeftAnim.Reset();
-			currentAnim = &runLeftAnim;
-			
-		}
-
-		if (blockLeftMovement == false)
-		{
-			position.x -= speedX;
-		}
-
-	}
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
-	{
-		// If jump is false, we shall reset the velocity for the next jump.
-		if (currentAnim != &jumpRightAnim)
-		{
-			jumpRightAnim.Reset();
-			currentAnim = &jumpRightAnim;
-		}
-		if (jump == false) speedY = 1.8f;
-		
-		jump = true;
-	}
-
-	if (jump == true)
-	{
-		Jump();
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE &&
-		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE && jump == false)
-	{
-		if (currentAnim != &idleAnim)
-		{
-			idleAnim.Reset();
-			currentAnim = &idleAnim;
-		}
-	}
-	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
-		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
-	{
-		if (currentAnim != &idleAnim)
-		{
-			idleAnim.Reset();
-			currentAnim = &idleAnim;
-		}
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT &&
-		app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
-	{
-		if (currentAnim != &jumpLeftAnim)
-		{
-			jumpLeftAnim.Reset();
-			currentAnim = &jumpLeftAnim;
-		}
-	}
-	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
-		app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
-	{
-		if (currentAnim != &jumpRightAnim)
-		{
-			jumpRightAnim.Reset();
-			currentAnim = &jumpRightAnim;
-		}
-	}
-
-	
-	if (blockFall == false && godMode == false)
-	{
-		position.y += gravity;
-	}
-
-	OnCollision();
-	
-	currentAnim->Update();
-
-	return true;
-}
-
-bool Player::PostUpdate()
-{
-
-	SDL_Rect rect = currentAnim->GetCurrentFrame();
-	app->render->DrawTexture(texture,position.x,position.y, &rect);
-	
-		
-
-	return true;
-}
-
-bool Player::CleanUp()
-{
-	app->tex->UnLoad(texture);
-
-	return true;
+	return becomeDead;
 }
 
 

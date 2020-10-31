@@ -23,6 +23,8 @@ bool Textures::Awake(pugi::xml_node& config)
 	LOG("Init Image library");
 	bool ret = true;
 
+	folder.Create(config.child("folder").child_value());
+
 	// Load support for the PNG image format
 	int flags = IMG_INIT_PNG;
 	int init = IMG_Init(flags);
@@ -61,10 +63,11 @@ bool Textures::CleanUp()
 }
 
 // Load new texture from file path
-SDL_Texture* const Textures::Load(const char* path)
+SDL_Texture* const Textures::LoadTexture(const char* path)
 {
+	SString tmp("%s%s", folder.GetString(), path);
 	SDL_Texture* texture = NULL;
-	SDL_Surface* surface = IMG_Load(path);
+	SDL_Surface* surface = IMG_Load(tmp.GetString());
 
 	if(surface == NULL)
 	{
