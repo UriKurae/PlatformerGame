@@ -75,6 +75,7 @@ bool Render::Update(float dt)
 	if (app->intro->active == false)
 	{
 		camera.x = -app->player->GetPosition().x * 1.7f;
+		camera.y = (-app->player->GetPosition().y);
 	}
 	return true;
 }

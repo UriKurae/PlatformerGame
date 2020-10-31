@@ -236,7 +236,7 @@ void Player::OnCollision()
 			uint playerMidTile = layer->data->Get(playerPosTop.x + 15, playerPosTop.y + 15);
 
 			// Check if player is colliding with the ground
-			if (playerIdBottom == 1161 && upwards == false)
+			if (playerIdBottom == 1161 && upwards == false && app->input->GetKey(SDL_SCANCODE_S) != KeyState::KEY_REPEAT)
 			{
 				blockFall = true;
 				jump = false;
@@ -324,7 +324,7 @@ void Player::LoadPushbacks()
 	runRightAnim.PushBack({ 315,47,20,25 });
 	
 
-	runRightAnim.speed = 0.01f;
+	runRightAnim.speed = 0.02f;
 	runRightAnim.loop = true;
 
 	// Left right Animation
@@ -335,7 +335,7 @@ void Player::LoadPushbacks()
 	runLeftAnim.PushBack({ 419,46,20,27 });
 	runLeftAnim.PushBack({ 368,49,20,25 });
 
-	runLeftAnim.speed = 0.01f;
+	runLeftAnim.speed = 0.02f;
 	runLeftAnim.loop = true;
 
 
