@@ -118,6 +118,11 @@ bool Scene::PostUpdate()
 bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
+	app->tex->UnLoad(sky);
+	app->tex->UnLoad(clouds);
+	app->tex->UnLoad(sea);
+
+	app->map->Disable();
 
 	return true;
 }
@@ -148,12 +153,12 @@ void Scene::CheckWin()
 
 			if (playerMidTile == 1166)
 			{
-				app->fade->FadingToBlack(this, (Module*)app->winScene, 30.0f);
+				app->fade->FadingToBlack(this, (Module*)app->winScene, 60.0f);
 				app->player->Disable();
 			}
 			if (playerMidTile == 1170)
 			{
-				app->fade->FadingToBlack(this, (Module*)app->deadScene, 30.0f);
+				app->fade->FadingToBlack(this, (Module*)app->deadScene, 60.0f);
 				app->player->Disable();
 			}
 
@@ -161,5 +166,6 @@ void Scene::CheckWin()
 			layer = layer->next;
 
 	}
+	
 }
 	

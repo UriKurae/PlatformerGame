@@ -69,6 +69,9 @@ bool IntroScene::PostUpdate()
 
 bool IntroScene::CleanUp()
 {
-
+	
+	app->tex->UnLoad(intro);
+	app->tex->UnLoad(logo);
+	
 	return true;
 }

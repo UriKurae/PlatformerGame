@@ -89,7 +89,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Collider.cpp" />
     <ClCompile Include="Source\DeadScene.cpp" />
     <ClCompile Include="Source\FadeToBlack.cpp" />
     <ClCompile Include="Source\IntroScene.cpp" />
@@ -105,7 +104,6 @@
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\WinScene.cpp" />
     <ClInclude Include="Source\Animation.h" />
-    <ClInclude Include="Source\Collider.h" />
     <ClInclude Include="Source\DeadScene.h" />
     <ClInclude Include="Source\FadeToBlack.h" />
     <ClInclude Include="Source\IntroScene.h" />

@@ -3,6 +3,8 @@
 #include "Render.h"
 #include "Player.h"
 #include "IntroScene.h"
+#include "DeadScene.h"
+#include "WinScene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -72,11 +74,13 @@ bool Render::PreUpdate()
 
 bool Render::Update(float dt)
 {
-	if (app->intro->active == false)
+	if (app->player->active == true)
 	{
 		camera.x = -app->player->GetPosition().x * 1.7f;
 		camera.y = (-app->player->GetPosition().y);
-	}
+	} 
+	
+
 	return true;
 }
 

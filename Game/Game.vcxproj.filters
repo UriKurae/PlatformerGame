@@ -17,7 +17,6 @@
     </ClCompile>
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Player.cpp" />
-    <ClCompile Include="Source\Collider.cpp" />
     <ClCompile Include="Source\FadeToBlack.cpp" />
     <ClCompile Include="Source\IntroScene.cpp" />
     <ClCompile Include="Source\WinScene.cpp" />
@@ -61,7 +60,6 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Player.h" />
-    <ClInclude Include="Source\Collider.h" />
     <ClInclude Include="Source\FadeToBlack.h" />
     <ClInclude Include="Source\IntroScene.h" />
     <ClInclude Include="Source\WinScene.h" />

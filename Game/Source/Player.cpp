@@ -50,9 +50,11 @@ bool Player::Start()
 
 	// Load the spritesheet for the player
 	texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
-
-	
 	currentAnim = &idleAnim;
+
+	speedX = 0.35f;
+	speedY = 1.5f;
+	minSpeedY = -0.05f;
 
 	return true;
 }
