@@ -35,7 +35,9 @@ public:
 private:
 
 	SDL_Texture* intro;
-	
+	SDL_Texture* logo;
+
+	float count;
 
 };
 

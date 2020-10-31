@@ -19,7 +19,7 @@
 IntroScene::IntroScene()
 {
 	name.Create("introScene");
-
+	count = 10000;
 }
 
 IntroScene::~IntroScene()
@@ -36,7 +36,7 @@ bool IntroScene::Awake(pugi::xml_node& node)
 bool IntroScene::Start()
 {
 	intro = app->tex->Load("Assets/textures/intro.png");
-	
+	logo = app->tex->Load("Assets/textures/logo.png");
 	app->render->SetCameraPosition(0,0);
 
 	return true;
@@ -45,7 +45,7 @@ bool IntroScene::Start()
 bool IntroScene::Update(float dt)
 {
 	
-	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) 
+	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN && count == 0) 
 	{ 
 		app->fade->FadingToBlack(this, app->scene, 60.0f);
 	}
@@ -56,8 +56,17 @@ bool IntroScene::Update(float dt)
 // Update: draw background
 bool IntroScene::PostUpdate()
 {
-
-	app->render->DrawTexture(intro,0,0,NULL);
+	count -= 0.5f;
+	if (count <= 10000 && count > 0)
+	{
+		app->render->DrawTexture(logo, 150, 0, NULL);
+	}
+	else
+	{
+		app->render->DrawTexture(intro, 0, 0, NULL);
+		count = 0;
+	}
+	
 	return true;
 }
 

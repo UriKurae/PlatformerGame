@@ -89,12 +89,16 @@ bool Player::Update(float dt)
 			currentAnim = &runRightAnim;
 			
 		}
+		if (jump == true)
+		{
+			currentAnim = &jumpRightAnim;
+		}
 		if (blockRightMovement == false)
 		{
 			position.x += speedX;
 		}
-
 	}
+
 	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
 	{
 		if ((currentAnim != &runLeftAnim) && (jump == false))
@@ -103,13 +107,16 @@ bool Player::Update(float dt)
 			currentAnim = &runLeftAnim;
 			
 		}
-
+		if(jump == true)
+		{
+			currentAnim = &jumpLeftAnim;
+		}
 		if (blockLeftMovement == false)
 		{
 			position.x -= speedX;
 		}
-
 	}
+
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
 	{
 		// If jump is false, we shall reset the velocity for the next jump.
