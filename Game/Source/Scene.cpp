@@ -8,6 +8,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Scene.h"
+#include "FadeToBlack.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -88,13 +89,7 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		RestartLevel();
 
-	app->render->DrawTexture(sky, 0, 0, NULL, 0.65f);
-	app->render->DrawTexture(clouds, 0, 180, NULL, 0.75f);
-	app->render->DrawTexture(sea, 0, 395, NULL, 0.85f);
-	
-
-	app->map->Draw();
-
+	CheckWin();
 
 	return true;
 }
@@ -106,6 +101,15 @@ bool Scene::PostUpdate()
 
 	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
+
+
+	app->render->DrawTexture(sky, 0, 0, NULL, 0.65f);
+	app->render->DrawTexture(clouds, 0, 180, NULL, 0.75f);
+	app->render->DrawTexture(sea, 0, 395, NULL, 0.85f);
+
+
+	app->map->Draw();
+
 
 	return ret;
 }
@@ -124,3 +128,38 @@ bool Scene::RestartLevel()
 
 	return true;
 }
+
+
+void Scene::CheckWin()
+{
+
+	ListItem<MapLayer*>* layer = app->map->data.layers.start;
+
+	iPoint playerPosTop = app->map->WorldToMap(app->player->GetPosition().x+8, app->player->GetPosition().y+15);
+
+	while (layer != NULL)
+	{
+
+		if (layer->data->name == "HitBoxes")
+		{
+
+
+			uint playerMidTile = layer->data->Get(playerPosTop.x, playerPosTop.y);
+
+			if (playerMidTile == 1166)
+			{
+				app->fade->FadingToBlack(this, (Module*)app->winScene, 30.0f);
+				app->player->Disable();
+			}
+			if (playerMidTile == 1170)
+			{
+				app->fade->FadingToBlack(this, (Module*)app->deadScene, 30.0f);
+				app->player->Disable();
+			}
+
+		}
+			layer = layer->next;
+
+	}
+}
+	

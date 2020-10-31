@@ -269,16 +269,12 @@ void Player::OnCollision()
 				blockFall = true;
 				jump = false;
 			}
-
-
 			// Check if player is colliding with the ground
-			
 			else
 			{
 				blockFall = false;
 			}
 			
-
 			// Check if player collides with the right corner and his bottom middle tile is not collision
 			// Then block the falling and the right movement because he is colliding 
 			/*if (playerIdBottom != 1161 && playerIdBottomRight == 1161)

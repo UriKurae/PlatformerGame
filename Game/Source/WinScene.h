@@ -1,18 +1,17 @@
-#ifndef __SCENE_H__
-#define __SCENE_H__
+#pragma once
 
 #include "Module.h"
 
 struct SDL_Texture;
 
-class Scene : public Module
+class WinScene : public Module
 {
 public:
 
-	Scene();
+	WinScene();
 
 	// Destructor
-	virtual ~Scene();
+	virtual ~WinScene();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node& config) override;
@@ -32,21 +31,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	// Restart level
-	bool RestartLevel();
-
-	// Check if player won
-	void CheckWin();
-	
 
 private:
 
-	SString folder;
-
-	Point<float> playerStartPosition;
-	SDL_Texture* sky;
-	SDL_Texture* clouds;
-	SDL_Texture* sea;
+	SDL_Texture* winTexture;
 };
-
-#endif // __SCENE_H__

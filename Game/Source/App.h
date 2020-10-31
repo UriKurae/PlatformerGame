@@ -17,10 +17,13 @@ class Textures;
 class Audio;
 class IntroScene;
 class Scene;
+class WinScene;
 class Map;
 class Player;
 class Collisions;
 class FadeToBlack;
+class DeadScene;
+
 
 class App
 {
@@ -93,6 +96,8 @@ public:
 	Audio* audio;
 	IntroScene* intro;
 	Scene* scene;
+	WinScene* winScene;
+	DeadScene* deadScene;
 	Map* map;
 	Player* player;
 	Collisions* collisions;
