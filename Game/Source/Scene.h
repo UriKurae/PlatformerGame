@@ -38,6 +38,8 @@ public:
 	// Check if player won
 	void CheckWin();
 	
+	// visualize all Colliders
+	bool ShowColliders();
 
 private:
 

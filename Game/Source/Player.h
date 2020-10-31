@@ -86,11 +86,6 @@ private:
 	Animation runLeftAnim;
 	Animation jumpRightAnim;
 	Animation jumpLeftAnim;
-
-	
-
-
-
 };
 
 #endif //!__MODULE_PLAYER_H__

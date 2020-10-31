@@ -89,6 +89,15 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		RestartLevel();
 
+	if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	{
+		
+		app->map->viewHitboxes = !app->map->viewHitboxes;
+		
+		//ShowColliders();
+	}
+
+
 	CheckWin();
 
 	return true;
@@ -168,4 +177,32 @@ void Scene::CheckWin()
 	}
 	
 }
+bool Scene::ShowColliders()
+{
+	ListItem<MapLayer*>* layer = app->map->data.layers.start;
+	ListItem<Properties::Property*>* property;
+	while (layer != NULL)
+	{
+		if (layer->data->name == "HitBoxes")
+		{
+			property = layer->data->properties.list.start;
+			while (property != NULL)
+			{
+				if (property->data->value == 1 && property->data->name == "Nodraw")
+				{
+					property->data->value = 0;
+				}
+				else if(property->data->value == 0 && property->data->name == "Nodraw")
+				{
+					property->data->value = 1;
+				}
+				property = property->next;
+			}
+			break;
+		}
+		layer = layer->next;
+	}
+
 	
+	return true;
+}

@@ -25023,7 +25023,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="2" name="HitBoxes" width="250" height="50" opacity="0.5">
+ <layer id="2" name="HitBoxes" width="250" height="50" opacity="0.46">
   <properties>
    <property name="Navigation" type="int" value="0"/>
    <property name="Nodraw" type="int" value="1"/>

@@ -64,6 +64,7 @@ struct MapLayer
     int width;
     int height;
     uint* data;
+    
 
     Properties properties;
 
@@ -136,6 +137,7 @@ private:
 public:
 
     MapData data;
+    bool viewHitboxes = false;
 
 private:
 

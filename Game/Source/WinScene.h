@@ -17,19 +17,19 @@ public:
 	bool Awake(pugi::xml_node& config) override;
 
 	// Called before the first frame
-	bool Start();
+	bool Start() override;
 
 	// Called before all Updates
-	bool PreUpdate();
+	bool PreUpdate() override;
 
 	// Called each loop iteration
-	bool Update(float dt);
+	bool Update(float dt) override;
 
 	// Called before all Updates
-	bool PostUpdate();
+	bool PostUpdate() override;
 
 	// Called before quitting
-	bool CleanUp();
+	bool CleanUp() override;
 
 
 private:

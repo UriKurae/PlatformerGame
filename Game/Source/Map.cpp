@@ -62,7 +62,7 @@ void Map::Draw()
     {
         int noDraw = layer->data->properties.GetProperty("Nodraw");
 
-        if (noDraw == 0)
+        if (noDraw == 0 || viewHitboxes == true)
         {
             for (int y = 0; y < data.height; ++y)
             {
