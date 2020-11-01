@@ -5,6 +5,8 @@
 This is a project for the Videogame Development subject from CITM.
 It is a 2D Platformer videogame.
 
+In this game you will play as Zed, a brave adventurer fighting for his fate. On the journey you will have to fight evil creatures.
+
 ## Key Features
 - Player movement.
 - Double jump.
@@ -26,6 +28,7 @@ It is a 2D Platformer videogame.
  ### Debug keys
  
  - F1 -> Start from the first level.
+ - F2 -> Start from the second level.
  - F3 -> Start from the begginig of the first level.
  - F5 -> Save the current game state.
  - F6 -> Load previous state.
