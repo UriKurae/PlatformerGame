@@ -22,8 +22,8 @@ In this game you will play as Zed, a brave adventurer fighting for his fate. On 
  - Move the player with WASD.
  - Jump with Space.
  - Press Space while in the air to do a double jump.
- - Press numpad + or - to raise or lower the volume music.
- - Press the escape key to quit the game.
+ - Press numpad + or - to raise or lower the music volume.
+ - Press the Escape key to quit the game.
  
  ### Debug keys
  
