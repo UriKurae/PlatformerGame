@@ -4,16 +4,17 @@
   <window />
   <textures />
   <audio>
-    <music_volume value="100" />
+    <music_volume value="24" />
   </audio>
   <introScene />
   <scene />
+  <winScene />
+  <DeadScene />
   <map />
   <player>
-    <position positionX="412.752563" positionY="243.198242" />
+    <position positionX="501.25473" positionY="243.199799" />
   </player>
-  <:anonymous />
-  <FADE />
+  <fade />
   <renderer>
     <camera x="55" />
   </renderer>

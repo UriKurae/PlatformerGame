@@ -57,8 +57,8 @@ bool Audio::Awake(pugi::xml_node& config)
 	}
 	else
 	{
-		musicVolume = config.child("music").attribute("value").as_int(100);
-		fxVolume = config.child("fx").attribute("value").as_int(100);
+		musicVolume = config.child("music_volume").attribute("value").as_int();
+		fxVolume = config.child("fx_volume").attribute("value").as_int();
 	}
 	
 	return ret;
@@ -188,37 +188,23 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 
 bool Audio::Save(pugi::xml_node& audioNode)
 {
-	audioNode.append_child("music_volume");
-	audioNode.child("music_volume").append_attribute("value").set_value(musicVolume);
+	pugi::xml_node tmp = audioNode.append_child("music_volume");
+	tmp.append_attribute("value").set_value(musicVolume);
 
 	return true;
 }
 
 bool Audio::Load(pugi::xml_node& audioNode)
 {
-	musicVolume = audioNode.child("volume").attribute("value").as_int(100);
-
+	musicVolume = audioNode.child("music_volume").attribute("value").as_int();
+	Mix_VolumeMusic(musicVolume);
+	
 	return true;
 }
 
-void Audio::VolumeControl()
+void Audio::VolumeControl(int index)
 {
-	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS))
-	{
-		if (musicVolume >= 125)
-		{
-			musicVolume = 128;
-			LOG("Max music volume reached");
-		}
-		else
-		{
-			musicVolume += 4;
-			Mix_VolumeMusic(musicVolume);
-			LOG("%i", musicVolume);
-		}
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS))
+	if (index < 0)
 	{
 		if (musicVolume <= 0)
 		{
@@ -227,7 +213,23 @@ void Audio::VolumeControl()
 		}
 		else
 		{
-			musicVolume -= 4;
+			musicVolume += index;
+			Mix_VolumeMusic(musicVolume);
+			LOG("%i", musicVolume);
+		}
+
+	}
+
+	if (index > 0)
+	{
+		if (musicVolume >= 125)
+		{
+			musicVolume = 128;
+			LOG("Max music volume reached");
+		}
+		else
+		{
+			musicVolume += index;
 			Mix_VolumeMusic(musicVolume);
 			LOG("%i", musicVolume);
 		}

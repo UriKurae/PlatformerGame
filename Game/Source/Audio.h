@@ -39,7 +39,7 @@ public:
 	bool Load(pugi::xml_node&) override;
 
 	// Control the volume
-	void VolumeControl();
+	void VolumeControl(int index);
 
 private:
 

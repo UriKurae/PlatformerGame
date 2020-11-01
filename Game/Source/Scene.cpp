@@ -49,6 +49,7 @@ bool Scene::Start()
 		clouds = app->tex->Load("Assets/textures/clouds2.png");
 		playerStartPosition = app->player->SetPosition(230, 230);
 
+		app->map->Enable();
 	}
 	
 	
@@ -72,31 +73,17 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		app->RequestSaveGame();
 
-	if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		app->render->camera.y -= 1;
-
-	if(app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		app->render->camera.y += 1;
-
-	if(app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		app->render->camera.x -= 1;
-
-	if(app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		app->render->camera.x += 1;
-
-	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN || app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
-		app->audio->VolumeControl();
-
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		RestartLevel();
 
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-	{
-		
 		app->map->viewHitboxes = !app->map->viewHitboxes;
-		
-		//ShowColliders();
-	}
+
+	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
+		app->audio->VolumeControl(-4);
+	
+	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KeyState::KEY_DOWN)
+		app->audio->VolumeControl(4);
 
 
 	CheckWin();
@@ -113,12 +100,12 @@ bool Scene::PostUpdate()
 		ret = false;
 
 
-	app->render->DrawTexture(sky, 0, 0, NULL, 0.65f);
+	app->render->DrawTexture(sky, 0, -10, NULL, 0.65f);
 	app->render->DrawTexture(clouds, 0, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, 0, 395, NULL, 0.85f);
 
-
-	app->map->Draw();
+	if(app->map->active == true)
+		app->map->Draw();
 
 
 	return ret;
@@ -157,18 +144,16 @@ void Scene::CheckWin()
 
 		if (layer->data->name == "HitBoxes")
 		{
-
-
 			uint playerMidTile = layer->data->Get(playerPosTop.x, playerPosTop.y);
 
 			if (playerMidTile == 1166)
 			{
-				app->fade->FadingToBlack(this, (Module*)app->winScene, 60.0f);
+				app->fade->FadingToBlack(this, (Module*)app->winScene, 500.0f);
 				app->player->Disable();
 			}
 			if (playerMidTile == 1170)
 			{
-				app->fade->FadingToBlack(this, (Module*)app->deadScene, 60.0f);
+				app->fade->FadingToBlack(this, (Module*)app->deadScene, 500.0f);
 				app->player->Disable();
 			}
 

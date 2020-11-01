@@ -45,7 +45,7 @@ bool DeadScene::Update(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN)
 	{
-		app->fade->FadingToBlack(this, app->intro, 30.0f);
+		app->fade->FadingToBlack(this, app->intro, 1000.0f);
 	}
 
 	return true;
@@ -53,14 +53,19 @@ bool DeadScene::Update(float dt)
 
 bool DeadScene::PostUpdate()
 {
+	bool ret = true;
+
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		ret = false;
 
 	app->render->DrawTexture(deadTexture, 0, 0, NULL);
 
-	return true;
+	return ret;
 }
 
 bool DeadScene::CleanUp()
 {
 	app->tex->UnLoad(deadTexture);
+
 	return true;
 }

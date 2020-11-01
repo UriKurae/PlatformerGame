@@ -35,6 +35,7 @@ bool IntroScene::Start()
 {
 	intro = app->tex->Load("Assets/textures/intro.png");
 	logo = app->tex->Load("Assets/textures/logo.png");
+	
 	if (this->active == true)
 	{
 		app->audio->PlayMusic("Assets/audio/music/track_1.ogg");
@@ -47,11 +48,15 @@ bool IntroScene::Start()
 
 bool IntroScene::Update(float dt)
 {
+	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
+		app->audio->VolumeControl(-4);
+
+	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KeyState::KEY_DOWN)
+		app->audio->VolumeControl(4);
 	
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN && count == 0) 
-	{ 
-		app->fade->FadingToBlack(this, app->scene, 60.0f);
-	}
+		app->fade->FadingToBlack(this, app->scene, 1000.0f);
+	
 	
 	return true;
 }
@@ -59,6 +64,12 @@ bool IntroScene::Update(float dt)
 // Update: draw background
 bool IntroScene::PostUpdate()
 {
+	bool ret = true;
+
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		ret = false;
+
+
 	count -= 0.5f;
 	if (count <= 10000 && count > 0)
 	{
@@ -69,8 +80,8 @@ bool IntroScene::PostUpdate()
 		app->render->DrawTexture(intro, 0, 0, NULL);
 		count = 0;
 	}
-	
-	return true;
+
+	return ret;
 }
 
 bool IntroScene::CleanUp()

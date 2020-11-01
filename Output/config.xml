@@ -4,6 +4,11 @@
     <title>Game Development Testbed</title>
     <organization>UPC</organization>
   </app>
+
+  <audio>
+	<music_volume value="50"/>
+	<fx_volume value="50" />
+  </audio>
 	
   <renderer>
     <vsync value="false"/>
