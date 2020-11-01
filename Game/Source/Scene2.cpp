@@ -46,10 +46,10 @@ bool Scene2::Start()
 		app->map->Enable();
 		app->map->Load("Level2.tmx");
 
-		sky = app->tex->Load("Assets/textures/sky2.png");
-		sea = app->tex->Load("Assets/textures/sea2.png");
-		clouds = app->tex->Load("Assets/textures/clouds2.png");
-		//deadOnScene = false;
+		sky = app->tex->Load("Assets/textures/sky.png");
+		sea = app->tex->Load("Assets/textures/sea.png");
+		clouds = app->tex->Load("Assets/textures/clouds.png");
+	
 
 		if (app->player->loadedGame == true && app->player->currentLevel == 2 && deadOnScene == false)
 		{

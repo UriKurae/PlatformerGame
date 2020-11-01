@@ -47,9 +47,9 @@ bool Scene::Start()
 		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
 		app->map->Load("Level1.tmx");
 
-		sky = app->tex->Load("Assets/textures/sky2.png");
-		sea = app->tex->Load("Assets/textures/sea2.png");
-		clouds = app->tex->Load("Assets/textures/clouds2.png");
+		sky = app->tex->Load("Assets/textures/sky.png");
+		sea = app->tex->Load("Assets/textures/sea.png");
+		clouds = app->tex->Load("Assets/textures/clouds.png");
 
 		playerStartPosition = app->player->SetPosition(144, 64);
 

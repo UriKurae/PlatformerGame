@@ -97,9 +97,6 @@ bool FadeToBlack::FadingToBlack(Module* moduleToDisable, Module* moduleToEnable,
 
 		ret = true;
 	}
-
-	// app->audio->PlayMusic("Assets/Sound/Soundtracks/Silence.ogg", 0.0f);
-
 	return ret;
 }
 

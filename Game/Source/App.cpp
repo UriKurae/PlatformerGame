@@ -71,7 +71,7 @@ App::~App()
 
 	modules.clear();
 
-	//configFile.reset();
+	
 }
 
 void App::AddModule(Module* module, bool active)
@@ -86,7 +86,7 @@ bool App::Awake()
 	pugi::xml_document configFile;
 	pugi::xml_node config;
 	pugi::xml_node configApp;
-	// TODO 3: Load config from XML
+	
 	bool ret = false;
 	config = LoadConfig(configFile);
 
@@ -95,7 +95,7 @@ bool App::Awake()
 		ret = true;
 		configApp = config.child("app");
 
-		// L01: DONE 4: Read the title from the config file
+		
 		title.Create(configApp.child("title").child_value());
 		organization.Create(configApp.child("organization").child_value());
 	}
@@ -107,10 +107,7 @@ bool App::Awake()
 
 		while(item != NULL && ret == true)
 		{
-			// TODO 5: Add a new argument to the Awake method to receive a pointer to an xml node.
-			// If the section with the module name exists in config.xml, fill the pointer with the valid xml_node
-			// that can be used to read all variables for that module.
-			// Send nullptr if the node does not exist in config.xml
+		
 			ret = item->data->Awake(config.child(item->data->name.GetString()));
 			item = item->next;
 		}
@@ -178,7 +175,7 @@ void App::PrepareUpdate()
 // ---------------------------------------------
 void App::FinishUpdate()
 {
-	// L02: TODO 1: This is a good place to call Load / Save methods
+
 	if (loadRequest)
 		Load();
 	if (saveRequest)
@@ -303,8 +300,7 @@ void App::RequestSaveGame()
 	saveRequest = true;
 }
 
-// L02: TODO 5: Create a method to actually load an xml file
-// then call all the modules to load themselves
+
 bool App::Load()
 {
 	loadRequest = false;
@@ -336,7 +332,6 @@ bool App::Load()
 	return true;
 }
 
-// L02: TODO 7: Implement the xml save method for current state
 bool App::Save()
 {
 	LOG("Saving Results!!");
