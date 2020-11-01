@@ -131,19 +131,31 @@ bool Player::Update(float dt)
 		}
 		
 	}
+	
 
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
 	{
-		// If jump is false, we shall reset the velocity for the next jump.
+		
 		if (currentAnim != &jumpRightAnim)
 		{
 			jumpRightAnim.Reset();
 			currentAnim = &jumpRightAnim;
-			
 		}
-		if (jump == false) speedY = 1.8f;
+		if (jumpsLeft == 1)
+		{
+			jumpRightAnim.Reset();
+		}
+
+		// We shall reset the velocity each time we can jump.
+		if (jumpsLeft > 0)
+		{
+			speedY = 1.8f;
+			jumpsLeft--;
+			jump = true;
+		}
+	
 		
-		jump = true;
+		
 	}
 
 	if (jump == true)
@@ -189,10 +201,33 @@ bool Player::Update(float dt)
 		}
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE &&
+		app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_IDLE &&
+		app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE && isFalling == false
+		)
+	{
+		if (currentAnim != &idleAnim)
+		{
+			idleAnim.Reset();
+			currentAnim = &idleAnim;
+		}
+	}
+
+	if (isFalling == true)
+	{
+		if (currentAnim != &jumpRightAnim)
+		{
+			
+			fallingAnim.Reset();
+			currentAnim = &fallingAnim;
+		}
+	}
 	
 	if (blockFall == false && godMode == false)
 	{
 		position.y += gravity;
+		isFalling = true;
+		
 	}
 
 	if (godMode == false)
@@ -269,12 +304,16 @@ void Player::OnCollision()
 			if (playerIdBottom == 1162 && upwards == false)
 			{
 				blockFall = true;
+				isFalling = false;
 				jump = false;
+				jumpsLeft = 2;
 			}
 			else if (playerIdBottom == 1161 && upwards == false)
 			{
 				blockFall = true;
 				jump = false;
+				isFalling = false;
+				jumpsLeft = 2;
 			}
 			// Check if player is colliding with the ground
 			else
@@ -347,7 +386,7 @@ void Player::LoadPushbacks()
 	idleAnim.PushBack({ 114,5,19,30 });
 	idleAnim.PushBack({ 162,6,20,29 });
 
-	idleAnim.speed = 0.0007f;
+	idleAnim.speed = 0.008f;
 	idleAnim.loop = true;
 
 	// Run Right Animation
@@ -405,6 +444,10 @@ void Player::LoadPushbacks()
 	jumpLeftAnim.speed = 0.025f;
 	jumpLeftAnim.loop = false;
 
+	// Falling anim
+
+	fallingAnim.PushBack({ 68,111,17,31 });
+	fallingAnim.PushBack({ 117,112,17,30 });
 
 }
 

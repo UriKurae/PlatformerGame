@@ -70,6 +70,8 @@ private:
 	// Jump mechanic
 	bool jump = false;
 	bool upwards = false;
+	bool isFalling = false;
+	int jumpsLeft = 0;
 
 	// Block movements
 	bool blockLeftMovement = false;
@@ -88,7 +90,7 @@ private:
 	Animation runLeftAnim;
 	Animation jumpRightAnim;
 	Animation jumpLeftAnim;
-
+	Animation fallingAnim;
 	
 
 };
