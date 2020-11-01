@@ -4,10 +4,11 @@
 #include "Audio.h"
 #include "Render.h"
 #include "Window.h"
+#include "Scene.h"
 #include "Scene2.h"
+#include "DeadScene.h"
 #include "Map.h"
 #include "Player.h"
-#include "Scene.h"
 #include "FadeToBlack.h"
 
 #include "Defs.h"
@@ -154,6 +155,7 @@ void Scene2::CheckWin()
 			}
 			if (playerMidTile == 1170)
 			{
+				app->deadScene->lastScene = this;
 				app->fade->FadingToBlack(this, (Module*)app->deadScene, 500.0f);
 				app->player->Disable();
 			}

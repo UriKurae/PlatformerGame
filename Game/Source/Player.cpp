@@ -106,9 +106,6 @@ bool Player::Update(float dt)
 		}
 		if (blockRightMovement == false)
 		{
-			if(jump == false)
-				app->audio->PlayFx(stepFx, 1);
-
 			position.x += speedX;
 		}
 		direction = "right";
@@ -132,7 +129,6 @@ bool Player::Update(float dt)
 		}
 		if (blockLeftMovement == false)
 		{
-			app->audio->PlayFx(stepFx);
 			position.x -= speedX;
 		}
 		direction = "left";

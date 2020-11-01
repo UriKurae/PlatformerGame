@@ -31,6 +31,9 @@ public:
 	// Called before quitting
 	bool CleanUp() override;
 
+public:
+
+	Module* lastScene;
 
 private:
 

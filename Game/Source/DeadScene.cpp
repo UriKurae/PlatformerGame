@@ -47,13 +47,13 @@ bool DeadScene::Update(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN)
 	{
-		if (app->scene->active == true)
+		if (lastScene == app->scene)
 		{
-			app->fade->FadingToBlack(this, app->intro, 1000.0f);
+			app->fade->FadingToBlack(this, app->intro, 500.0f);		
 		}
-		else if (app->scene2->active == true)
+		else if (lastScene == app->scene2)
 		{
-			app->fade->FadingToBlack(this, app->scene2, 1000.0f);
+			app->fade->FadingToBlack(this, lastScene, 500.0f);
 		}
 	}
 
