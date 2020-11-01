@@ -7,8 +7,6 @@
 
 #include "PugiXml\src\pugixml.hpp"
 
-// L03: TODO 2: Create a struct to hold information for a TileSet
-// Ignore Terrain Types and Tile Types for now, but we want the image!
 struct TileSet
 {
     SString name;
@@ -49,10 +47,10 @@ struct Properties
 
     ~Properties()
     {
-        //...
+        
     }
 
-    // L06: TODO 7: Method to ask for the value of a custom property
+    
     int GetProperty(const char* name, int default_value = 0) const;
 
     List<Property*> list;
@@ -82,7 +80,7 @@ struct MapLayer
     }
 };
 
-// L03: TODO 1: Create a struct needed to hold the information to Map node
+
 struct MapData
 {
     int width;

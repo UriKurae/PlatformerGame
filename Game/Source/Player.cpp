@@ -174,6 +174,7 @@ bool Player::Update(float dt)
 		if (jumpsLeft == 1)
 		{
 			jumpRightAnim.Reset();
+			jumpLeftAnim.Reset();
 		}
 
 		// We shall reset the velocity each time we can jump.
