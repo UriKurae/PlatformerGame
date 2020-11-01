@@ -107,6 +107,7 @@ bool Player::Update(float dt)
 		{
 			position.x += speedX;
 		}
+		direction = "right";
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
@@ -129,7 +130,7 @@ bool Player::Update(float dt)
 		{
 			position.x -= speedX;
 		}
-		
+		direction = "left";
 	}
 	
 
@@ -173,7 +174,7 @@ bool Player::Update(float dt)
 		}
 	}
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
-		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
+		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT && jump == false)
 	{
 		if (currentAnim != &idleAnim)
 		{
@@ -190,6 +191,7 @@ bool Player::Update(float dt)
 			jumpLeftAnim.Reset();
 			currentAnim = &jumpLeftAnim;
 		}
+		direction = "left";
 	}
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
 		app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
@@ -199,6 +201,7 @@ bool Player::Update(float dt)
 			jumpRightAnim.Reset();
 			currentAnim = &jumpRightAnim;
 		}
+		direction = "right";
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE &&
@@ -215,9 +218,14 @@ bool Player::Update(float dt)
 
 	if (isFalling == true)
 	{
-		if (currentAnim != &jumpRightAnim)
+		if (direction == "right" && currentAnim != &jumpRightAnim)
 		{
 			
+			fallingAnim.Reset();
+			currentAnim = &fallingAnim;
+		}
+		if (direction == "left" && currentAnim != &jumpLeftAnim)
+		{
 			fallingAnim.Reset();
 			currentAnim = &fallingAnim;
 		}

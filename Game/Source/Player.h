@@ -56,6 +56,9 @@ private:
 	// Position of player
 	Point<float> position;
 
+	// Direction player is facing at
+	SString direction = "right";
+
 	// Speed to run
 	float speedX;
 	float speedY;
