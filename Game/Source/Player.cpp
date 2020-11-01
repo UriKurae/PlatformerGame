@@ -58,6 +58,7 @@ bool Player::Start()
 		speedX = 0.35f;
 		speedY = 1.5f;
 		minSpeedY = -0.05f;
+
 	}
 
 	return true;
@@ -105,6 +106,9 @@ bool Player::Update(float dt)
 		}
 		if (blockRightMovement == false)
 		{
+			if(jump == false)
+				app->audio->PlayFx(stepFx, 1);
+
 			position.x += speedX;
 		}
 		direction = "right";
@@ -128,6 +132,7 @@ bool Player::Update(float dt)
 		}
 		if (blockLeftMovement == false)
 		{
+			app->audio->PlayFx(stepFx);
 			position.x -= speedX;
 		}
 		direction = "left";
@@ -155,8 +160,6 @@ bool Player::Update(float dt)
 			jump = true;
 		}
 	
-		
-		
 	}
 
 	if (jump == true)
@@ -271,7 +274,7 @@ void Player::OnCollision()
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
 	iPoint playerPosTop = app->map->WorldToMap(position.x + 2, position.y - 3);
-	iPoint playerPosBottom = app->map->WorldToMap(position.x + 10, position.y + 29);
+	iPoint playerPosBottom = app->map->WorldToMap(position.x + 8, position.y + 30);
 	
 	iPoint playerPosRight = app->map->WorldToMap(position.x + 10, position.y + 15);
 	iPoint playerPosLeft = app->map->WorldToMap(position.x - 3, position.y + 15);
@@ -302,13 +305,15 @@ void Player::OnCollision()
 			uint playerIdBottomRight = layer->data->Get(playerPosBottomRight.x, playerPosBottomRight.y);
 			uint playerIdBottomLeft = layer->data->Get(playerPosBottomLeft.x, playerPosBottomLeft.y);
 
-			uint playerMidTile = layer->data->Get(playerPosTop.x + 15, playerPosTop.y + 15);
+			uint playerMidTile = layer->data->Get(playerPosTop.x + 15, playerPosTop.y + 20);
 
+			// Block the player speed when collides with ceiling
 			if (playerIdTop == 1161)
 			{
 				speedY = 0;
 			}
 
+			// Detect platform collision and ignore it if hes jumping upwards
 			if (playerIdBottom == 1162 && upwards == false)
 			{
 				blockFall = true;
@@ -331,16 +336,19 @@ void Player::OnCollision()
 			
 			// Check if player collides with the right corner and his bottom middle tile is not collision
 			// Then block the falling and the right movement because he is colliding 
-			/*if (playerIdBottom != 1161 && playerIdBottomRight == 1161)
+			if (playerIdBottom != 1161 && playerIdBottomRight == 1161)
 			{
-				blockFall = false;
 				blockRightMovement = true;
-			}*/
+			}
+			else if (playerIdBottom != 1162 && playerIdBottomRight == 1162)
+			{
+				blockRightMovement = false;
+			}
 			
 			// Check if the player is facing a collision with his right tile
 			// If he does, we dont allow to walk to the right
 			// If he doesn't, we allow to walk to the right
-			if (playerIdRight == 1161)
+			if (playerIdRight == 1161 || playerIdRight == 1162)
 			{
 				blockRightMovement = true;
 			}
