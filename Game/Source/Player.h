@@ -40,6 +40,7 @@ public:
 	Point<float> SetPosition(float x, float y);
 	Point<float> GetPosition();
 
+	// Collisions logic
 	void OnCollision();
 
 	void Jump();

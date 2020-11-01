@@ -22,7 +22,6 @@ public:
 	}
 
 	// Called before render is available
-	// TODO 5: Sending config file to all modules
 	virtual bool Awake(pugi::xml_node&)
 	{
 		return true;
@@ -58,7 +57,7 @@ public:
 		return true;
 	}
 
-	// L02: TODO 2: Create new virtual methods to Load / Save
+	// Load and save functions for each module
 	virtual bool Load(pugi::xml_node&)
 	{
 		return true;
@@ -67,12 +66,7 @@ public:
 	{
 		return true;
 	}
-
-	virtual void OnCollision(Collider* col1, Collider* col2)
-	{
-
-	}
-
+	
 	void Enable()
 	{
 		if (!active)

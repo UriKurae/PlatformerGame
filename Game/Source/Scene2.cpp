@@ -29,8 +29,6 @@ bool Scene2::Awake(pugi::xml_node& config)
 	LOG("Loading Scene 2");
 	bool ret = true;
 
-	folder.Create(config.child("folder").child_value());
-
 	return ret;
 }
 
@@ -51,7 +49,7 @@ bool Scene2::Start()
 		clouds = app->tex->Load("Assets/textures/clouds.png");
 	
 
-		if (app->player->loadedGame == true && app->player->currentLevel == 2 && deadOnScene == false)
+		if ((app->player->loadedGame == true) && (app->player->currentLevel == 2) && (deadOnScene == false))
 		{
 			playerStartPosition = app->player->SetPosition(app->player->GetPosition().x, app->player->GetPosition().y);
 		}
@@ -103,6 +101,7 @@ bool Scene2::Update(float dt)
 			app->fade->FadingToBlack(this, (Module*)app->winScene, 500.0f);
 			app->player->Disable();
 		}
+
 		else if (CheckWin() == 2)
 		{
 			app->deadScene->lastScene = this;
@@ -122,7 +121,6 @@ bool Scene2::PostUpdate()
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
-
 
 	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
@@ -158,7 +156,6 @@ bool Scene2::RestartLevel()
 
 int Scene2::CheckWin()
 {
-
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
 	iPoint playerPosTop = app->map->WorldToMap(app->player->GetPosition().x + 8, app->player->GetPosition().y + 15);

@@ -31,7 +31,6 @@ public:
 	// Called before quitting
 	bool CleanUp() override;
 
-
 private:
 
 	SDL_Texture* winTexture;

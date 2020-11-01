@@ -38,12 +38,7 @@ public:
 	// Check if player won
 	int CheckWin();
 	
-	// visualize all Colliders
-	bool ShowColliders();
-
 private:
-
-	SString folder;
 
 	Point<float> playerStartPosition;
 	SDL_Texture* sky;

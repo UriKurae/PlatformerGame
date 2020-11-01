@@ -28,15 +28,12 @@ bool Scene::Awake(pugi::xml_node& config)
 	LOG("Loading Scene");
 	bool ret = true;
 
-	folder.Create(config.child("folder").child_value());
-
 	return ret;
 }
 
 // Called before the first frame
 bool Scene::Start()
 {
-
 
 	if (this->active == true) 
 	{
@@ -89,6 +86,7 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(4);
 
+
 	if (app->player->godMode == false)
 	{
 		if (CheckWin() == 1)
@@ -96,6 +94,7 @@ bool Scene::Update(float dt)
 			app->fade->FadingToBlack(this, (Module*)app->scene2, 500.0f);
 			app->player->Disable();
 		}
+
 		else if (CheckWin() == 2)
 		{
 			app->deadScene->lastScene = this;
@@ -120,7 +119,6 @@ bool Scene::PostUpdate()
 		app->player->Disable();
 		app->fade->FadingToBlack(this, (Module*)app->scene2);
 	}
-
 
 	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
@@ -171,13 +169,15 @@ int Scene::CheckWin()
 			{
 				return 1;
 			}
+
 			if (playerMidTile == 1170)
 			{
 				return 2;
 			}
-
 		}
+
 		layer = layer->next;
 	}
+
 	return -1;
 }

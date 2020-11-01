@@ -231,26 +231,30 @@ bool Map::Load(const char* filename)
 
     if (ret == true)
     {
+        LOG("Map Info -----------------------");
+
         LOG("Succesfully parsed map XML file: %s", filename);
-        LOG("Map width: %d Map height: %d", mapFile.child("map").attribute("width").as_int(), mapFile.child("map").attribute("height").as_int());
+        LOG("Map width: %d; Map height: %d", mapFile.child("map").attribute("width").as_int(), mapFile.child("map").attribute("height").as_int());
         LOG("Orientation: %s", mapFile.child("map").attribute("orientation").as_string());
+
+        LOG("Tilesets Info -----------------------");
 
         for (tileset = mapFile.child("map").child("tileset"); tileset; tileset = tileset.next_sibling("tileset"))
         {
             LOG("Succesfully loaded tileset with name: %s", tileset.attribute("name").as_string());
-            LOG("Tile width: %d Tile height: %d", tileset.attribute("tilewidth").as_int(), tileset.attribute("tileheight").as_int());
+            LOG("Tile width: %d; Tile height: %d", tileset.attribute("tilewidth").as_int(), tileset.attribute("tileheight").as_int());
             LOG("Firstgid: %d", tileset.attribute("firstgid"));
-            LOG("Tile count: %d Columns: %d", tileset.attribute("tilecount").as_int(), tileset.attribute("columns").as_int());
+            LOG("Tile count: %d; Columns: %d", tileset.attribute("tilecount").as_int(), tileset.attribute("columns").as_int());
         }
        
+        LOG("Layers Info -----------------------");
+
         for (layer = mapFile.child("map").child("layer"); layer; layer = layer.next_sibling("layer"))
         {
             LOG("Loaded Layer: %s ", layer.attribute("name").as_string());
-            LOG("Layer width: %d  height: %d", layer.attribute("width").as_int(), layer.attribute("height").as_int());
+            LOG("Layer width: %d; Layer height: %d", layer.attribute("width").as_int(), layer.attribute("height").as_int());
             LOG("Layer id: %d", layer.attribute("id").as_int());
         }
-
-
     }
 
     mapLoaded = ret;
@@ -303,8 +307,7 @@ bool Map::LoadMap()
 bool Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 {
     bool ret = true;
-
-   
+     
     set->firstgid = tileset_node.attribute("firstgid").as_int();
     set->name = tileset_node.attribute("name").value();
     set->tileWidth = tileset_node.attribute("tilewidth").as_int();

@@ -76,7 +76,7 @@ bool Render::Update(float dt)
 {
 	if (app->player->active == true)
 	{
-		camera.x = -(app->player->GetPosition().x * 2.0f)+(camera.w/3);
+		camera.x = -(app->player->GetPosition().x * 2.0f) + (camera.w / 3);
 		camera.y = (-app->player->GetPosition().y);
 	} 
 	
@@ -99,8 +99,6 @@ bool Render::CleanUp()
 	return true;
 }
 
-// L02: TODO 6: Implement a method to load the state
-// for now load camera's x and y
 bool Render::Load(pugi::xml_node& rendererNode)
 {
 	cameraX = rendererNode.child("camera").attribute("x").as_int(0);
@@ -109,8 +107,6 @@ bool Render::Load(pugi::xml_node& rendererNode)
 	return true;
 }
 
-// L02: TODO 8: Create a method to save the state of the renderer
-// using append_child and append_attribute
 bool Render::Save(pugi::xml_node& renderNode)
 {
 	pugi::xml_node cam = renderNode.append_child("camera");
