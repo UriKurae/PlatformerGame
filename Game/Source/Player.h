@@ -93,7 +93,8 @@ private:
 	Animation runLeftAnim;
 	Animation jumpRightAnim;
 	Animation jumpLeftAnim;
-	Animation fallingAnim;
+	Animation fallingRightAnim;
+	Animation fallingLeftAnim;
 	
 
 };

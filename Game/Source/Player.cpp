@@ -221,13 +221,13 @@ bool Player::Update(float dt)
 		if (direction == "right" && currentAnim != &jumpRightAnim)
 		{
 			
-			fallingAnim.Reset();
-			currentAnim = &fallingAnim;
+			fallingRightAnim.Reset();
+			currentAnim = &fallingRightAnim;
 		}
 		if (direction == "left" && currentAnim != &jumpLeftAnim)
 		{
-			fallingAnim.Reset();
-			currentAnim = &fallingAnim;
+			fallingLeftAnim.Reset();
+			currentAnim = &fallingLeftAnim;
 		}
 	}
 	
@@ -452,11 +452,15 @@ void Player::LoadPushbacks()
 	jumpLeftAnim.speed = 0.025f;
 	jumpLeftAnim.loop = false;
 
-	// Falling anim
+	// Falling anim right
 
-	fallingAnim.PushBack({ 68,111,17,31 });
-	fallingAnim.PushBack({ 117,112,17,30 });
+	fallingRightAnim.PushBack({ 68,111,17,31 });
+	fallingRightAnim.PushBack({ 117,112,17,30 });
 
+	// Falling anim left
+
+	fallingLeftAnim.PushBack({ 619,112,17,31 });
+	fallingLeftAnim.PushBack({ 569,112,17,30 });
 }
 
 
