@@ -27,8 +27,11 @@ bool DeadScene::Awake(pugi::xml_node& config)
 
 bool DeadScene::Start()
 {
-	deadTexture = app->tex->Load("Assets/textures/LoseScene.png");
-	app->render->SetCameraPosition(0, 0);
+	if (this->active == true)
+	{
+		deadTexture = app->tex->Load("Assets/textures/LoseScene.png");
+		app->render->SetCameraPosition(0, 0);
+	}
 
 	return true;
 }

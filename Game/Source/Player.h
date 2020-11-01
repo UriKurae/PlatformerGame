@@ -5,7 +5,9 @@
 #include "Animation.h"
 #include "Point.h"
 
+
 struct SDL_Texture;
+
 
 
 class Player : public Module
@@ -86,6 +88,9 @@ private:
 	Animation runLeftAnim;
 	Animation jumpRightAnim;
 	Animation jumpLeftAnim;
+
+	
+
 };
 
 #endif //!__MODULE_PLAYER_H__

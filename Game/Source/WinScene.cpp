@@ -27,8 +27,11 @@ bool WinScene::Awake(pugi::xml_node& config)
 
 bool WinScene::Start()
 {
-	winTexture = app->tex->Load("Assets/textures/WinScene.png");
-	app->render->SetCameraPosition(0, 0);
+	if (this->active == true)
+	{
+		winTexture = app->tex->Load("Assets/textures/WinScene.png");
+		app->render->SetCameraPosition(0, 0);
+	}
 
 	return true;
 }

@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Textures.h"
 #include "Window.h"
+#include "Audio.h"
 
 #include "Map.h"
 #include "List.h"
@@ -49,12 +50,15 @@ bool Player::Start()
 	LOG("Loading player textures");
 
 	// Load the spritesheet for the player
-	texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
-	currentAnim = &idleAnim;
+	if (this->active == true)
+	{
+		texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
 
-	speedX = 0.35f;
-	speedY = 1.5f;
-	minSpeedY = -0.05f;
+		currentAnim = &idleAnim;
+		speedX = 0.35f;
+		speedY = 1.5f;
+		minSpeedY = -0.05f;
+	}
 
 	return true;
 }
@@ -135,6 +139,7 @@ bool Player::Update(float dt)
 		{
 			jumpRightAnim.Reset();
 			currentAnim = &jumpRightAnim;
+			
 		}
 		if (jump == false) speedY = 1.8f;
 		

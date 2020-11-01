@@ -41,16 +41,17 @@ bool Scene::Start()
 	if (this->active == true) 
 	{
 		app->player->Enable();
-		
+		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
+		app->map->Load("Level1.tmx");
+
+		sky = app->tex->Load("Assets/textures/sky2.png");
+		sea = app->tex->Load("Assets/textures/sea2.png");
+		clouds = app->tex->Load("Assets/textures/clouds2.png");
+		playerStartPosition = app->player->SetPosition(230, 230);
+
 	}
-	// L03: DONE: Load map
-	app->map->Load("Level1.tmx");
-	//bgImage = app->tex->Load("Assets/textures/bg.png");
-	app->audio->PlayMusic("Assets/audio/music/music_spy.ogg");
-	sky = app->tex->Load("Assets/textures/sky2.png");
-	sea = app->tex->Load("Assets/textures/sea2.png");
-	clouds = app->tex->Load("Assets/textures/clouds2.png");
-	playerStartPosition = app->player->SetPosition(230, 128);
+	
+	
 	
 	return true;
 }
@@ -132,7 +133,7 @@ bool Scene::CleanUp()
 	app->tex->UnLoad(sea);
 
 	app->map->Disable();
-
+	
 	return true;
 }
 

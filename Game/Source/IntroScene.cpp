@@ -2,6 +2,7 @@
 #include "App.h"
 #include "IntroScene.h"
 
+#include "Audio.h"
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
@@ -34,6 +35,11 @@ bool IntroScene::Start()
 {
 	intro = app->tex->Load("Assets/textures/intro.png");
 	logo = app->tex->Load("Assets/textures/logo.png");
+	if (this->active == true)
+	{
+		app->audio->PlayMusic("Assets/audio/music/track_1.ogg");
+	}
+
 	app->render->SetCameraPosition(0,0);
 
 	return true;

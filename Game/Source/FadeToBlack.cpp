@@ -22,15 +22,18 @@ FadeToBlack::~FadeToBlack()
 
 bool FadeToBlack::Start()
 {
-	LOG("Preparing Fade Screen");
+	if (this->active == true)
+	{
+		LOG("Preparing Fade Screen");
 
-	uint w, h;
-	app->win->GetWindowSize(w, h);
+		uint w, h;
+		app->win->GetWindowSize(w, h);
 
-	screenRect = { 0, 0, (int)w * (int)app->win->GetScale(),  (int)h * (int)app->win->GetScale() };
+		screenRect = { 0, 0, (int)w * (int)app->win->GetScale(),  (int)h * (int)app->win->GetScale() };
 
-	// Enable blending mode for transparency
-	SDL_SetRenderDrawBlendMode(app->render->renderer, SDL_BLENDMODE_BLEND);
+		// Enable blending mode for transparency
+		SDL_SetRenderDrawBlendMode(app->render->renderer, SDL_BLENDMODE_BLEND);
+	}
 
 	return true;
 }
