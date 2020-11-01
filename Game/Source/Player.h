@@ -48,10 +48,17 @@ public:
 
 public:
 
-private:
+	// Player's current level
+	int currentLevel = 0;
+
+	// Control if the player loaded a saved game
+	bool loadedGame = false;
 
 	// God Mode
 	bool godMode = false;
+
+
+private:
 
 	// Position of player
 	Point<float> position;

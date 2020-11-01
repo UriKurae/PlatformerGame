@@ -37,21 +37,30 @@ bool Scene2::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene2::Start()
 {
-
-
 	if (this->active == true)
 	{
 		app->player->Enable();
+		
+
 		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
+		app->map->Enable();
 		app->map->Load("Level2.tmx");
 
 		sky = app->tex->Load("Assets/textures/sky2.png");
 		sea = app->tex->Load("Assets/textures/sea2.png");
 		clouds = app->tex->Load("Assets/textures/clouds2.png");
-		playerStartPosition = app->player->SetPosition(230, 230);
+		//deadOnScene = false;
 
-		app->map->Enable();
-		app->scene->Disable();
+		if (app->player->loadedGame == true && app->player->currentLevel == 2 && deadOnScene == false)
+		{
+			playerStartPosition = app->player->SetPosition(app->player->GetPosition().x, app->player->GetPosition().y);
+		}
+		else
+		{
+			playerStartPosition = app->player->SetPosition(230, 230);
+		}
+
+		app->player->currentLevel = 2;
 	}
 
 
@@ -87,16 +96,20 @@ bool Scene2::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(4);
 
-
-	if (CheckWin() == 1)
+	if (app->player->godMode == false)
 	{
-		app->fade->FadingToBlack(this, (Module*)app->scene2, 500.0f);
-	}
-	else if (CheckWin() == 2)
-	{
-		app->deadScene->lastScene = this;
-		app->fade->FadingToBlack(this, (Module*)app->deadScene, 500.0f);
-
+		if (CheckWin() == 1)
+		{
+			app->fade->FadingToBlack(this, (Module*)app->winScene, 500.0f);
+			app->player->Disable();
+		}
+		else if (CheckWin() == 2)
+		{
+			app->deadScene->lastScene = this;
+			app->fade->FadingToBlack(this, (Module*)app->deadScene, 500.0f);
+			app->player->Disable();
+			deadOnScene = true;
+		}
 	}
 
 	return true;

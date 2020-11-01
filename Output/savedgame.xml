@@ -4,15 +4,17 @@
   <window />
   <textures />
   <audio>
-    <music_volume value="24" />
+    <music_volume value="50" />
   </audio>
   <introScene />
   <scene />
+  <scene2 />
   <winScene />
   <DeadScene />
   <map />
   <player>
-    <position positionX="501.25473" positionY="243.199799" />
+    <position positionX="752.888123" positionY="322.19339" />
+    <current_level value="2" />
   </player>
   <fade />
   <renderer>

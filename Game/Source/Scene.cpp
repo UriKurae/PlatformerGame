@@ -41,6 +41,8 @@ bool Scene::Start()
 	if (this->active == true) 
 	{
 		app->player->Enable();
+		app->player->currentLevel = 1;
+
 		app->map->Enable();
 		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
 		app->map->Load("Level1.tmx");
@@ -48,6 +50,7 @@ bool Scene::Start()
 		sky = app->tex->Load("Assets/textures/sky2.png");
 		sea = app->tex->Load("Assets/textures/sea2.png");
 		clouds = app->tex->Load("Assets/textures/clouds2.png");
+
 		playerStartPosition = app->player->SetPosition(230, 230);
 
 	}
@@ -65,17 +68,20 @@ bool Scene::PreUpdate()
 bool Scene::Update(float dt)
 {
 	// L02: TODO 3: Request Load / Save when pressing L/S
-	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_F6) == KeyState::KEY_DOWN)
 		app->RequestLoadGame();
-
-	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	
+	if (app->input->GetKey(SDL_SCANCODE_F5) == KeyState::KEY_DOWN)
 		app->RequestSaveGame();
 
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KeyState::KEY_DOWN)
 		RestartLevel();
 
-	if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 		app->map->viewHitboxes = !app->map->viewHitboxes;
+
+	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
+		app->fade->FadingToBlack(this, (Module*)app->scene2);
 
 	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(-4);
@@ -83,16 +89,19 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(4);
 
-
-	if (CheckWin() == 1)
+	if (app->player->godMode == false)
 	{
-		app->fade->FadingToBlack(this, (Module*)app->scene2, 500.0f);
-	}
-	else if (CheckWin() == 2)
-	{
-		app->deadScene->lastScene = this;
-		app->fade->FadingToBlack(this, (Module*)app->deadScene, 500.0f);
-		
+		if (CheckWin() == 1)
+		{
+			app->fade->FadingToBlack(this, (Module*)app->scene2, 500.0f);
+			app->player->Disable();
+		}
+		else if (CheckWin() == 2)
+		{
+			app->deadScene->lastScene = this;
+			app->fade->FadingToBlack(this, (Module*)app->deadScene, 500.0f);
+			app->player->Disable();
+		}
 	}
 
 	return true;
@@ -105,6 +114,12 @@ bool Scene::PostUpdate()
 
 	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
+
+	if (app->player->currentLevel == 2)
+	{
+		app->player->Disable();
+		app->fade->FadingToBlack(this, (Module*)app->scene2);
+	}
 
 
 	app->render->DrawTexture(sky, 0, -10, NULL, 0.65f);
@@ -127,7 +142,6 @@ bool Scene::CleanUp()
 	app->tex->UnLoad(sea);
 
 	app->map->Disable();
-	app->player->Disable();
 	
 	return true;
 }
@@ -142,8 +156,6 @@ bool Scene::RestartLevel()
 
 int Scene::CheckWin()
 {
-
-
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
 	iPoint playerPosTop = app->map->WorldToMap(app->player->GetPosition().x+8, app->player->GetPosition().y+15);
@@ -168,33 +180,4 @@ int Scene::CheckWin()
 		layer = layer->next;
 	}
 	return -1;
-}
-bool Scene::ShowColliders()
-{
-	ListItem<MapLayer*>* layer = app->map->data.layers.start;
-	ListItem<Properties::Property*>* property;
-	while (layer != NULL)
-	{
-		if (layer->data->name == "HitBoxes")
-		{
-			property = layer->data->properties.list.start;
-			while (property != NULL)
-			{
-				if (property->data->value == 1 && property->data->name == "Nodraw")
-				{
-					property->data->value = 0;
-				}
-				else if(property->data->value == 0 && property->data->name == "Nodraw")
-				{
-					property->data->value = 1;
-				}
-				property = property->next;
-			}
-			break;
-		}
-		layer = layer->next;
-	}
-
-	
-	return true;
 }

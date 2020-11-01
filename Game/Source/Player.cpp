@@ -29,8 +29,10 @@ Player::~Player()
 
 bool Player::Load(pugi::xml_node& playerNode)
 {
+	loadedGame = true;
 	position.x = playerNode.child("position").attribute("positionX").as_float();
 	position.y = playerNode.child("position").attribute("positionY").as_float();
+	currentLevel = playerNode.child("current_level").attribute("value").as_int();
 
 	return true;
 }
@@ -41,6 +43,9 @@ bool Player::Save(pugi::xml_node& playerNode)
 	pugi::xml_node player = playerNode.append_child("position");
 	player.append_attribute("positionX").set_value(position.x);
 	player.append_attribute("positionY").set_value(position.y);
+
+	pugi::xml_node currLevel = playerNode.append_child("current_level");
+	currLevel.append_attribute("value").set_value(currentLevel);
 	return true;
 }
 
@@ -58,6 +63,7 @@ bool Player::Start()
 		speedX = 0.35f;
 		speedY = 1.5f;
 		minSpeedY = -0.05f;
+		godMode = false;
 
 	}
 
@@ -330,23 +336,17 @@ void Player::OnCollision()
 				blockFall = false;
 			}
 			
-			// Check if player collides with the right corner and his bottom middle tile is not collision
-			// Then block the falling and the right movement because he is colliding 
-			if (playerIdBottom != 1161 && playerIdBottomRight == 1161)
-			{
-				blockRightMovement = true;
-			}
-			else if (playerIdBottom != 1162 && playerIdBottomRight == 1162)
-			{
-				blockRightMovement = false;
-			}
-			
 			// Check if the player is facing a collision with his right tile
 			// If he does, we dont allow to walk to the right
 			// If he doesn't, we allow to walk to the right
-			if (playerIdRight == 1161 || playerIdRight == 1162)
+			if (playerIdRight == 1161)
 			{
 				blockRightMovement = true;
+			}
+			else if ((playerIdBottomRight == 1162) && (playerIdBottom != 1162))
+			{
+				blockRightMovement = true;
+				jumpRightAnim.Reset();
 			}
 			else
 			{
@@ -359,6 +359,11 @@ void Player::OnCollision()
 			if (playerIdLeft == 1161)
 			{
 				blockLeftMovement = true;
+			}
+			else if ((playerIdBottomLeft == 1162) && (playerIdBottom != 1162))
+			{
+				blockLeftMovement = true;
+				jumpRightAnim.Reset();
 			}
 			else
 			{

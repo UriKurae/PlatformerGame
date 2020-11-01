@@ -41,11 +41,14 @@ public:
 
 private:
 
+	bool deadOnScene = false;
+
 	SString folder;
 
 	Point<float> playerStartPosition;
 	SDL_Texture* sky;
 	SDL_Texture* clouds;
 	SDL_Texture* sea;
+
 };
 

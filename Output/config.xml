@@ -6,8 +6,8 @@
   </app>
 
   <audio>
-	<music_volume value="50"/>
-	<fx_volume value="50" />
+	<music_volume value="25"/>
+	<fx_volume value="25" />
   </audio>
 	
   <renderer>
@@ -24,8 +24,11 @@
 
   <scene>
 	<folder>Assets/textures/</folder>
-	<images clouds ="clouds.png" fargrounds="far-grounds.png" sea ="sea.png" sky ="sky2.png"/>
   </scene>
+
+	<player>
+		<current_scene value="1"/>
+	</player>
 	
   <map>
 	<folder>Assets/maps/</folder>
