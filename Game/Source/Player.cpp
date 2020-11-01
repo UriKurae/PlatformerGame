@@ -135,7 +135,6 @@ bool Player::Update(float dt)
 		{
 			runLeftAnim.Reset();
 			currentAnim = &runLeftAnim;
-			
 		}
 
 		if(jump == true)
@@ -276,7 +275,6 @@ bool Player::Update(float dt)
 	{
 		if (direction == "right" && currentAnim != &jumpRightAnim)
 		{
-			
 			fallingRightAnim.Reset();
 			currentAnim = &fallingRightAnim;
 		}
