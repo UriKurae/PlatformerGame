@@ -11,7 +11,7 @@
   </audio>
 	
   <renderer>
-    <vsync value="false"/>
+    <vsync value="true"/>
   </renderer>
 	
   <window>

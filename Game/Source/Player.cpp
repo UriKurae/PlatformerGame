@@ -61,9 +61,11 @@ bool Player::Start()
 
 		currentAnim = &idleRightAnim;
 
-		speedX = 0.35f;
-		speedY = 1.5f;
-		minSpeedY = -0.05f;
+		speedX = 5.5f;
+		speedY = 30.5f;
+		minSpeedY = 0.05f;
+		gravity = 0.01f;
+		jumpHeight = 10.0f;
 		
 		godMode = false;
 
@@ -78,7 +80,7 @@ bool Player::Update(float dt)
 
 	if ((speedY == minSpeedY) && (blockFall == true))
 	{
-		speedY = 1.5f;
+		speedY = 100.5f;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
@@ -292,7 +294,7 @@ bool Player::Update(float dt)
 
 	if (blockFall == false && godMode == false)
 	{
-		position.y += gravity;
+		position.y += gravity * 100;
 		isFalling = true;
 	}
 
@@ -432,14 +434,21 @@ void Player::Jump()
 {
 	if (speedY > 0)
 	{
+		/*position.y -= speedY - gravity;
+		speedY += gravity;*/
+
 		position.y -= speedY;
-		speedY -= 0.01f;
+		speedY--;
 		upwards = true;
 	}
 	if (speedY <= 0)
 	{
+		//speedY = minSpeedY;
+		isFalling = true;
 		upwards = false;
 		blockFall = false;
+		//jump = false;		
+		
 	}
 
 }
@@ -453,7 +462,7 @@ void Player::LoadPushbacks()
 	idleRightAnim.PushBack({ 114,5,19,30 });
 	idleRightAnim.PushBack({ 162,6,20,29 });
 
-	idleRightAnim.speed = 0.008f;
+	idleRightAnim.speed = 0.08f;
 	idleRightAnim.loop = true;
 
 	// Idle animation
@@ -462,7 +471,7 @@ void Player::LoadPushbacks()
 	idleLeftAnim.PushBack({ 570,5,19,30 });
 	idleLeftAnim.PushBack({ 521,6,20,29 });
 
-	idleLeftAnim.speed = 0.008f;
+	idleLeftAnim.speed = 0.08f;
 	idleLeftAnim.loop = true;
 
 	// Run Right Animation
@@ -474,7 +483,7 @@ void Player::LoadPushbacks()
 	runRightAnim.PushBack({ 315,47,20,25 });
 	
 
-	runRightAnim.speed = 0.02f;
+	runRightAnim.speed = 0.15f;
 	runRightAnim.loop = true;
 
 	// Left right Animation
@@ -485,7 +494,7 @@ void Player::LoadPushbacks()
 	runLeftAnim.PushBack({ 419,46,20,27 });
 	runLeftAnim.PushBack({ 368,49,20,25 });
 
-	runLeftAnim.speed = 0.02f;
+	runLeftAnim.speed = 0.15f;
 	runLeftAnim.loop = true;
 
 
@@ -501,7 +510,7 @@ void Player::LoadPushbacks()
 	jumpRightAnim.PushBack({68, 112, 17, 31});
 	jumpRightAnim.PushBack({118, 113, 18, 30});
 
-	jumpRightAnim.speed = 0.025f;
+	jumpRightAnim.speed = 0.15f;
 	jumpRightAnim.loop = false;
 
 
@@ -517,7 +526,7 @@ void Player::LoadPushbacks()
 	jumpLeftAnim.PushBack({ 620,113,17,31 });
 	jumpLeftAnim.PushBack({ 570,114,17,30 });
 	
-	jumpLeftAnim.speed = 0.025f;
+	jumpLeftAnim.speed = 0.15f;
 	jumpLeftAnim.loop = false;
 
 	// Falling anim right

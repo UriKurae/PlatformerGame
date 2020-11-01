@@ -243,7 +243,7 @@ bool Map::Load(const char* filename)
         {
             LOG("Succesfully loaded tileset with name: %s", tileset.attribute("name").as_string());
             LOG("Tile width: %d; Tile height: %d", tileset.attribute("tilewidth").as_int(), tileset.attribute("tileheight").as_int());
-            LOG("Firstgid: %d", tileset.attribute("firstgid"));
+            LOG("Firstgid: %d", tileset.attribute("firstgid").as_int());
             LOG("Tile count: %d; Columns: %d", tileset.attribute("tilecount").as_int(), tileset.attribute("columns").as_int());
         }
        

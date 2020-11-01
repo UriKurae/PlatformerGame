@@ -13,8 +13,8 @@
   <DeadScene />
   <map />
   <player>
-    <position positionX="1699.29626" positionY="370.295258" />
-    <current_level value="2" />
+    <position positionX="358.75" positionY="242.196075" />
+    <current_level value="1" />
   </player>
   <fade />
   <renderer>

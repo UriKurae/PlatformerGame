@@ -17,7 +17,7 @@
 IntroScene::IntroScene()
 {
 	name.Create("introScene");
-	count = 10000;
+	count = 100;
 }
 
 IntroScene::~IntroScene()
@@ -55,7 +55,7 @@ bool IntroScene::Update(float dt)
 		app->audio->VolumeControl(4);
 	
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN && count == 0) 
-		app->fade->FadingToBlack(this, app->scene, 1000.0f);
+		app->fade->FadingToBlack(this, app->scene, 60.0f);
 	
 	
 	return true;
@@ -71,7 +71,7 @@ bool IntroScene::PostUpdate()
 
 
 	count -= 0.5f;
-	if (count <= 10000 && count > 0)
+	if (count <= 100 && count > 0)
 	{
 		app->render->DrawTexture(logo, 150, 0, NULL);
 	}

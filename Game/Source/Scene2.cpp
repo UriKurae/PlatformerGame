@@ -98,14 +98,14 @@ bool Scene2::Update(float dt)
 	{
 		if (CheckWin() == 1)
 		{
-			app->fade->FadingToBlack(this, (Module*)app->winScene, 500.0f);
+			app->fade->FadingToBlack(this, (Module*)app->winScene, 60.0f);
 			app->player->Disable();
 		}
 
 		else if (CheckWin() == 2)
 		{
 			app->deadScene->lastScene = this;
-			app->fade->FadingToBlack(this, (Module*)app->deadScene, 500.0f);
+			app->fade->FadingToBlack(this, (Module*)app->deadScene, 60.0f);
 			app->player->Disable();
 			deadOnScene = true;
 		}

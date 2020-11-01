@@ -49,11 +49,11 @@ bool DeadScene::Update(float dt)
 	{
 		if (lastScene == app->scene)
 		{
-			app->fade->FadingToBlack(this, lastScene, 500.0f);		
+			app->fade->FadingToBlack(this, lastScene, 60.0f);		
 		}
 		else if (lastScene == app->scene2)
 		{
-			app->fade->FadingToBlack(this, lastScene, 500.0f);
+			app->fade->FadingToBlack(this, lastScene, 60.0f);
 		}
 	}
 
