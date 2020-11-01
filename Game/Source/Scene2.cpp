@@ -4,7 +4,7 @@
 #include "Audio.h"
 #include "Render.h"
 #include "Window.h"
-#include "Scene.h"
+#include "Scene2.h"
 #include "Map.h"
 #include "Player.h"
 #include "Scene.h"
@@ -13,19 +13,19 @@
 #include "Defs.h"
 #include "Log.h"
 
-Scene::Scene() : Module()
+Scene2::Scene2() : Module()
 {
-	name.Create("scene");
+	name.Create("scene2");
 }
 
 // Destructor
-Scene::~Scene()
+Scene2::~Scene2()
 {}
 
 // Called before render is available
-bool Scene::Awake(pugi::xml_node& config)
+bool Scene2::Awake(pugi::xml_node& config)
 {
-	LOG("Loading Scene");
+	LOG("Loading Scene 2");
 	bool ret = true;
 
 	folder.Create(config.child("folder").child_value());
@@ -34,15 +34,15 @@ bool Scene::Awake(pugi::xml_node& config)
 }
 
 // Called before the first frame
-bool Scene::Start()
+bool Scene2::Start()
 {
 
 
-	if (this->active == true) 
+	if (this->active == true)
 	{
 		app->player->Enable();
 		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
-		app->map->Load("Level1.tmx");
+		app->map->Load("Level2.tmx");
 
 		sky = app->tex->Load("Assets/textures/sky2.png");
 		sea = app->tex->Load("Assets/textures/sea2.png");
@@ -50,21 +50,22 @@ bool Scene::Start()
 		playerStartPosition = app->player->SetPosition(230, 230);
 
 		app->map->Enable();
+		app->scene->Disable();
 	}
-	
-	
-	
+
+
+
 	return true;
 }
 
 // Called each loop iteration
-bool Scene::PreUpdate()
+bool Scene2::PreUpdate()
 {
 	return true;
 }
 
 // Called each loop iteration
-bool Scene::Update(float dt)
+bool Scene2::Update(float dt)
 {
 	// L02: TODO 3: Request Load / Save when pressing L/S
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
@@ -81,7 +82,7 @@ bool Scene::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(-4);
-	
+
 	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(4);
 
@@ -92,11 +93,11 @@ bool Scene::Update(float dt)
 }
 
 // Called each loop iteration
-bool Scene::PostUpdate()
+bool Scene2::PostUpdate()
 {
 	bool ret = true;
 
-	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
 
@@ -104,7 +105,7 @@ bool Scene::PostUpdate()
 	app->render->DrawTexture(clouds, 0, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, 0, 395, NULL, 0.85f);
 
-	if(app->map->active == true)
+	if (app->map->active == true)
 		app->map->Draw();
 
 
@@ -112,7 +113,7 @@ bool Scene::PostUpdate()
 }
 
 // Called before quitting
-bool Scene::CleanUp()
+bool Scene2::CleanUp()
 {
 	LOG("Freeing scene");
 	app->tex->UnLoad(sky);
@@ -120,11 +121,11 @@ bool Scene::CleanUp()
 	app->tex->UnLoad(sea);
 
 	app->map->Disable();
-	
+
 	return true;
 }
 
-bool Scene::RestartLevel()
+bool Scene2::RestartLevel()
 {
 	app->player->SetPosition(playerStartPosition.x, playerStartPosition.y);
 
@@ -132,12 +133,12 @@ bool Scene::RestartLevel()
 }
 
 
-void Scene::CheckWin()
+void Scene2::CheckWin()
 {
 
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
-	iPoint playerPosTop = app->map->WorldToMap(app->player->GetPosition().x+8, app->player->GetPosition().y+15);
+	iPoint playerPosTop = app->map->WorldToMap(app->player->GetPosition().x + 8, app->player->GetPosition().y + 15);
 
 	while (layer != NULL)
 	{
@@ -148,7 +149,7 @@ void Scene::CheckWin()
 
 			if (playerMidTile == 1166)
 			{
-				app->fade->FadingToBlack(this, (Module*)app->scene2, 500.0f);
+				app->fade->FadingToBlack(this, (Module*)app->winScene, 500.0f);
 				app->player->Disable();
 			}
 			if (playerMidTile == 1170)
@@ -158,37 +159,8 @@ void Scene::CheckWin()
 			}
 
 		}
-			layer = layer->next;
-
-	}
-	
-}
-bool Scene::ShowColliders()
-{
-	ListItem<MapLayer*>* layer = app->map->data.layers.start;
-	ListItem<Properties::Property*>* property;
-	while (layer != NULL)
-	{
-		if (layer->data->name == "HitBoxes")
-		{
-			property = layer->data->properties.list.start;
-			while (property != NULL)
-			{
-				if (property->data->value == 1 && property->data->name == "Nodraw")
-				{
-					property->data->value = 0;
-				}
-				else if(property->data->value == 0 && property->data->name == "Nodraw")
-				{
-					property->data->value = 1;
-				}
-				property = property->next;
-			}
-			break;
-		}
 		layer = layer->next;
+
 	}
 
-	
-	return true;
 }

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="400" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="1">
+ <properties>
+  <property name="Navigation" type="int" value="0"/>
+  <property name="Nodraw" type="int" value="1"/>
+ </properties>
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="1160" columns="58">
   <image source="tileset.png" width="928" height="320"/>
  </tileset>
@@ -20011,6 +20015,10 @@
   </data>
  </layer>
  <layer id="2" name="Foreground" width="400" height="50">
+  <properties>
+   <property name="Navigation" type="int" value="1"/>
+   <property name="Nodraw" type="int" value="0"/>
+  </properties>
   <data>
    <tile/>
    <tile/>

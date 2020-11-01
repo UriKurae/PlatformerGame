@@ -17,6 +17,7 @@ class Textures;
 class Audio;
 class IntroScene;
 class Scene;
+class Scene2;
 class WinScene;
 class Map;
 class Player;
@@ -96,6 +97,7 @@ public:
 	Audio* audio;
 	IntroScene* intro;
 	Scene* scene;
+	Scene2* scene2;
 	WinScene* winScene;
 	DeadScene* deadScene;
 	Map* map;

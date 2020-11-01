@@ -21,6 +21,7 @@
     <ClCompile Include="Source\IntroScene.cpp" />
     <ClCompile Include="Source\WinScene.cpp" />
     <ClCompile Include="Source\DeadScene.cpp" />
+    <ClCompile Include="Source\Scene2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -64,6 +65,7 @@
     <ClInclude Include="Source\IntroScene.h" />
     <ClInclude Include="Source\WinScene.h" />
     <ClInclude Include="Source\DeadScene.h" />
+    <ClInclude Include="Source\Scene2.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
