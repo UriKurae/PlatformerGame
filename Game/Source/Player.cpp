@@ -159,13 +159,13 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
 	{
 		
-		if (currentAnim != &jumpRightAnim && direction == "right")
+		if ((currentAnim != &jumpRightAnim) && (direction == "right"))
 		{
 			jumpRightAnim.Reset();
 			currentAnim = &jumpRightAnim;
 		}
 
-		else if (currentAnim != &jumpLeftAnim && direction == "left")
+		else if ((currentAnim != &jumpLeftAnim) && (direction == "left"))
 		{
 			jumpLeftAnim.Reset();
 			currentAnim = &jumpLeftAnim;
@@ -197,13 +197,13 @@ bool Player::Update(float dt)
 		&& (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE)
 		&& (jump == false))
 	{
-		if (currentAnim != &idleRightAnim && direction == "right")
+		if ((currentAnim != &idleRightAnim) && (direction == "right"))
 		{
 			idleRightAnim.Reset();
 			currentAnim = &idleRightAnim;
 		}
 
-		else if (currentAnim != &idleLeftAnim && direction == "left")
+		else if ((currentAnim != &idleLeftAnim) && (direction == "left"))
 		{
 			idleLeftAnim.Reset();
 			currentAnim = &idleLeftAnim;
@@ -229,7 +229,8 @@ bool Player::Update(float dt)
 	}
 
 
-	if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) && (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN))
+	if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) && 
+		(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN))
 	{
 		if (currentAnim != &jumpLeftAnim)
 		{
@@ -241,7 +242,8 @@ bool Player::Update(float dt)
 	}
 
 
-	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT) && (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN))
+	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT) && 
+		(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN))
 	{
 		if (currentAnim != &jumpRightAnim)
 		{

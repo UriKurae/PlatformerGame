@@ -75,7 +75,7 @@ bool Scene2::PreUpdate()
 // Called each loop iteration
 bool Scene2::Update(float dt)
 {
-	// L02: TODO 3: Request Load / Save when pressing L/S
+
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		app->RequestLoadGame();
 
