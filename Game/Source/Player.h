@@ -95,7 +95,8 @@ private:
 	
 	// Animations
 	Animation* currentAnim;
-	Animation idleAnim;
+	Animation idleRightAnim;
+	Animation idleLeftAnim;
 	Animation runRightAnim;
 	Animation runLeftAnim;
 	Animation jumpRightAnim;

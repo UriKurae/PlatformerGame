@@ -59,7 +59,7 @@ bool Player::Start()
 	{
 		texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
 
-		currentAnim = &idleAnim;
+		currentAnim = &idleRightAnim;
 		speedX = 0.35f;
 		speedY = 1.5f;
 		minSpeedY = -0.05f;
@@ -144,10 +144,15 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
 	{
 		
-		if (currentAnim != &jumpRightAnim)
+		if (currentAnim != &jumpRightAnim && direction == "right")
 		{
 			jumpRightAnim.Reset();
 			currentAnim = &jumpRightAnim;
+		}
+		else if (currentAnim != &jumpLeftAnim && direction == "left")
+		{
+			jumpLeftAnim.Reset();
+			currentAnim = &jumpLeftAnim;
 		}
 		if (jumpsLeft == 1)
 		{
@@ -172,19 +177,29 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE &&
 		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE && jump == false)
 	{
-		if (currentAnim != &idleAnim)
+		if (currentAnim != &idleRightAnim && direction == "right")
 		{
-			idleAnim.Reset();
-			currentAnim = &idleAnim;
+			idleRightAnim.Reset();
+			currentAnim = &idleRightAnim;
+		}
+		else if (currentAnim != &idleLeftAnim && direction == "left")
+		{
+			idleLeftAnim.Reset();
+			currentAnim = &idleLeftAnim;
 		}
 	}
 	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT &&
 		app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT && jump == false)
 	{
-		if (currentAnim != &idleAnim)
+		if (currentAnim != &idleRightAnim && direction == "right")
 		{
-			idleAnim.Reset();
-			currentAnim = &idleAnim;
+			idleRightAnim.Reset();
+			currentAnim = &idleRightAnim;
+		}
+		else if(currentAnim != &idleLeftAnim && direction == "left")
+		{
+			idleLeftAnim.Reset();
+			currentAnim = &idleLeftAnim;
 		}
 	}
 
@@ -214,10 +229,15 @@ bool Player::Update(float dt)
 		app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE && isFalling == false
 		)
 	{
-		if (currentAnim != &idleAnim)
+		if (currentAnim != &idleRightAnim && direction == "right")
 		{
-			idleAnim.Reset();
-			currentAnim = &idleAnim;
+			idleRightAnim.Reset();
+			currentAnim = &idleRightAnim;
+		}
+		else if(currentAnim != &idleLeftAnim && direction == "left")
+		{
+			idleLeftAnim.Reset();
+			currentAnim = &idleLeftAnim;
 		}
 	}
 
@@ -398,13 +418,22 @@ void Player::Jump()
 void Player::LoadPushbacks()
 {
 	// Idle animation
-	idleAnim.PushBack({ 13,7,19,29 });
-	idleAnim.PushBack({ 65,5,17,30 });
-	idleAnim.PushBack({ 114,5,19,30 });
-	idleAnim.PushBack({ 162,6,20,29 });
+	idleRightAnim.PushBack({ 13,7,19,29 });
+	idleRightAnim.PushBack({ 65,5,17,30 });
+	idleRightAnim.PushBack({ 114,5,19,30 });
+	idleRightAnim.PushBack({ 162,6,20,29 });
 
-	idleAnim.speed = 0.008f;
-	idleAnim.loop = true;
+	idleRightAnim.speed = 0.008f;
+	idleRightAnim.loop = true;
+
+	// Idle animation
+	idleLeftAnim.PushBack({ 671,7,19,29 });
+	idleLeftAnim.PushBack({ 621,5,17,30 });
+	idleLeftAnim.PushBack({ 570,5,19,30 });
+	idleLeftAnim.PushBack({ 521,6,20,29 });
+
+	idleLeftAnim.speed = 0.008f;
+	idleLeftAnim.loop = true;
 
 	// Run Right Animation
 	runRightAnim.PushBack({ 66,44,20,28 });

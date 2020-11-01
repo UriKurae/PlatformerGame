@@ -51,7 +51,7 @@ bool Scene::Start()
 		sea = app->tex->Load("Assets/textures/sea2.png");
 		clouds = app->tex->Load("Assets/textures/clouds2.png");
 
-		playerStartPosition = app->player->SetPosition(230, 230);
+		playerStartPosition = app->player->SetPosition(144, 64);
 
 	}
 	
@@ -122,9 +122,9 @@ bool Scene::PostUpdate()
 	}
 
 
-	app->render->DrawTexture(sky, 0, -10, NULL, 0.65f);
-	app->render->DrawTexture(clouds, 0, 180, NULL, 0.75f);
-	app->render->DrawTexture(sea, 0, 395, NULL, 0.85f);
+	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
+	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
+	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 
 	if(app->map->active == true)
 		app->map->Draw();

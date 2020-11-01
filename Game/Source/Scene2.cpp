@@ -124,9 +124,9 @@ bool Scene2::PostUpdate()
 		ret = false;
 
 
-	app->render->DrawTexture(sky, 0, -10, NULL, 0.65f);
-	app->render->DrawTexture(clouds, 0, 180, NULL, 0.75f);
-	app->render->DrawTexture(sea, 0, 395, NULL, 0.85f);
+	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
+	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
+	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 
 	if (app->map->active == true)
 		app->map->Draw();
