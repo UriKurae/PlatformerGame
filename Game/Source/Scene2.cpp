@@ -55,7 +55,7 @@ bool Scene2::Start()
 		}
 		else
 		{
-			playerStartPosition = app->player->SetPosition(230, 230);
+			playerStartPosition = app->player->SetPosition(160, 240);
 		}
 
 		app->player->currentLevel = 2;

@@ -48,7 +48,7 @@ bool Scene::Start()
 		sea = app->tex->Load("Assets/textures/sea.png");
 		clouds = app->tex->Load("Assets/textures/clouds.png");
 
-		playerStartPosition = app->player->SetPosition(144, 64);
+		playerStartPosition = app->player->SetPosition(144, 48);
 
 	}
 	
@@ -78,7 +78,7 @@ bool Scene::Update(float dt)
 		app->map->viewHitboxes = !app->map->viewHitboxes;
 
 	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
-		app->fade->FadingToBlack(this, (Module*)app->scene2);
+		app->fade->FadingToBlack(this, (Module*)app->scene2, 60.0f);
 
 	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(-4);
@@ -91,14 +91,14 @@ bool Scene::Update(float dt)
 	{
 		if (CheckWin() == 1)
 		{
-			app->fade->FadingToBlack(this, (Module*)app->scene2, 500.0f);
+			app->fade->FadingToBlack(this, (Module*)app->scene2, 60.0f);
 			app->player->Disable();
 		}
 
 		else if (CheckWin() == 2)
 		{
 			app->deadScene->lastScene = this;
-			app->fade->FadingToBlack(this, (Module*)app->deadScene, 500.0f);
+			app->fade->FadingToBlack(this, (Module*)app->deadScene, 60.0f);
 			app->player->Disable();
 		}
 	}
