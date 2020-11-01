@@ -7,17 +7,21 @@ It is a 2D Platformer videogame.
 
 ## Key Features
 
+
+ 
+## Controls
+
+ - Move the player with AWSD.
+ - Jump with Space.
+ 
+ ### Debug keys
+ 
  - F1 -> Start from the first level.
  - F3 -> Start from the begginig of the first level.
  - F5 -> Save the current game state.
  - F6 -> Load previous state.
  - F9 -> View colliders/logic.
  - F10 -> God Mode.
- 
-## Controls
-
- - Move the player with AWSD.
- - Jump with Space.
 
 ## Developers
 
