@@ -84,7 +84,16 @@ bool Scene::Update(float dt)
 		app->audio->VolumeControl(4);
 
 
-	CheckWin();
+	if (CheckWin() == 1)
+	{
+		app->fade->FadingToBlack(this, (Module*)app->scene2, 500.0f);
+	}
+	else if (CheckWin() == 2)
+	{
+		app->deadScene->lastScene = this;
+		app->fade->FadingToBlack(this, (Module*)app->deadScene, 500.0f);
+		
+	}
 
 	return true;
 }
@@ -118,6 +127,7 @@ bool Scene::CleanUp()
 	app->tex->UnLoad(sea);
 
 	app->map->Disable();
+	app->player->Disable();
 	
 	return true;
 }
@@ -130,8 +140,9 @@ bool Scene::RestartLevel()
 }
 
 
-void Scene::CheckWin()
+int Scene::CheckWin()
 {
+
 
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
@@ -146,21 +157,17 @@ void Scene::CheckWin()
 
 			if (playerMidTile == 1166)
 			{
-				app->fade->FadingToBlack(this, (Module*)app->scene2, 500.0f);
-				app->player->Disable();
+				return 1;
 			}
 			if (playerMidTile == 1170)
 			{
-				app->deadScene->lastScene = this;
-				app->fade->FadingToBlack(this, (Module*)app->deadScene, 500.0f);
-				app->player->Disable();
+				return 2;
 			}
 
 		}
-			layer = layer->next;
-
+		layer = layer->next;
 	}
-	
+	return -1;
 }
 bool Scene::ShowColliders()
 {

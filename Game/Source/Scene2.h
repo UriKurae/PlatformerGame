@@ -34,7 +34,7 @@ public:
 	bool RestartLevel();
 
 	// Check if player won
-	void CheckWin();
+	int CheckWin();
 
 	// visualize all Colliders
 	bool ShowColliders();
