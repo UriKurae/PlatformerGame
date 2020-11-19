@@ -373,7 +373,6 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
     bool ret = false;
 
-  
     for (pugi::xml_node n = node.child("properties").child("property"); n; n = n.next_sibling("property"))
     {
         Properties::Property* item = new Properties::Property();
