@@ -48,6 +48,167 @@ bool Map::Awake(pugi::xml_node& config)
     return ret;
 }
 
+void Map::ResetPath(iPoint start)
+{
+    frontier.Clear();
+    visited.Clear();
+    breadcrumbs.Clear();
+
+    frontier.Push(start, 0);
+    visited.Add(start);
+    breadcrumbs.Add(start);
+
+    memset(costSoFar, 0, sizeof(uint) * COST_MAP_SIZE * COST_MAP_SIZE);
+}
+
+void Map::DrawPath()
+{
+    iPoint point;
+
+    // Draw visited
+    ListItem<iPoint>* item = visited.start;
+
+    while (item)
+    {
+        point = item->data;
+        TileSet* tileset = GetTilesetFromTileId(1160);
+
+        SDL_Rect rec = tileset->GetTileRect(1160);
+        iPoint pos = MapToWorld(point.x, point.y);
+
+        app->render->DrawTexture(tileset->texture, pos.x, pos.y, &rec);
+
+        item = item->next;
+    }
+
+    // Draw frontier
+    for (uint i = 0; i < frontier.Count(); ++i)
+    {
+        point = *(frontier.Peek(i));
+        TileSet* tileset = GetTilesetFromTileId(1161);
+
+        SDL_Rect rec = tileset->GetTileRect(1161);
+        iPoint pos = MapToWorld(point.x, point.y);
+
+        app->render->DrawTexture(tileset->texture, pos.x, pos.y, &rec);
+    }
+
+    // Draw path
+    for (uint i = 0; i < path.Count(); ++i)
+    {
+        iPoint pos = MapToWorld(path[i].x, path[i].y);
+        //app->render->DrawTexture(tileX, pos.x, pos.y);
+    }
+}
+
+int Map::MovementCost(int x, int y) const
+{
+    int ret = -1;
+
+    if ((x >= 0) && (x < data.width) && (y >= 0) && (y < data.height))
+    {
+        int id = data.layers.start->next->data->Get(x, y);
+
+        if (id == 0) ret = 3;
+        else ret = 0;
+    }
+
+    return ret;
+}
+
+void Map::ComputePath(int x, int y)
+{
+    path.Clear();
+    iPoint goal = WorldToMap(x, y);
+
+    // L11: TODO 2: Follow the breadcrumps to goal back to the origin
+    // add each step into "path" dyn array (it will then draw automatically)
+    ListItem<iPoint>* aux = breadcrumbs.end;
+
+    while (aux != breadcrumbs.start)
+    {
+        path.PushBack(aux->data);
+        aux = aux->prev;
+    }
+
+}
+
+bool Map::IsWalkable(int x, int y) const
+{
+    // L10: TODO 3: return true only if x and y are within map limits
+    // and the tile is walkable (tile id 0 in the navigation layer)
+    ListItem<MapLayer*>* lay = data.layers.start;
+    if (lay->data->Get(x, y) != 0)
+    {
+        return (x >= 0) && (x <= data.width) && (y >= 0) && (y <= data.height);
+    }
+
+}
+
+void Map::PropagateBFS()
+{
+    iPoint curr;
+    if (frontier.Pop(curr))
+    {
+        iPoint neighbors[4];
+        neighbors[0].Create(curr.x + 1, curr.y + 0);
+        neighbors[1].Create(curr.x + 0, curr.y + 1);
+        neighbors[2].Create(curr.x - 1, curr.y + 0);
+        neighbors[3].Create(curr.x + 0, curr.y - 1);
+
+        for (uint i = 0; i < 4; ++i)
+        {
+            if (MovementCost(neighbors[i].x, neighbors[i].y) > 0)
+            {
+                if (visited.Find(neighbors[i]) == -1)
+                {
+                    frontier.Push(neighbors[i], 0);
+                    visited.Add(neighbors[i]);
+
+                    // L11: TODO 1: Record the direction to the previous node 
+                    // with the new list "breadcrumps"
+                    breadcrumbs.Add(curr);
+                }
+            }
+        }
+    }
+}
+
+void Map::PropagateDijkstra()
+{
+    // L11: TODO 3: Taking BFS as a reference, implement the Dijkstra algorithm
+    // use the 2 dimensional array "costSoFar" to track the accumulated costs
+    // on each cell (is already reset to 0 automatically)
+
+    iPoint curr;
+    if (frontier.Pop(curr))
+    {
+        iPoint neighbors[4];
+        neighbors[0].Create(curr.x + 1, curr.y + 0);
+        neighbors[1].Create(curr.x + 0, curr.y + 1);
+        neighbors[2].Create(curr.x - 1, curr.y + 0);
+        neighbors[3].Create(curr.x + 0, curr.y - 1);
+
+        for (uint i = 0; i < 4; ++i)
+        {
+            uint newCost = costSoFar[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
+
+            if (newCost > costSoFar[curr.x][curr.y])
+            {
+                if (visited.Find(neighbors[i]) == -1)
+                {
+                    frontier.Push(neighbors[i], 0);
+                    visited.Add(neighbors[i]);
+
+                    breadcrumbs.Add(curr);
+                }
+                costSoFar[neighbors[i].x][neighbors[i].y] = newCost;
+            }
+        }
+    }
+}
+
+
 void Map::Draw()
 {
     if (mapLoaded == false) return;
@@ -165,7 +326,7 @@ bool Map::CleanUp()
         RELEASE(item->data);
         item = item->next;
     }
-    data.tilesets.clear();
+    data.tilesets.Clear();
 
     // Remove all layers
     ListItem<MapLayer*>* item2;
@@ -176,7 +337,7 @@ bool Map::CleanUp()
         RELEASE(item2->data);
         item2 = item2->next;
     }
-    data.layers.clear();
+    data.layers.Clear();
 
     // Clean up the pugui tree
     mapFile.reset();
@@ -214,7 +375,7 @@ bool Map::Load(const char* filename)
 
         if (ret == true) ret = LoadTilesetImage(tileset, set);
 
-        data.tilesets.add(set);
+        data.tilesets.Add(set);
     }
 
     // Load layer info
@@ -226,7 +387,7 @@ bool Map::Load(const char* filename)
         ret = LoadLayer(layer, lay);
 
         if (ret == true)
-            data.layers.add(lay);
+            data.layers.Add(lay);
     }
 
     if (ret == true)
@@ -379,7 +540,7 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
         item->name = n.attribute("name").value();
         item->value = n.attribute("value").as_int();
 
-        properties.list.add(item);
+        properties.list.Add(item);
     }
     
     return ret;

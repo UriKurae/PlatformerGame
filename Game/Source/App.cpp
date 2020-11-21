@@ -69,7 +69,7 @@ App::~App()
 		item = item->prev;
 	}
 
-	modules.clear();
+	modules.Clear();
 
 	
 }
@@ -77,7 +77,7 @@ App::~App()
 void App::AddModule(Module* module, bool active)
 {
 	module->Init(active);
-	modules.add(module);
+	modules.Add(module);
 }
 
 // Called before render is available

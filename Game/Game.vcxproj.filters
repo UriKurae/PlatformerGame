@@ -66,6 +66,12 @@
     <ClInclude Include="Source\WinScene.h" />
     <ClInclude Include="Source\DeadScene.h" />
     <ClInclude Include="Source\Scene2.h" />
+    <ClInclude Include="Source\PQueue.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Queue.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

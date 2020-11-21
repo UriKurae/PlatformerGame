@@ -110,6 +110,8 @@
     <ClInclude Include="Source\IntroScene.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\PQueue.h" />
+    <ClInclude Include="Source\Queue.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Audio.h" />
     <ClInclude Include="Source\Input.h" />

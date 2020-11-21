@@ -4,8 +4,12 @@
 #include "Module.h"
 #include "List.h"
 #include "Point.h"
+#include "DynArray.h"
+#include "PQueue.h"
 
 #include "PugiXml\src\pugixml.hpp"
+
+#define COST_MAP_SIZE	100
 
 struct TileSet
 {
@@ -119,6 +123,18 @@ public:
 
     iPoint WorldToMap(int x, int y) const;
 
+    void ResetPath(iPoint start);
+    void DrawPath();
+    bool IsWalkable(int x, int y) const;
+
+    // L11: More pathfinding methods
+    int MovementCost(int x, int y) const;
+    void ComputePath(int x, int y);
+
+    // Propagation methods
+    void PropagateBFS();
+    void PropagateDijkstra();
+
 
 private:
 
@@ -132,6 +148,7 @@ private:
 
     TileSet* GetTilesetFromTileId(int id) const;
 
+
 public:
 
     MapData data;
@@ -142,6 +159,14 @@ private:
     pugi::xml_document mapFile;
     SString folder;
     bool mapLoaded;
+
+    PQueue<iPoint> frontier;
+    List<iPoint> visited;
+
+    List<iPoint> breadcrumbs;
+    uint costSoFar[COST_MAP_SIZE][COST_MAP_SIZE];
+    DynArray<iPoint> path;
+
 };
 
 #endif // __MAP_H__

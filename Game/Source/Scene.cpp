@@ -50,6 +50,8 @@ bool Scene::Start()
 
 		playerStartPosition = app->player->SetPosition(144, 48);
 
+		app->map->ResetPath(iPoint(15, 15));
+
 	}
 	
 	return true;
@@ -64,7 +66,6 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
-	
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KeyState::KEY_DOWN)
 		app->RequestLoadGame();
 	
@@ -120,12 +121,24 @@ bool Scene::PostUpdate()
 		app->fade->FadingToBlack(this, (Module*)app->scene2);
 	}
 
-	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
-	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
-	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
+	//app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
+	//app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
+	//app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 
-	if(app->map->active == true)
+	/*if(app->map->active == true)
 		app->map->Draw();
+		*/
+
+	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_REPEAT)
+	{
+		app->map->PropagateBFS();
+		app->map->DrawPath();
+	}
+	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_UP)
+	{
+		app->map->ResetPath(iPoint(15, 15));
+	}
+
 
 
 	return ret;
