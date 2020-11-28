@@ -1,13 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Source\Window.cpp" />
-    <ClCompile Include="Source\Textures.cpp" />
-    <ClCompile Include="Source\Scene.cpp" />
-    <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Input.cpp" />
-    <ClCompile Include="Source\Audio.cpp" />
     <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Log.cpp">
       <Filter>Utils</Filter>
@@ -17,22 +11,48 @@
     </ClCompile>
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Player.cpp" />
-    <ClCompile Include="Source\FadeToBlack.cpp" />
-    <ClCompile Include="Source\IntroScene.cpp" />
-    <ClCompile Include="Source\WinScene.cpp" />
-    <ClCompile Include="Source\DeadScene.cpp" />
-    <ClCompile Include="Source\Scene2.cpp" />
-    <ClCompile Include="Source\Timer.cpp" />
-    <ClCompile Include="Source\PerfTimer.cpp" />
+    <ClCompile Include="Source\PerfTimer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Timer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Audio.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FadeToBlack.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Render.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Textures.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Window.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DeadScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IntroScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WinScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Window.h" />
-    <ClInclude Include="Source\Textures.h" />
-    <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\Render.h" />
     <ClInclude Include="Source\Module.h" />
-    <ClInclude Include="Source\Input.h" />
-    <ClInclude Include="Source\Audio.h" />
     <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\Defs.h">
       <Filter>Utils</Filter>
@@ -63,29 +83,67 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Player.h" />
-    <ClInclude Include="Source\FadeToBlack.h" />
-    <ClInclude Include="Source\IntroScene.h" />
-    <ClInclude Include="Source\WinScene.h" />
-    <ClInclude Include="Source\DeadScene.h" />
-    <ClInclude Include="Source\Scene2.h" />
     <ClInclude Include="Source\PQueue.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Queue.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Timer.h" />
-    <ClInclude Include="Source\PerfTimer.h" />
+    <ClInclude Include="Source\PerfTimer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Timer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Audio.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FadeToBlack.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Textures.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Window.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DeadScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IntroScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WinScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
       <UniqueIdentifier>{83a966c7-b4bb-4eff-9c2c-3ff3c7b55a60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External\PugiXml">
+      <UniqueIdentifier>{2855ff7f-53a1-413d-a75b-18b4ade921dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core Modules">
+      <UniqueIdentifier>{9c72f086-b4fc-4b7d-be31-bff048c2fae8}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Utils">
       <UniqueIdentifier>{2cad778a-d356-48b0-9fee-587f1bbb187e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="External\PugiXml">
-      <UniqueIdentifier>{2855ff7f-53a1-413d-a75b-18b4ade921dd}</UniqueIdentifier>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{020d76fb-6e30-480f-a43d-02b145598759}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

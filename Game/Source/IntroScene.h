@@ -38,6 +38,6 @@ private:
 	SDL_Texture* logo;
 
 	float count;
-
+	bool showLogo = true;
 };
 

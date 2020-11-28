@@ -54,9 +54,14 @@ bool IntroScene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(4);
 	
-	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN && count == 0) 
+	if ((app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) && (count == 0) && (showLogo == false))
 		app->fade->FadingToBlack(this, app->scene, 60.0f);
 	
+	if (count == 50)
+	{
+		app->fade->FadingToBlack(this, this, 60.0f);
+		showLogo = false;
+	}
 	
 	return true;
 }
@@ -71,16 +76,14 @@ bool IntroScene::PostUpdate()
 
 
 	count -= 0.5f;
-	if (count <= 100 && count > 0)
+	if ((count >= 50) && (showLogo == true))
 	{
 		app->render->DrawTexture(logo, 150, 0, NULL);
 	}
-	else
+	else if ((count < 20) && (showLogo == false))
 	{
 		app->render->DrawTexture(intro, 0, 0, NULL);
-		count = 0;
 	}
-
 	return ret;
 }
 
