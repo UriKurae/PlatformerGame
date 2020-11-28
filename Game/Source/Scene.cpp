@@ -34,21 +34,19 @@ bool Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene::Start()
 {
-
 	if (this->active == true) 
 	{
-		app->player->Enable();
-		app->player->currentLevel = 1;
+		//app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
 
-		app->map->Enable();
-		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
 		app->map->Load("Level1.tmx");
 
 		sky = app->tex->Load("Assets/textures/sky.png");
 		sea = app->tex->Load("Assets/textures/sea.png");
 		clouds = app->tex->Load("Assets/textures/clouds.png");
 
-		playerStartPosition = app->player->SetPosition(144, 48);
+		app->player->Enable();
+		app->player->currentLevel = 1;
+		playerStartPosition = app->player->SetPosition(250, 70);
 
 		app->map->ResetPath(iPoint(15, 15));
 
@@ -73,13 +71,13 @@ bool Scene::Update(float dt)
 		app->RequestSaveGame();
 
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KeyState::KEY_DOWN)
-		RestartLevel();
+		RestartPlayerPosition();
 
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 		app->map->viewHitboxes = !app->map->viewHitboxes;
 
 	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
-		app->fade->FadingToBlack(this, (Module*)app->scene2, 60.0f);
+		app->fade->FadingToBlack(this, (Module*)app->scene2, 1/dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(-4);
@@ -92,14 +90,15 @@ bool Scene::Update(float dt)
 	{
 		if (CheckWin() == 1)
 		{
-			app->fade->FadingToBlack(this, (Module*)app->scene2, 60.0f);
+			app->fade->FadingToBlack(this, (Module*)app->scene2, 1/dt);
 			app->player->Disable();
 		}
 
 		else if (CheckWin() == 2)
 		{
 			app->deadScene->lastScene = this;
-			app->fade->FadingToBlack(this, (Module*)app->deadScene, 60.0f);
+			app->fade->FadingToBlack(this, (Module*)app->deadScene, 1/dt);
+			RestartPlayerPosition();
 			app->player->Disable();
 		}
 	}
@@ -114,12 +113,6 @@ bool Scene::PostUpdate()
 
 	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
-
-	if (app->player->currentLevel == 2)
-	{
-		app->player->Disable();
-		app->fade->FadingToBlack(this, (Module*)app->scene2);
-	}
 
 	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
@@ -158,7 +151,7 @@ bool Scene::CleanUp()
 	return true;
 }
 
-bool Scene::RestartLevel()
+bool Scene::RestartPlayerPosition()
 {
 	app->player->SetPosition(playerStartPosition.x, playerStartPosition.y);
 

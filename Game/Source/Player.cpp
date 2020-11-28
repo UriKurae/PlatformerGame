@@ -52,6 +52,8 @@ bool Player::Save(pugi::xml_node& playerNode)
 
 bool Player::Start()
 {
+	app->audio->PlayMusic("Assets/audio/music/test_music.ogg");
+
 	LOG("Loading player textures");
 
 	// Load the spritesheet for the player
@@ -61,9 +63,9 @@ bool Player::Start()
 
 		currentAnim = &idleRightAnim;
 
-		speedX = 5.5f;
-		speedY = 3.5f;
-		gravity = 4.0f;
+		speedX = 250.0f;
+		speedY = 1000.0f;
+		gravity = 250.0f;
 		jump = false;
 		godMode = false;
 
@@ -74,6 +76,8 @@ bool Player::Start()
 
 bool Player::Update(float dt)
 {
+	delt = dt;
+
 	// Detect player's input
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
@@ -88,11 +92,11 @@ bool Player::Update(float dt)
 		
 		if (app->input->GetKey(SDL_SCANCODE_W) == KeyState::KEY_REPEAT)
 		{
-			position.y -= 3.0f;
+			position.y -= 300.0f * dt;
 		}
 		if (app->input->GetKey(SDL_SCANCODE_S) == KeyState::KEY_REPEAT)
 		{
-			position.y += 3.0f;
+			position.y += 300.0f * dt;
 		}
 	}
 
@@ -101,23 +105,25 @@ bool Player::Update(float dt)
 	{
 		if ((currentAnim != &runRightAnim) && (jump == false))
 		{
+			runRightAnim.speed = 8.0f * dt;
 			runRightAnim.Reset();
 			currentAnim = &runRightAnim;
 		}
 
 		if (jump == true)
 		{
+			jumpRightAnim.speed = 15.0f * dt;
 			currentAnim = &jumpRightAnim;
 		}
 
 		if (godMode)
 		{
-			position.x += 3.0f;
+			position.x += 300.0f * dt;;
 		}
 		
 		if (blockRightMovement == false)
 		{
-			position.x += speedX;
+			position.x += speedX * dt;
 		}
 		
 		direction = "right";
@@ -139,12 +145,12 @@ bool Player::Update(float dt)
 
 		if (godMode)
 		{
-			position.x -= 3.0f;
+			position.x -= 300.0f * dt;
 		}
 
 		if (blockLeftMovement == false)
 		{
-			position.x -= speedX;
+			position.x -= speedX * dt;
 		}
 
 		direction = "left";
@@ -287,7 +293,7 @@ bool Player::Update(float dt)
 
 	if (blockFall == false && godMode == false)
 	{
-		position.y += gravity;
+		position.y += gravity * dt;
 		isFalling = true;
 	}
 
@@ -427,8 +433,8 @@ void Player::Jump()
 {
 	if (speedY > 0)
 	{
-		position.y -= speedY * 10;
-		speedY -= 0.1f;
+		position.y -= speedY / delt * 0.6f;
+		speedY -= gravity * delt * 0.02f;
 		upwards = true;
 	}
 	if (speedY <= 0)

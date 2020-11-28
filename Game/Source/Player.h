@@ -61,6 +61,8 @@ public:
 
 private:
 
+	float delt = 0;
+
 	// Position of player
 	Point<float> position;
 

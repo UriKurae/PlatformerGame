@@ -42,13 +42,13 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win, true);
 	AddModule(tex, true);
 	AddModule(audio, true);
-	AddModule(intro, true);
-	AddModule(scene, false);
+	AddModule(intro, false);
+	AddModule(scene, true);
 	AddModule(scene2, false);
 	AddModule(winScene, false);
 	AddModule(deadScene, false);
-	AddModule(map, false);
-	AddModule(player, false);
+	AddModule(map, true);
+	AddModule(player, true);
 	AddModule(fade, true);
 
 	// Render last to swap buffer
@@ -68,8 +68,6 @@ App::~App()
 	}
 
 	modules.Clear();
-
-	
 }
 
 void App::AddModule(Module* module, bool active)
@@ -162,7 +160,6 @@ bool App::Update()
 
 	FinishUpdate();
 
-	PERF_PEEK(ptimer);
 
 	return ret;
 }
@@ -218,6 +215,13 @@ void App::FinishUpdate()
 		averageFps, lastFrameMs, framesOnLastUpdate, dt, secondsSinceStartup, frameCount);
 
 	app->win->SetTitle(title);
+
+	if ((cappedMs > 0) && (lastFrameMs < cappedMs))
+	{
+		PERF_START(ptimer);
+		SDL_Delay(cappedMs);
+		LOG("We waited for %i ms and got back in %f", cappedMs, ptimer.ReadMs());
+	}
 
 }
 
