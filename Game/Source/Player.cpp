@@ -206,9 +206,9 @@ bool Player::Update(float dt)
 	}
 
 
-	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
-		&& (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
-		&& (jump == false))
+	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT) &&
+		(app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) &&
+		(jump == false))
 	{
 		if (currentAnim != &idleRightAnim && direction == "right")
 		{
@@ -250,10 +250,10 @@ bool Player::Update(float dt)
 	}
 
 
-	if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE)
-		&& (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_IDLE)
-		&& (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE)
-		&& (isFalling == false))
+	if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE) &&
+		(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_IDLE) &&
+		(app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE) &&
+		(isFalling == false))
 	{
 		if (currentAnim != &idleRightAnim && direction == "right")
 		{
@@ -435,10 +435,8 @@ void Player::Jump()
 	{
 		isFalling = true;
 		upwards = false;
-		blockFall = false;
-		
+		blockFall = false;	
 	}
-
 }
 
 
@@ -503,7 +501,6 @@ void Player::LoadPushbacks()
 
 
 	// Jump left animation
-
 	jumpLeftAnim.PushBack({ 620,89,20,22 });
 	jumpLeftAnim.PushBack({ 569,82,19,27 });
 	jumpLeftAnim.PushBack({ 520,80,21,23 });
@@ -518,12 +515,10 @@ void Player::LoadPushbacks()
 	jumpLeftAnim.loop = false;
 
 	// Falling anim right
-
 	fallingRightAnim.PushBack({ 68,111,17,31 });
 	fallingRightAnim.PushBack({ 117,112,17,30 });
 
 	// Falling anim left
-
 	fallingLeftAnim.PushBack({ 619,112,17,31 });
 	fallingLeftAnim.PushBack({ 569,112,17,30 });
 }

@@ -22,8 +22,6 @@
 // Constructor
 App::App(int argc, char* args[]) : argc(argc), args(args)
 {
-	frames = 0;
-
 	input = new Input();
 	win = new Window();
 	render = new Render();
@@ -83,6 +81,8 @@ void App::AddModule(Module* module, bool active)
 // Called before render is available
 bool App::Awake()
 {
+	PERF_START(ptimer);
+
 	pugi::xml_document configFile;
 	pugi::xml_node config;
 	pugi::xml_node configApp;
@@ -98,6 +98,8 @@ bool App::Awake()
 		
 		title.Create(configApp.child("title").child_value());
 		organization.Create(configApp.child("organization").child_value());
+		cappedMs = configApp.attribute("framerate_cap").as_int();
+
 	}
 
 	if(ret == true)
@@ -113,12 +115,16 @@ bool App::Awake()
 		}
 	}
 
+	PERF_PEEK(ptimer);
+
 	return ret;
 }
 
 // Called before the first frame
 bool App::Start()
 {
+	PERF_START(ptimer);
+
 	bool ret = true;
 	ListItem<Module*>* item;
 	item = modules.start;
@@ -129,12 +135,16 @@ bool App::Start()
 		item = item->next;
 	}
 
+	PERF_PEEK(ptimer);
+
 	return ret;
 }
 
 // Called each loop iteration
 bool App::Update()
 {
+	PERF_START(ptimer);
+
 	bool ret = true;
 	PrepareUpdate();
 
@@ -151,6 +161,9 @@ bool App::Update()
 		ret = PostUpdate();
 
 	FinishUpdate();
+
+	PERF_PEEK(ptimer);
+
 	return ret;
 }
 
@@ -170,16 +183,42 @@ pugi::xml_node App::LoadConfig(pugi::xml_document& configFile) const
 // ---------------------------------------------
 void App::PrepareUpdate()
 {
+	++frameCount;
+	++lastSecFrameCount;
+
+	dt = frameTime.ReadSec();
+	frameTime.Start();
 }
 
 // ---------------------------------------------
 void App::FinishUpdate()
 {
 
-	if (loadRequest)
-		Load();
-	if (saveRequest)
-		Save();
+	if (saveGameRequested)
+		LoadGame();
+	if (loadGameRequested)
+		SaveGame();
+
+	// Frame rate and dt control
+
+	if (lastSecFrameTime.Read() > 1000)
+	{
+		lastSecFrameTime.Start();
+		prevLastSecFrameCount = lastSecFrameCount;
+		lastSecFrameCount = 0;
+	}
+
+	float averageFps = float(frameCount) / startupTime.ReadSec();
+	float secondsSinceStartup = startupTime.ReadSec();
+	uint32 lastFrameMs = frameTime.Read();
+	uint32 framesOnLastUpdate = prevLastSecFrameCount;
+
+	static char title[256];
+	sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
+		averageFps, lastFrameMs, framesOnLastUpdate, dt, secondsSinceStartup, frameCount);
+
+	app->win->SetTitle(title);
+
 }
 
 // Call modules before each loop iteration
@@ -292,18 +331,18 @@ const char* App::GetOrganization() const
 
 void App::RequestLoadGame()
 {
-	loadRequest = true;
+	loadGameRequested = true;
 }
 
 void App::RequestSaveGame()
 {
-	saveRequest = true;
+	saveGameRequested = true;
 }
 
 
-bool App::Load()
+bool App::LoadGame()
 {
-	loadRequest = false;
+	saveGameRequested = false;
 	bool ret = true;
 
 	pugi::xml_parse_result resul = saveLoadFile.load_file("savedgame.xml");
@@ -332,11 +371,11 @@ bool App::Load()
 	return true;
 }
 
-bool App::Save()
+bool App::SaveGame()
 {
 	LOG("Saving Results!!");
 
-	saveRequest = false;
+	loadGameRequested = false;
 	bool ret = true;
 
 	ListItem<Module*>* item = modules.start;

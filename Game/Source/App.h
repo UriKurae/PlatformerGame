@@ -2,6 +2,9 @@
 #define __APP_H__
 
 #include "Module.h"
+#include "PerfTimer.h"
+#include "Timer.h"
+
 #include "List.h"
 
 #include "PugiXml/src/pugixml.hpp"
@@ -81,10 +84,10 @@ private:
 	bool PostUpdate();
 
 	// Load game method
-	bool Load();
+	bool LoadGame();
 
 	// Save game method
-	bool Save();
+	bool SaveGame();
 
 public:
 
@@ -113,14 +116,23 @@ private:
 
 	List<Module*> modules;
 
-	uint frames;
-	float dt;
-	
-	bool loadRequest;
-	bool saveRequest;
+	bool saveGameRequested;
+	bool loadGameRequested;
 
 	pugi::xml_document saveLoadFile;
 	pugi::xml_node saveState;
+
+	PerfTimer ptimer;
+	uint64 frameCount = 0;
+
+	Timer startupTime;
+	Timer frameTime;
+	Timer lastSecFrameTime;
+	uint32 lastSecFrameCount = 0;
+	uint32 prevLastSecFrameCount = 0;
+	float dt = 0.0f;
+
+	int cappedMs = -1;
 
 };
 

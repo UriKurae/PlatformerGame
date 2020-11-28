@@ -22,6 +22,8 @@
     <ClCompile Include="Source\WinScene.cpp" />
     <ClCompile Include="Source\DeadScene.cpp" />
     <ClCompile Include="Source\Scene2.cpp" />
+    <ClCompile Include="Source\Timer.cpp" />
+    <ClCompile Include="Source\PerfTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -72,6 +74,8 @@
     <ClInclude Include="Source\Queue.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Timer.h" />
+    <ClInclude Include="Source\PerfTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
