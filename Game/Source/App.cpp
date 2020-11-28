@@ -68,8 +68,6 @@ App::~App()
 	}
 
 	modules.Clear();
-
-	
 }
 
 void App::AddModule(Module* module, bool active)
@@ -218,10 +216,12 @@ void App::FinishUpdate()
 
 	app->win->SetTitle(title);
 
-	PERF_START(ptimer);
-	SDL_Delay(cappedMs);
-	LOG("We waited for %i ms and got back in %f", cappedMs, ptimer.ReadMs());
-
+	if ((cappedMs > 0) && (lastFrameMs < cappedMs))
+	{
+		PERF_START(ptimer);
+		SDL_Delay(cappedMs);
+		LOG("We waited for %i ms and got back in %f", cappedMs, ptimer.ReadMs());
+	}
 
 }
 
