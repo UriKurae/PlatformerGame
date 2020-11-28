@@ -33,7 +33,7 @@ public:
 	bool CleanUp();
 
 	// Restart level
-	bool RestartLevel();
+	bool RestartPlayerPosition();
 
 	// Check if player won
 	int CheckWin();

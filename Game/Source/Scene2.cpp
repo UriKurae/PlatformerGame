@@ -37,10 +37,8 @@ bool Scene2::Start()
 {
 	if (this->active == true)
 	{
-		app->player->Enable();
-		
 
-		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
+		//app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
 		app->map->Enable();
 		app->map->Load("Level2.tmx");
 
@@ -48,14 +46,14 @@ bool Scene2::Start()
 		sea = app->tex->Load("Assets/textures/sea.png");
 		clouds = app->tex->Load("Assets/textures/clouds.png");
 	
-
+		app->player->Enable();
 		if ((app->player->loadedGame == true) && (app->player->currentLevel == 2) && (deadOnScene == false))
 		{
 			playerStartPosition = app->player->SetPosition(app->player->GetPosition().x, app->player->GetPosition().y);
 		}
 		else
 		{
-			playerStartPosition = app->player->SetPosition(160, 240);
+			playerStartPosition = app->player->SetPosition(100, 240);
 		}
 
 		app->player->currentLevel = 2;
