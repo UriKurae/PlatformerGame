@@ -71,9 +71,9 @@ void Map::DrawPath()
     while (item)
     {
         point = item->data;
-        TileSet* tileset = GetTilesetFromTileId(1160);
+        TileSet* tileset = GetTilesetFromTileId(1162);
 
-        SDL_Rect rec = tileset->GetTileRect(1160);
+        SDL_Rect rec = tileset->GetTileRect(1162);
         iPoint pos = MapToWorld(point.x, point.y);
 
         app->render->DrawTexture(tileset->texture, pos.x, pos.y, &rec);
@@ -107,10 +107,24 @@ int Map::MovementCost(int x, int y) const
 
     if ((x >= 0) && (x < data.width) && (y >= 0) && (y < data.height))
     {
-        int id = data.layers.start->next->data->Get(x, y);
+        int id = data.layers.start->next->next->data->Get(x, y);
 
-        if (id == 0) ret = 3;
-        else ret = 0;
+        if (id == 1161)
+        {
+            ret = 0;
+        }
+        else if (id == 1170)
+        {
+            ret = 0;
+        }
+        else if (id == 1162)
+        {
+            ret = 0;
+        }
+        else
+        {
+            ret = 3;
+        }
     }
 
     return ret;
@@ -148,6 +162,9 @@ bool Map::IsWalkable(int x, int y) const
 void Map::PropagateBFS()
 {
     iPoint curr;
+    pathGoal.x = (int)app->player->GetPosition().x;
+    pathGoal.y = (int)app->player->GetPosition().y;
+    pathGoal = WorldToMap(pathGoal.x,pathGoal.y);
     if (frontier.Pop(curr))
     {
         iPoint neighbors[4];
@@ -155,6 +172,9 @@ void Map::PropagateBFS()
         neighbors[1].Create(curr.x + 0, curr.y + 1);
         neighbors[2].Create(curr.x - 1, curr.y + 0);
         neighbors[3].Create(curr.x + 0, curr.y - 1);
+
+        /*if (curr.x == pathGoal.x && curr.y == pathGoal.y)
+            break;*/
 
         for (uint i = 0; i < 4; ++i)
         {
@@ -179,7 +199,6 @@ void Map::PropagateDijkstra()
     // L11: TODO 3: Taking BFS as a reference, implement the Dijkstra algorithm
     // use the 2 dimensional array "costSoFar" to track the accumulated costs
     // on each cell (is already reset to 0 automatically)
-
     iPoint curr;
     if (frontier.Pop(curr))
     {
@@ -191,21 +210,21 @@ void Map::PropagateDijkstra()
 
         for (uint i = 0; i < 4; ++i)
         {
-            uint newCost = costSoFar[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
+            newCost = costSoFar[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
 
-            if (newCost > costSoFar[curr.x][curr.y])
+            if (MovementCost(neighbors[i].x, neighbors[i].y) > 0)
             {
                 if (visited.Find(neighbors[i]) == -1)
                 {
-                    frontier.Push(neighbors[i], 0);
+                    costSoFar[neighbors[i].x][neighbors[i].y] = newCost;
+                    frontier.Push(neighbors[i], newCost);
                     visited.Add(neighbors[i]);
-
                     breadcrumbs.Add(curr);
                 }
-                costSoFar[neighbors[i].x][neighbors[i].y] = newCost;
             }
         }
     }
+
 }
 
 

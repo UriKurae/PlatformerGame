@@ -162,6 +162,8 @@ private:
 
     PQueue<iPoint> frontier;
     List<iPoint> visited;
+    uint newCost;
+    iPoint pathGoal;
 
     List<iPoint> breadcrumbs;
     uint costSoFar[COST_MAP_SIZE][COST_MAP_SIZE];
