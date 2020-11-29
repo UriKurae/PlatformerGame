@@ -36,7 +36,9 @@ bool Scene::Start()
 {
 	if (this->active == true) 
 	{
-		//app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
+		executioner = new Executioner(iPoint(300, 190));
+
+		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
 
 		app->map->Load("Level1.tmx");
 
@@ -103,6 +105,8 @@ bool Scene::Update(float dt)
 		}
 	}
 
+	executioner->Update(dt);
+
 	return true;
 }
 
@@ -114,6 +118,8 @@ bool Scene::PostUpdate()
 	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
+
+
 	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
@@ -121,6 +127,10 @@ bool Scene::PostUpdate()
 	if(app->map->active == true)
 		app->map->Draw();
 		
+
+	executioner->Draw();
+
+
 
 	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
 	{
@@ -148,6 +158,8 @@ bool Scene::CleanUp()
 
 	app->map->Disable();
 	
+	RELEASE(executioner);
+
 	return true;
 }
 

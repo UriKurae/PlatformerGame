@@ -55,11 +55,11 @@ bool Collisions::PreUpdate()
 
 			if (c1->Intersects(c2->rect))
 			{
-				if (matrix[c1->type][c2->type] && c1->listener)
+				/*if (matrix[c1->type][c2->type] && c1->listener)
 					c1->listener->OnCollision(c1, c2);
 
 				if (matrix[c2->type][c1->type] && c2->listener)
-					c2->listener->OnCollision(c2, c1);
+					c2->listener->OnCollision(c2, c1);*/
 			}
 		}
 	}
@@ -69,7 +69,7 @@ bool Collisions::PreUpdate()
 
 bool Collisions::Update(float dt)
 {
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KeyState::KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 		debug = !debug;
 
 	return true;
@@ -93,17 +93,17 @@ void Collisions::DebugDraw()
 
 		switch (colliders[i]->type)
 		{
-		case Collider::Type::NONE: // white
-	
+		case Collider::TYPE::NONE: // white
 			app->render->DrawRectangle(colliders[i]->rect, 255, 255, 255, alpha);
 			break;
-		case Collider::Type::WALL: // blue
-			app->render->DrawRectangle(colliders[i]->rect, 0, 0, 255, alpha);
-			break;
-		case Collider::Type::PLAYER: // green
+
+		case Collider::TYPE::PLAYER: // green
 			app->render->DrawRectangle(colliders[i]->rect, 0, 255, 0, alpha);
 			break;
-		
+
+		case Collider::TYPE::ENEMY: //blue
+			app->render->DrawRectangle(colliders[i]->rect, 0, 0, 255, alpha);
+			break;
 		}
 	}
 }
@@ -126,7 +126,7 @@ bool Collisions::CleanUp()
 	return true;
 }
 
-Collider* Collisions::AddCollider(SDL_Rect rect, Collider::Type type, Module* listener)
+Collider* Collisions::AddCollider(SDL_Rect rect, Collider::TYPE type, Module* listener)
 {
 	Collider* ret = nullptr;
 

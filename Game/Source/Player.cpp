@@ -7,6 +7,7 @@
 #include "Textures.h"
 #include "Window.h"
 #include "Audio.h"
+#include "Collisions.h"
 
 #include "Map.h"
 #include "List.h"
@@ -52,8 +53,6 @@ bool Player::Save(pugi::xml_node& playerNode)
 
 bool Player::Start()
 {
-	app->audio->PlayMusic("Assets/audio/music/test_music.ogg");
-
 	LOG("Loading player textures");
 
 	// Load the spritesheet for the player
@@ -62,6 +61,8 @@ bool Player::Start()
 		texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
 
 		currentAnim = &idleRightAnim;
+
+		collider = app->collisions->AddCollider({ (int)position.x, (int)position.x, 19, 30 }, Collider::TYPE::PLAYER);
 
 		speedX = 250.0f;
 		speedY = 1000.0f;
@@ -304,6 +305,7 @@ bool Player::Update(float dt)
 	}
 
 	currentAnim->Update();
+	collider->SetPos(position.x, position.y);
 
 	return true;
 }

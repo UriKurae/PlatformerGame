@@ -2,6 +2,7 @@
 #define __SCENE_H__
 
 #include "Module.h"
+#include "Executioner.h"
 
 struct SDL_Texture;
 
@@ -44,6 +45,9 @@ private:
 	SDL_Texture* sky;
 	SDL_Texture* clouds;
 	SDL_Texture* sea;
+
+	Executioner* executioner;
+
 };
 
 #endif // __SCENE_H__

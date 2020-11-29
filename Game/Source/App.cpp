@@ -10,8 +10,10 @@
 #include "DeadScene.h"
 #include "Map.h"
 #include "Player.h"
+#include "Enemies.h"
 #include "FadeToBlack.h"
 #include "IntroScene.h"
+#include "Collisions.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -27,6 +29,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	render = new Render();
 	tex = new Textures();
 	audio = new Audio();
+	collisions = new Collisions();
 	intro = new IntroScene();
 	scene = new Scene();
 	scene2 = new Scene2();
@@ -34,6 +37,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	deadScene = new DeadScene();
 	map = new Map();
 	player = new Player();
+	enemies = new Enemies();
 	fade = new FadeToBlack();
 
 	// Ordered for awake / Start / Update

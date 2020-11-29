@@ -4,11 +4,9 @@
 #include "Module.h"
 #include "Animation.h"
 #include "Point.h"
-
+#include "Collider.h"
 
 struct SDL_Texture;
-
-
 
 class Player : public Module
 {
@@ -60,6 +58,8 @@ public:
 
 
 private:
+
+	Collider* collider;
 
 	float delt = 0;
 

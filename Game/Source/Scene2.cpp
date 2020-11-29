@@ -37,8 +37,7 @@ bool Scene2::Start()
 {
 	if (this->active == true)
 	{
-
-		//app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
+		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
 		app->map->Enable();
 		app->map->Load("Level2.tmx");
 

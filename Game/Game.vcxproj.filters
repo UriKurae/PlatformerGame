@@ -50,6 +50,19 @@
     <ClCompile Include="Source\WinScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Enemy.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Executioner.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collider.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collisions.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemies.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -128,6 +141,19 @@
     <ClInclude Include="Source\WinScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Enemy.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Executioner.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collider.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collisions.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemies.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -144,6 +170,9 @@
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{020d76fb-6e30-480f-a43d-02b145598759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies">
+      <UniqueIdentifier>{933af5c6-e0e3-45c7-ab49-7b63b58e21cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
