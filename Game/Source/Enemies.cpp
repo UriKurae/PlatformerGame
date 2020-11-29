@@ -112,7 +112,7 @@ void Enemies::HandleEnemiesSpawn()
 			// Spawn a new enemy if the screen has reached a spawn position
 			if (spawnQueue[i].x * x < app->render->camera.x + (app->render->camera.w * x) + SPAWN_MARGIN)
 			{
-				LOG("Spawning enemy at %d", spawnQueue[i].x * SCREEN_SIZE);
+				LOG("Spawning enemy at %d", spawnQueue[i].x * x);
 
 				SpawnEnemy(spawnQueue[i]);
 				spawnQueue[i].type = ENEMY_TYPE::NO_TYPE; // Removing the newly spawned enemy from the queue
@@ -133,7 +133,7 @@ void Enemies::HandleEnemiesDespawn()
 			// Delete the enemy when it has reached the end of the screen
 			if (enemies[i]->position.x * x < (app->render->camera.x) - SPAWN_MARGIN)
 			{
-				LOG("DeSpawning enemy at %d", enemies[i]->position.x * SCREEN_SIZE);
+				LOG("DeSpawning enemy at %d", enemies[i]->position.x * x);
 
 				delete enemies[i];
 				enemies[i] = nullptr;

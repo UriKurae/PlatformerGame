@@ -40,7 +40,7 @@ public:
 	Enemies();
 
 	// Virtual destructor
-	virtual ~Enemies();
+	virtual ~Enemies() {};
 
 	// Called when the module is activated
 	// Loads the necessary textures for the enemies
@@ -74,9 +74,6 @@ public:
 	// The enemies sprite sheet
 	SDL_Texture* texture = nullptr;
 
-	//Destroy all ballons till verysmall
-	void destroyDynamiteBalloons();
-
 private:
 	// Spawns a new enemy using the data from the queue
 	void SpawnEnemy(const EnemySpawnpoint& info);
@@ -87,8 +84,6 @@ private:
 
 	// All spawned enemies in the scene
 	Enemy* enemies[MAX_ENEMIES] = { nullptr };
-
-	Collider* balloonCollider = balloon.collider;
 
 	// The audio fx for destroying an enemy
 	int enemyDestroyedFx = 0;
