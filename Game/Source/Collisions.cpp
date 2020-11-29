@@ -10,7 +10,7 @@
 
 Collisions::Collisions()
 {
-	
+	name.Create("collisions");
 
 }
 
@@ -101,8 +101,8 @@ void Collisions::DebugDraw()
 			app->render->DrawRectangle(colliders[i]->rect, 0, 255, 0, alpha);
 			break;
 
-		case Collider::TYPE::ENEMY: //blue
-			app->render->DrawRectangle(colliders[i]->rect, 0, 0, 255, alpha);
+		case Collider::TYPE::ENEMY: //red
+			app->render->DrawRectangle(colliders[i]->rect, 255, 0, 0, alpha);
 			break;
 		}
 	}
