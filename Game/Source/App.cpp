@@ -54,6 +54,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map, true);
 	AddModule(player, true);
 	AddModule(fade, true);
+	AddModule(collisions, true);
 
 	// Render last to swap buffer
 	AddModule(render, true);

@@ -18,5 +18,8 @@ public:
 
 private:
 	Animation idleAnim;
+	Animation skillAnim;
+	Animation deathAnim;
+
 	Collider* collider;
 };

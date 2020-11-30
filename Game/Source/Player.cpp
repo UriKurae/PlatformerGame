@@ -62,10 +62,10 @@ bool Player::Start()
 
 		currentAnim = &idleRightAnim;
 
-		collider = app->collisions->AddCollider({ (int)position.x, (int)position.x, 19, 30 }, Collider::TYPE::PLAYER);
+		collider = app->collisions->AddCollider({ (int)position.x+2, (int)position.y, 15, 25 }, Collider::TYPE::PLAYER);
 
 		speedX = 250.0f;
-		speedY = 1000.0f;
+		speedY = 1.8f;
 		gravity = 250.0f;
 		jump = false;
 		godMode = false;
@@ -135,12 +135,14 @@ bool Player::Update(float dt)
 	{
 		if ((currentAnim != &runLeftAnim) && (jump == false))
 		{
+			runLeftAnim.speed = 8.0f * dt;
 			runLeftAnim.Reset();
 			currentAnim = &runLeftAnim;
 		}
 
 		if(jump == true)
 		{
+			jumpLeftAnim.speed = 15.0f * dt;
 			currentAnim = &jumpLeftAnim;
 		}
 
@@ -163,12 +165,14 @@ bool Player::Update(float dt)
 		
 		if ((currentAnim != &jumpRightAnim) && (direction == "right"))
 		{
+			jumpRightAnim.speed = 13.0f * dt;
 			jumpRightAnim.Reset();
 			currentAnim = &jumpRightAnim;
 		}
 
 		else if ((currentAnim != &jumpLeftAnim) && (direction == "left"))
 		{
+			jumpLeftAnim.speed = 13.0f * dt;
 			jumpLeftAnim.Reset();
 			currentAnim = &jumpLeftAnim;
 		}
@@ -262,13 +266,13 @@ bool Player::Update(float dt)
 		(app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE) &&
 		(isFalling == false))
 	{
-		if (currentAnim != &idleRightAnim && direction == "right")
+		if ((currentAnim != &idleRightAnim) && (direction == "right"))
 		{
 			idleRightAnim.Reset();
 			currentAnim = &idleRightAnim;
 		}
 
-		else if(currentAnim != &idleLeftAnim && direction == "left")
+		else if((currentAnim != &idleLeftAnim) && (direction == "left"))
 		{
 			idleLeftAnim.Reset();
 			currentAnim = &idleLeftAnim;
@@ -278,13 +282,13 @@ bool Player::Update(float dt)
 
 	if (isFalling == true)
 	{
-		if (direction == "right" && currentAnim != &jumpRightAnim)
+		if ((direction == "right") && (currentAnim != &jumpRightAnim))
 		{
 			fallingRightAnim.Reset();
 			currentAnim = &fallingRightAnim;
 		}
 
-		if (direction == "left" && currentAnim != &jumpLeftAnim)
+		if ((direction == "left") && (currentAnim != &jumpLeftAnim))
 		{
 			fallingLeftAnim.Reset();
 			currentAnim = &fallingLeftAnim;
@@ -292,7 +296,7 @@ bool Player::Update(float dt)
 	}
 	
 
-	if (blockFall == false && godMode == false)
+	if ((blockFall == false) && (godMode == false))
 	{
 		position.y += gravity * dt;
 		isFalling = true;
@@ -305,7 +309,12 @@ bool Player::Update(float dt)
 	}
 
 	currentAnim->Update();
-	collider->SetPos(position.x, position.y);
+
+	if (direction == "right")
+		collider->SetPos(position.x + 5, position.y);
+
+	else if (direction == "left")
+		collider->SetPos(position.x, position.y);
 
 	return true;
 }
