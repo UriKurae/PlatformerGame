@@ -6,7 +6,7 @@
 
 #define MAX_ENEMIES 100
 
-class EnemyManager : Module
+class EnemyManager : public Module
 {
 public:
 	EnemyManager();

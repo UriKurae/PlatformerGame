@@ -1,52 +1,57 @@
-#ifndef __SCENE_H__
-#define __SCENE_H__
+#pragma once
 
-#include "Module.h"
+#include "Point.h"
+#include "SString.h"
 
-struct SDL_Texture;
-struct Executioner;
+class SDL_Texture;
 
-class Scene : public Module
+class Scene
 {
 public:
 
-	Scene();
-
-	// Destructor
-	virtual ~Scene();
-
-	// Called before render is available
-	bool Awake(pugi::xml_node& config) override;
+	Scene() {};
+	virtual ~Scene() {};
 
 	// Called before the first frame
-	bool Start();
-
-	// Called before all Updates
-	bool PreUpdate();
+	virtual bool Start()
+	{
+		return true;
+	}
 
 	// Called each loop iteration
-	bool Update(float dt);
+	virtual bool Update(float dt)
+	{
+		return true;
+	}
 
-	// Called before all Updates
-	bool PostUpdate();
+	// Draw Method
+	virtual bool Draw()
+	{
+		return true;
+	}
 
 	// Called before quitting
-	bool CleanUp();
+	virtual bool CleanUp()
+	{
+		return true;
+	}
 
 	// Restart level
-	bool RestartPlayerPosition();
+	virtual bool RestartPlayerPosition()
+	{
+		return true;
+	}
 
 	// Check if player won
-	int CheckWin();
-	
-private:
+	virtual int CheckWin()
+	{
+		return 1;
+	}
 
-	Point<float> playerStartPosition;
-	SDL_Texture* sky;
-	SDL_Texture* clouds;
-	SDL_Texture* sea;
+public:
 
-	Executioner* executioner;
+	SString name;
+	bool active;
+
+
 };
-
-#endif // __SCENE_H__

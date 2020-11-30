@@ -16,7 +16,7 @@
 #include "SDL/include/SDL.h"
 
 
-Player::Player()
+Player::Player(): Module()
 {
 	name.Create("player");
 

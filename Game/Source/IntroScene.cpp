@@ -55,7 +55,7 @@ bool IntroScene::Update(float dt)
 		app->audio->VolumeControl(4);
 	
 	if ((app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) && (count <= 0) && (showLogo == false))
-		app->fade->FadingToBlack(this, app->scene, 1 / dt);
+		//app->fade->FadingToBlack(this, app->scene, 1 / dt);
 	
 	if (count == 100)
 	{

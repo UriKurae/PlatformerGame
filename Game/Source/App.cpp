@@ -4,12 +4,13 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Audio.h"
-#include "Scene.h"
-#include "Scene2.h"
-#include "WinScene.h"
-#include "DeadScene.h"
+//#include "Scene.h"
+//#include "Scene2.h"
+//#include "WinScene.h"
+//#include "DeadScene.h"
 #include "Map.h"
 #include "Player.h"
+#include "SceneManager.h"
 #include "EnemyManager.h"
 #include "FadeToBlack.h"
 #include "IntroScene.h"
@@ -31,13 +32,14 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new Textures();
 	audio = new Audio();
 	collisions = new Collisions();
-	intro = new IntroScene();
+	/*intro = new IntroScene();
 	scene = new Scene();
 	scene2 = new Scene2();
 	winScene = new WinScene();
-	deadScene = new DeadScene();
+	deadScene = new DeadScene();*/
 	map = new Map();
 	player = new Player();
+	sceneManager = new SceneManager();
 	enemyManager = new EnemyManager();
 	pathFinding = new PathFinding();
 	fade = new FadeToBlack();
@@ -49,14 +51,16 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win, true);
 	AddModule(tex, true);
 	AddModule(audio, true);
-	AddModule(intro, true);
+	//AddModule(intro, true);
 	AddModule(pathFinding, true);
-	AddModule(scene, false);
+	/*AddModule(scene, false);
 	AddModule(scene2, false);
 	AddModule(winScene, false);
-	AddModule(deadScene, false);
+	AddModule(deadScene, false);*/
 	AddModule(map, false);
 	AddModule(player, false);
+	AddModule(sceneManager, false);
+	AddModule(enemyManager, false);
 	AddModule(fade, true);
 	AddModule(collisions, true);
 

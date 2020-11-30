@@ -27,6 +27,5 @@ void Enemy::Draw()
 	{
 		app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
 	}
-
 }
 

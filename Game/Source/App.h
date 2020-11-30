@@ -24,6 +24,7 @@ class Scene2;
 class WinScene;
 class Map;
 class Player;
+class SceneManager;
 class EnemyManager;
 class Collisions;
 class FadeToBlack;
@@ -106,6 +107,7 @@ public:
 	DeadScene* deadScene;
 	Map* map;
 	Player* player;
+	SceneManager* sceneManager;
 	EnemyManager* enemyManager;
 	Collisions* collisions;
 	FadeToBlack* fade;

@@ -1,7 +1,8 @@
 #include "EnemyManager.h"
 
-EnemyManager::EnemyManager()
+EnemyManager::EnemyManager(): Module()
 {
+	name.Create("enemymanager");
 }
 
 EnemyManager::~EnemyManager()
