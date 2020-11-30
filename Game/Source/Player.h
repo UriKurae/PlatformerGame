@@ -31,12 +31,14 @@ public:
 
 	bool CleanUp();
 
+	void CameraFollow();
+
 	bool Load(pugi::xml_node&);
 
 	bool Save(pugi::xml_node&);
 
-	Point<float> SetPosition(float x, float y);
-	Point<float> GetPosition();
+	iPoint SetPosition(int x, int y);
+	iPoint GetPosition();
 
 	// Collisions logic
 	void OnCollision();
@@ -64,7 +66,7 @@ private:
 	float delt = 0;
 
 	// Position of player
-	Point<float> position;
+	iPoint position;
 
 	// Direction player is facing at
 	SString direction;

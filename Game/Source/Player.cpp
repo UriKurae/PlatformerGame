@@ -314,6 +314,8 @@ bool Player::Update(float dt)
 	else if (direction == "left")
 		collider->SetPos(position.x, position.y);
 
+	CameraFollow();
+
 	return true;
 }
 
@@ -329,6 +331,12 @@ bool Player::CleanUp()
 	app->tex->UnLoad(texture);
 
 	return true;
+}
+
+void Player::CameraFollow()
+{
+	app->render->camera.x = -(position.x * 2.0f) + (app->render->camera.w / 3);
+	app->render->camera.y = (-position.y);
 }
 
 
@@ -538,7 +546,7 @@ void Player::LoadPushbacks()
 }
 
 
-Point<float> Player::SetPosition(float x, float y)
+iPoint Player::SetPosition(int x, int y)
 {
 	position.x = x;
 	position.y = y;
@@ -546,7 +554,7 @@ Point<float> Player::SetPosition(float x, float y)
 	return position;
 }
 
-Point<float> Player::GetPosition()
+iPoint Player::GetPosition()
 {
 	return position;
 }

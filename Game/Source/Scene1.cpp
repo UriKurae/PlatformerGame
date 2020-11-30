@@ -62,10 +62,11 @@ bool Scene1::Draw()
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 	
-	player->Draw();
 	//if(app->map->active == true)
 		app->map->Draw();
 	
+	player->Draw();
+
 	return ret;
 
 	//if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
