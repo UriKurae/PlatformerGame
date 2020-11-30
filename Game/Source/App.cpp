@@ -57,7 +57,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map, false);
 	//AddModule(player, false);
 	AddModule(sceneManager, true);
-	AddModule(enemyManager, false);
+	AddModule(enemyManager, true);
 	AddModule(collisions, true);
 
 	// Render last to swap buffer

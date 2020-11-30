@@ -6,6 +6,8 @@
 #include "Map.h"
 #include "Scene1.h"
 #include "Player.h"
+#include "EnemyManager.h"
+#include "Executioner.h"
 #include "FadeToBlack.h"
 
 Scene1::Scene1()
@@ -24,8 +26,11 @@ bool Scene1::Start()
 		app->map->active = true;
 		app->map->Load("Level1.tmx");
 
-		player = new Player(iPoint(250, 70));
+		player = new Player(iPoint(250, 0));
 		player->Start();
+
+		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(250, 200));
+		
 
 		sky = app->tex->Load("Assets/textures/sky.png");
 		sea = app->tex->Load("Assets/textures/sea.png");
@@ -59,6 +64,7 @@ bool Scene1::Draw()
 		app->map->Draw();
 	
 	player->Draw();
+	executioner->Draw();
 
 	return ret;
 

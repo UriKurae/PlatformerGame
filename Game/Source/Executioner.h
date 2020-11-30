@@ -11,9 +11,11 @@ public:
 
 	bool Start();
 
-	bool Update(float dt);
+	bool Update(float dt) override;
 
 	void Attack();
+
+	void Draw() override;
 
 
 private:

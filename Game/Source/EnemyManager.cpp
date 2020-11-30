@@ -1,5 +1,5 @@
 #include "EnemyManager.h"
-
+#include "Executioner.h"
 EnemyManager::EnemyManager(): Module()
 {
 	name.Create("enemymanager");
@@ -21,6 +21,7 @@ bool EnemyManager::Update(float dt)
 	}
 
 	Draw();
+
 	return true;
 }
 
@@ -37,7 +38,13 @@ void EnemyManager::Draw()
 
 Enemy* EnemyManager::AddEnemy(EnemyType type, iPoint pos)
 {
-	Enemy* enemy = new Enemy(pos);
+	Enemy* enemy;
+	switch (type)
+	{
+	case EnemyType::EXECUTIONER:
+		enemy = new Executioner(pos);
+		break;	
+	}
 
 	enemies.Add(enemy);
 	

@@ -70,6 +70,15 @@ bool Executioner::Update(float dt)
 }
 
 
+
 void Executioner::Attack()
 {
+}
+
+void Executioner::Draw()
+{
+    if (currentAnim != nullptr)
+    {
+        app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
+    }
 }

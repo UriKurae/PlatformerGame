@@ -3,6 +3,7 @@
 #include "Scene.h"
 
 class Player;
+class Executioner;
 
 class Scene1: public Scene
 {
@@ -42,5 +43,6 @@ private:
 	SDL_Texture* sea;
 
 	Player* player;
+	Executioner* executioner;
 
 };
