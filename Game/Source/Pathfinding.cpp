@@ -169,7 +169,7 @@ void PathFinding::PropagateBFS()
 	int y = 0;
 	app->input->GetMousePosition(x, y);
 	//goalAStar = WorldToMap(x - (app->render->camera.x - data.tileWidth), y -(app->render->camera.y - data.tileWidth));
-	goalAStar = iPoint(app->player->GetPosition().x, app->player->GetPosition().y);
+	//goalAStar = iPoint(app->player->GetPosition().x, app->player->GetPosition().y);
 	goalAStar.x /= 16;
 	goalAStar.y /= 16;
 	while (frontier.Pop(curr))
@@ -241,7 +241,7 @@ void PathFinding::PropagateAStar(int heuristic)
 	int y = 0;
 	app->input->GetMousePosition(x, y);
 	//goalAStar = WorldToMap(x - (app->render->camera.x - data.tileWidth), y -(app->render->camera.y - data.tileWidth));
-	goalAStar = iPoint(app->player->GetPosition().x, app->player->GetPosition().y);
+	//goalAStar = iPoint(app->player->GetPosition().x, app->player->GetPosition().y);
 	goalAStar.x /= 16;
 	goalAStar.y /= 16;
 	while (frontier.Pop(curr))

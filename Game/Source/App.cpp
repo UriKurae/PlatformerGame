@@ -9,7 +9,7 @@
 //#include "WinScene.h"
 //#include "DeadScene.h"
 #include "Map.h"
-#include "Player.h"
+//#include "Player.h"
 #include "SceneManager.h"
 #include "EnemyManager.h"
 //#include "IntroScene.h"
@@ -37,7 +37,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	winScene = new WinScene();
 	deadScene = new DeadScene();*/
 	map = new Map();
-	player = new Player();
+	//player = new Player();
 	sceneManager = new SceneManager();
 	enemyManager = new EnemyManager();
 	pathFinding = new PathFinding();
@@ -55,8 +55,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(winScene, false);
 	AddModule(deadScene, false);*/
 	AddModule(map, false);
-	AddModule(player, false);
-	AddModule(sceneManager, false);
+	//AddModule(player, false);
+	AddModule(sceneManager, true);
 	AddModule(enemyManager, false);
 	AddModule(collisions, true);
 

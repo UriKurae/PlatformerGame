@@ -19,6 +19,14 @@ Scene1::~Scene1()
 
 bool Scene1::Start()
 {
+	this->active = true;
+	
+	app->map->active = true;
+	app->map->Load("Level1.tmx");
+
+	player = new Player();
+	player->Start();
+
 	sky = app->tex->Load("Assets/textures/sky.png");
 	sea = app->tex->Load("Assets/textures/sea.png");
 	clouds = app->tex->Load("Assets/textures/clouds.png");
@@ -29,14 +37,16 @@ bool Scene1::Start()
 
 bool Scene1::Update(float dt)
 {
-	if (app->player->godMode == false)
+	if (player->godMode == false)
 	{
 		switch (CheckWin())
 		{
 			//case 1:
-
+			
 		}
 	}
+
+	player->Update(dt);
 
 	return true;
 }
@@ -52,7 +62,8 @@ bool Scene1::Draw()
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 	
-	if(app->map->active == true)
+	player->Draw();
+	//if(app->map->active == true)
 		app->map->Draw();
 	
 	return ret;
@@ -76,16 +87,19 @@ bool Scene1::Draw()
 bool Scene1::CleanUp()
 {
 	LOG("Freeing scene");
+
 	app->tex->UnLoad(sky);
 	app->tex->UnLoad(clouds);
 	app->tex->UnLoad(sea);
 	
+	RELEASE(player);
+
 	return true;
 }
 
 bool Scene1::RestartPlayerPosition()
 {
-	app->player->SetPosition(playerStartPosition.x, playerStartPosition.y);
+	player->SetPosition(playerStartPosition.x, playerStartPosition.y);
 
 	return true;
 }
@@ -94,7 +108,7 @@ int Scene1::CheckWin()
 {
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 	
-	iPoint playerPosTop = app->map->WorldToMap(app->player->GetPosition().x+8, app->player->GetPosition().y+15);
+	iPoint playerPosTop = app->map->WorldToMap(player->GetPosition().x+8, player->GetPosition().y+15);
 	
 	while (layer != NULL)
 	{

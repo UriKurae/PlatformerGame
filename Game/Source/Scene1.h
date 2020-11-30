@@ -2,7 +2,7 @@
 
 #include "Scene.h"
 
-
+class Player;
 
 class Scene1: public Scene
 {
@@ -41,5 +41,6 @@ private:
 	SDL_Texture* clouds;
 	SDL_Texture* sea;
 
+	Player* player;
 
 };

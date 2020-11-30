@@ -8,7 +8,7 @@
 
 struct SDL_Texture;
 
-class Player : public Module
+class Player
 {
 public:
 	// Constructor
@@ -19,21 +19,21 @@ public:
 
 	// Called when the module is activated
 	// Loads the necessary textures for the player
-	bool Start() override;
+	bool Start();
 
 	// Called at the middle of the application loop
 	// Processes new input and handles player movement
-	bool Update(float dt) override;
+	bool Update(float dt);
 
 	// Called at the end of the application loop
 	// Performs the render call of the player sprite
-	bool PostUpdate() override;
+	void Draw();
 
-	bool CleanUp() override;
+	bool CleanUp();
 
-	bool Load(pugi::xml_node&) override;
+	bool Load(pugi::xml_node&);
 
-	bool Save(pugi::xml_node&) override;
+	bool Save(pugi::xml_node&);
 
 	Point<float> SetPosition(float x, float y);
 	Point<float> GetPosition();

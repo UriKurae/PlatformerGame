@@ -15,6 +15,9 @@ SceneManager::SceneManager()
 
 	scene1 = new Scene1();
 	//scene2 = new Scene2();
+
+	scenes.Add(scene1);
+
 }
 
 SceneManager::~SceneManager()
@@ -23,7 +26,12 @@ SceneManager::~SceneManager()
 
 bool SceneManager::Start()
 {
-	
+	ListItem<Scene*>* item = scenes.start;
+	while (item != nullptr)
+	{
+		item->data->Start();
+		item = item->next;
+	}
 	
 	return true;
 }
@@ -45,7 +53,7 @@ bool SceneManager::Update(float dt)
 		app->map->viewHitboxes = !app->map->viewHitboxes;
 
 	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
-		//Fade(this, (Module*)app->scene2, 1 / dt);
+		fader->Fade((Scene*)scene1, (Scene*)app->scene2, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(-4);
@@ -61,23 +69,22 @@ bool SceneManager::Update(float dt)
 		item = item->next;
 	}
 
+	Draw();
+
 	return ret;
 }
 
 void SceneManager::Draw()
 {
-
 	ListItem<Scene*>* item = scenes.start;
 
 	while (item != nullptr)
 	{
-
 		if (item->data->active == true)
 			item->data->Draw();
 		
 		item = item->next;
 	}
-
 }
 
 bool SceneManager::RestartPlayerPosition()

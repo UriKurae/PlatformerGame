@@ -16,10 +16,8 @@
 #include "SDL/include/SDL.h"
 
 
-Player::Player(): Module()
+Player::Player()
 {
-	name.Create("player");
-
 	LoadPushbacks();
 	
 }
@@ -56,8 +54,8 @@ bool Player::Start()
 	LOG("Loading player textures");
 
 	// Load the spritesheet for the player
-	if (this->active == true)
-	{
+	//if (this->active == true)
+	//{
 		texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
 
 		currentAnim = &idleRightAnim;
@@ -70,7 +68,7 @@ bool Player::Start()
 		jump = false;
 		godMode = false;
 		direction = "right";
-	}
+	//}
 
 	return true;
 }
@@ -319,12 +317,11 @@ bool Player::Update(float dt)
 	return true;
 }
 
-bool Player::PostUpdate()
+void Player::Draw()
 {
 	SDL_Rect rect = currentAnim->GetCurrentFrame();
 	app->render->DrawTexture(texture,position.x,position.y, &rect);
 
-	return true;
 }
 
 bool Player::CleanUp()
