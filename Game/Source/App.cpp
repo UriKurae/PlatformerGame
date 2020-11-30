@@ -14,6 +14,7 @@
 #include "FadeToBlack.h"
 #include "IntroScene.h"
 #include "Collisions.h"
+#include "Pathfinding.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -38,7 +39,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	map = new Map();
 	player = new Player();
 	enemies = new Enemies();
+	pathFinding = new PathFinding();
 	fade = new FadeToBlack();
+	
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -47,6 +50,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex, true);
 	AddModule(audio, true);
 	AddModule(intro, true);
+	AddModule(pathFinding, true);
 	AddModule(scene, false);
 	AddModule(scene2, false);
 	AddModule(winScene, false);
@@ -305,7 +309,8 @@ bool App::PostUpdate()
 	{
 		pModule = item->data;
 
-		if(pModule->active == false) {
+		if(pModule->active == false) 
+		{
 			continue;
 		}
 

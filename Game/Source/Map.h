@@ -123,21 +123,8 @@ public:
 
     iPoint WorldToMap(int x, int y) const;
 
-    void ResetPath(iPoint start);
-    void DrawPath();
-    bool IsWalkable(int x, int y) const;
 
-    // L11: More pathfinding methods
-    int MovementCost(int x, int y) const;
-    void ComputePath(int x, int y);
-
-    // L12a: AStar propagation
-    void PropagateAStar(int heuristic);
-
-    // Propagation methods
-    void PropagateBFS();
-    void PropagateDijkstra();
-
+    TileSet* GetTilesetFromTileId(int id) const;
 
 private:
 
@@ -149,7 +136,6 @@ private:
     bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
     bool LoadProperties(pugi::xml_node& node, Properties& properties);
 
-    TileSet* GetTilesetFromTileId(int id) const;
 
 
 public:

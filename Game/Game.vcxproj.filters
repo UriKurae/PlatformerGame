@@ -63,6 +63,7 @@
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Enemies.cpp" />
+    <ClCompile Include="Source\Pathfinding.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -154,6 +155,7 @@
       <Filter>Core Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Enemies.h" />
+    <ClInclude Include="Source\Pathfinding.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

@@ -80,7 +80,7 @@ bool Render::Update(float dt)
 	{
 		camera.x = -(app->player->GetPosition().x * 2.0f) + (camera.w / 3);
 		camera.y = (-app->player->GetPosition().y);
-	}	
+	}
 
 	return true;
 }
@@ -102,8 +102,8 @@ bool Render::CleanUp()
 
 bool Render::Load(pugi::xml_node& rendererNode)
 {
-	cameraX = rendererNode.child("camera").attribute("x").as_int(0);
-	cameraY = rendererNode.child("camera").attribute("y").as_int(0);
+	camera.x = rendererNode.child("camera").attribute("x").as_int(0);
+	camera.y = rendererNode.child("camera").attribute("y").as_int(0);
 
 	return true;
 }

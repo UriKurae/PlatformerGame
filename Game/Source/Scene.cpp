@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "FadeToBlack.h"
+#include "Pathfinding.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -52,7 +53,8 @@ bool Scene::Start()
 
 		
 
-		app->map->ResetPath(iPoint(15, 15));
+		
+		app->pathFinding->ResetPath(iPoint(15, 15));
 
 	}
 	
@@ -130,16 +132,18 @@ bool Scene::PostUpdate()
 
 	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
 	{
-		//app->map->PropagateBFS();
+		app->pathFinding->PropagateBFS();
 		//app->map->PropagateDijkstra();
-		app->map->PropagateAStar(1);
+		//app->map->PropagateAStar(1);
+		//app->pathFinding->PropagateAStar(1);
 	}
 	if (app->input->GetKey(SDL_SCANCODE_R) == KEY_UP)
 	{
-		app->map->ResetPath(iPoint(14, 17));
+		iPoint playerPos(app->player->GetPosition().x / 16, app->player->GetPosition().y / 16);
+		app->pathFinding->ResetPath(playerPos);
 	}
 	
-	app->map->DrawPath();
+	app->pathFinding->DrawPath();
 
 	return ret;
 }

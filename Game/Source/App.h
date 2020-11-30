@@ -28,6 +28,7 @@ class Enemies;
 class Collisions;
 class FadeToBlack;
 class DeadScene;
+class PathFinding;
 
 
 class App
@@ -108,6 +109,7 @@ public:
 	Enemies* enemies;
 	Collisions* collisions;
 	FadeToBlack* fade;
+	PathFinding* pathFinding;
 
 private:
 
