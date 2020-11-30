@@ -62,8 +62,8 @@
     <ClCompile Include="Source\Collisions.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Enemies.cpp" />
     <ClCompile Include="Source\Pathfinding.cpp" />
+    <ClCompile Include="Source\EnemyManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -154,8 +154,8 @@
     <ClInclude Include="Source\Collisions.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Enemies.h" />
     <ClInclude Include="Source\Pathfinding.h" />
+    <ClInclude Include="Source\EnemyManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

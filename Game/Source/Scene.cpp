@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "FadeToBlack.h"
 #include "Pathfinding.h"
+#include "EnemyManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -37,8 +38,8 @@ bool Scene::Start()
 {
 	if (this->active == true) 
 	{
-		executioner = new Executioner(iPoint(300, 190));
-
+		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(300,190));
+		
 		app->player->Enable();
 		app->player->currentLevel = 1;
 		playerStartPosition = app->player->SetPosition(250, 70);
@@ -50,9 +51,6 @@ bool Scene::Start()
 		sky = app->tex->Load("Assets/textures/sky.png");
 		sea = app->tex->Load("Assets/textures/sea.png");
 		clouds = app->tex->Load("Assets/textures/clouds.png");
-
-		
-
 		
 		app->pathFinding->ResetPath(iPoint(15, 15));
 
@@ -83,7 +81,7 @@ bool Scene::Update(float dt)
 		app->map->viewHitboxes = !app->map->viewHitboxes;
 
 	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
-		app->fade->FadingToBlack(this, (Module*)app->scene2, 1/dt);
+		app->fade->FadingToBlack(this, (Module*)app->scene2, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(-4);
@@ -96,19 +94,19 @@ bool Scene::Update(float dt)
 	{
 		if (CheckWin() == 1)
 		{
-			app->fade->FadingToBlack(this, (Module*)app->scene2, 1/dt);
+			app->fade->FadingToBlack(this, (Module*)app->scene2, 1 / dt);
 			app->player->Disable();
 		}
 
 		else if (CheckWin() == 2)
 		{
 			app->deadScene->lastScene = this;
-			app->fade->FadingToBlack(this, (Module*)app->deadScene, 1/dt);
+			app->fade->FadingToBlack(this, (Module*)app->deadScene, 1 / dt);
 			
 		}
 	}
 
-	executioner->Update(dt);
+	app->enemyManager->Update(dt);
 
 	return true;
 }
@@ -128,7 +126,7 @@ bool Scene::PostUpdate()
 	if(app->map->active == true)
 		app->map->Draw();
 
-	executioner->Draw();
+	//executioner->Draw();
 
 	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
 	{

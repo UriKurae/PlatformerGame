@@ -10,7 +10,7 @@
 #include "DeadScene.h"
 #include "Map.h"
 #include "Player.h"
-#include "Enemies.h"
+#include "EnemyManager.h"
 #include "FadeToBlack.h"
 #include "IntroScene.h"
 #include "Collisions.h"
@@ -38,7 +38,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	deadScene = new DeadScene();
 	map = new Map();
 	player = new Player();
-	enemies = new Enemies();
+	enemyManager = new EnemyManager();
 	pathFinding = new PathFinding();
 	fade = new FadeToBlack();
 	

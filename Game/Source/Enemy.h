@@ -5,6 +5,14 @@
 
 #include "SDL_image/include/SDL_image.h"
 
+enum class EnemyType
+{
+	NONE = -1,
+	EXECUTIONER,
+	BIRD,
+	GROUND,
+};
+
 class Enemy
 {
 public:

@@ -2,9 +2,9 @@
 #define __SCENE_H__
 
 #include "Module.h"
-#include "Executioner.h"
 
 struct SDL_Texture;
+struct Executioner;
 
 class Scene : public Module
 {
@@ -47,7 +47,6 @@ private:
 	SDL_Texture* sea;
 
 	Executioner* executioner;
-
 };
 
 #endif // __SCENE_H__
