@@ -1,6 +1,6 @@
 <!-- Config file for the game -->
 <config>
-  <app framerate_cap="30">
+  <app framerate_cap="10">
     <title>Zed's Adventure</title>
     <organization>UPC</organization>
   </app>

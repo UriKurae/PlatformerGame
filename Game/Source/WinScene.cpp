@@ -45,7 +45,7 @@ bool WinScene::Update(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN)
 	{
-		app->fade->FadingToBlack(this, app->intro, 500.0f);
+		app->fade->FadingToBlack(this, app->intro, 1/dt);
 	}
 
 	return true;

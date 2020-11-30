@@ -65,11 +65,11 @@ bool Player::Start()
 		collider = app->collisions->AddCollider({ (int)position.x+2, (int)position.y, 15, 25 }, Collider::TYPE::PLAYER);
 
 		speedX = 250.0f;
-		speedY = 1.8f;
+		speedY = 500.0f;
 		gravity = 250.0f;
 		jump = false;
 		godMode = false;
-
+		direction = "right";
 	}
 
 	return true;
@@ -186,7 +186,7 @@ bool Player::Update(float dt)
 		// We shall reset the velocity each time we can jump.
 		if (jumpsLeft > 0)
 		{
-			speedY = 1.8f;
+			speedY = 400.0f;
 			jumpsLeft--;
 			jump = true;
 		}
@@ -296,7 +296,7 @@ bool Player::Update(float dt)
 	}
 	
 
-	if ((blockFall == false) && (godMode == false))
+	if ((blockFall == false) && (godMode == false) && (dt < 2))
 	{
 		position.y += gravity * dt;
 		isFalling = true;
@@ -444,8 +444,8 @@ void Player::Jump()
 {
 	if (speedY > 0)
 	{
-		position.y -= speedY / delt * 0.6f;
-		speedY -= gravity * delt * 0.02f;
+		position.y -= speedY * delt * 3.5f;
+		speedY -= gravity * delt * 6.5f;
 		upwards = true;
 	}
 	if (speedY <= 0)
@@ -547,7 +547,6 @@ Point<float> Player::SetPosition(float x, float y)
 	position.y = y;
 
 	return position;
-
 }
 
 Point<float> Player::GetPosition()

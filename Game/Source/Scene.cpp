@@ -48,7 +48,7 @@ bool Scene::Start()
 
 		app->player->Enable();
 		app->player->currentLevel = 1;
-		playerStartPosition = app->player->SetPosition(250, 5);
+		playerStartPosition = app->player->SetPosition(250, 70);
 
 		app->map->ResetPath(iPoint(15, 15));
 
@@ -100,8 +100,7 @@ bool Scene::Update(float dt)
 		{
 			app->deadScene->lastScene = this;
 			app->fade->FadingToBlack(this, (Module*)app->deadScene, 1/dt);
-			RestartPlayerPosition();
-			app->player->Disable();
+			
 		}
 	}
 
@@ -118,19 +117,14 @@ bool Scene::PostUpdate()
 	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
-
-
 	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 
 	if(app->map->active == true)
 		app->map->Draw();
-		
 
 	executioner->Draw();
-
-
 
 	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
 	{
@@ -142,9 +136,8 @@ bool Scene::PostUpdate()
 	{
 		app->map->ResetPath(iPoint(14, 17));
 	}
-		app->map->DrawPath();
-
-
+	
+	app->map->DrawPath();
 
 	return ret;
 }
@@ -157,8 +150,10 @@ bool Scene::CleanUp()
 	app->tex->UnLoad(clouds);
 	app->tex->UnLoad(sea);
 
-	app->map->Disable();
+	app->map->CleanUp();
 	
+	app->player->Disable();
+
 	RELEASE(executioner);
 
 	return true;
