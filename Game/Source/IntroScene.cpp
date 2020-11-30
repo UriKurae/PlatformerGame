@@ -59,7 +59,7 @@ bool IntroScene::Update(float dt)
 	
 	if (count == 100)
 	{
-		app->fade->FadingToBlack(this, this, 1 / dt);
+		//app->fade->FadingToBlack(this, this, 1 / dt);
 	}
 	else if (count <= 40)
 	{

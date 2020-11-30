@@ -19,6 +19,8 @@ public:
 	Enemy* AddEnemy(EnemyType type, iPoint pos);
 	void DeleteEnemy(Enemy* enemy);
 
+
+
 private:
 	List<Enemy*> enemies;
 	

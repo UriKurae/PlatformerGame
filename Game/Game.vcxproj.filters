@@ -58,7 +58,6 @@
     </ClCompile>
     <ClCompile Include="Source\Pathfinding.cpp" />
     <ClCompile Include="Source\EnemyManager.cpp" />
-    <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\SceneS1.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -66,6 +65,9 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene1.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneManager.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -154,8 +156,6 @@
     </ClInclude>
     <ClInclude Include="Source\Pathfinding.h" />
     <ClInclude Include="Source\EnemyManager.h" />
-    <ClInclude Include="Source\SceneManager.h" />
-    <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneS1.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -163,6 +163,12 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene1.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneManager.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>

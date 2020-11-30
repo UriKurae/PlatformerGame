@@ -12,8 +12,7 @@
 #include "Player.h"
 #include "SceneManager.h"
 #include "EnemyManager.h"
-#include "FadeToBlack.h"
-#include "IntroScene.h"
+//#include "IntroScene.h"
 #include "Collisions.h"
 #include "Pathfinding.h"
 
@@ -42,8 +41,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	sceneManager = new SceneManager();
 	enemyManager = new EnemyManager();
 	pathFinding = new PathFinding();
-	fade = new FadeToBlack();
-	
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -61,7 +58,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(player, false);
 	AddModule(sceneManager, false);
 	AddModule(enemyManager, false);
-	AddModule(fade, true);
 	AddModule(collisions, true);
 
 	// Render last to swap buffer

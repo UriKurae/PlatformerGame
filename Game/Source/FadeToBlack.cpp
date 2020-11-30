@@ -11,8 +11,7 @@
 
 FadeToBlack::FadeToBlack()
 {
-	name.Create("fade");
-
+	
 }
 
 FadeToBlack::~FadeToBlack()
@@ -22,18 +21,15 @@ FadeToBlack::~FadeToBlack()
 
 bool FadeToBlack::Start()
 {
-	if (this->active == true)
-	{
-		LOG("Preparing Fade Screen");
+	LOG("Preparing Fade Screen");
 
-		uint w, h;
-		app->win->GetWindowSize(w, h);
+	uint w, h;
+	app->win->GetWindowSize(w, h);
 
-		screenRect = { 0, 0, (int)w * (int)app->win->GetScale(),  (int)h * (int)app->win->GetScale() };
+	screenRect = { 0, 0, (int)w * (int)app->win->GetScale(),  (int)h * (int)app->win->GetScale() };
 
-		// Enable blending mode for transparency
-		SDL_SetRenderDrawBlendMode(app->render->renderer, SDL_BLENDMODE_BLEND);
-	}
+	// Enable blending mode for transparency
+	SDL_SetRenderDrawBlendMode(app->render->renderer, SDL_BLENDMODE_BLEND);
 
 	return true;
 }
@@ -41,17 +37,17 @@ bool FadeToBlack::Start()
 bool FadeToBlack::Update(float dt)
 {
 	// Exit this function if we are not performing a fade
-	if (currentStep == Fade_Step::NONE) return true;
+	if (currentStep == FadeStep::NONE) return true;
 
-	if (currentStep == Fade_Step::TO_BLACK)
+	if (currentStep == FadeStep::TO_BLACK)
 	{
 		++frameCount;
 		if (frameCount >= maxFadeFrames)
 		{
-			moduleToDisable->Disable();
-			moduleToEnable->Enable();
+			sceneToDisable->DisableScene();
+			sceneToEnable->EnableScene();
 
-			currentStep = Fade_Step::FROM_BLACK;
+			currentStep = FadeStep::FROM_BLACK;
 		}
 	}
 	else
@@ -59,7 +55,7 @@ bool FadeToBlack::Update(float dt)
 		--frameCount;
 		if (frameCount <= 0)
 		{
-			currentStep = Fade_Step::NONE;
+			currentStep = FadeStep::NONE;
 		}
 	}
 
@@ -69,7 +65,7 @@ bool FadeToBlack::Update(float dt)
 bool FadeToBlack::PostUpdate()
 {
 	// Exit this function if we are not performing a fade
-	if (currentStep == Fade_Step::NONE) return true;
+	if (currentStep == FadeStep::NONE) return true;
 
 	float fadeRatio = (float)frameCount / (float)maxFadeFrames;
 
@@ -80,27 +76,22 @@ bool FadeToBlack::PostUpdate()
 	return true;
 }
 
-bool FadeToBlack::FadingToBlack(Module* moduleToDisable, Module* moduleToEnable, float frames)
+bool FadeToBlack::Fade(Scene* toDisable, Scene* toEnable, float frames)
 {
 	bool ret = false;
 
 	// If we are already in a fade process, ignore this call
-	if (currentStep == Fade_Step::NONE)
+	if (currentStep == FadeStep::NONE)
 	{
-		currentStep = Fade_Step::TO_BLACK;
+		currentStep = FadeStep::TO_BLACK;
 		frameCount = 0;
 		maxFadeFrames = frames;
 
 		
-		this->moduleToDisable = moduleToDisable;
-		this->moduleToEnable = moduleToEnable;
+		this->sceneToDisable = toDisable;
+		this->sceneToEnable = toEnable;
 
 		ret = true;
 	}
 	return ret;
-}
-
-bool FadeToBlack::CleanUp() {
-	
-	return true;
 }

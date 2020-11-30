@@ -45,7 +45,25 @@ public:
 	// Check if player won
 	virtual int CheckWin()
 	{
-		return 1;
+		return -1;
+	}
+
+	void EnableScene()
+	{
+		if (!active)
+		{
+			active = true;
+			Start();
+		}
+	}
+
+	void DisableScene()
+	{
+		if (active)
+		{
+			active = false;
+			CleanUp();
+		}
 	}
 
 public:

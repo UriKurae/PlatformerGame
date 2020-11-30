@@ -8,6 +8,7 @@
 #include "PQueue.h"
 
 #include "PugiXml\src\pugixml.hpp"
+#include "SDL/include/SDL.h"
 
 #define COST_MAP_SIZE	100
 
