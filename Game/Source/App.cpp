@@ -46,13 +46,13 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win, true);
 	AddModule(tex, true);
 	AddModule(audio, true);
-	AddModule(intro, false);
-	AddModule(scene, true);
+	AddModule(intro, true);
+	AddModule(scene, false);
 	AddModule(scene2, false);
 	AddModule(winScene, false);
 	AddModule(deadScene, false);
-	AddModule(map, true);
-	AddModule(player, true);
+	AddModule(map, false);
+	AddModule(player, false);
 	AddModule(fade, true);
 	AddModule(collisions, true);
 
@@ -221,12 +221,12 @@ void App::FinishUpdate()
 
 	app->win->SetTitle(title);
 
-	if ((cappedMs > 0) && (lastFrameMs < cappedMs))
+	/*if ((cappedMs > 0) && (lastFrameMs < cappedMs))
 	{
 		PERF_START(ptimer);
 		SDL_Delay(cappedMs);
 		LOG("We waited for %i ms and got back in %f", cappedMs, ptimer.ReadMs());
-	}
+	}*/
 
 }
 

@@ -23,7 +23,6 @@ DeadScene::~DeadScene()
 
 bool DeadScene::Awake(pugi::xml_node& config)
 {
-
 	return true;
 }
 

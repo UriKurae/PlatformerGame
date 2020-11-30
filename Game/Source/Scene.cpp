@@ -39,7 +39,7 @@ bool Scene::Start()
 		executioner = new Executioner(iPoint(300, 190));
 
 		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
-
+		app->map->Enable();
 		app->map->Load("Level1.tmx");
 
 		sky = app->tex->Load("Assets/textures/sky.png");
