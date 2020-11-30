@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "FadeToBlack.h"
 #include "Scene1.h"
+#include "Scene2.h"
 
 
 #include "SDL/include/SDL_scancode.h"
@@ -14,9 +15,12 @@ SceneManager::SceneManager()
 	name.Create("scenemanager");
 
 	scene1 = new Scene1();
-	//scene2 = new Scene2();
+	scene2 = new Scene2();
+
 	fader = new FadeToBlack();
-	scenes.Add(scene1);
+	AddScene(scene1, true);
+	AddScene(scene2, false);
+	
 
 }
 
@@ -121,6 +125,7 @@ int SceneManager::CheckWin()
 	return ret;
 }
 
+
 /*void SceneManager::SwitchScene(Scene* toDisable, Scene* toEnable, float frames)
 {
 	bool ret = false;
@@ -169,9 +174,11 @@ int SceneManager::CheckWin()
 
 }
 */
-void SceneManager::AddScene(Scene* scene)
+void SceneManager::AddScene(Scene* scene, bool active)
 {
-	scene = new Scene();
-
+	//scene = new Scene();
+	
+	scene->active = active;
 	scenes.Add(scene);
+
 }

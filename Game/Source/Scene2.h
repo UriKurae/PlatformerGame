@@ -2,9 +2,11 @@
 
 #include "Scene.h"
 
+class Player;
 
 class Scene2 : public Scene
 {
+public:
 	Scene2();
 
 	// Destructor
@@ -37,4 +39,6 @@ private:
 	SDL_Texture* sky;
 	SDL_Texture* clouds;
 	SDL_Texture* sea;
+
+	Player* player;
 };

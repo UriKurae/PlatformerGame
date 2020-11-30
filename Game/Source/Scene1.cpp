@@ -18,20 +18,21 @@ Scene1::~Scene1()
 }
 
 bool Scene1::Start()
-{
-	active = true;
-	
-	app->map->active = true;
-	app->map->Load("Level1.tmx");
+{	
+	if (this->active == true)
+	{
+		app->map->active = true;
+		app->map->Load("Level1.tmx");
 
-	player = new Player(iPoint(250, 70));
-	player->Start();
+		player = new Player(iPoint(250, 70));
+		player->Start();
 
-	sky = app->tex->Load("Assets/textures/sky.png");
-	sea = app->tex->Load("Assets/textures/sea.png");
-	clouds = app->tex->Load("Assets/textures/clouds.png");
+		sky = app->tex->Load("Assets/textures/sky.png");
+		sea = app->tex->Load("Assets/textures/sea.png");
+		clouds = app->tex->Load("Assets/textures/clouds.png");
 
-	//playerStartPosition() 
+		//playerStartPosition()  
+	}
 	return true;
 }
 
@@ -54,7 +55,7 @@ bool Scene1::Draw()
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 	
-	//if(app->map->active == true)
+	if(app->map->active == true)
 		app->map->Draw();
 	
 	player->Draw();

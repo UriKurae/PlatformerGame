@@ -28,7 +28,7 @@ public:
 	// Check if player won
 	int CheckWin();
 
-	void AddScene(Scene* scene);
+	void AddScene(Scene* scene, bool active);
 
 private:
 	
