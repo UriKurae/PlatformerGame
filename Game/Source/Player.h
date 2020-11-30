@@ -12,7 +12,7 @@ class Player
 {
 public:
 	// Constructor
-	Player();
+	Player(iPoint pos);
 
 	// Destructor
 	virtual ~Player();

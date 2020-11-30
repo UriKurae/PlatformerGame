@@ -19,12 +19,12 @@ Scene1::~Scene1()
 
 bool Scene1::Start()
 {
-	this->active = true;
+	active = true;
 	
 	app->map->active = true;
 	app->map->Load("Level1.tmx");
 
-	player = new Player();
+	player = new Player(iPoint(250, 70));
 	player->Start();
 
 	sky = app->tex->Load("Assets/textures/sky.png");
@@ -37,27 +37,19 @@ bool Scene1::Start()
 
 bool Scene1::Update(float dt)
 {
-	if (player->godMode == false)
-	{
-		switch (CheckWin())
-		{
-			//case 1:
-			
-		}
-	}
-
+	bool ret = true;
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		ret = false;
+	
 	player->Update(dt);
 
-	return true;
+	return ret;
 }
 
 bool Scene1::Draw()
 {
 	bool ret = true;
-	
-	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
-	
+		
 	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);

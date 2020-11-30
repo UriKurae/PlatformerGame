@@ -15,13 +15,15 @@ SceneManager::SceneManager()
 
 	scene1 = new Scene1();
 	//scene2 = new Scene2();
-
+	fader = new FadeToBlack();
 	scenes.Add(scene1);
 
 }
 
 SceneManager::~SceneManager()
 {
+	scenes.Clear();
+	RELEASE(fader);
 }
 
 bool SceneManager::Start()
@@ -69,6 +71,13 @@ bool SceneManager::Update(float dt)
 		item = item->next;
 	}
 
+	switch (CheckWin())
+	{
+		case 1:
+			fader->Fade(scene1, (Scene*)scene2, 1/dt);
+			break;
+	}
+
 	Draw();
 
 	return ret;
@@ -94,7 +103,22 @@ bool SceneManager::RestartPlayerPosition()
 
 int SceneManager::CheckWin()
 {
-	return 0;
+	int ret = -1;
+	ListItem<Scene*>* item = scenes.start;
+
+	while (item != nullptr)
+	{
+		if(item->data->active == true)
+		{
+			ret = item->data->CheckWin();
+			break;
+		}
+		item = item->next;
+	}
+
+	
+
+	return ret;
 }
 
 /*void SceneManager::SwitchScene(Scene* toDisable, Scene* toEnable, float frames)

@@ -16,7 +16,7 @@
 #include "SDL/include/SDL.h"
 
 
-Player::Player()
+Player::Player(iPoint pos) : position(pos)
 {
 	LoadPushbacks();
 	
@@ -449,7 +449,7 @@ void Player::Jump()
 {
 	if (speedY > 0)
 	{
-		position.y -= speedY * delt * 3.5f;
+		position.y -= speedY * delt * 3.0f;
 		speedY -= gravity * delt * 6.5f;
 		upwards = true;
 	}
