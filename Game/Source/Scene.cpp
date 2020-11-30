@@ -48,7 +48,7 @@ bool Scene::Start()
 
 		app->player->Enable();
 		app->player->currentLevel = 1;
-		playerStartPosition = app->player->SetPosition(250, 70);
+		playerStartPosition = app->player->SetPosition(250, 5);
 
 		app->map->ResetPath(iPoint(15, 15));
 
@@ -134,14 +134,15 @@ bool Scene::PostUpdate()
 
 	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
 	{
-		app->map->PropagateBFS();
+		//app->map->PropagateBFS();
 		//app->map->PropagateDijkstra();
-		app->map->DrawPath();
+		app->map->PropagateAStar(1);
 	}
-	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_UP)
+	if (app->input->GetKey(SDL_SCANCODE_R) == KEY_UP)
 	{
-		app->map->ResetPath(iPoint(15, 15));
+		app->map->ResetPath(iPoint(14, 17));
 	}
+		app->map->DrawPath();
 
 
 

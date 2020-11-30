@@ -4,6 +4,7 @@
 #include "Textures.h"
 #include "Map.h"
 #include "Player.h"
+#include "Input.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -227,6 +228,51 @@ void Map::PropagateDijkstra()
 
 }
 
+void Map::PropagateAStar(int heuristic)
+{
+    // L12a: TODO 2: Implement AStar algorythm
+    // Consider the different heuristics
+
+    iPoint curr;
+    int x = 0;
+    int y = 0;
+    app->input->GetMousePosition(x, y);
+    //goalAStar = WorldToMap(x - (app->render->camera.x - data.tileWidth), y -(app->render->camera.y - data.tileWidth));
+    goalAStar = iPoint(app->player->GetPosition().x, app->player->GetPosition().y);
+    while (frontier.Pop(curr))
+    {
+
+        iPoint neighbors[4];
+        neighbors[0].Create(curr.x + 1, curr.y + 0);
+        neighbors[1].Create(curr.x + 0, curr.y + 1);
+        neighbors[2].Create(curr.x - 1, curr.y + 0);
+        neighbors[3].Create(curr.x + 0, curr.y - 1);
+
+        //This works if the pathFinding is a while, it's used for early exit when we find the objective.
+        if (curr == goalAStar)
+            break;
+
+        for (uint i = 0; i < 4; ++i)
+        {
+            int cost = MovementCost(neighbors[i].x, neighbors[i].y);
+            int g = neighbors[i].DistanceNoSqrt(visited.start->data);
+            int h = neighbors[i].DistanceNoSqrt(goalAStar);
+            if (cost > 0)
+            {
+                cost += costSoFar[curr.x][curr.y];
+                if ((visited.Find(neighbors[i]) == -1) || (cost < costSoFar[neighbors[i].x][neighbors[i].y]))
+                {
+                    costSoFar[neighbors[i].x][neighbors[i].y] = cost;
+
+                    int f = g + h;
+                    frontier.Push(neighbors[i], h);
+                    visited.Add(neighbors[i]);
+                    breadcrumbs.Add(curr);
+                }
+            }
+        }
+    }
+}
 
 void Map::Draw()
 {

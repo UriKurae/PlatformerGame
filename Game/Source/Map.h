@@ -131,6 +131,9 @@ public:
     int MovementCost(int x, int y) const;
     void ComputePath(int x, int y);
 
+    // L12a: AStar propagation
+    void PropagateAStar(int heuristic);
+
     // Propagation methods
     void PropagateBFS();
     void PropagateDijkstra();
@@ -168,6 +171,10 @@ private:
     List<iPoint> breadcrumbs;
     uint costSoFar[COST_MAP_SIZE][COST_MAP_SIZE];
     DynArray<iPoint> path;
+
+    // L12: AStar (A*) variables
+    iPoint goalAStar;			// Store goal target tile
+    bool finishAStar = false;	// Detect when reached goal
 
 };
 

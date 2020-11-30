@@ -220,6 +220,8 @@ void App::FinishUpdate()
 
 	app->win->SetTitle(title);
 
+
+
 	if ((cappedMs > 0) && (lastFrameMs < cappedMs))
 	{
 		PERF_START(ptimer);
