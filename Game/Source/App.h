@@ -135,6 +135,7 @@ private:
 	float dt = 0.0f;
 
 	int cappedMs = -1;
+	bool changeMs = false;
 
 };
 

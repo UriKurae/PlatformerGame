@@ -13,10 +13,11 @@
   <DeadScene />
   <map />
   <player>
-    <position positionX="358.75" positionY="242.196075" />
+    <position positionX="400" positionY="245.5" />
     <current_level value="1" />
   </player>
   <fade />
+  <collisions />
   <renderer>
     <camera x="55" />
   </renderer>

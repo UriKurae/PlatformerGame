@@ -38,6 +38,10 @@ bool Scene::Start()
 	{
 		executioner = new Executioner(iPoint(300, 190));
 
+		app->player->Enable();
+		app->player->currentLevel = 1;
+		playerStartPosition = app->player->SetPosition(250, 70);
+
 		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
 		app->map->Enable();
 		app->map->Load("Level1.tmx");
@@ -46,9 +50,7 @@ bool Scene::Start()
 		sea = app->tex->Load("Assets/textures/sea.png");
 		clouds = app->tex->Load("Assets/textures/clouds.png");
 
-		app->player->Enable();
-		app->player->currentLevel = 1;
-		playerStartPosition = app->player->SetPosition(250, 70);
+		
 
 		app->map->ResetPath(iPoint(15, 15));
 

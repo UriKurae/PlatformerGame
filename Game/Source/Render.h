@@ -64,6 +64,8 @@ public:
 
 	int cameraX;
 	int cameraY;
+
+	bool vsync = false;
 };
 
 #endif // __RENDER_H__

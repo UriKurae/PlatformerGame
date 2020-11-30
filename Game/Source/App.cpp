@@ -188,6 +188,21 @@ void App::PrepareUpdate()
 	++frameCount;
 	++lastSecFrameCount;
 
+	if (input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+		changeMs = !changeMs;
+	
+	if(changeMs) 
+	{
+		cappedMs = 30;
+		render->vsync = false;
+	}
+	else if (!changeMs)
+	{
+		cappedMs = 12;
+		render->vsync = true;
+	}
+	
+
 	dt = frameTime.ReadSec();
 	frameTime.Start();
 }
@@ -215,18 +230,23 @@ void App::FinishUpdate()
 	uint32 lastFrameMs = frameTime.Read();
 	uint32 framesOnLastUpdate = prevLastSecFrameCount;
 
+	SString vsyncChar;
+	if(render->vsync) vsyncChar.Create("on");
+	else vsyncChar.Create("off");
+
 	static char title[256];
-	sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
-		averageFps, lastFrameMs, framesOnLastUpdate, dt, secondsSinceStartup, frameCount);
+	sprintf_s(title, 256, "FPS: %i / Av.FPS: %.2f / Last Frame Ms: %02u / Vsync: %s", framesOnLastUpdate, averageFps, lastFrameMs, vsyncChar.GetString());
+	//sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
+	//	averageFps, lastFrameMs, framesOnLastUpdate, dt, secondsSinceStartup, frameCount);
 
 	app->win->SetTitle(title);
 
-	/*if ((cappedMs > 0) && (lastFrameMs < cappedMs))
+	if ((cappedMs > 0) && (lastFrameMs < cappedMs))
 	{
 		PERF_START(ptimer);
 		SDL_Delay(cappedMs);
 		LOG("We waited for %i ms and got back in %f", cappedMs, ptimer.ReadMs());
-	}*/
+	}
 
 }
 
