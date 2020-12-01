@@ -1,5 +1,4 @@
 #include "Enemy.h"
-
 #include "App.h"
 #include "Textures.h"
 #include "Render.h"
@@ -27,5 +26,10 @@ void Enemy::Draw()
 	{
 		app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
 	}
+}
+
+bool Enemy::CleanUp()
+{
+	return true;
 }
 

@@ -6,6 +6,8 @@
 
 Wolf::Wolf(iPoint pos) : Enemy(pos)
 {
+
+
 }
 
 bool Wolf::Start()

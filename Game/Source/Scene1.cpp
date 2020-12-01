@@ -95,7 +95,13 @@ bool Scene1::CleanUp()
 	app->tex->UnLoad(sea);
 
 	player->CleanUp();
+	app->map->CleanUp();
+
+
 	RELEASE(player);
+
+	executioner->CleanUp();
+	RELEASE(executioner);
 
 	return true;
 }
