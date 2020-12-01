@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Textures.h"
 
 
 PathFinding::PathFinding() : Module()
@@ -24,6 +25,7 @@ bool PathFinding::Awake(pugi::xml_node & conf)
 
 bool PathFinding::Start()
 {
+	tileX = app->tex->Load("Assets/textures/Cross.png");
 	return true;
 }
 
@@ -101,7 +103,7 @@ void PathFinding::DrawPath()
 	for (uint i = 0; i < path.Count(); ++i)
 	{
 		iPoint pos = app->map->MapToWorld(path[i].x, path[i].y);
-		//app->render->DrawTexture(tileX, pos.x, pos.y);
+		app->render->DrawTexture(tileX, pos.x, pos.y);
 	}
 }
 
@@ -137,19 +139,20 @@ int PathFinding::MovementCost(int x, int y) const
 void PathFinding::ComputePath(int x, int y)
 {
 	path.Clear();
-	iPoint goal = app->map->WorldToMap(x, y);
+	iPoint goal = { x/16,y/16 };
 
-	// L11: TODO 2: Follow the breadcrumps to goal back to the origin
-	// add each step into "path" dyn array (it will then draw automatically)
-	ListItem<iPoint>* aux = breadcrumbs.end;
-
-	while (aux != breadcrumbs.start)
+	int index = 0;
+	path.PushBack(goal);
+	while (goal != visited.start->data)
 	{
-		path.PushBack(aux->data);
-		aux = aux->prev;
+		index = visited.Find(goal);
+		goal = breadcrumbs[index];
+		path.PushBack(goal);
 	}
 
+	path.PushBack(visited.start->data);
 }
+
 
 bool PathFinding::IsWalkable(int x, int y) const
 {

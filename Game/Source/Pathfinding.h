@@ -71,4 +71,5 @@ private:
 	iPoint goalAStar;			// Store goal target tile
 	bool finishAStar = false;	// Detect when reached goal
 
+	SDL_Texture* tileX;
 };

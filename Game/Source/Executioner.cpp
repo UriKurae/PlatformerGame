@@ -6,6 +6,7 @@
 #include "Pathfinding.h"
 #include "Collisions.h"
 #include "Input.h"
+#include "Player.h"
 
 Executioner::Executioner(iPoint pos) : Enemy(pos)
 {
@@ -103,6 +104,7 @@ bool Executioner::FindTarget(Player* player)
     
     app->pathFinding->PropagateBFS(player);
     app->pathFinding->DrawPath();
+    app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y);
 
     return true;
 }

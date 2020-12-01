@@ -67,9 +67,9 @@ bool Scene1::Draw()
 {
 	bool ret = true;
 		
-	//app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
-	//app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
-	//app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
+	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
+	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
+	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 	
 	if(app->map->active == true)
 		app->map->Draw();
@@ -79,21 +79,6 @@ bool Scene1::Draw()
 	app->player->Draw();
 
 	return ret;
-
-	//if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
-	//{
-	//	app->pathFinding->PropagateBFS();
-	//	//app->map->PropagateDijkstra();
-	//	//app->map->PropagateAStar(1);
-	//	//app->pathFinding->PropagateAStar(1);
-	//}
-	//if (app->input->GetKey(SDL_SCANCODE_R) == KEY_UP)
-	//{
-	//	iPoint playerPos(app->player->GetPosition().x / 16, app->player->GetPosition().y / 16);
-	//	app->pathFinding->ResetPath(playerPos);
-	//}
-	//	
-	//app->pathFinding->DrawPath();
 }
 
 bool Scene1::CleanUp()
