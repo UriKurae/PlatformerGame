@@ -2,9 +2,6 @@
 
 #include "Enemy.h"
 
-
-
-
 class Wolf : public Enemy
 {
 public:
@@ -21,6 +18,7 @@ public:
 
 	void Draw() override;
 
+	bool CleanUp() override;
 	//bool FindTarget(Player* player) override;
 
 	//bool ChaseTarget(iPoint position) override;
@@ -28,9 +26,8 @@ public:
 private:
 
 	Animation idleAnim;
-	Animation skillAnim;
+	Animation runAnim;
+	Animation walkAnim;
 	Animation deathAnim;
-
-	Collider* collider;
 
 };

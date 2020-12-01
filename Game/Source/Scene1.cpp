@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "EnemyManager.h"
 #include "Executioner.h"
+#include "Wolf.h"
 #include "FadeToBlack.h"
 
 Scene1::Scene1()
@@ -33,11 +34,12 @@ bool Scene1::Start()
 		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(250, 200));
 		executioner->Start();
 
+		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(350, 250));
+		wolf->Start();
+
 		sky = app->tex->Load("Assets/textures/sky.png");
 		sea = app->tex->Load("Assets/textures/sea.png");
 		clouds = app->tex->Load("Assets/textures/clouds.png");
-
-		//playerStartPosition()  
 	}
 	return true;
 }
@@ -66,6 +68,7 @@ bool Scene1::Draw()
 		app->map->Draw();
 	
 	executioner->Draw();
+	wolf->Draw();
 	player->Draw();
 
 	return ret;
@@ -99,6 +102,9 @@ bool Scene1::CleanUp()
 
 
 	RELEASE(player);
+
+	wolf->CleanUp();
+	RELEASE(wolf);
 
 	executioner->CleanUp();
 	RELEASE(executioner);

@@ -4,6 +4,7 @@
 
 class Player;
 class Executioner;
+class Wolf;
 
 class Scene1: public Scene
 {
@@ -44,5 +45,6 @@ private:
 
 	Player* player;
 	Executioner* executioner;
+	Wolf* wolf;
 
 };
