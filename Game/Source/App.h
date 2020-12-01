@@ -23,7 +23,7 @@ class Scene;
 class Scene2;
 class WinScene;
 class Map;
-//class Player;
+class Player;
 class SceneManager;
 class EnemyManager;
 class Collisions;
@@ -106,7 +106,7 @@ public:
 	WinScene* winScene;
 	DeadScene* deadScene;
 	Map* map;
-	//Player* player;
+	Player* player;
 	SceneManager* sceneManager;
 	EnemyManager* enemyManager;
 	Collisions* collisions;

@@ -8,11 +8,11 @@
 
 struct SDL_Texture;
 
-class Player
+class Player : public Module
 {
 public:
 	// Constructor
-	Player(iPoint pos);
+	Player();
 
 	// Destructor
 	virtual ~Player();

@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "Scene1.h"
 #include "SceneManager.h"
+#include "Scene2.h"
 #include "Player.h"
 #include "EnemyManager.h"
 #include "Executioner.h"
@@ -28,8 +29,7 @@ bool Scene1::Start()
 		app->map->active = true;
 		app->map->Load("Level1.tmx");
 
-		player = new Player(iPoint(250, 0));
-		player->Start();
+		app->player->SetPosition(250, 70);
 
 		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100));
 		executioner->Start();
@@ -49,13 +49,14 @@ bool Scene1::Update(float dt)
 	if (CheckWin() == 1)
 	{
 		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1/dt);
+		app->player->Disable();
 	}
 
-	player->Update(dt);
+	//player->Update(dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
 	{
-		executioner->FindTarget(player);
+		executioner->FindTarget(app->player);
 	}
 	
 
@@ -75,7 +76,7 @@ bool Scene1::Draw()
 	
 	executioner->Draw();
 	wolf->Draw();
-	player->Draw();
+	app->player->Draw();
 
 	return ret;
 
@@ -103,11 +104,7 @@ bool Scene1::CleanUp()
 	app->tex->UnLoad(clouds);
 	app->tex->UnLoad(sea);
 
-	player->CleanUp();
 	app->map->CleanUp();
-
-
-	RELEASE(player);
 
 	wolf->CleanUp();
 	RELEASE(wolf);
@@ -120,7 +117,7 @@ bool Scene1::CleanUp()
 
 bool Scene1::RestartPlayerPosition()
 {
-	player->SetPosition(playerStartPosition.x, playerStartPosition.y);
+	app->player->SetPosition(playerStartPosition.x, playerStartPosition.y);
 
 	return true;
 }
@@ -129,7 +126,7 @@ int Scene1::CheckWin()
 {
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 	
-	iPoint playerPosTop = app->map->WorldToMap(player->GetPosition().x+8, player->GetPosition().y+15);
+	iPoint playerPosTop = app->map->WorldToMap(app->player->GetPosition().x + 8, app->player->GetPosition().y + 15);
 	
 	while (layer != NULL)
 	{

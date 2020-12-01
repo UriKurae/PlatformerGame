@@ -6,18 +6,16 @@
   <audio>
     <music_volume value="25" />
   </audio>
-  <introScene />
-  <scene />
-  <scene2 />
-  <winScene />
-  <DeadScene />
   <map />
   <player>
-    <position positionX="400" positionY="245.5" />
-    <current_level value="1" />
+    <position positionX="670" positionY="261" />
+    <current_level value="0" />
   </player>
-  <fade />
+  <scenemanager />
+  <enemymanager />
+  <pathfinding />
   <collisions />
+  <fade />
   <renderer>
     <camera x="55" />
   </renderer>

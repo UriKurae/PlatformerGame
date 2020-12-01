@@ -33,6 +33,7 @@ public:
 	// Check if player won
 	int CheckWin();
 
+	
 private:
 
 	// Player's start position as iPoint  
@@ -43,7 +44,6 @@ private:
 	SDL_Texture* clouds;
 	SDL_Texture* sea;
 
-	Player* player;
 	Executioner* executioner;
 	Wolf* wolf;
 

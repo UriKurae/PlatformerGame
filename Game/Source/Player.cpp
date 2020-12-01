@@ -16,9 +16,76 @@
 #include "SDL/include/SDL.h"
 
 
-Player::Player(iPoint pos) : position(pos)
+Player::Player() : Module()
 {
-	LoadPushbacks();
+	name.Create("player");
+	
+	// Idle animation
+	idleRightAnim.PushBack({ 13,7,19,29 });
+	idleRightAnim.PushBack({ 65,5,17,30 });
+	idleRightAnim.PushBack({ 114,5,19,30 });
+	idleRightAnim.PushBack({ 162,6,20,29 });
+	idleRightAnim.loop = true;
+
+	// Idle animation
+	idleLeftAnim.PushBack({ 671,7,19,29 });
+	idleLeftAnim.PushBack({ 621,5,17,30 });
+	idleLeftAnim.PushBack({ 570,5,19,30 });
+	idleLeftAnim.PushBack({ 521,6,20,29 });
+	idleLeftAnim.loop = true;
+
+	// Run Right Animation
+	runRightAnim.PushBack({ 66,44,20,28 });
+	runRightAnim.PushBack({ 115,45,20,27 });
+	runRightAnim.PushBack({ 165,47,20,25 });
+	runRightAnim.PushBack({ 216,44,23,28 });
+	runRightAnim.PushBack({ 266,45,20,27 });
+	runRightAnim.PushBack({ 315,47,20,25 });
+	runRightAnim.loop = true;
+
+	// Left right Animation
+	runLeftAnim.PushBack({ 618,45,20,28 });
+	runLeftAnim.PushBack({ 568,46,20,27 });
+	runLeftAnim.PushBack({ 518,48,20,25 });
+	runLeftAnim.PushBack({ 465,45,23,28 });
+	runLeftAnim.PushBack({ 419,46,20,27 });
+	runLeftAnim.PushBack({ 368,49,20,25 });
+	runLeftAnim.loop = true;
+
+
+	// Jump right animation
+	jumpRightAnim.PushBack({ 15, 86, 20, 24 });
+	jumpRightAnim.PushBack({ 65, 88, 20, 22 });
+	jumpRightAnim.PushBack({ 117, 81, 19, 27 });
+	jumpRightAnim.PushBack({ 164, 79, 21, 23 });
+	jumpRightAnim.PushBack({ 218, 82, 21, 23 });
+	jumpRightAnim.PushBack({ 264, 84, 23, 17 });
+	jumpRightAnim.PushBack({ 320, 84, 18, 20 });
+	jumpRightAnim.PushBack({ 14, 124, 23, 17 });
+	jumpRightAnim.PushBack({ 68, 112, 17, 31 });
+	jumpRightAnim.PushBack({ 118, 113, 18, 30 });
+	jumpRightAnim.loop = false;
+
+
+	// Jump left animation
+	jumpLeftAnim.PushBack({ 620,89,20,22 });
+	jumpLeftAnim.PushBack({ 569,82,19,27 });
+	jumpLeftAnim.PushBack({ 520,80,21,23 });
+	jumpLeftAnim.PushBack({ 472,83,15,20 });
+	jumpLeftAnim.PushBack({ 418,85,23,17 });
+	jumpLeftAnim.PushBack({ 367,85,18,20 });
+	jumpLeftAnim.PushBack({ 668,125,23,17 });
+	jumpLeftAnim.PushBack({ 620,113,17,31 });
+	jumpLeftAnim.PushBack({ 570,114,17,30 });
+	jumpLeftAnim.loop = false;
+
+	// Falling anim right
+	fallingRightAnim.PushBack({ 68,111,17,31 });
+	fallingRightAnim.PushBack({ 117,112,17,30 });
+
+	// Falling anim left
+	fallingLeftAnim.PushBack({ 619,112,17,31 });
+	fallingLeftAnim.PushBack({ 569,112,17,30 });
 	
 }
 
@@ -54,13 +121,13 @@ bool Player::Start()
 	LOG("Loading player textures");
 
 	// Load the spritesheet for the player
-	//if (this->active == true)
-	//{
+	if (this->active == true)
+	{
 		texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
 
 		currentAnim = &idleRightAnim;
 
-		collider = app->collisions->AddCollider({ (int)position.x+2, (int)position.y, 15, 25 }, Collider::TYPE::PLAYER);
+		collider = app->collisions->AddCollider({ (int)position.x + 2, (int)position.y, 15, 25 }, Collider::TYPE::PLAYER);
 
 		speedX = 250.0f;
 		speedY = 500.0f;
@@ -68,15 +135,15 @@ bool Player::Start()
 		jump = false;
 		godMode = false;
 		direction = "right";
-	//}
+	}
 
 	return true;
 }
 
 bool Player::Update(float dt)
 {
-	//delt = dt;
-
+	idleLeftAnim.speed = 5.0f * dt;
+	idleRightAnim.speed = 5.0f * dt;
 	// Detect player's input
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
@@ -85,7 +152,6 @@ bool Player::Update(float dt)
 		blockFall = !blockFall;
 	}
 
-	
 	if (godMode == true)
 	{
 		
@@ -461,91 +527,6 @@ void Player::Jump(float dt)
 		blockFall = false;	
 	}
 }
-
-
-void Player::LoadPushbacks()
-{
-	// Idle animation
-	idleRightAnim.PushBack({ 13,7,19,29 });
-	idleRightAnim.PushBack({ 65,5,17,30 });
-	idleRightAnim.PushBack({ 114,5,19,30 });
-	idleRightAnim.PushBack({ 162,6,20,29 });
-
-	idleRightAnim.speed = 0.08f;
-	idleRightAnim.loop = true;
-
-	// Idle animation
-	idleLeftAnim.PushBack({ 671,7,19,29 });
-	idleLeftAnim.PushBack({ 621,5,17,30 });
-	idleLeftAnim.PushBack({ 570,5,19,30 });
-	idleLeftAnim.PushBack({ 521,6,20,29 });
-
-	idleLeftAnim.speed = 0.08f;
-	idleLeftAnim.loop = true;
-
-	// Run Right Animation
-	runRightAnim.PushBack({ 66,44,20,28 });
-	runRightAnim.PushBack({ 115,45,20,27 });
-	runRightAnim.PushBack({ 165,47,20,25 });
-	runRightAnim.PushBack({ 216,44,23,28 });
-	runRightAnim.PushBack({ 266,45,20,27 });
-	runRightAnim.PushBack({ 315,47,20,25 });
-	
-
-	runRightAnim.speed = 0.15f;
-	runRightAnim.loop = true;
-
-	// Left right Animation
-	runLeftAnim.PushBack({ 618,45,20,28 });
-	runLeftAnim.PushBack({ 568,46,20,27 });
-	runLeftAnim.PushBack({ 518,48,20,25 });
-	runLeftAnim.PushBack({ 465,45,23,28 });
-	runLeftAnim.PushBack({ 419,46,20,27 });
-	runLeftAnim.PushBack({ 368,49,20,25 });
-
-	runLeftAnim.speed = 0.15f;
-	runLeftAnim.loop = true;
-
-
-	// Jump right animation
-	jumpRightAnim.PushBack({15, 86, 20, 24});
-	jumpRightAnim.PushBack({65, 88, 20, 22});
-	jumpRightAnim.PushBack({117, 81, 19, 27});
-	jumpRightAnim.PushBack({164, 79, 21, 23});
-	jumpRightAnim.PushBack({218, 82, 21, 23});
-	jumpRightAnim.PushBack({264, 84, 23, 17});
-	jumpRightAnim.PushBack({320, 84, 18, 20});
-	jumpRightAnim.PushBack({14, 124, 23, 17});
-	jumpRightAnim.PushBack({68, 112, 17, 31});
-	jumpRightAnim.PushBack({118, 113, 18, 30});
-
-	jumpRightAnim.speed = 0.25f;
-	jumpRightAnim.loop = false;
-
-
-	// Jump left animation
-	jumpLeftAnim.PushBack({ 620,89,20,22 });
-	jumpLeftAnim.PushBack({ 569,82,19,27 });
-	jumpLeftAnim.PushBack({ 520,80,21,23 });
-	jumpLeftAnim.PushBack({ 472,83,15,20 });
-	jumpLeftAnim.PushBack({ 418,85,23,17 });
-	jumpLeftAnim.PushBack({ 367,85,18,20 });
-	jumpLeftAnim.PushBack({ 668,125,23,17 });
-	jumpLeftAnim.PushBack({ 620,113,17,31 });
-	jumpLeftAnim.PushBack({ 570,114,17,30 });
-	
-	jumpLeftAnim.speed = 0.25f;
-	jumpLeftAnim.loop = false;
-
-	// Falling anim right
-	fallingRightAnim.PushBack({ 68,111,17,31 });
-	fallingRightAnim.PushBack({ 117,112,17,30 });
-
-	// Falling anim left
-	fallingLeftAnim.PushBack({ 619,112,17,31 });
-	fallingLeftAnim.PushBack({ 569,112,17,30 });
-}
-
 
 iPoint Player::SetPosition(int x, int y)
 {

@@ -25,8 +25,10 @@ bool Scene2::Start()
 		app->map->active = true;
 		app->map->Load("Level2.tmx");
 
-		player = new Player(iPoint(250, 70));
-		player->Start();
+		//player = new Player(iPoint(250, 70));
+		//player->Start();
+		app->player->Enable();
+		app->player->SetPosition(250,20);
 
 		sky = app->tex->Load("Assets/textures/sky.png");
 		sea = app->tex->Load("Assets/textures/sea.png");
@@ -40,13 +42,12 @@ bool Scene2::Start()
 
 bool Scene2::Update(float dt)
 {
-
 	if (CheckWin() == 1)
 	{
-		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1 / dt);
+		//app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1 / dt);
 	}
 
-	player->Update(dt);
+	//player->Update(dt);
 
 	return true;
 }

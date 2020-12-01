@@ -71,5 +71,4 @@ public:
 	SString name;
 	bool active;
 
-
 };
