@@ -21,13 +21,13 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 
 	idleAnim.loop = true;
 	
-	
 
 	runAnim.PushBack({9,5,45,29});
 	runAnim.PushBack({78,12,44,22});
 	runAnim.PushBack({144,8,44,26});
 	runAnim.PushBack({221,9,43,25});
 	runAnim.PushBack({278,8,45,26});
+	
 	runAnim.loop = true;
 
 	walkAnim.PushBack({9,169,44,24});
@@ -42,6 +42,7 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 	walkAnim.PushBack({586,168,45,25});
 	walkAnim.PushBack({649,170,45,24});
 	walkAnim.PushBack({713,170,44,24});
+	
 	walkAnim.loop = true;
 
 }

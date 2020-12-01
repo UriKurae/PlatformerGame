@@ -31,7 +31,7 @@ bool Scene1::Start()
 		player = new Player(iPoint(250, 0));
 		player->Start();
 
-		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(250, 200));
+		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100));
 		executioner->Start();
 
 		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(350, 250));
@@ -53,6 +53,12 @@ bool Scene1::Update(float dt)
 
 	player->Update(dt);
 
+	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+	{
+		executioner->FindTarget(player);
+	}
+	
+
 	return true;
 }
 
@@ -60,9 +66,9 @@ bool Scene1::Draw()
 {
 	bool ret = true;
 		
-	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
-	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
-	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
+	//app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
+	//app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
+	//app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 	
 	if(app->map->active == true)
 		app->map->Draw();

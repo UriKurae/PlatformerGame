@@ -31,9 +31,9 @@ public:
 
 	virtual bool CleanUp();
 	
-	//virtual bool FindTarget(Player* player);
+	virtual bool FindTarget(Player* player);
 
-	//virtual bool ChaseTarget(iPoint position);
+	virtual bool ChaseTarget(iPoint position);
 
 public:
 	iPoint position;

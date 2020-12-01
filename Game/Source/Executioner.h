@@ -18,6 +18,10 @@ public:
 
 	bool CleanUp() override;
 
+	bool FindTarget(Player* player) override;
+
+	bool ChaseTarget(iPoint position) override;
+
 private:
 	Animation idleAnim;
 	Animation skillAnim;

@@ -5,6 +5,7 @@
 #include "Render.h"
 #include "Input.h"
 #include "Player.h"
+#include "Enemy.h"
 
 
 PathFinding::PathFinding() : Module()
@@ -162,14 +163,13 @@ bool PathFinding::IsWalkable(int x, int y) const
 
 }
 
-void PathFinding::PropagateBFS()
+void PathFinding::PropagateBFS(Player* player)
 {
 	iPoint curr;
-	int x = 0;
-	int y = 0;
-	app->input->GetMousePosition(x, y);
-	//goalAStar = WorldToMap(x - (app->render->camera.x - data.tileWidth), y -(app->render->camera.y - data.tileWidth));
-	//goalAStar = iPoint(app->player->GetPosition().x, app->player->GetPosition().y);
+	int x = player->GetPosition().x;
+	int y = player->GetPosition().y;
+
+	goalAStar = { x,y };
 	goalAStar.x /= 16;
 	goalAStar.y /= 16;
 	while (frontier.Pop(curr))

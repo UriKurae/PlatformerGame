@@ -3,7 +3,9 @@
 #include "Textures.h"
 #include "Render.h"
 #include "EnemyManager.h"
+#include "Pathfinding.h"
 #include "Collisions.h"
+#include "Input.h"
 
 Executioner::Executioner(iPoint pos) : Enemy(pos)
 {
@@ -60,11 +62,17 @@ bool Executioner::Start()
 
 bool Executioner::Update(float dt)
 {
+    if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+    {
+        app->pathFinding->ResetPath(iPoint(position.x / 16, position.y / 16));
+    }
+   
     idleAnim.speed = 4.0f * dt;
 
     currentAnim->Update();
     collider->SetPos(position.x - 2, position.y + 10);
 
+    app->pathFinding->DrawPath();
     return true;
 }
 
@@ -87,4 +95,20 @@ void Executioner::Draw()
     {
         app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
     }
+}
+
+bool Executioner::FindTarget(Player* player)
+{
+
+    
+    app->pathFinding->PropagateBFS(player);
+    app->pathFinding->DrawPath();
+
+    return true;
+}
+
+bool Executioner::ChaseTarget(iPoint position)
+{
+
+    return true;
 }

@@ -10,6 +10,9 @@ struct SDL_Rect;
 struct SDL_Color;
 struct TileSet;
 
+class Player;
+class Enemy;
+
 #define COST_MAP_SIZE	100
 
 
@@ -50,7 +53,7 @@ public:
 	int MovementCost(int x, int y) const;
 	void ComputePath(int x, int y);
 	bool IsWalkable(int x, int y) const;
-	void PropagateBFS();
+	void PropagateBFS(Player* player);
 	void PropagateDijkstra();
 	void PropagateAStar(int heuristic);
 

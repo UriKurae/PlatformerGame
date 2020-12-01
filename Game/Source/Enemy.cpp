@@ -28,6 +28,16 @@ void Enemy::Draw()
 	}
 }
 
+bool Enemy::FindTarget(Player* player)
+{
+	return true;
+}
+
+bool Enemy::ChaseTarget(iPoint position)
+{
+	return true;
+}
+
 bool Enemy::CleanUp()
 {
 	return true;

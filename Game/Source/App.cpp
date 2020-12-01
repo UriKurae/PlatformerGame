@@ -51,7 +51,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex, true);
 	AddModule(audio, true);
 	//AddModule(intro, true);
-	AddModule(pathFinding, true);
 	/*AddModule(scene, false);
 	AddModule(scene2, false);
 	AddModule(winScene, false);
@@ -60,6 +59,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	//AddModule(player, false);
 	AddModule(sceneManager, true);
 	AddModule(enemyManager, true);
+	AddModule(pathFinding, true);
 	AddModule(collisions, true);
 	AddModule(fade, true);
 
