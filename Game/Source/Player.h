@@ -43,7 +43,7 @@ public:
 	// Collisions logic
 	void OnCollision();
 
-	void Jump();
+	void Jump(float dt);
 
 	void LoadPushbacks();
 
@@ -63,7 +63,7 @@ private:
 
 	Collider* collider;
 
-	float delt = 0;
+	//float delt = 0;
 
 	// Position of player
 	iPoint position;

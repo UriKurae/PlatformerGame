@@ -1,10 +1,12 @@
 #ifndef __FADETOBLACK_H__
 #define __FADETOBLACK_H__
 
-#include "Scene.h"
+#include "Module.h"
 #include "SDL\include\SDL_rect.h"
 
-class FadeToBlack
+class Scene;
+
+class FadeToBlack : public Module
 {
 public:
 	//Constructor

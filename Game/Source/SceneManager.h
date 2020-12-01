@@ -22,6 +22,9 @@ public:
 
 	void Draw();
 
+	// Is bool because we want to detect when ESC is pressed
+	bool HandleInput(float dt);
+
 	// Restart level
 	bool RestartPlayerPosition();
 
@@ -30,12 +33,11 @@ public:
 
 	void AddScene(Scene* scene, bool active);
 
-private:
-	
+public:
+	float delt;
 	List<Scene*> scenes;
 
 	Scene1* scene1;
 	Scene2* scene2;
-	
-	FadeToBlack* fader = nullptr;
+
 };

@@ -17,17 +17,13 @@ SceneManager::SceneManager()
 	scene1 = new Scene1();
 	scene2 = new Scene2();
 
-	fader = new FadeToBlack();
 	AddScene(scene1, true);
 	AddScene(scene2, false);
-	
-
 }
 
 SceneManager::~SceneManager()
 {
 	scenes.Clear();
-	RELEASE(fader);
 }
 
 bool SceneManager::Start()
@@ -46,40 +42,17 @@ bool SceneManager::Update(float dt)
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_F6) == KeyState::KEY_DOWN)
-		app->RequestLoadGame();
-
-	if (app->input->GetKey(SDL_SCANCODE_F5) == KeyState::KEY_DOWN)
-		app->RequestSaveGame();
-
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KeyState::KEY_DOWN)
-		RestartPlayerPosition();
-
-	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
-		app->map->viewHitboxes = !app->map->viewHitboxes;
-
-	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
-		fader->Fade((Scene*)scene1, (Scene*)app->scene2, 1 / dt);
-
-	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
-		app->audio->VolumeControl(-4);
-
-	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KeyState::KEY_DOWN)
-		app->audio->VolumeControl(4);
+	delt = dt;
+	ret = HandleInput(dt);
 
 	// Call each scene update
 	ListItem<Scene*>* item = scenes.start;
-	while (item != nullptr && ret)
+	while (item != nullptr )
 	{
-		ret = item->data->Update(dt);
-		item = item->next;
-	}
+		if(item->data->active == true)
+			ret = item->data->Update(dt);
 
-	switch (CheckWin())
-	{
-		case 1:
-			fader->Fade(scene1, (Scene*)scene2, 1/dt);
-			break;
+		item = item->next;
 	}
 
 	Draw();
@@ -98,6 +71,37 @@ void SceneManager::Draw()
 		
 		item = item->next;
 	}
+}
+
+bool SceneManager::HandleInput(float dt)
+{
+	bool ret = true;
+
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		ret = false;
+
+	if (app->input->GetKey(SDL_SCANCODE_F6) == KeyState::KEY_DOWN)
+		app->RequestLoadGame();
+
+	if (app->input->GetKey(SDL_SCANCODE_F5) == KeyState::KEY_DOWN)
+		app->RequestSaveGame();
+
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KeyState::KEY_DOWN)
+		RestartPlayerPosition();
+
+	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
+		app->map->viewHitboxes = !app->map->viewHitboxes;
+
+	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
+		app->fade->Fade((Scene*)scene1, (Scene*)scene2, 1 / dt);
+
+	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
+		app->audio->VolumeControl(-4);
+
+	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KeyState::KEY_DOWN)
+		app->audio->VolumeControl(4);
+
+	return ret;
 }
 
 bool SceneManager::RestartPlayerPosition()

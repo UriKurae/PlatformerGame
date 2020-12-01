@@ -5,6 +5,7 @@
 #include "Textures.h"
 #include "Map.h"
 #include "Scene1.h"
+#include "SceneManager.h"
 #include "Player.h"
 #include "EnemyManager.h"
 #include "Executioner.h"
@@ -42,14 +43,15 @@ bool Scene1::Start()
 }
 
 bool Scene1::Update(float dt)
-{
-	bool ret = true;
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
-	
+{	
+	if (CheckWin() == 1)
+	{
+		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1/dt);
+	}
+
 	player->Update(dt);
 
-	return ret;
+	return true;
 }
 
 bool Scene1::Draw()
@@ -63,8 +65,8 @@ bool Scene1::Draw()
 	if(app->map->active == true)
 		app->map->Draw();
 	
-	player->Draw();
 	executioner->Draw();
+	player->Draw();
 
 	return ret;
 
@@ -91,7 +93,8 @@ bool Scene1::CleanUp()
 	app->tex->UnLoad(sky);
 	app->tex->UnLoad(clouds);
 	app->tex->UnLoad(sea);
-	
+
+	player->CleanUp();
 	RELEASE(player);
 
 	return true;

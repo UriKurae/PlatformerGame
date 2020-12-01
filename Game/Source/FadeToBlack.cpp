@@ -7,11 +7,13 @@
 #include "Audio.h"
 #include "Window.h"
 
+#include "Scene.h"
+
 #include "SDL/include/SDL_render.h"
 
 FadeToBlack::FadeToBlack()
 {
-	
+	name.Create("fade");
 }
 
 FadeToBlack::~FadeToBlack()

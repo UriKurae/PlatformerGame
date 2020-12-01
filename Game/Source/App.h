@@ -27,7 +27,7 @@ class Map;
 class SceneManager;
 class EnemyManager;
 class Collisions;
-//class FadeToBlack;
+class FadeToBlack;
 class DeadScene;
 class PathFinding;
 
@@ -110,7 +110,7 @@ public:
 	SceneManager* sceneManager;
 	EnemyManager* enemyManager;
 	Collisions* collisions;
-	//FadeToBlack* fade;
+	FadeToBlack* fade;
 	PathFinding* pathFinding;
 
 private:

@@ -75,7 +75,7 @@ bool Player::Start()
 
 bool Player::Update(float dt)
 {
-	delt = dt;
+	//delt = dt;
 
 	// Detect player's input
 
@@ -193,7 +193,7 @@ bool Player::Update(float dt)
 
 	if (jump == true)
 	{
-		Jump();
+		Jump(dt);
 	}
 
 
@@ -445,12 +445,12 @@ void Player::OnCollision()
 }
 
 
-void Player::Jump()
+void Player::Jump(float dt)
 {
 	if (speedY > 0)
 	{
-		position.y -= speedY * delt * 3.0f;
-		speedY -= gravity * delt * 6.5f;
+		position.y -= speedY * dt * 3.0f;
+		speedY -= gravity * dt * 6.5f;
 		upwards = true;
 	}
 	if (speedY <= 0)

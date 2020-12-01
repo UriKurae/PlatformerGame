@@ -7,6 +7,7 @@
 #include "Scene2.h"
 #include "Player.h"
 #include "FadeToBlack.h"
+#include "SceneManager.h"
 
 Scene2::Scene2()
 {
@@ -39,7 +40,13 @@ bool Scene2::Start()
 
 bool Scene2::Update(float dt)
 {
-	
+
+	if (CheckWin() == 1)
+	{
+		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1 / dt);
+	}
+
+	player->Update(dt);
 
 	return true;
 }
@@ -53,12 +60,11 @@ bool Scene2::Draw()
 
 	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
-	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
+	//app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 
-	//if (app->map->active == true)
-		app->map->Draw();
-
+	app->map->Draw();
 	player->Draw();
+
 
 	return ret;
 }
@@ -87,25 +93,25 @@ int Scene2::CheckWin()
 {
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
-	//iPoint playerPosTop = app->map->WorldToMap(app->player->GetPosition().x + 8, app->player->GetPosition().y + 15);
+	iPoint playerPosTop = app->map->WorldToMap(player->GetPosition().x + 8, player->GetPosition().y + 15);
 
 	while (layer != NULL)
 	{
 
-		//if (layer->data->name == "HitBoxes")
-		//{
-		//	uint playerMidTile = layer->data->Get(playerPosTop.x, playerPosTop.y);
+		if (layer->data->name == "HitBoxes")
+		{
+			uint playerMidTile = layer->data->Get(playerPosTop.x, playerPosTop.y);
 
-		//	if (playerMidTile == 1166)
-		//	{
-		//		return 1;
-		//	}
+			if (playerMidTile == 1166)
+			{
+				return 1;
+			}
 
-		//	if (playerMidTile == 1170)
-		//	{
-		//		return 2;
-		//	}
-		//}
+			if (playerMidTile == 1170)
+			{
+				return 2;
+			}
+		}
 
 		layer = layer->next;
 	}
