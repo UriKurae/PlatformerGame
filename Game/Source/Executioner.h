@@ -17,11 +17,12 @@ public:
 
 	void Draw() override;
 
+public:
+	Collider* collider;
 
 private:
 	Animation idleAnim;
 	Animation skillAnim;
 	Animation deathAnim;
 
-	Collider* collider;
 };

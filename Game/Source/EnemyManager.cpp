@@ -69,6 +69,7 @@ void EnemyManager::DeleteEnemy(Enemy* enemy)
 	{
 		if (enemy == item->data)
 		{
+
 			enemies.Del(item);
 			break;
 		}

@@ -6,6 +6,16 @@
 
 Ghost::Ghost(iPoint pos) : Enemy(pos)
 {
+	// Idle animation
+	idleAnim.PushBack({4,106, 35, 25});
+	idleAnim.PushBack({45,104, 35, 27});
+	idleAnim.PushBack({102,85, 35, 29});
+	idleAnim.PushBack({124,99, 35, 32});
+	idleAnim.PushBack({202,99, 35, 32});
+	idleAnim.PushBack({241,102, 35, 30});
+	idleAnim.PushBack({319,107, 35, 24});
+
+
 }
 
 Ghost::~Ghost()
