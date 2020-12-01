@@ -23,6 +23,9 @@ public:
 
 private:
 	Animation idleAnim;
+	Animation walkAnim;
+	Animation takeDamageAnim;
+	Animation dieAnim;
 
 	Collider* collider;
 };

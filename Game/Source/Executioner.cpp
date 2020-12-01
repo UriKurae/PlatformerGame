@@ -56,7 +56,7 @@ bool Executioner::Start()
     texture = app->tex->Load("Assets/textures/Executioner/executioner.png");
     
     currentAnim = &idleAnim;
-    collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::TYPE::ENEMY); // 10 stands for offset
+    collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
 
     return true;
 }

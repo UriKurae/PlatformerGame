@@ -21,7 +21,7 @@ public:
 
 
 
-private:
+public:
 	List<Enemy*> enemies;
 	
 

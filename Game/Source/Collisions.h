@@ -33,7 +33,7 @@ public:
 	bool CleanUp() override;
 
 	// Adds a new collider to the list
-	Collider* AddCollider(SDL_Rect rect, Collider::TYPE type, Module* listener = nullptr);
+	Collider* AddCollider(SDL_Rect rect, Collider::Type type, Module* listener = nullptr);
 
 	// Removes the collider memory and removes it from the colliders array
 	void RemoveCollider(Collider* collider);
@@ -48,7 +48,7 @@ private:
 
 	// The collision matrix. Defines the interaction for two collider types
 	// If set two false, collider 1 will ignore collider 2
-	bool matrix[Collider::TYPE::MAX][Collider::TYPE::MAX];
+	bool matrix[Collider::Type::MAX][Collider::Type::MAX];
 
 	// The amount of colliders loaded into the array
 	uint colliderCount = 0;

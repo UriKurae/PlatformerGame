@@ -31,10 +31,11 @@ public:
 
 	bool CleanUp();
 
+	void HandleInput(float dt);
+
 	void CameraFollow();
 
 	bool Load(pugi::xml_node&);
-
 	bool Save(pugi::xml_node&);
 
 	iPoint SetPosition(int x, int y);
@@ -45,7 +46,8 @@ public:
 
 	void Jump(float dt);
 
-	void LoadPushbacks();
+	void Attack();
+
 
 public:
 
@@ -62,8 +64,7 @@ public:
 private:
 
 	Collider* collider;
-
-	//float delt = 0;
+	Collider* attackCollider;
 
 	// Position of player
 	iPoint position;
@@ -108,6 +109,7 @@ private:
 	Animation jumpLeftAnim;
 	Animation fallingRightAnim;
 	Animation fallingLeftAnim;
+	Animation attackRightDownUpAnim;
 	
 };
 

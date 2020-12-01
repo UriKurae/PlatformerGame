@@ -93,17 +93,20 @@ void Collisions::DebugDraw()
 
 		switch (colliders[i]->type)
 		{
-		case Collider::TYPE::NONE: // white
+		case Collider::Type::NONE: // White
 			app->render->DrawRectangle(colliders[i]->rect, 255, 255, 255, alpha);
 			break;
 
-		case Collider::TYPE::PLAYER: // green
+		case Collider::Type::PLAYER: // Green
 			app->render->DrawRectangle(colliders[i]->rect, 0, 255, 0, alpha);
 			break;
 
-		case Collider::TYPE::ENEMY: //red
+		case Collider::Type::ENEMY: // Red
 			app->render->DrawRectangle(colliders[i]->rect, 255, 0, 0, alpha);
 			break;
+
+			case Collider::Type::PLAYER_HIT: // Blue
+			app->render->DrawRectangle(colliders[i]->rect, 0, 0, 255, alpha);
 		}
 	}
 }
@@ -126,7 +129,7 @@ bool Collisions::CleanUp()
 	return true;
 }
 
-Collider* Collisions::AddCollider(SDL_Rect rect, Collider::TYPE type, Module* listener)
+Collider* Collisions::AddCollider(SDL_Rect rect, Collider::Type type, Module* listener)
 {
 	Collider* ret = nullptr;
 
