@@ -47,4 +47,8 @@ private:
 	Executioner* executioner;
 	Wolf* wolf;
 
+	// CheckPoints
+	bool checkPoint1 = false;
+	bool checkPoint2 = false;
+
 };

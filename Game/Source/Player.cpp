@@ -503,7 +503,7 @@ void Player::OnCollision()
 			{
 				blockLeftMovement = false;
 			}
-			
+
 			break;
 		}
 

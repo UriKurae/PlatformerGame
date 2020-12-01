@@ -54,6 +54,11 @@ bool Scene1::Update(float dt)
 
 	//player->Update(dt);
 
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		RestartPlayerPosition();
+	}
+
 	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
 	{
 		executioner->FindTarget(app->player);
@@ -102,7 +107,18 @@ bool Scene1::CleanUp()
 
 bool Scene1::RestartPlayerPosition()
 {
-	app->player->SetPosition(playerStartPosition.x, playerStartPosition.y);
+	if (checkPoint1 == true)
+	{
+		app->player->SetPosition(1535, 176);
+	}
+	else if (checkPoint2 == true)
+	{
+		app->player->SetPosition(2256, 272);
+	}
+	else
+	{
+		app->player->SetPosition(250, 70);
+	}
 
 	return true;
 }
@@ -129,6 +145,17 @@ int Scene1::CheckWin()
 			{
 				return 2;
 			}
+
+			if (playerMidTile == 1167 && checkPoint2 == false)
+			{
+				checkPoint1 = true;
+			}
+			else if (playerMidTile == 1168)
+			{
+ 				checkPoint2 = true;
+				checkPoint1 = false;
+			}
+
 		}
 	
 		layer = layer->next;

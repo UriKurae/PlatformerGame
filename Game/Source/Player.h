@@ -87,6 +87,7 @@ private:
 	bool isFalling = false;
 	int jumpsLeft = 0;
 
+
 	// Block movements
 	bool blockLeftMovement = false;
 	bool blockRightMovement = false;
