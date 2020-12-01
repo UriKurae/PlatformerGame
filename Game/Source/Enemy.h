@@ -2,6 +2,7 @@
 
 #include "Point.h"
 #include "Animation.h"
+#include "Collider.h"
 
 #include "SDL_image/include/SDL_image.h"
 
@@ -27,6 +28,8 @@ public:
 	virtual bool Update(float dt);
 
 	virtual void Draw();
+
+	virtual bool CleanUp();
 	
 	//virtual bool FindTarget(Player* player);
 
@@ -40,5 +43,6 @@ public:
 
 	SDL_Texture* texture;
 	Animation* currentAnim;
+	Collider* collider;
 
 };

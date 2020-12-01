@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Enemy.h"
-#include "Collider.h"
 
 class Executioner : public Enemy
 {
@@ -17,11 +16,12 @@ public:
 
 	void Draw() override;
 
+	bool CleanUp() override;
+
 
 private:
 	Animation idleAnim;
 	Animation skillAnim;
 	Animation deathAnim;
 
-	Collider* collider;
 };

@@ -329,6 +329,7 @@ void Player::Draw()
 bool Player::CleanUp()
 {
 	app->tex->UnLoad(texture);
+	collider->pendingToDelete = true;
 
 	return true;
 }

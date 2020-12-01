@@ -1,9 +1,8 @@
 #include "Executioner.h"
-
 #include "App.h"
 #include "Textures.h"
 #include "Render.h"
-
+#include "EnemyManager.h"
 #include "Collisions.h"
 
 Executioner::Executioner(iPoint pos) : Enemy(pos)
@@ -69,7 +68,14 @@ bool Executioner::Update(float dt)
     return true;
 }
 
+bool Executioner::CleanUp()
+{
+    app->tex->UnLoad(texture);
+    collider->pendingToDelete = true;
+    app->enemyManager->DeleteEnemy(this);
 
+    return true;
+}
 
 void Executioner::Attack()
 {

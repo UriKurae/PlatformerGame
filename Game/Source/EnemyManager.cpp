@@ -69,6 +69,7 @@ void EnemyManager::DeleteEnemy(Enemy* enemy)
 	{
 		if (enemy == item->data)
 		{
+			item->data->collider->pendingToDelete = true;
 			enemies.Del(item);
 			break;
 		}
