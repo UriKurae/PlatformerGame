@@ -30,7 +30,7 @@ bool Scene1::Start()
 		player->Start();
 
 		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(250, 200));
-		
+		executioner->Start();
 
 		sky = app->tex->Load("Assets/textures/sky.png");
 		sea = app->tex->Load("Assets/textures/sea.png");

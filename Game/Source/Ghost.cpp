@@ -1,19 +1,18 @@
 #include "App.h"
-#include "Bird.h"
+#include "Ghost.h"
 #include "Render.h"
 #include "Textures.h"
 #include "Collisions.h"
 
-Bird::Bird(iPoint pos)
-{
-	position = pos;
-}
-
-Bird::~Bird()
+Ghost::Ghost(iPoint pos) : Enemy(pos)
 {
 }
 
-bool Bird::Start()
+Ghost::~Ghost()
+{
+}
+
+bool Ghost::Start()
 {
 	
 	texture = app->tex->Load("Assets/textures/Executioner/executioner.png");
@@ -22,18 +21,18 @@ bool Bird::Start()
 	return true;
 }
 
-bool Bird::Update(float dt)
+bool Ghost::Update(float dt)
 {
 	collider->SetPos(position.x - 2, position.y + 10);
 
 	return true;
 }
 
-void Bird::Attack()
+void Ghost::Attack()
 {
 }
 
-void Bird::Draw()
+void Ghost::Draw()
 {
 
 	if (currentAnim != nullptr)

@@ -1,13 +1,17 @@
 #pragma once
 
 #include "Enemy.h"
-#include "Collider.h"
 
-class Executioner : public Enemy
+
+
+
+class Wolf : public Enemy
 {
 public:
-	Executioner(iPoint pos);
-	virtual ~Executioner() {};
+	
+	Wolf(iPoint pos);
+	
+	virtual ~Wolf() {};
 
 	bool Start();
 
@@ -17,11 +21,16 @@ public:
 
 	void Draw() override;
 
+	//bool FindTarget(Player* player) override;
+
+	//bool ChaseTarget(iPoint position) override;
 
 private:
+
 	Animation idleAnim;
 	Animation skillAnim;
 	Animation deathAnim;
 
 	Collider* collider;
+
 };

@@ -46,7 +46,7 @@ Executioner::Executioner(iPoint pos) : Enemy(pos)
     deathAnim.PushBack({ 1752, 45, 39, 45 });
 
 
-    Start();
+
 }
 
 bool Executioner::Start()

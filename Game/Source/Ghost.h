@@ -4,13 +4,13 @@
 #include "Collider.h"
 
 
-class Bird : public Enemy
+class Ghost : public Enemy
 {
 public:
 
-	Bird(iPoint pos);
+	Ghost(iPoint pos);
 
-	~Bird();
+	~Ghost();
 
 	bool Start();
 

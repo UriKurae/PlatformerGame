@@ -1,6 +1,8 @@
 #include "EnemyManager.h"
 #include "Executioner.h"
-#include "Bird.h"
+#include "Wolf.h"
+#include "Ghost.h"
+
 
 EnemyManager::EnemyManager(): Module()
 {
@@ -47,12 +49,11 @@ Enemy* EnemyManager::AddEnemy(EnemyType type, iPoint pos)
 		enemy = new Executioner(pos);
 		break;	
 	case EnemyType::BIRD:
-		enemy = new Bird(pos);
+		enemy = new Ghost(pos);
 		break;
-	/*case EnemyType::GROUND:
-		enemy = new Ground();
-		break;
-		*/
+	case EnemyType::GROUND:
+		enemy = new Wolf(pos);
+		break;	
 	}
 
 	enemies.Add(enemy);

@@ -73,7 +73,10 @@
     <ClCompile Include="Source\Scene2.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Bird.cpp">
+    <ClCompile Include="Source\Ghost.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Wolf.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
   </ItemGroup>
@@ -180,7 +183,10 @@
     <ClInclude Include="Source\Scene2.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Bird.h">
+    <ClInclude Include="Source\Ghost.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Wolf.h">
       <Filter>Enemies</Filter>
     </ClInclude>
   </ItemGroup>

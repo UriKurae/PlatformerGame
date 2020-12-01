@@ -5,6 +5,8 @@
 
 #include "SDL_image/include/SDL_image.h"
 
+class Player;
+
 enum class EnemyType
 {
 	NONE = -1,
@@ -21,9 +23,14 @@ public:
 
 	virtual ~Enemy();
 
+	
 	virtual bool Update(float dt);
 
 	virtual void Draw();
+	
+	//virtual bool FindTarget(Player* player);
+
+	//virtual bool ChaseTarget(iPoint position);
 
 public:
 	iPoint position;
