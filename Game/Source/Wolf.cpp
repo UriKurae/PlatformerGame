@@ -45,6 +45,9 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 	
 	walkAnim.loop = true;
 
+	hurtAnim.PushBack({ 12,207,45,29 });
+	hurtAnim.PushBack({ 77,202,39,34 });
+	hurtAnim.loop = false;
 }
 
 bool Wolf::Start()

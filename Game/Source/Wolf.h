@@ -29,5 +29,6 @@ private:
 	Animation runAnim;
 	Animation walkAnim;
 	Animation deathAnim;
+	Animation hurtAnim;
 
 };
