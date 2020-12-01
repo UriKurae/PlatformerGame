@@ -1,5 +1,6 @@
 #include "EnemyManager.h"
 #include "Executioner.h"
+#include "Bird.h"
 
 EnemyManager::EnemyManager(): Module()
 {
@@ -45,10 +46,10 @@ Enemy* EnemyManager::AddEnemy(EnemyType type, iPoint pos)
 	case EnemyType::EXECUTIONER:
 		enemy = new Executioner(pos);
 		break;	
-	/*case EnemyType::BIRD:
+	case EnemyType::BIRD:
 		enemy = new Bird(pos);
 		break;
-	case EnemyType::GROUND:
+	/*case EnemyType::GROUND:
 		enemy = new Ground();
 		break;
 		*/
