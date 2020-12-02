@@ -60,12 +60,14 @@ void Map::Draw()
 	while (layer != NULL)
 	{
 		int noDraw = layer->data->properties.GetProperty("Nodraw");
-
 		if (noDraw == 0 || viewHitboxes == true)
 		{
+			int minX = (app->player->GetPosition().x - 300)/ data.tileWidth;
+			int maxX = (app->player->GetPosition().x + 448)/data.tileWidth;
+
 			for (int y = 0; y < data.height; ++y)
 			{
-				for (int x = 0; x < data.width; ++x)
+				for (int x = minX; x < maxX; ++x)
 				{
 					int tileId = layer->data->Get(x, y);
 					if (tileId > 0)
@@ -134,7 +136,7 @@ TileSet* Map::GetTilesetFromTileId(int id) const
 		item = item->next;
 		if (item != NULL) set = item->data;
 	}
-
+	
 	return set;
 }
 
@@ -383,4 +385,15 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 	}
 	
 	return ret;
+}
+
+bool Map::ScreenLimits()
+{
+
+	int x, w, y, h;
+
+	if (app->player->GetPosition().x )
+
+
+	return true;
 }

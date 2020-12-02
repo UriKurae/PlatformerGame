@@ -73,7 +73,7 @@ bool Executioner::Update(float dt)
     currentAnim->Update();
     collider->SetPos(position.x - 2, position.y + 10);
 
-    app->pathFinding->DrawPath();
+   // app->pathFinding->DrawPath();
     return true;
 }
 

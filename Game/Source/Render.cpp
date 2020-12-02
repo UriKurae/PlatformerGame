@@ -9,7 +9,7 @@
 #include "Defs.h"
 #include "Log.h"
 
-#define VSYNC true
+#define VSYNC false
 
 Render::Render() : Module()
 {
@@ -120,8 +120,6 @@ void Render::SetBackgroundColor(SDL_Color color)
 	background = color;
 }
 
-
-
 void Render::SetViewPort(const SDL_Rect& rect)
 {
 	SDL_RenderSetViewport(renderer, &rect);
@@ -209,7 +207,7 @@ bool Render::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b,
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
-
+	
 	int result = -1;
 
 	if(use_camera)
