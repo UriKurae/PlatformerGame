@@ -196,13 +196,17 @@ void App::PrepareUpdate()
 	++lastSecFrameCount;
 
 	if (input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+	{
 		changeMs = !changeMs;
-	
-	if(changeMs) 
-		cappedMs = 30;
 
-	else if (!changeMs)
-		cappedMs = 16;
+		if (changeMs)
+			cappedMs = 30;
+
+		else if (!changeMs)
+			cappedMs = 16;
+	}
+	
+	
 
 
 	dt = frameTime.ReadSec();
