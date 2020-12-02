@@ -29,7 +29,7 @@ bool Scene1::Start()
 		app->map->active = true;
 		app->map->Load("Level1.tmx");
 
-		app->player->SetPosition(250, 70);
+		app->player->SetPosition(250, 5);
 
 		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100));
 		executioner->Start();
@@ -49,10 +49,7 @@ bool Scene1::Update(float dt)
 	if (CheckWin() == 1)
 	{
 		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1/dt);
-		app->player->Disable();
 	}
-
-	//player->Update(dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
@@ -79,9 +76,9 @@ bool Scene1::Draw()
 	if(app->map->active == true)
 		app->map->Draw();
 	
+	app->player->Draw();
 	executioner->Draw();
 	wolf->Draw();
-	app->player->Draw();
 
 	return ret;
 }
@@ -95,6 +92,8 @@ bool Scene1::CleanUp()
 	app->tex->UnLoad(sea);
 
 	app->map->CleanUp();
+
+	app->player->Disable();
 
 	wolf->CleanUp();
 	RELEASE(wolf);

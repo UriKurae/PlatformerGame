@@ -34,7 +34,7 @@ public:
 	void AddScene(Scene* scene, bool active);
 
 public:
-	float delt;
+
 	List<Scene*> scenes;
 
 	Scene1* scene1;

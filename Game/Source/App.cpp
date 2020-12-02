@@ -38,9 +38,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	winScene = new WinScene();
 	deadScene = new DeadScene();*/
 	map = new Map();
-	player = new Player();
 	sceneManager = new SceneManager();
 	enemyManager = new EnemyManager();
+	player = new Player();
 	pathFinding = new PathFinding();
 	fade = new FadeToBlack();
 

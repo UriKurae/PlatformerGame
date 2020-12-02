@@ -6,6 +6,13 @@
 
 class Scene;
 
+enum class FadeStep
+{
+	NONE,
+	TO_BLACK,
+	FROM_BLACK
+};
+
 class FadeToBlack : public Module
 {
 public:
@@ -32,15 +39,8 @@ public:
 	// After the first step, the modules should be switched
 	bool Fade(Scene* toDisable, Scene* toEnable, float frames);
 
+	FadeStep currentStep = FadeStep::NONE;
 private:
-
-	enum class FadeStep
-	{
-		NONE,
-		TO_BLACK,
-		FROM_BLACK
-	} 
-	currentStep = FadeStep::NONE;
 
 	// A frame count system to handle the fade time and ratio
 	Uint32 frameCount = 0;

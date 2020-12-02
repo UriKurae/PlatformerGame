@@ -31,7 +31,9 @@ bool SceneManager::Start()
 	ListItem<Scene*>* item = scenes.start;
 	while (item != nullptr)
 	{
-		item->data->Start();
+		if(item->data->active == true)
+			item->data->Start();
+		
 		item = item->next;
 	}
 	
@@ -42,7 +44,6 @@ bool SceneManager::Update(float dt)
 {
 	bool ret = true;
 
-	delt = dt;
 	ret = HandleInput(dt);
 
 	// Call each scene update
@@ -54,6 +55,8 @@ bool SceneManager::Update(float dt)
 
 		item = item->next;
 	}
+
+	CheckWin();
 
 	Draw();
 
@@ -118,15 +121,14 @@ int SceneManager::CheckWin()
 	{
 		if(item->data->active == true)
 		{
-			ret = item->data->CheckWin();
-			break;
+			return item->data->CheckWin();
 		}
 		item = item->next;
 	}
 
 	
 
-	return ret;
+	return -1;
 }
 
 

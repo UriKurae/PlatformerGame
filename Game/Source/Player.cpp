@@ -417,7 +417,7 @@ void Player::HandleInput(float dt)
 		}
 	}
 
-	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
 		if (currentAnim != &attackRightDownUpAnim)
 		{
@@ -429,7 +429,7 @@ void Player::HandleInput(float dt)
 		/*if(attackRightDownUpAnim.HasFinished() == true)
 			attackRightDownUpAnim.Reset();*/
 	}
-	
+	attackRightDownUpAnim.Reset();
 }
 
 void Player::CameraFollow()
