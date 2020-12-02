@@ -1,4 +1,3 @@
-
 #include "App.h"
 #include "IntroScene.h"
 
@@ -25,21 +24,13 @@ IntroScene::~IntroScene()
 
 }
 
-bool IntroScene::Awake(pugi::xml_node& node)
-{
-	return true;
-}
-
 // Load assets
 bool IntroScene::Start()
 {
-	intro = app->tex->Load("Assets/textures/intro.png");
-	logo = app->tex->Load("Assets/textures/logo.png");
+	//intro = app->tex->Load("Assets/textures/intro.png");
+	//logo = app->tex->Load("Assets/textures/logo.png");
 	
-	if (this->active == true)
-	{
-		app->audio->PlayMusic("Assets/audio/music/track_1.ogg");
-	}
+	app->audio->PlayMusic("Assets/audio/music/track_1.ogg");
 
 	app->render->SetCameraPosition(0,0);
 
@@ -72,29 +63,25 @@ bool IntroScene::Update(float dt)
 }
 
 // Update: draw background
-bool IntroScene::PostUpdate()
+bool IntroScene::Draw()
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
-
 	if ((count >= 65) && (showLogo == true))
 	{
-		app->render->DrawTexture(logo, 150, 0, NULL);
+		//app->render->DrawTexture(logo, 150, 0, NULL);
 	}
 	else if (count <= 60)
 	{
-		app->render->DrawTexture(intro, 0, 0, NULL);
+		//app->render->DrawTexture(intro, 0, 0, NULL);
 	}
 	return ret;
 }
 
 bool IntroScene::CleanUp()
 {
-	
-	app->tex->UnLoad(intro);
-	app->tex->UnLoad(logo);
+	//app->tex->UnLoad(intro);
+	//app->tex->UnLoad(logo);
 	
 	return true;
 }

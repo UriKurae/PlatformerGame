@@ -10,6 +10,8 @@
 
 Executioner::Executioner(iPoint pos) : Enemy(pos)
 {
+    name.Create("executioner");
+
     // Idle animation
     idleAnim.PushBack({ 15, 421, 68, 93 });
     idleAnim.PushBack({ 104, 420, 68, 93 });
@@ -111,6 +113,23 @@ bool Executioner::FindTarget(Player* player)
 
 bool Executioner::ChaseTarget(iPoint position)
 {
+
+    return true;
+}
+
+bool Executioner::Load(pugi::xml_node& node)
+{
+    position.x = node.child("position").attribute("positionX").as_float();
+    position.y = node.child("position").attribute("positionY").as_float();
+
+    return true;
+}
+
+bool Executioner::Save(pugi::xml_node& node)
+{
+    pugi::xml_node executioner = node.append_child("position");
+    executioner.append_attribute("x").set_value(position.x);
+    executioner.append_attribute("y").set_value(position.y);
 
     return true;
 }

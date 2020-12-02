@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Module.h"
+#include "Scene.h"
 
 struct SDL_Texture;
 
-class DeadScene : public Module
+class DeadScene : public Scene
 {
 public:
 
@@ -13,20 +13,13 @@ public:
 	// Destructor
 	virtual ~DeadScene();
 
-	// Called before render is available
-	bool Awake(pugi::xml_node& config) override;
-
 	// Called before the first frame
 	bool Start() override;
-
-	// Called before all Updates
-	bool PreUpdate() override;
 
 	// Called each loop iteration
 	bool Update(float dt) override;
 
-	// Called before all Updates
-	bool PostUpdate() override;
+	bool Draw() override;
 
 	// Called before quitting
 	bool CleanUp() override;

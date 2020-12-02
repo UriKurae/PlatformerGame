@@ -8,11 +8,18 @@
   </audio>
   <map />
   <player>
-    <position positionX="354" positionY="243" />
+    <position x="250" y="209" />
     <current_level value="0" />
   </player>
   <scenemanager />
-  <enemymanager />
+  <enemymanager>
+    <executioner>
+      <position x="400" y="100" />
+    </executioner>
+    <wolf>
+      <position x="350" y="250" />
+    </wolf>
+  </enemymanager>
   <pathfinding />
   <collisions />
   <fade />

@@ -6,6 +6,8 @@
 
 Ghost::Ghost(iPoint pos) : Enemy(pos)
 {
+	name.Create("ghost");
+
 	// Idle animation
 	idleAnim.PushBack({4, 106, 35, 25});
 	idleAnim.PushBack({45, 104, 35, 27});
@@ -73,4 +75,21 @@ void Ghost::Draw()
 		app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
 	}
 
+}
+
+bool Ghost::Load(pugi::xml_node& node)
+{
+	position.x = node.child("position").attribute("positionX").as_float();
+	position.y = node.child("position").attribute("positionY").as_float();
+
+	return true;
+}
+
+bool Ghost::Save(pugi::xml_node& node)
+{
+	pugi::xml_node executioner = node.append_child("position");
+	executioner.append_attribute("x").set_value(position.x);
+	executioner.append_attribute("y").set_value(position.y);
+
+	return true;
 }

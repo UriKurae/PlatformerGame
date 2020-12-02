@@ -1,3 +1,4 @@
+#include "App.h"
 #include "EnemyManager.h"
 #include "Executioner.h"
 #include "Wolf.h"
@@ -76,4 +77,30 @@ void EnemyManager::DeleteEnemy(Enemy* enemy)
 
 		item = item->next;
 	}
+}
+
+bool EnemyManager::Save(pugi::xml_node& node)
+{
+	ListItem<Enemy*>* item = enemies.start;
+
+	while (item != nullptr)
+	{
+		item->data->Save(node.append_child(item->data->name.GetString()));
+		item = item->next;
+	}
+
+	return true;
+}
+
+bool EnemyManager::Load(pugi::xml_node& node)
+{
+	ListItem<Enemy*>* item = enemies.start;
+
+	while (item != nullptr)
+	{
+		item->data->Load(app->saveState.child("enemies").child(item->data->name.GetString()));
+		item = item->next;
+	}
+
+	return true;
 }

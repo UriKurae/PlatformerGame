@@ -30,7 +30,7 @@ public:
 	bool RestartPlayerPosition();
 
 	// Check if player won
-	int CheckWin();
+	void CheckWin();
 
 	void AddScene(Scene* scene, bool active);
 
@@ -38,7 +38,9 @@ public:
 
 	List<Scene*> scenes;
 
+	IntroScene* introScene;
 	Scene1* scene1;
 	Scene2* scene2;
+	DeadScene* deadScene;
 
 };

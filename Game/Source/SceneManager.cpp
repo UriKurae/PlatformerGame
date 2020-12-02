@@ -4,8 +4,10 @@
 #include "Map.h"
 #include "SceneManager.h"
 #include "FadeToBlack.h"
+#include "IntroScene.h"
 #include "Scene1.h"
 #include "Scene2.h"
+#include "DeadScene.h"
 
 
 #include "SDL/include/SDL_scancode.h"
@@ -14,11 +16,15 @@ SceneManager::SceneManager()
 {
 	name.Create("scenemanager");
 
+	introScene = new IntroScene();
 	scene1 = new Scene1();
 	scene2 = new Scene2();
+	deadScene = new DeadScene();
 
+	AddScene(introScene, false);
 	AddScene(scene1, true);
 	AddScene(scene2, false);
+	AddScene(deadScene, false);
 }
 
 SceneManager::~SceneManager()
@@ -112,7 +118,7 @@ bool SceneManager::RestartPlayerPosition()
 	return true;
 }
 
-int SceneManager::CheckWin()
+void SceneManager::CheckWin()
 {
 	int ret = -1;
 	ListItem<Scene*>* item = scenes.start;
@@ -121,65 +127,14 @@ int SceneManager::CheckWin()
 	{
 		if(item->data->active == true)
 		{
-			return item->data->CheckWin();
+			item->data->CheckWin();
+			break;
 		}
 		item = item->next;
 	}
 
-	
-
-	return -1;
 }
 
-
-/*void SceneManager::SwitchScene(Scene* toDisable, Scene* toEnable, float frames)
-{
-	bool ret = false;
-
-	// If we are already in a fade process, ignore this call
-	if (currentStep == SwitchStep::NONE)
-	{
-		currentStep = SwitchStep::TO_BLACK;
-		frameCount = 0;
-		maxFadeFrames = frames;
-
-
-		this->moduleToDisable = moduleToDisable;
-		this->moduleToEnable = moduleToEnable;
-
-		ret = true;
-	}
-	return ret;
-
-}
-
-/*void SceneManager::CheckSwitchState()
-{
-	// Exit this function if we are not performing a fade
-	if (currentStep == SwitchStep::NONE) return;
-
-	if (currentStep == SwitchStep::TO_BLACK)
-	{
-		++frameCount;
-		if (frameCount >= maxFadeFrames)
-		{
-			sceneToDisable->Disable();
-			sceneToEnable->Enable();
-
-			currentStep = SwitchStep::FROM_BLACK;
-		}
-	}
-	else
-	{
-		--frameCount;
-		if (frameCount <= 0)
-		{
-			currentStep = SwitchStep::NONE;
-		}
-	}
-
-}
-*/
 void SceneManager::AddScene(Scene* scene, bool active)
 {
 	//scene = new Scene();

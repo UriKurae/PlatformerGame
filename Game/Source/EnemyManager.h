@@ -4,6 +4,8 @@
 #include "Enemy.h"
 #include "List.h"
 
+#include "PugiXml/src/pugixml.hpp"
+
 #define MAX_ENEMIES 100
 
 class EnemyManager : public Module
@@ -20,9 +22,10 @@ public:
 	void DeleteEnemy(Enemy* enemy);
 
 
+	bool Save(pugi::xml_node&) override;
+	bool Load(pugi::xml_node&) override;
 
 public:
 	List<Enemy*> enemies;
-	
 
 };

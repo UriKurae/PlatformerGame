@@ -22,6 +22,13 @@ public:
 
 	bool ChaseTarget(iPoint position) override;
 
+	// Load and save functions for each module
+	bool Load(pugi::xml_node&) override;
+
+	bool Save(pugi::xml_node&) override;
+
+
+
 private:
 	Animation idleAnim;
 	Animation skillAnim;

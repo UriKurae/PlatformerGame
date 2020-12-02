@@ -23,6 +23,9 @@ public:
 
 	//bool ChaseTarget(iPoint position) override;
 
+	bool Load(pugi::xml_node&) override;
+	bool Save(pugi::xml_node&) override;
+
 private:
 
 	Animation idleAnim;

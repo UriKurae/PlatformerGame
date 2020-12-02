@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Module.h"
+#include "Scene.h"
 
-struct SDL_Texture;
+class SDL_Texture;
 
-class IntroScene : public Module
+class IntroScene : public Scene
 {
 public:
 	//Constructor
@@ -12,10 +12,6 @@ public:
 
 	//Destructor
 	~IntroScene();
-
-	// Called when the module is activated
-	bool Awake(pugi::xml_node& config) override;
-
 
 	// Loads the necessary textures for the map background
 	bool Start() override;
@@ -28,7 +24,7 @@ public:
 
 	// Called at the end of the application loop.
 	// Performs the render call of all the parts of the scene's background
-	bool PostUpdate() override;
+	bool Draw() override;
 
 	bool CleanUp() override;
 

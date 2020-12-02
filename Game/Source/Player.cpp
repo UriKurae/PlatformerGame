@@ -124,8 +124,8 @@ bool Player::Load(pugi::xml_node& playerNode)
 bool Player::Save(pugi::xml_node& playerNode)
 {
 	pugi::xml_node player = playerNode.append_child("position");
-	player.append_attribute("positionX").set_value(position.x);
-	player.append_attribute("positionY").set_value(position.y);
+	player.append_attribute("x").set_value(position.x);
+	player.append_attribute("y").set_value(position.y);
 
 	pugi::xml_node currLevel = playerNode.append_child("current_level");
 	currLevel.append_attribute("value").set_value(currentLevel);

@@ -7,6 +7,8 @@
 
 Wolf::Wolf(iPoint pos) : Enemy(pos)
 {
+	name.Create("wolf");
+
 	idleAnim.PushBack({13,124,38,24});
 	idleAnim.PushBack({76,127,39,21});
 	idleAnim.PushBack({139,127,39,21});
@@ -73,6 +75,23 @@ bool Wolf::CleanUp()
 	app->tex->UnLoad(texture);
 	collider->pendingToDelete = true;
 	app->enemyManager->DeleteEnemy(this);
+
+	return true;
+}
+
+bool Wolf::Load(pugi::xml_node& node)
+{
+	position.x = node.child("position").attribute("positionX").as_float();
+	position.y = node.child("position").attribute("positionY").as_float();
+
+	return true;
+}
+
+bool Wolf::Save(pugi::xml_node& node)
+{
+	pugi::xml_node executioner = node.append_child("position");
+	executioner.append_attribute("x").set_value(position.x);
+	executioner.append_attribute("y").set_value(position.y);
 
 	return true;
 }

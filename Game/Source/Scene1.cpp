@@ -51,6 +51,11 @@ bool Scene1::Update(float dt)
 		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1/dt);
 	}
 
+	else if (CheckWin() == 2)
+	{
+		app->fade->Fade(this, (Scene*)app->sceneManager->deadScene, 1 / dt);
+	}
+
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		RestartPlayerPosition();

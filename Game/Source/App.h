@@ -113,6 +113,10 @@ public:
 	FadeToBlack* fade;
 	PathFinding* pathFinding;
 
+	
+	pugi::xml_document saveLoadFile;
+	pugi::xml_node saveState;
+
 private:
 
 	int argc;
@@ -124,9 +128,6 @@ private:
 
 	bool saveGameRequested;
 	bool loadGameRequested;
-
-	pugi::xml_document saveLoadFile;
-	pugi::xml_node saveState;
 
 	PerfTimer ptimer;
 	uint64 frameCount = 0;
