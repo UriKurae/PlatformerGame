@@ -20,7 +20,8 @@ public:
 
 	bool Update(float dt);
 
-	void Draw();
+	// Draw everything from the current scene
+	bool PostUpdate();
 
 	// Is bool because we want to detect when ESC is pressed
 	bool HandleInput(float dt);

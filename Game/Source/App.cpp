@@ -199,16 +199,11 @@ void App::PrepareUpdate()
 		changeMs = !changeMs;
 	
 	if(changeMs) 
-	{
 		cappedMs = 30;
-		render->vsync = false;
-	}
+
 	else if (!changeMs)
-	{
-		cappedMs = 12;
-		render->vsync = true;
-	}
-	
+		cappedMs = 16;
+
 
 	dt = frameTime.ReadSec();
 	frameTime.Start();
@@ -243,8 +238,6 @@ void App::FinishUpdate()
 
 	static char title[256];
 	sprintf_s(title, 256, "FPS: %i / Av.FPS: %.2f / Last Frame Ms: %02u / Vsync: %s", framesOnLastUpdate, averageFps, lastFrameMs, vsyncChar.GetString());
-	//sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
-	//	averageFps, lastFrameMs, framesOnLastUpdate, dt, secondsSinceStartup, frameCount);
 
 	app->win->SetTitle(title);
 

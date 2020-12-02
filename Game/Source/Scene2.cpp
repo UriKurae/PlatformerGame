@@ -23,8 +23,6 @@ bool Scene2::Start()
 	app->map->active = true;
 	app->map->Load("Level2.tmx");
 
-	//player = new Player(iPoint(250, 70));
-	//player->Start();
 	app->player->Enable();
 	app->player->SetPosition(250,20);
 
@@ -42,6 +40,7 @@ bool Scene2::Update(float dt)
 	/*if (CheckWin() == 1)
 	{
 		//app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1 / dt);
+		app->player->Disable();
 	}*/
 
 	//player->Update(dt);
@@ -58,9 +57,10 @@ bool Scene2::Draw()
 
 	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
-	//app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
+	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 
 	app->map->Draw();
+	app->player->Draw();
 	
 	return ret;
 }
@@ -72,8 +72,6 @@ bool Scene2::CleanUp()
 	app->tex->UnLoad(sky);
 	app->tex->UnLoad(clouds);
 	app->tex->UnLoad(sea);
-
-	RELEASE(player);
 
 	return true;
 }
@@ -89,7 +87,7 @@ int Scene2::CheckWin()
 {
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
-	iPoint playerPosTop = app->map->WorldToMap(player->GetPosition().x + 8, player->GetPosition().y + 15);
+	iPoint playerPosTop = app->map->WorldToMap(app->player->GetPosition().x + 8, app->player->GetPosition().y + 15);
 
 	while (layer != NULL)
 	{

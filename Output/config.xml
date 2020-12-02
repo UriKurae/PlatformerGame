@@ -1,6 +1,6 @@
 <!-- Config file for the game -->
 <config>
-  <app framerate_cap="10">
+  <app framerate_cap="17">
     <title>Zed's Adventure</title>
     <organization>UPC</organization>
   </app>
@@ -11,7 +11,7 @@
   </audio>
 	
   <renderer>
-    <vsync value="true"/>
+    <vsync value="false"/>
   </renderer>
 	
   <window>

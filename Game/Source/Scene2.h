@@ -40,5 +40,4 @@ private:
 	SDL_Texture* clouds;
 	SDL_Texture* sea;
 
-	Player* player;
 };

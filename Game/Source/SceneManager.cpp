@@ -58,12 +58,10 @@ bool SceneManager::Update(float dt)
 
 	CheckWin();
 
-	Draw();
-
 	return ret;
 }
 
-void SceneManager::Draw()
+bool SceneManager::PostUpdate()
 {
 	ListItem<Scene*>* item = scenes.start;
 
@@ -71,9 +69,11 @@ void SceneManager::Draw()
 	{
 		if (item->data->active == true)
 			item->data->Draw();
-		
+
 		item = item->next;
 	}
+
+	return true;
 }
 
 bool SceneManager::HandleInput(float dt)
