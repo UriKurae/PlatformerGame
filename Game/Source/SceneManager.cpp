@@ -51,7 +51,7 @@ bool SceneManager::Update(float dt)
 	while (item != nullptr )
 	{
 		if(item->data->active == true)
-			ret = item->data->Update(dt);
+			item->data->Update(dt);
 
 		item = item->next;
 	}

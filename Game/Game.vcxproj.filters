@@ -67,9 +67,6 @@
     <ClCompile Include="Source\Scene1.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneManager.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene2.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -79,6 +76,7 @@
     <ClCompile Include="Source\Wolf.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -174,9 +172,6 @@
     <ClInclude Include="Source\Scene1.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneManager.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -189,6 +184,7 @@
     <ClInclude Include="Source\Wolf.h">
       <Filter>Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Source\SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

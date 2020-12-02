@@ -8,7 +8,7 @@
   </audio>
   <map />
   <player>
-    <position positionX="670" positionY="261" />
+    <position positionX="354" positionY="243" />
     <current_level value="0" />
   </player>
   <scenemanager />
