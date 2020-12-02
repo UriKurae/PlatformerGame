@@ -36,7 +36,7 @@ public:
 	
 	virtual bool FindTarget(Player* player);
 
-	virtual bool ChaseTarget(iPoint position);
+	virtual bool ChaseTarget();
 
 	// Load and save functions for each enemy
 	virtual bool Load(pugi::xml_node&)

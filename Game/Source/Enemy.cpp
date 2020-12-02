@@ -33,7 +33,7 @@ bool Enemy::FindTarget(Player* player)
 	return true;
 }
 
-bool Enemy::ChaseTarget(iPoint position)
+bool Enemy::ChaseTarget()
 {
 	return true;
 }

@@ -136,10 +136,10 @@ int PathFinding::MovementCost(int x, int y) const
 	return ret;
 }
 
-void PathFinding::ComputePath(int x, int y)
+DynArray<iPoint> PathFinding::ComputePath(int x, int y)
 {
 	path.Clear();
-	iPoint goal = { x/16,y/16 };
+	iPoint goal = app->map->WorldToMap(x, y);
 
 	int index = 0;
 	path.PushBack(goal);
@@ -151,6 +151,8 @@ void PathFinding::ComputePath(int x, int y)
 	}
 
 	path.PushBack(visited.start->data);
+
+	return path;
 }
 
 
@@ -172,9 +174,8 @@ void PathFinding::PropagateBFS(Player* player)
 	int x = player->GetPosition().x;
 	int y = player->GetPosition().y;
 
-	goalAStar = { x,y };
-	goalAStar.x /= 16;
-	goalAStar.y /= 16;
+	goalAStar = app->map->WorldToMap(x, y);
+
 	while (frontier.Pop(curr))
 	{
 		iPoint neighbors[4];
