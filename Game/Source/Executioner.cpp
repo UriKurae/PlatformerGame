@@ -163,15 +163,17 @@ void Executioner::Draw()
 	{
 		app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
 	}
-	//app->pathFinding->DrawPath();
+	app->pathFinding->DrawPath();
 }
 
 bool Executioner::FindTarget(Player* player)
 {
 	pathExecutioner.Clear();
 	app->pathFinding->ResetPath(iPoint(position.x/16,position.y/16));
-	app->pathFinding->PropagateBFS(player);
-	pathExecutioner = app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y);
+	app->pathFinding->PropagateAStar(player);
+	
+	pathExecutioner = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
+
 	indexPath = pathExecutioner.Count()-1;
 
 	return true;

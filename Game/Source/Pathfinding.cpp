@@ -136,7 +136,7 @@ int PathFinding::MovementCost(int x, int y) const
 	return ret;
 }
 
-DynArray<iPoint> PathFinding::ComputePath(int x, int y)
+DynArray<iPoint>* PathFinding::ComputePath(int x, int y)
 {
 	path.Clear();
 	iPoint goal = app->map->WorldToMap(x, y);
@@ -152,7 +152,7 @@ DynArray<iPoint> PathFinding::ComputePath(int x, int y)
 
 	 path.PushBack(visited.start->data);
 
-	return path;
+	return &path;
 }
 
 
@@ -238,16 +238,10 @@ void PathFinding::PropagateDijkstra()
 
 }
 
-void PathFinding::PropagateAStar(int heuristic)
+void PathFinding::PropagateAStar(Player* player)
 {
 	iPoint curr;
-	int x = 0;
-	int y = 0;
-	app->input->GetMousePosition(x, y);
-	//goalAStar = WorldToMap(x - (app->render->camera.x - data.tileWidth), y -(app->render->camera.y - data.tileWidth));
-	//goalAStar = iPoint(app->player->GetPosition().x, app->player->GetPosition().y);
-	goalAStar.x /= 16;
-	goalAStar.y /= 16;
+	goalAStar = app->map->WorldToMap(player->GetPosition().x, player->GetPosition().y);
 	while (frontier.Pop(curr))
 	{
 
