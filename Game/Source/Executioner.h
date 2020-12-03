@@ -19,6 +19,8 @@ public:
 
 	bool CleanUp() override;
 
+	void TakeDamage(int damage) override;
+
 	bool FindTarget(Player* player) override;
 
 	bool ChaseTarget() override;
@@ -31,9 +33,12 @@ public:
 
 
 private:
+
 	Animation idleAnim;
 	Animation skillAnim;
 	Animation deathAnim;
+	Animation hurtAnim;
+
 	DynArray<iPoint> path;
 
 };

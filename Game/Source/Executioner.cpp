@@ -13,6 +13,8 @@
 
 Executioner::Executioner(iPoint pos) : Enemy(pos)
 {
+	name.Create("executioner");
+
 	// Idle animation
 	idleAnim.PushBack({ 15, 421, 68, 93 });
 	idleAnim.PushBack({ 104, 420, 68, 93 });
@@ -49,8 +51,21 @@ Executioner::Executioner(iPoint pos) : Enemy(pos)
 	deathAnim.PushBack({ 1643, 39, 33, 58 });
 	deathAnim.PushBack({ 1691, 45, 39, 45 });
 	deathAnim.PushBack({ 1752, 45, 39, 45 });
+	deathAnim.PushBack({ 1133, 133, 30, 27 });
+	deathAnim.PushBack({ 1231, 134, 25, 26 });
+	deathAnim.PushBack({ 1329, 137, 23, 21 });
+	deathAnim.PushBack({ 1420, 136, 21, 19 });
+	deathAnim.PushBack({ 1490, 136, 21, 19 });
+	deathAnim.PushBack({ 1552, 135, 21, 19 });
+	deathAnim.PushBack({ 1598, 134, 21, 19 });
+	deathAnim.PushBack({ 1645, 135, 18, 19 });
+	deathAnim.PushBack({ 1665, 135, 18, 19 });
+	deathAnim.loop = false;
 
-
+	//Take damage animation
+	hurtAnim.PushBack({ 1115, 413, 68, 89 });
+	hurtAnim.PushBack({ 1204, 412, 68, 89 });
+	hurtAnim.loop = false;
 
 }
 
@@ -61,17 +76,39 @@ bool Executioner::Start()
 	currentAnim = &idleAnim;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
 
+	life = 20;
+
 	return true;
 }
 
 bool Executioner::Update(float dt)
 {
+	idleAnim.speed = 4.0f * dt;
+	hurtAnim.speed = 15.0f * dt;
+	deathAnim.speed = 6.0f * dt;
+
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 	{
 		app->pathFinding->ResetPath(iPoint(position.x / 16, position.y / 16));
 	}
    
-	idleAnim.speed = 4.0f * dt;
+	if ((currentAnim != &idleAnim) && (hurtAnim.HasFinished()) && (life > 0))
+	{
+		currentAnim = &idleAnim;
+	}
+
+	if (life <= 0)
+	{
+		if (currentAnim != &deathAnim)
+		{
+			deathAnim.Reset();
+			currentAnim = &deathAnim;
+		}
+
+		if (deathAnim.HasFinished())
+			CleanUp();
+
+	}
 
 	currentAnim->Update();
 	collider->SetPos(position.x - 2, position.y + 10);
@@ -87,6 +124,17 @@ bool Executioner::CleanUp()
 	app->enemyManager->DeleteEnemy(this);
 
 	return true;
+}
+
+void Executioner::TakeDamage(int damage)
+{
+	life -= damage;
+
+	if (currentAnim != &hurtAnim)
+	{
+		hurtAnim.Reset();
+		currentAnim = &hurtAnim;
+	}
 }
 
 void Executioner::Attack()

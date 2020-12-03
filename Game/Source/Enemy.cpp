@@ -38,6 +38,10 @@ bool Enemy::ChaseTarget()
 	return true;
 }
 
+void Enemy::TakeDamage(int damage)
+{
+}
+
 bool Enemy::CleanUp()
 {
 	return true;

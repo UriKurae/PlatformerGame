@@ -3,13 +3,14 @@
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
-#include "IntroScene.h"
+//#include "IntroScene.h"
 #include "Window.h"
-#include "Scene.h"
-#include "Scene2.h"
+//#include "Scene.h"
+//#include "Scene2.h"
 #include "DeadScene.h"
 #include "FadeToBlack.h"
-#include "WinScene.h"
+//#include "WinScene.h"
+#include "SceneManager.h"
 
 DeadScene::DeadScene()
 {
@@ -36,11 +37,11 @@ bool DeadScene::Update(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN)
 	{
-		/*if (lastScene == app->scene)
-			app->fade->Fade(this, lastScene, 1 / dt);
+		if (app->sceneManager->lastScene == (Scene*)app->sceneManager->scene1)
+			app->fade->Fade(this, (Scene*)app->sceneManager->lastScene, 1 / dt);
 
-		else if (lastScene == app->scene2)
-			app->fade->Fade(this, lastScene, 1 / dt);*/
+		else if (app->sceneManager->lastScene == (Scene*)app->sceneManager->scene2)
+			app->fade->Fade(this, (Scene*)app->sceneManager->lastScene, 1 / dt);
 	}
 
 	return true;

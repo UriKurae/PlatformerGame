@@ -1,13 +1,13 @@
 <!-- Config file for the game -->
 <config>
-  <app framerate_cap="30">
+  <app framerate_cap="16">
     <title>Zed's Adventure</title>
     <organization>UPC</organization>
   </app>
 
   <audio>
-	<music_volume value="25"/>
-	<fx_volume value="25" />
+	<music_volume value="15"/>
+	<fx_volume value="30" />
   </audio>
 	
   <renderer>

@@ -37,6 +37,7 @@ public:
 public:
 
 	List<Scene*> scenes;
+	Scene* lastScene;
 
 	IntroScene* introScene;
 	Scene1* scene1;

@@ -19,12 +19,17 @@ public:
 	void Draw() override;
 
 	bool CleanUp() override;
+
+	void TakeDamage(int damage) override;
 	//bool FindTarget(Player* player) override;
 
 	//bool ChaseTarget(iPoint position) override;
 
 	bool Load(pugi::xml_node&) override;
 	bool Save(pugi::xml_node&) override;
+	
+public:
+	Animation hurtAnim;
 
 private:
 
@@ -32,6 +37,5 @@ private:
 	Animation runAnim;
 	Animation walkAnim;
 	Animation deathAnim;
-	Animation hurtAnim;
 
 };

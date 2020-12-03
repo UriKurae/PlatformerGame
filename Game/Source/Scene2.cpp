@@ -37,13 +37,12 @@ bool Scene2::Start()
 
 bool Scene2::Update(float dt)
 {
-	/*if (CheckWin() == 1)
+	if (CheckWin() == 1)
 	{
-		//app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1 / dt);
+		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1 / dt);
 		app->player->Disable();
-	}*/
+	}
 
-	//player->Update(dt);
 
 	return true;
 }
@@ -59,7 +58,9 @@ bool Scene2::Draw()
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 
-	app->map->Draw();
+	if (app->map->active == true)
+		app->map->Draw();
+
 	app->player->Draw();
 	
 	return ret;

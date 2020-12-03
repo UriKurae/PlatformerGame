@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Audio.h"
 #include "Log.h"
 #include "Input.h"
 #include "Render.h"
@@ -29,6 +30,9 @@ bool Scene1::Start()
 		app->map->active = true;
 		app->map->Load("Level1.tmx");
 
+		if (app->player->active == false)
+			app->player->Enable();
+
 		app->player->SetPosition(250, 5);
 
 		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100));
@@ -37,9 +41,12 @@ bool Scene1::Start()
 		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(350, 250));
 		wolf->Start();
 
+		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
+
 		sky = app->tex->Load("Assets/textures/sky.png");
 		sea = app->tex->Load("Assets/textures/sea.png");
 		clouds = app->tex->Load("Assets/textures/clouds.png");
+
 	}
 	return true;
 }
@@ -54,6 +61,7 @@ bool Scene1::Update(float dt)
 	else if (CheckWin() == 2)
 	{
 		app->fade->Fade(this, (Scene*)app->sceneManager->deadScene, 1 / dt);
+		app->sceneManager->lastScene = this;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
@@ -82,8 +90,7 @@ bool Scene1::Draw()
 		app->map->Draw();
 	
 	app->player->Draw();
-	executioner->Draw();
-	wolf->Draw();
+	app->enemyManager->Draw();
 
 	return ret;
 }

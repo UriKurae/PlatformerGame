@@ -18,6 +18,7 @@ private:
 	int totalFrames = 0;
 	int loopCount = 0;
 	int pingpongDirection = 1;
+	bool hasFinished;
 
 public:
 
@@ -29,11 +30,13 @@ public:
 	void Reset()
 	{
 		currentFrame = 0;
+		hasFinished = false;
 	}
 	
 	bool HasFinished()
 	{
-		return !loop && !pingpong && loopCount > 0;
+		//return !loop && !pingpong && loopCount > 0;
+		return hasFinished;
 	}
 
 	void Update()
@@ -46,7 +49,10 @@ public:
 
 			if (pingpong)
 				pingpongDirection = -pingpongDirection;
+
+			hasFinished = true;
 		}
+			
 	}
 
 	const SDL_Rect& GetCurrentFrame() const

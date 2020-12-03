@@ -93,7 +93,7 @@ bool App::Awake()
 		
 		title.Create(configApp.child("title").child_value());
 		organization.Create(configApp.child("organization").child_value());
-		cappedMs = configApp.attribute("framerate_cap").as_int();
+		cappedMs = configApp.attribute("framerate_cap").as_float();
 
 	}
 
@@ -185,15 +185,14 @@ void App::PrepareUpdate()
 		changeMs = !changeMs;
 
 		if (changeMs)
-			cappedMs = 30;
+		{
+			cappedMs = 1000 / 30;
+		}
 
 		else if (!changeMs)
-			cappedMs = 16;
+			cappedMs = 1000 / 60;
 	}
 	
-	
-
-
 	dt = frameTime.ReadSec();
 	frameTime.Start();
 }
@@ -230,12 +229,12 @@ void App::FinishUpdate()
 
 	app->win->SetTitle(title);
 
-	if ((cappedMs > 0) && (lastFrameMs < cappedMs))
-	{
+	//if ((cappedMs > 0) && (lastFrameMs < cappedMs))
+	//{
 		PERF_START(ptimer);
 		SDL_Delay(cappedMs);
-		LOG("We waited for %i ms and got back in %f", cappedMs, ptimer.ReadMs());
-	}
+		//LOG("We waited for %i ms and got back in %f", cappedMs, ptimer.ReadMs());
+	//}
 
 }
 

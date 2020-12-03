@@ -38,6 +38,8 @@ public:
 
 	virtual bool ChaseTarget();
 
+	virtual void TakeDamage(int damage);
+
 	// Load and save functions for each enemy
 	virtual bool Load(pugi::xml_node&)
 	{

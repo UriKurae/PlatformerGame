@@ -110,6 +110,10 @@ private:
 	Animation fallingRightAnim;
 	Animation fallingLeftAnim;
 	Animation attackRightDownUpAnim;
+	Animation attackLeftDownUpAnim;
+
+	// Fx
+	int jumpFx;
 	
 };
 

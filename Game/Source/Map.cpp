@@ -62,15 +62,15 @@ void Map::Draw()
 		int noDraw = layer->data->properties.GetProperty("Nodraw");
 		if (noDraw == 0 || viewHitboxes == true)
 		{
-			int minX = (app->player->GetPosition().x - 300)/ data.tileWidth;
-			int maxX = (app->player->GetPosition().x + 448)/data.tileWidth;
+			int minX = (app->player->GetPosition().x - 300) / data.tileWidth;
+			int maxX = (app->player->GetPosition().x + 448) / data.tileWidth;
 
 			for (int y = 0; y < data.height; ++y)
 			{
-				for (int x = minX; x < maxX; ++x)
+				for (int x = 0; x < data.width; ++x)
 				{
 					int tileId = layer->data->Get(x, y);
-					if (tileId > 0)
+					if ((tileId > 0) && ((x > minX) && (x < maxX)))
 					{
 						set = GetTilesetFromTileId(tileId);
 						SDL_Rect rect = set->GetTileRect(tileId);

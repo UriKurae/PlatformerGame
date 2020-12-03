@@ -91,18 +91,30 @@ Player::Player() : Module()
 	fallingLeftAnim.loop = false;
 
 	// Attack facing right animation
-	attackRightDownUpAnim.PushBack({ 160, 194, 23, 27 });
-	attackRightDownUpAnim.PushBack({ 210, 194, 23, 27 });
-	attackRightDownUpAnim.PushBack({ 259, 193, 25, 28 });
-	attackRightDownUpAnim.PushBack({ 309, 193, 25, 28 });
+	//attackRightDownUpAnim.PushBack({ 160, 194, 23, 27 });
+	//attackRightDownUpAnim.PushBack({ 210, 194, 23, 27 });
+	//attackRightDownUpAnim.PushBack({ 259, 193, 25, 28 });
+	//attackRightDownUpAnim.PushBack({ 309, 193, 25, 28 });
 	attackRightDownUpAnim.PushBack({ 7, 236, 27, 22 });
 	attackRightDownUpAnim.PushBack({ 58, 238, 25, 20 });
 	attackRightDownUpAnim.PushBack({ 115, 222, 34, 36 });
 	attackRightDownUpAnim.PushBack({ 165, 222, 27, 36 });
 	attackRightDownUpAnim.PushBack({ 215, 226, 19, 32 });
-	attackRightDownUpAnim.PushBack({ 265, 232, 18, 26 });
+	//attackRightDownUpAnim.PushBack({ 265, 232, 18, 26 });
 	attackRightDownUpAnim.loop = false;
 
+	// Atack facing left animation
+	//attackLeftDownUpAnim.PushBack({ 522, 195, 23, 27 });
+	//attackLeftDownUpAnim.PushBack({ 472, 195, 23, 27 });
+	//attackLeftDownUpAnim.PushBack({ 421, 194, 23, 27 });
+	//attackLeftDownUpAnim.PushBack({ 371, 194, 25, 28 });
+	attackLeftDownUpAnim.PushBack({ 671, 237, 27, 22 });
+	attackLeftDownUpAnim.PushBack({ 622, 239, 25, 20 });
+	attackLeftDownUpAnim.PushBack({ 556, 223, 34, 36 });
+	attackLeftDownUpAnim.PushBack({ 513, 223, 27, 36 });
+	attackLeftDownUpAnim.PushBack({ 471, 227, 19, 32 });
+	//attackLeftDownUpAnim.PushBack({ 422, 233, 18, 26 });
+	attackLeftDownUpAnim.loop = false;
 
 }
 
@@ -141,10 +153,7 @@ bool Player::Start()
 	if (this->active == true)
 	{
 		texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
-
-		currentAnim = &idleRightAnim;
-
-		collider = app->collisions->AddCollider({ (int)position.x + 4, (int)position.y + 5, 10, 22 }, Collider::Type::PLAYER);
+		jumpFx = app->audio->LoadFx("Assets/audio/fx/jump.wav");
 
 		speedX = 250.0f;
 		speedY = 500.0f;
@@ -152,6 +161,9 @@ bool Player::Start()
 		jump = false;
 		godMode = false;
 		direction = "right";
+		
+		currentAnim = &idleRightAnim;
+		collider = app->collisions->AddCollider({ (int)position.x + 4, (int)position.y + 5, 10, 22 }, Collider::Type::PLAYER);
 	}
 
 	return true;
@@ -304,8 +316,8 @@ void Player::HandleInput(float dt)
 		direction = "left";
 	}
 
-
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
+	
+	if ((app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (godMode == false))
 	{
 
 		if ((currentAnim != &jumpRightAnim) && (direction == "right"))
@@ -335,19 +347,21 @@ void Player::HandleInput(float dt)
 			jumpsLeft--;
 			jump = true;
 		}
+
+		app->audio->PlayFx(jumpFx);
 	}
 
 	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE)
 		&& (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE)
 		&& (jump == false))
 	{
-		if ((currentAnim != &idleRightAnim) && (direction == "right"))
+		if ((currentAnim != &idleRightAnim) && (currentAnim != &attackRightDownUpAnim) && (direction == "right"))
 		{
 			idleRightAnim.Reset();
 			currentAnim = &idleRightAnim;
 		}
 
-		else if ((currentAnim != &idleLeftAnim) && (direction == "left"))
+		else if ((currentAnim != &idleLeftAnim) && (currentAnim != &attackLeftDownUpAnim) && (direction == "left"))
 		{
 			idleLeftAnim.Reset();
 			currentAnim = &idleLeftAnim;
@@ -359,13 +373,13 @@ void Player::HandleInput(float dt)
 		(app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) &&
 		(jump == false))
 	{
-		if (currentAnim != &idleRightAnim && direction == "right")
+		if ((currentAnim != &idleRightAnim) && (direction == "right"))
 		{
 			idleRightAnim.Reset();
 			currentAnim = &idleRightAnim;
 		}
 
-		else if (currentAnim != &idleLeftAnim && direction == "left")
+		else if ((currentAnim != &idleLeftAnim) && (direction == "left"))
 		{
 			idleLeftAnim.Reset();
 			currentAnim = &idleLeftAnim;
@@ -383,6 +397,7 @@ void Player::HandleInput(float dt)
 		}
 
 		direction = "left";
+		app->audio->PlayFx(jumpFx);
 	}
 
 
@@ -396,6 +411,7 @@ void Player::HandleInput(float dt)
 		}
 
 		direction = "right";
+		app->audio->PlayFx(jumpFx);
 	}
 
 
@@ -404,13 +420,13 @@ void Player::HandleInput(float dt)
 		(app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE) &&
 		(isFalling == false))
 	{
-		if ((currentAnim != &idleRightAnim) && (direction == "right"))
+		if ((currentAnim != &idleRightAnim) && (currentAnim != &attackRightDownUpAnim) && (direction == "right"))
 		{
 			idleRightAnim.Reset();
 			currentAnim = &idleRightAnim;
 		}
 
-		else if ((currentAnim != &idleLeftAnim) && (direction == "left"))
+		else if ((currentAnim != &idleLeftAnim) && (currentAnim != &attackLeftDownUpAnim) && (direction == "left"))
 		{
 			idleLeftAnim.Reset();
 			currentAnim = &idleLeftAnim;
@@ -419,17 +435,38 @@ void Player::HandleInput(float dt)
 
 	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		if (currentAnim != &attackRightDownUpAnim)
+		if (direction == "right")
 		{
-			attackRightDownUpAnim.speed = 14.0f * dt;
-			currentAnim = &attackRightDownUpAnim;
+			if (currentAnim != &attackRightDownUpAnim)
+			{
+				attackRightDownUpAnim.speed = 14.0f * dt;
+				currentAnim = &attackRightDownUpAnim;
+			}
 		}
+		else if (direction == "left")
+		{
+			if (currentAnim != &attackLeftDownUpAnim)
+			{
+				attackLeftDownUpAnim.speed = 14.0f * dt;
+				currentAnim = &attackLeftDownUpAnim;
+			}
+		}
+
 		Attack();
-		
-		/*if(attackRightDownUpAnim.HasFinished() == true)
-			attackRightDownUpAnim.Reset();*/
 	}
-	attackRightDownUpAnim.Reset();
+
+	if (attackRightDownUpAnim.HasFinished())
+	{
+		attackRightDownUpAnim.Reset();
+		currentAnim = &idleRightAnim;
+	}
+
+	else if (attackLeftDownUpAnim.HasFinished())
+	{
+		attackLeftDownUpAnim.Reset();
+		currentAnim = &idleLeftAnim;
+	}
+
 }
 
 void Player::CameraFollow()
@@ -562,8 +599,11 @@ void Player::Jump(float dt)
 
 void Player::Attack()
 {
-	SDL_Rect r = { position.x + 20, position.y, 15, 25 };
-	attackCollider = app->collisions->AddCollider(r, Collider::Type::PLAYER_HIT);
+	if(direction == "right")
+		attackCollider = app->collisions->AddCollider({ position.x + 20, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
+
+	else if(direction == "left")
+		attackCollider = app->collisions->AddCollider({ position.x - 10, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
 
 	ListItem<Enemy*>* currEnemy = app->enemyManager->enemies.start;
 
@@ -571,11 +611,12 @@ void Player::Attack()
 	{
 		if (attackCollider->Intersects(currEnemy->data->collider->rect))
 		{
-			currEnemy->data->life-=20;
+			currEnemy->data->TakeDamage(20);
+			LOG("%s has %i life", currEnemy->data->name.GetString(), currEnemy->data->life);
 		}
 		currEnemy = currEnemy->next;
 	}
-
+	
 	attackCollider->pendingToDelete = true;
 }
 
