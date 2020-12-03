@@ -152,8 +152,8 @@ bool Player::Start()
 	// Load the spritesheet for the player
 	if (this->active == true)
 	{
-		texture = app->tex->Load("Assets/textures/Player/adventurer-Sheet.png");
-		jumpFx = app->audio->LoadFx("Assets/audio/fx/jump.wav");
+		texture = app->tex->Load("Assets/Textures/Player/player.png");
+		jumpFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
 
 		speedX = 250.0f;
 		speedY = 500.0f;

@@ -21,14 +21,14 @@ Scene2::~Scene2()
 bool Scene2::Start()
 {
 	app->map->active = true;
-	app->map->Load("Level2.tmx");
+	app->map->Load("level_2.tmx");
 
 	app->player->Enable();
 	app->player->SetPosition(250,20);
 
-	sky = app->tex->Load("Assets/textures/sky.png");
-	sea = app->tex->Load("Assets/textures/sea.png");
-	clouds = app->tex->Load("Assets/textures/clouds.png");
+	sky = app->tex->Load("Assets/Textures/sky.png");
+	sea = app->tex->Load("Assets/Textures/sea.png");
+	clouds = app->tex->Load("Assets/Textures/clouds.png");
 
 	//playerStartPosition() 
 	return true;
@@ -40,6 +40,10 @@ bool Scene2::Update(float dt)
 	if (CheckWin() == 1)
 	{
 		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1 / dt);
+	}
+	else if (CheckWin() == 2)
+	{
+		app->fade->Fade(this, (Scene*)app->sceneManager->deadScene, 1 / dt);
 		app->player->Disable();
 	}
 
@@ -73,6 +77,9 @@ bool Scene2::CleanUp()
 	app->tex->UnLoad(sky);
 	app->tex->UnLoad(clouds);
 	app->tex->UnLoad(sea);
+
+	app->player->Disable();
+
 
 	return true;
 }

@@ -23,7 +23,6 @@
   </window>
 
   <scene>
-	<folder>Assets/textures/</folder>
   </scene>
 
 	<player>
@@ -31,6 +30,6 @@
 	</player>
 	
   <map>
-	<folder>Assets/maps/</folder>
+	<folder>Assets/Maps/</folder>
   </map>
 </config>

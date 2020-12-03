@@ -29,7 +29,7 @@ bool WinScene::Start()
 {
 	if (this->active == true)
 	{
-		winTexture = app->tex->Load("Assets/textures/WinScene.png");
+		winTexture = app->tex->Load("Assets/Textures/WinScene.png");
 		app->render->SetCameraPosition(0, 0);
 	}
 

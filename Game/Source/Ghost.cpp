@@ -50,7 +50,7 @@ Ghost::~Ghost()
 bool Ghost::Start()
 {
 	
-	texture = app->tex->Load("Assets/textures/Executioner/executioner.png");
+	texture = app->tex->Load("Assets/Textures/Executioner/executioner.png");
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY);
 
 	return true;

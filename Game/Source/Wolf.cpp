@@ -58,7 +58,7 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 
 bool Wolf::Start()
 {
-	texture = app->tex->Load("Assets/textures/Wolf/Wolf.png");
+	texture = app->tex->Load("Assets/Textures/Wolf/Wolf.png");
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
 	currentAnim = &idleAnim;
 	life = 60;

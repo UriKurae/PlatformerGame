@@ -26,7 +26,7 @@ bool DeadScene::Start()
 {
 	if (this->active == true)
 	{
-		deadTexture = app->tex->Load("Assets/textures/LoseScene.png");
+		deadTexture = app->tex->Load("Assets/Textures/LoseScene.png");
 		app->render->SetCameraPosition(0, 0);
 	}
 

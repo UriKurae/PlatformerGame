@@ -28,7 +28,7 @@ bool Scene1::Start()
 	if (this->active == true)
 	{
 		app->map->active = true;
-		app->map->Load("Level1.tmx");
+		app->map->Load("level_1.tmx");
 
 		if (app->player->active == false)
 			app->player->Enable();
@@ -41,11 +41,11 @@ bool Scene1::Start()
 		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(350, 250));
 		wolf->Start();
 
-		app->audio->PlayMusic("Assets/audio/music/JRPG Battle Theme - loop 168bpm.ogg");
+		app->audio->PlayMusic("Assets/Audio/Music/scene_1.ogg");
 
-		sky = app->tex->Load("Assets/textures/sky.png");
-		sea = app->tex->Load("Assets/textures/sea.png");
-		clouds = app->tex->Load("Assets/textures/clouds.png");
+		sky = app->tex->Load("Assets/Textures/sky.png");
+		sea = app->tex->Load("Assets/Textures/sea.png");
+		clouds = app->tex->Load("Assets/Textures/clouds.png");
 
 	}
 	return true;

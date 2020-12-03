@@ -27,10 +27,10 @@ IntroScene::~IntroScene()
 // Load assets
 bool IntroScene::Start()
 {
-	//intro = app->tex->Load("Assets/textures/intro.png");
-	//logo = app->tex->Load("Assets/textures/logo.png");
+	//intro = app->tex->Load("Assets/Textures/intro.png");
+	//logo = app->tex->Load("Assets/Textures/logo.png");
 	
-	app->audio->PlayMusic("Assets/audio/music/track_1.ogg");
+	app->audio->PlayMusic("Assets/Audio/Music/track_1.ogg");
 
 	app->render->SetCameraPosition(0,0);
 
