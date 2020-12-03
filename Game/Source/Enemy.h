@@ -40,6 +40,8 @@ public:
 
 	virtual void TakeDamage(int damage);
 
+	virtual void EnemyDies();
+
 	// Load and save functions for each enemy
 	virtual bool Load(pugi::xml_node&)
 	{

@@ -76,7 +76,7 @@ bool Executioner::Start()
 	currentAnim = &idleAnim;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
 
-	life = 20;
+	life = 200;
 
 	return true;
 }
@@ -97,21 +97,12 @@ bool Executioner::Update(float dt)
 		currentAnim = &idleAnim;
 	}
 
-	if (life <= 0)
-	{
-		if (currentAnim != &deathAnim)
-		{
-			deathAnim.Reset();
-			currentAnim = &deathAnim;
-		}
-
-		if (deathAnim.HasFinished())
-			CleanUp();
-
-	}
 
 	currentAnim->Update();
 	collider->SetPos(position.x - 2, position.y + 10);
+
+	if (life <= 0)
+		EnemyDies();
 
    // app->pathFinding->DrawPath();
 	return true;
@@ -120,7 +111,8 @@ bool Executioner::Update(float dt)
 bool Executioner::CleanUp()
 {
 	app->tex->UnLoad(texture);
-	collider->pendingToDelete = true;
+	
+	// The collider is destroyed in DeleteEnemy()
 	app->enemyManager->DeleteEnemy(this);
 
 	return true;
@@ -130,11 +122,23 @@ void Executioner::TakeDamage(int damage)
 {
 	life -= damage;
 
-	if (currentAnim != &hurtAnim)
+	if ((currentAnim != &hurtAnim) && (life > 0))
 	{
 		hurtAnim.Reset();
 		currentAnim = &hurtAnim;
 	}
+}
+
+void Executioner::EnemyDies()
+{
+	if (currentAnim != &deathAnim)
+	{
+		deathAnim.Reset();
+		currentAnim = &deathAnim;
+	}
+
+	if (deathAnim.HasFinished())
+		CleanUp();
 }
 
 void Executioner::Attack()
@@ -151,8 +155,6 @@ void Executioner::Draw()
 
 bool Executioner::FindTarget(Player* player)
 {
-
-	
 	app->pathFinding->PropagateBFS(player);
 	app->pathFinding->DrawPath();
 	path = app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y);

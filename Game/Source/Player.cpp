@@ -325,6 +325,8 @@ void Player::HandleInput(float dt)
 			jumpRightAnim.speed = 13.0f * dt;
 			jumpRightAnim.Reset();
 			currentAnim = &jumpRightAnim;
+
+			app->audio->PlayFx(jumpFx);
 		}
 
 		else if ((currentAnim != &jumpLeftAnim) && (direction == "left"))
@@ -332,12 +334,17 @@ void Player::HandleInput(float dt)
 			jumpLeftAnim.speed = 13.0f * dt;
 			jumpLeftAnim.Reset();
 			currentAnim = &jumpLeftAnim;
+
+			app->audio->PlayFx(jumpFx);
 		}
 
 		if (jumpsLeft == 1)
 		{
 			jumpRightAnim.Reset();
 			jumpLeftAnim.Reset();
+
+			app->audio->PlayFx(jumpFx);
+
 		}
 
 		// We shall reset the velocity each time we can jump.
@@ -347,8 +354,6 @@ void Player::HandleInput(float dt)
 			jumpsLeft--;
 			jump = true;
 		}
-
-		app->audio->PlayFx(jumpFx);
 	}
 
 	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE)
@@ -397,7 +402,6 @@ void Player::HandleInput(float dt)
 		}
 
 		direction = "left";
-		app->audio->PlayFx(jumpFx);
 	}
 
 
@@ -411,7 +415,6 @@ void Player::HandleInput(float dt)
 		}
 
 		direction = "right";
-		app->audio->PlayFx(jumpFx);
 	}
 
 

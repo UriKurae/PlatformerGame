@@ -21,6 +21,8 @@ public:
 	bool CleanUp() override;
 
 	void TakeDamage(int damage) override;
+
+	void EnemyDies() override;
 	//bool FindTarget(Player* player) override;
 
 	//bool ChaseTarget(iPoint position) override;

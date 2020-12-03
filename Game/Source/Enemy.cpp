@@ -42,6 +42,10 @@ void Enemy::TakeDamage(int damage)
 {
 }
 
+void Enemy::EnemyDies()
+{
+}
+
 bool Enemy::CleanUp()
 {
 	return true;
