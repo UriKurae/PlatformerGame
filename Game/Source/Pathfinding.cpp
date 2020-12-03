@@ -150,7 +150,7 @@ DynArray<iPoint> PathFinding::ComputePath(int x, int y)
 		path.PushBack(goal);
 	}
 
-	path.PushBack(visited.start->data);
+	 path.PushBack(visited.start->data);
 
 	return path;
 }

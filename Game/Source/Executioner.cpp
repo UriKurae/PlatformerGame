@@ -83,6 +83,7 @@ bool Executioner::Start()
 
 bool Executioner::Update(float dt)
 {
+
 	idleAnim.speed = 4.0f * dt;
 	hurtAnim.speed = 15.0f * dt;
 	deathAnim.speed = 6.0f * dt;
@@ -91,6 +92,7 @@ bool Executioner::Update(float dt)
 	{
 		app->pathFinding->ResetPath(iPoint(position.x / 16, position.y / 16));
 	}
+
    
 	if ((currentAnim != &idleAnim) && (hurtAnim.HasFinished()) && (life > 0))
 	{
@@ -113,7 +115,18 @@ bool Executioner::Update(float dt)
 	currentAnim->Update();
 	collider->SetPos(position.x - 2, position.y + 10);
 
-   // app->pathFinding->DrawPath();
+
+	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+	{
+		FindTarget(app->player);
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_C) == KEY_REPEAT)
+	{
+		ChaseTarget();
+	}
+
+    
 	return true;
 }
 
@@ -122,6 +135,9 @@ bool Executioner::CleanUp()
 	app->tex->UnLoad(texture);
 	collider->pendingToDelete = true;
 	app->enemyManager->DeleteEnemy(this);
+
+
+	pathExecutioner.Clear();
 
 	return true;
 }
@@ -147,24 +163,55 @@ void Executioner::Draw()
 	{
 		app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
 	}
+	//app->pathFinding->DrawPath();
 }
 
 bool Executioner::FindTarget(Player* player)
 {
-
-	
+	pathExecutioner.Clear();
+	app->pathFinding->ResetPath(iPoint(position.x/16,position.y/16));
 	app->pathFinding->PropagateBFS(player);
-	app->pathFinding->DrawPath();
-	path = app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y);
+	pathExecutioner = app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y);
+	indexPath = pathExecutioner.Count()-1;
 
 	return true;
 }
 
 bool Executioner::ChaseTarget()
 {
+	
+	if (position.x/16 == pathExecutioner[indexPath].x && position.y/16 == pathExecutioner[indexPath].y)
+	{
+		if (indexPath > 0)
+		{
+			indexPath--;
+		}
+	}
+	else
+	{
+		if (pathExecutioner[indexPath].y > position.y/16)
+		{
+			position.y += 4;
+		}
+
+		if (pathExecutioner[indexPath].y < position.y / 16)
+		{
+			position.y -= 4;
+		}
+
+		if (pathExecutioner[indexPath].x > position.x / 16)
+		{
+			position.x += 4;
+		}
+
+		if (pathExecutioner[indexPath].x < position.x / 16)
+		{
+			position.x -= 4;
+		}
+
+	}
 
 	
-
 	return true;
 }
 

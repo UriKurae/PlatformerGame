@@ -69,11 +69,6 @@ bool Scene1::Update(float dt)
 		RestartPlayerPosition();
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
-	{
-		executioner->FindTarget(app->player);
-	}
-	
 
 	return true;
 }
@@ -91,6 +86,8 @@ bool Scene1::Draw()
 	
 	app->player->Draw();
 	app->enemyManager->Draw();
+
+	
 
 	return ret;
 }

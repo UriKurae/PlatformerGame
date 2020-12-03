@@ -39,6 +39,8 @@ private:
 	Animation deathAnim;
 	Animation hurtAnim;
 
-	DynArray<iPoint> path;
+	DynArray<iPoint> pathExecutioner;
+	int indexPath;
+
 
 };
