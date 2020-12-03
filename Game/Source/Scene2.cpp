@@ -30,7 +30,7 @@ bool Scene2::Start()
 	sea = app->tex->Load("Assets/Textures/sea.png");
 	clouds = app->tex->Load("Assets/Textures/clouds.png");
 
-	//playerStartPosition() 
+	
 	return true;
 	
 }

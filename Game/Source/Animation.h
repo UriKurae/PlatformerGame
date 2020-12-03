@@ -35,7 +35,6 @@ public:
 	
 	bool HasFinished()
 	{
-		//return !loop && !pingpong && loopCount > 0;
 		return hasFinished;
 	}
 
@@ -53,6 +52,14 @@ public:
 			hasFinished = true;
 		}
 			
+	}
+
+	bool IsPlaying()
+	{
+		if (currentFrame < totalFrames - 1)
+			return true;
+
+		return false;
 	}
 
 	const SDL_Rect& GetCurrentFrame() const

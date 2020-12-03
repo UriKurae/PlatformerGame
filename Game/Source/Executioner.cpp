@@ -177,12 +177,13 @@ bool Executioner::FindTarget(Player* player)
 {
 
 	pathExecutioner.Clear();
+	
 	app->pathFinding->ResetPath(iPoint(position.x/16,position.y/16));
 	app->pathFinding->PropagateAStar(player);
 	
 	pathExecutioner = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
 
-	indexPath = pathExecutioner.Count()-1;
+	indexPath = pathExecutioner.Count() - 1;
 
 
 	return true;
@@ -191,7 +192,7 @@ bool Executioner::FindTarget(Player* player)
 bool Executioner::ChaseTarget()
 {
 	
-	if (position.x/16 == pathExecutioner[indexPath].x && position.y/16 == pathExecutioner[indexPath].y)
+	if (((position.x / app->map->data.tileWidth) == (pathExecutioner[indexPath].x)) && ((position.y / app->map->data.tileHeight) == (pathExecutioner[indexPath].y)))
 	{
 		if (indexPath > 0)
 		{

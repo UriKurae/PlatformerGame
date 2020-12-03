@@ -3,7 +3,11 @@
 #include "Textures.h"
 #include "Collisions.h"
 #include "EnemyManager.h"
+#include "Player.h"
 #include "Wolf.h"
+#include "Map.h"
+#include "Pathfinding.h"
+#include "Input.h"
 
 Wolf::Wolf(iPoint pos) : Enemy(pos)
 {
@@ -46,6 +50,16 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 	walkAnim.PushBack({ 713,170,44,24 });
 	walkAnim.loop = true;
 
+
+	// Jump Animation
+	jumpAnim.PushBack({13,73,44,26});
+	jumpAnim.PushBack({79,65,39,34});
+	jumpAnim.PushBack({141,58,46,37});
+	jumpAnim.PushBack({207,60,47,24});
+	jumpAnim.PushBack({270,56,41,39});
+	jumpAnim.PushBack({336,71,39,28});
+	jumpAnim.loop = false;
+
 	// Take damage animation
 	hurtAnim.PushBack({ 12,207,45,29 });
 	hurtAnim.PushBack({ 77,202,39,34 });
@@ -71,12 +85,17 @@ bool Wolf::Update(float dt)
 	idleAnim.speed = 4.50f * dt;
 	hurtAnim.speed = 10.0f * dt;
 	deathAnim.speed = 1.0f * dt;
+	jumpAnim.speed = 4.50f * dt;
 
 
-	if ((currentAnim != &idleAnim) && (hurtAnim.HasFinished()) && (life > 0))
+	if ((currentAnim != &idleAnim) && (life > 0))
 	{
-		idleAnim.Reset();
-		currentAnim = &idleAnim;
+		if ((hurtAnim.IsPlaying() == false))
+		{
+			idleAnim.Reset();
+			currentAnim = &idleAnim;
+		}
+
 	}
 
 	if (life == 0)
@@ -86,9 +105,6 @@ bool Wolf::Update(float dt)
 			deathAnim.Reset();
 			currentAnim = &deathAnim;
 		}
-
-		if (deathAnim.HasFinished())
-			CleanUp();
 	}
 
 	collider->SetPos(position.x, position.y);
@@ -96,7 +112,16 @@ bool Wolf::Update(float dt)
 
 	if (life <= 0)
 		EnemyDies();
-	
+
+	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	{
+		FindTarget(app->player);
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT)
+	{
+		ChaseTarget();
+	}
 
 	return true;
 }
@@ -130,6 +155,64 @@ void Wolf::EnemyDies()
 
 	if (deathAnim.HasFinished())
 		CleanUp();
+}
+
+
+bool Wolf::FindTarget(Player* player)
+{
+	pathWolf.Clear();
+	app->pathFinding->ResetPath(iPoint(position.x / 16, position.y / 16));
+	app->pathFinding->PropagateAStar(player);
+
+	pathWolf = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
+
+	indexPath = pathWolf.Count() - 1;
+
+
+	return true;
+}
+
+bool Wolf::ChaseTarget()
+{
+	if (((position.x / app->map->data.tileWidth) == (pathWolf[indexPath].x)) && ((position.y / app->map->data.tileHeight) == (pathWolf[indexPath].y)))
+	{
+		if (indexPath > 0)
+		{
+			indexPath--;
+		}
+	}
+	else
+	{
+		if (pathWolf[indexPath].y > position.y / 16)
+		{
+			position.y += 4;
+		}
+
+		if (pathWolf[indexPath].y < position.y / 16)
+		{
+			position.y -= 20;
+
+			if (currentAnim != &jumpAnim)
+			{
+				jumpAnim.Reset();
+				currentAnim = &jumpAnim;
+			}
+		}
+
+		if (pathWolf[indexPath].x > position.x / 16)
+		{
+			position.x += 4;
+		}
+
+		if (pathWolf[indexPath].x < position.x / 16)
+		{
+			position.x -= 4;
+		}
+
+	}
+
+
+	return true;
 }
 
 bool Wolf::Load(pugi::xml_node& node)
