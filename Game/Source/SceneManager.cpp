@@ -27,6 +27,26 @@ SceneManager::SceneManager()
 	AddScene(scene1, true);
 	AddScene(scene2, false);
 	AddScene(deadScene, false);
+
+
+	checkPointAnim.PushBack({0,0,11,9});
+	checkPointAnim.PushBack({44,0,12,19});
+	checkPointAnim.PushBack({90,0,15,31});
+	checkPointAnim.PushBack({135,0,17,51});
+	checkPointAnim.PushBack({180,0,16,90});
+	checkPointAnim.PushBack({225,0,17,49});
+	checkPointAnim.PushBack({270,0,17,49});
+	checkPointAnim.PushBack({315,0,17,49});
+	checkPointAnim.PushBack({360,0,17,35});
+	checkPointAnim.loop = false;
+
+	checkPointKeepAnim.PushBack({ 89,28,17,51 });
+	checkPointKeepAnim.PushBack({ 120,29,16,50 });
+	checkPointKeepAnim.PushBack({ 149,30,17,49 });
+	checkPointKeepAnim.PushBack({ 180,31,17,49 });
+	checkPointKeepAnim.PushBack({ 210,29,17,50 });
+	checkPointKeepAnim.PushBack({ 242,26,17,53 });
+	checkPointKeepAnim.loop = true;
 }
 
 SceneManager::~SceneManager()
@@ -69,6 +89,9 @@ bool SceneManager::Save(pugi::xml_node& node)
 
 bool SceneManager::Start()
 {
+	checkPointTexture = app->tex->Load("Assets/Textures/CheckPoint/FireCheckPoint.png");
+	checkFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
+
 	// Call all Scenes' start
 
 	ListItem<Scene*>* item = scenes.start;
@@ -86,6 +109,9 @@ bool SceneManager::Start()
 bool SceneManager::Update(float dt)
 {
 	bool ret = true;
+
+	checkPointAnim.speed = 2.0f * dt;
+	checkPointKeepAnim.speed = 2.0f * dt;
 
 	ret = HandleInput(dt);
 

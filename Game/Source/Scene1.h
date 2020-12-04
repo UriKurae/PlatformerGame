@@ -6,6 +6,7 @@ class Player;
 class Executioner;
 class Wolf;
 class GreenGem;
+class Animation;
 
 
 class Scene1: public Scene
@@ -56,5 +57,8 @@ private:
 	// CheckPoints
 	bool checkPoint1 = false;
 	bool checkPoint2 = false;
+	bool checkSound1 = false;
+	bool checkSound2 = false;
+	Animation* currentAnim;
 
 };

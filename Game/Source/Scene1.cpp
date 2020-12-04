@@ -20,6 +20,8 @@
 Scene1::Scene1()
 {
 	name.Create("scene1");
+
+
 }
 
 Scene1::~Scene1()
@@ -89,7 +91,7 @@ bool Scene1::Update(float dt)
 		RestartPlayerPosition();
 	}
 
-
+	app->sceneManager->checkPointKeepAnim.speed = 8.0f * dt;
 	return true;
 }
 
@@ -107,6 +109,30 @@ bool Scene1::Draw()
 	app->player->Draw();
 	app->enemyManager->Draw();
 	gem->Draw();
+
+	if (checkPoint1 == true)
+	{
+
+		if (currentAnim != &app->sceneManager->checkPointKeepAnim)
+		{
+			app->sceneManager->checkPointKeepAnim.Reset();
+			currentAnim = &app->sceneManager->checkPointKeepAnim;
+		}
+		app->render->DrawTexture(app->sceneManager->checkPointTexture, 1535, 155, &currentAnim->GetCurrentFrame());
+		currentAnim->Update();
+
+	}
+	else if (checkPoint2 == true)
+	{
+		if (currentAnim != &app->sceneManager->checkPointKeepAnim)
+		{
+			app->sceneManager->checkPointKeepAnim.Reset();
+			currentAnim = &app->sceneManager->checkPointKeepAnim;
+		}
+		app->render->DrawTexture(app->sceneManager->checkPointTexture, 2256, 268, &currentAnim->GetCurrentFrame());
+		currentAnim->Update();
+	}
+
 
 	return ret;
 }
@@ -176,11 +202,24 @@ int Scene1::CheckWin()
 			if (playerMidTile == 1167 && checkPoint2 == false)
 			{
 				checkPoint1 = true;
+				currentAnim = &app->sceneManager->checkPointKeepAnim;
+				if (checkSound1 == false)
+				{
+					app->audio->PlayFx(app->sceneManager->checkFx);
+					checkSound1 = true;
+					checkSound2 = false;
+				}
 			}
 			else if (playerMidTile == 1168)
 			{
  				checkPoint2 = true;
 				checkPoint1 = false;
+				if (checkSound2 == false)
+				{
+					app->audio->PlayFx(app->sceneManager->checkFx);
+					checkSound1 = false;
+					checkSound2 = true;
+				}
 			}
 
 		}

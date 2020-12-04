@@ -3,6 +3,7 @@
 #include "Module.h"
 #include "Point.h"
 #include "Scene.h"
+#include "Animation.h"
 
 class SDL_Texture;
 class Scene1;
@@ -51,5 +52,13 @@ public:
 	DeadScene* deadScene;
 
 	SDL_Texture* gemTexture;
+	SDL_Texture* checkPointTexture;
+
+	// Animations for checkPoints
+
+	Animation checkPointAnim;
+	Animation checkPointKeepAnim;
+
+	int checkFx;
 
 };
