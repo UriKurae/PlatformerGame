@@ -25,15 +25,22 @@ Scene1::~Scene1()
 
 bool Scene1::Start()
 {	
-	//if (this->active == true)
-	//{
+	if (this->active == true)
+	{
 		app->map->active = true;
 		app->map->Load("level_1.tmx");
 
 		if (app->player->active == false)
 			app->player->Enable();
 
-		app->player->SetPosition(250, 5);
+		if ((app->player->loadedGame) && (app->sceneManager->savedScene == this))
+		{
+			app->player->SetPosition(app->player->savedPosition.x, app->player->savedPosition.y);
+		}
+		else
+		{
+			playerStartPosition = app->player->SetPosition(250, 5);
+		}
 
 		// Enemy instantiation
 		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100));
@@ -49,11 +56,9 @@ bool Scene1::Start()
 		clouds = app->tex->Load("Assets/Textures/clouds.png");
 
 		app->sceneManager->currentScene = this;
-
-		app->player->currentLevel = 1;
 	
 
-	//}
+	}
 	return true;
 }
 
@@ -70,10 +75,10 @@ bool Scene1::Update(float dt)
 		app->sceneManager->lastScene = this;
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	/*if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		RestartPlayerPosition();
-	}
+	}*/
 
 
 	return true;

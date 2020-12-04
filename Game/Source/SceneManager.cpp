@@ -132,18 +132,20 @@ bool SceneManager::HandleInput(float dt)
 		app->RequestLoadGame();
 
 		if ((savedScene != nullptr) && (savedScene != currentScene))
+		{
+			app->player->Disable();
 			app->fade->Fade(currentScene, savedScene, 1 / dt);
-
+		}
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KeyState::KEY_DOWN)
 		app->fade->Fade((Scene*)scene2, (Scene*)scene1, 1 / dt);
+	
+	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
+		app->fade->Fade((Scene*)scene1, (Scene*)scene2, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 		app->map->viewHitboxes = !app->map->viewHitboxes;
-
-	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
-		app->fade->Fade((Scene*)scene1, (Scene*)scene2, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
 		app->audio->VolumeControl(-4);

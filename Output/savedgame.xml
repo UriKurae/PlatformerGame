@@ -11,8 +11,8 @@
     <active_scene value="1" />
   </scenemanager>
   <player>
-    <position x="430" y="242" />
-    <saved_level value="1" />
+    <position x="294" y="244" />
+    <saved_level />
   </player>
   <enemymanager>
     <executioner>

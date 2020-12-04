@@ -52,7 +52,7 @@ public:
 public:
 
 	// Player's current level
-	int currentLevel = 0;
+	//int currentLevel = 0;
 	//int prevLevel = 0;
 
 	// Control if the player loaded a saved game
@@ -61,6 +61,7 @@ public:
 	// God Mode
 	bool godMode = false;
 
+	iPoint savedPosition;
 
 private:
 

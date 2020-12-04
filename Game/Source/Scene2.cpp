@@ -20,30 +20,30 @@ Scene2::~Scene2()
 
 bool Scene2::Start()
 {
-	app->map->active = true;
-	app->map->Load("level_2.tmx");
-
-	app->player->Enable();
-	app->player->SetPosition(250,20);
-
-	sky = app->tex->Load("Assets/Textures/sky.png");
-	sea = app->tex->Load("Assets/Textures/sea.png");
-	clouds = app->tex->Load("Assets/Textures/clouds.png");
-
-
-	app->player->Enable();
-	if ((app->player->loadedGame == true) && (app->player->currentLevel == 2) && (deadOnScene == false))
+	if (this->active)
 	{
-		playerStartPosition = app->player->SetPosition(app->player->GetPosition().x, app->player->GetPosition().y);
-	}
-	else
-	{
-		playerStartPosition = app->player->SetPosition(230, 300);
-	}
-	
-	app->sceneManager->currentScene = this;
+		app->map->active = true;
+		app->map->Load("level_2.tmx");
 
-	app->player->currentLevel = 2;
+		app->player->Enable();
+		app->player->SetPosition(250, 20);
+
+		sky = app->tex->Load("Assets/Textures/sky.png");
+		sea = app->tex->Load("Assets/Textures/sea.png");
+		clouds = app->tex->Load("Assets/Textures/clouds.png");
+
+		app->player->Enable();
+
+		if ((app->player->loadedGame) && (app->sceneManager->savedScene == this))
+		{
+			app->player->SetPosition(app->player->savedPosition.x, app->player->savedPosition.y);
+		}
+		else
+		{
+			playerStartPosition = app->player->SetPosition(250, 5);
+		}
+		app->sceneManager->currentScene = this;
+	}
 
 	return true;
 	
