@@ -233,12 +233,14 @@ void Player::Draw()
 	// Draw player texture
 	app->render->DrawTexture(texture,position.x,position.y, &currentAnim->GetCurrentFrame());
 
+
 	// Draw lifes texture
 	app->render->DrawTexture(healthTexture, position.x - 2, position.y - 2, &currentAnimHeart->GetCurrentFrame());
 
 	//Draw gems textures
 	if(currentAnimGem != nullptr)
 		app->render->DrawTexture(gemsTexture, position.x + 20, position.y - 6, &currentAnimGem->GetCurrentFrame());
+
 }
 
 bool Player::CleanUp()
@@ -498,7 +500,6 @@ void Player::CameraFollow()
 {
 	app->render->camera.x = -(position.x * 2.0f) + (app->render->camera.w / 3);
 	app->render->camera.y = (-position.y);
-
 }
 
 
