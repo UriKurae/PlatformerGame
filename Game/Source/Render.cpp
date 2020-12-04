@@ -82,6 +82,8 @@ bool Render::Update(float dt)
 		camera.y = (-app->player->GetPosition().y);
 	}*/
 
+	SDL_RenderGetViewport(renderer, &viewport);
+
 	return true;
 }
 

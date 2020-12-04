@@ -131,6 +131,8 @@ bool Scene1::Draw()
 		}
 		app->render->DrawTexture(app->sceneManager->checkPointTexture, 2256, 268, &currentAnim->GetCurrentFrame());
 		currentAnim->Update();
+
+
 	}
 
 
@@ -205,7 +207,7 @@ int Scene1::CheckWin()
 				currentAnim = &app->sceneManager->checkPointKeepAnim;
 				if (checkSound1 == false)
 				{
-					app->audio->PlayFx(app->sceneManager->checkFx);
+					app->audio->PlayFx(app->sceneManager->checkpointFx);
 					checkSound1 = true;
 					checkSound2 = false;
 				}
@@ -216,7 +218,7 @@ int Scene1::CheckWin()
 				checkPoint1 = false;
 				if (checkSound2 == false)
 				{
-					app->audio->PlayFx(app->sceneManager->checkFx);
+					app->audio->PlayFx(app->sceneManager->checkpointFx);
 					checkSound1 = false;
 					checkSound2 = true;
 				}

@@ -61,7 +61,11 @@ public:
 	// God Mode
 	bool godMode = false;
 
+	// Player saved position
 	iPoint savedPosition;
+
+	// Hearts starting position
+	iPoint heartPosition;
 
 private:
 
@@ -78,7 +82,7 @@ private:
 	SString direction;
 
 	// Player's life
-	int health = 3;
+	int lifes = 3;
 
 	// Speed to run
 	float speedX;
@@ -119,7 +123,17 @@ private:
 	// Health animation and texture
 	SDL_Texture* healthTexture;
 	Animation* currentAnimHeart;
-	Animation hearthAnim;
+	Animation threeLifesAnim;
+	Animation twoLifesAnim;
+	Animation oneLifesAnim;
+
+	// Gems animations
+	SDL_Texture* gemsTexture;
+	Animation* currentAnimGem;
+	Animation oneGemAnim;
+	Animation twoGemAnim;
+	Animation threeGemAnim;
+	Animation fourGemAnim;
 
 	// Fx
 	int jumpFx;

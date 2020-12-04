@@ -59,6 +59,6 @@ public:
 	Animation checkPointAnim;
 	Animation checkPointKeepAnim;
 
-	int checkFx;
+	int checkpointFx;
 
 };

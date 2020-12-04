@@ -13,7 +13,7 @@
 #include "List.h"
 #include "Log.h"
 
-
+#include <math.h>
 #include "SDL/include/SDL.h"
 
 
@@ -106,16 +106,18 @@ Player::Player() : Module()
 	attackLeftDownUpAnim.PushBack({ 471, 227, 19, 32 });
 	attackLeftDownUpAnim.loop = false;
 
-	// Pushes hearth
-	hearthAnim.PushBack({3,4,16,16});
-	hearthAnim.PushBack({25,3,16,16});
-	hearthAnim.PushBack({49,3,16,16});
-	hearthAnim.PushBack({73,3,16,16});
-	hearthAnim.PushBack({100,3,16,16});
-	hearthAnim.PushBack({124,3,16,16});
-	hearthAnim.PushBack({149,3,16,16});
-	hearthAnim.PushBack({173,3,16,16});
-	hearthAnim.loop = true;
+	// Three lifes animation
+	threeLifesAnim.PushBack({ 1,1,7,6 });
+	twoLifesAnim.PushBack({ 9,1,5,6 });
+	oneLifesAnim.PushBack({ 15,1,3,5 });
+
+	// Gems animations
+	oneGemAnim.PushBack({ 20,1,5,9 });
+	twoGemAnim.PushBack({ 14,1,5,9 });
+	threeGemAnim.PushBack({ 8,1,5,9 });
+	fourGemAnim.PushBack({ 2,1,5,9 });
+
+
 }
 
 Player::~Player()
@@ -153,7 +155,8 @@ bool Player::Start()
 	{
 		texture = app->tex->Load("Assets/Textures/Player/player.png");
 		jumpFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
-		healthTexture = app->tex->Load("Assets/Textures/Hearth/hearth.png");
+		healthTexture = app->tex->Load("Assets/Textures/hearts.png");
+		gemsTexture = app->tex->Load("Assets/Textures/gem.png");
 
 		speedX = 250.0f;
 		speedY = 500.0f;
@@ -162,7 +165,7 @@ bool Player::Start()
 		godMode = false;
 		direction = "right";
 		
-		currentAnimHeart = &hearthAnim;
+		currentAnimHeart = &threeLifesAnim;
 		currentAnim = &idleRightAnim;
 		collider = app->collisions->AddCollider({ (int)position.x + 4, (int)position.y + 5, 10, 22 }, Collider::Type::PLAYER);
 	}
@@ -210,6 +213,9 @@ bool Player::Update(float dt)
 
 	currentAnim->Update();
 	currentAnimHeart->Update();
+	
+	if(currentAnimGem != nullptr)
+		currentAnimGem->Update();
 
 	if (direction == "right")
 		collider->SetPos(position.x + 8, position.y + 5);
@@ -224,14 +230,16 @@ bool Player::Update(float dt)
 
 void Player::Draw()
 {
+	// Draw player texture
 	app->render->DrawTexture(texture,position.x,position.y, &currentAnim->GetCurrentFrame());
-	int offSetX = position.x - 200;
-	int offSetY = app->render->camera.y - position.y;
 
-	for (int i = 0; i < health; i++)
-	{
-		app->render->DrawTexture(healthTexture, offSetX, offSetY, &currentAnimHeart->GetCurrentFrame());
-	}
+	// Draw lifes texture
+	app->render->DrawTexture(healthTexture, position.x - 2, position.y - 2, &currentAnimHeart->GetCurrentFrame());
+
+	//Draw gems textures
+	if(currentAnimGem != nullptr)
+		app->render->DrawTexture(gemsTexture, position.x + 20, position.y - 6, &currentAnimGem->GetCurrentFrame());
+
 }
 
 bool Player::CleanUp()
@@ -294,8 +302,8 @@ void Player::HandleInput(float dt)
 		
 			//if (position.x >= app->render->offset.x + app->render->camera.w / 4)
 			//{
-				app->render->offset.x += floor(480 * dt);
-				app->render->camera.x -= floor(480 * dt);
+				//app->render->offset.x += floor(480 * dt);
+				//app->render->camera.x -= floor(480 * dt);
 			//}
 		}
 
@@ -329,8 +337,8 @@ void Player::HandleInput(float dt)
 
 			//if (position.x < app->render->offset.x + 175)
 		//	{
-				app->render->offset.x -= app->render->camera.x;
-				app->render->camera.x += (position.x);
+				//app->render->offset.x -= floor(480 * dt);
+				//app->render->camera.x += floor(480 * dt);
 			//}
 
 		}
@@ -496,24 +504,21 @@ void Player::HandleInput(float dt)
 
 void Player::CameraFollow()
 {
-	/*app->render->camera.x = -(position.x * 2.0f) + (app->render->camera.w / 3);
-	app->render->camera.y = (-position.y);*/
+	app->render->camera.x = -(position.x * 2.0f) + (app->render->camera.w / 3);
+	app->render->camera.y = (-position.y);
 
-	if (app->render->offset.y + app->render->camera.h >= (app->map->data.height * app->map->data.tileHeight));
-
-	else if (position.y >= app->render->offset.y + 360)
+	/*if (position.y >= app->render->offset.y + 360)
 	{
 		app->render->offset.y = position.y - 360;
 		app->render->camera.y = -(position.y - 360);
 	}
 
-	if (app->render->offset.y <= 0);
-	else if (position.y < app->render->offset.y + 360)
+	if (position.y < app->render->offset.y + 360)
 	{
 		app->render->offset.y = position.y - 360;
 		app->render->camera.y = -(position.y - 360);
 	}
-
+	*/
 }
 
 
@@ -669,8 +674,25 @@ Collider* Player::GetCollider()
 void Player::PickItem(ItemType type)
 {
 	if (type == ItemType::GEM)
+	{
 		++gemsAchieved;
 
+		switch (gemsAchieved)
+		{
+		case 1:
+			currentAnimGem = &oneGemAnim;
+			break;
+		case 2:
+			currentAnimGem = &twoGemAnim;
+			break;
+		case 3:
+			currentAnimGem = &threeGemAnim;
+			break;
+		case 4:
+			currentAnimGem = &fourGemAnim;
+			break;
+		}
+	}
 }
 
 iPoint Player::SetPosition(int x, int y)
