@@ -226,10 +226,8 @@ void Player::Draw()
 {
 	app->render->DrawTexture(texture,position.x,position.y, &currentAnim->GetCurrentFrame());
 	int offSetX = position.x - 200;
-	uint testY;
-	uint testX;
-	app->win->GetWindowSize(testX, testY);
-	int offSetY = (testY - 600 +speedY-gravity/1000);
+	int offSetY = app->render->camera.y - position.y;
+
 	for (int i = 0; i < health; i++)
 	{
 		app->render->DrawTexture(healthTexture, offSetX, offSetY, &currentAnimHeart->GetCurrentFrame());
@@ -292,6 +290,13 @@ void Player::HandleInput(float dt)
 		if (blockRightMovement == false)
 		{
 			position.x += speedX * dt;
+			//position.x += floor(speedX * dt);
+		
+			//if (position.x >= app->render->offset.x + app->render->camera.w / 4)
+			//{
+				app->render->offset.x += floor(480 * dt);
+				app->render->camera.x -= floor(480 * dt);
+			//}
 		}
 
 		direction = "right";
@@ -321,6 +326,13 @@ void Player::HandleInput(float dt)
 		if (blockLeftMovement == false)
 		{
 			position.x -= speedX * dt;
+
+			//if (position.x < app->render->offset.x + 175)
+		//	{
+				app->render->offset.x -= app->render->camera.x;
+				app->render->camera.x += (position.x);
+			//}
+
 		}
 
 		direction = "left";
@@ -484,8 +496,24 @@ void Player::HandleInput(float dt)
 
 void Player::CameraFollow()
 {
-	app->render->camera.x = -(position.x * 2.0f) + (app->render->camera.w / 3);
-	app->render->camera.y = (-position.y);
+	/*app->render->camera.x = -(position.x * 2.0f) + (app->render->camera.w / 3);
+	app->render->camera.y = (-position.y);*/
+
+	if (app->render->offset.y + app->render->camera.h >= (app->map->data.height * app->map->data.tileHeight));
+
+	else if (position.y >= app->render->offset.y + 360)
+	{
+		app->render->offset.y = position.y - 360;
+		app->render->camera.y = -(position.y - 360);
+	}
+
+	if (app->render->offset.y <= 0);
+	else if (position.y < app->render->offset.y + 360)
+	{
+		app->render->offset.y = position.y - 360;
+		app->render->camera.y = -(position.y - 360);
+	}
+
 }
 
 
