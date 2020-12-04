@@ -84,10 +84,10 @@ bool Scene1::Update(float dt)
 		app->sceneManager->lastScene = this;
 	}
 
-	/*if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		RestartPlayerPosition();
-	}*/
+	}
 
 
 	return true;
