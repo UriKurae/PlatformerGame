@@ -67,12 +67,8 @@ bool SceneManager::Save(pugi::xml_node& node)
 }
 
 
-
 bool SceneManager::Start()
 {
-
-	gemTexture = app->tex->Load("Assets/Textures/Coins/gems.png");
-
 	// Call all Scenes' start
 
 	ListItem<Scene*>* item = scenes.start;

@@ -13,6 +13,7 @@ struct Collider
 		ENEMY,
 		PLAYER,
 		PLAYER_HIT,
+		ITEM,
 
 		MAX
 	};

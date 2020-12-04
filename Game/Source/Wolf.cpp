@@ -128,9 +128,8 @@ bool Wolf::Update(float dt)
 
 bool Wolf::CleanUp()
 {
-	app->tex->UnLoad(texture);
 	app->enemyManager->DeleteEnemy(this);
-	
+
 	return true;
 }
 
@@ -154,7 +153,10 @@ void Wolf::EnemyDies()
 	}
 
 	if (deathAnim.HasFinished())
-		CleanUp();
+	{
+		this->CleanUp();
+	}
+
 }
 
 

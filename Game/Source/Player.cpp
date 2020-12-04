@@ -1,17 +1,16 @@
-#include "Log.h"
-
-#include "Player.h"
-#include "Render.h"
 #include "App.h"
-#include "Input.h"
-#include "Textures.h"
-#include "Window.h"
 #include "Audio.h"
+#include "Input.h"
+#include "Window.h"
+#include "Textures.h"
+#include "Render.h"
+#include "Player.h"
+#include "Map.h"
 #include "EnemyManager.h"
 #include "Collisions.h"
 
-#include "Map.h"
 #include "List.h"
+#include "Log.h"
 
 
 #include "SDL/include/SDL.h"
@@ -91,29 +90,19 @@ Player::Player() : Module()
 	fallingLeftAnim.loop = false;
 
 	// Attack facing right animation
-	//attackRightDownUpAnim.PushBack({ 160, 194, 23, 27 });
-	//attackRightDownUpAnim.PushBack({ 210, 194, 23, 27 });
-	//attackRightDownUpAnim.PushBack({ 259, 193, 25, 28 });
-	//attackRightDownUpAnim.PushBack({ 309, 193, 25, 28 });
 	attackRightDownUpAnim.PushBack({ 7, 236, 27, 22 });
 	attackRightDownUpAnim.PushBack({ 58, 238, 25, 20 });
 	attackRightDownUpAnim.PushBack({ 115, 222, 34, 36 });
 	attackRightDownUpAnim.PushBack({ 165, 222, 27, 36 });
 	attackRightDownUpAnim.PushBack({ 215, 226, 19, 32 });
-	//attackRightDownUpAnim.PushBack({ 265, 232, 18, 26 });
 	attackRightDownUpAnim.loop = false;
 
 	// Atack facing left animation
-	//attackLeftDownUpAnim.PushBack({ 522, 195, 23, 27 });
-	//attackLeftDownUpAnim.PushBack({ 472, 195, 23, 27 });
-	//attackLeftDownUpAnim.PushBack({ 421, 194, 23, 27 });
-	//attackLeftDownUpAnim.PushBack({ 371, 194, 25, 28 });
 	attackLeftDownUpAnim.PushBack({ 671, 237, 27, 22 });
 	attackLeftDownUpAnim.PushBack({ 622, 239, 25, 20 });
 	attackLeftDownUpAnim.PushBack({ 556, 223, 34, 36 });
 	attackLeftDownUpAnim.PushBack({ 513, 223, 27, 36 });
 	attackLeftDownUpAnim.PushBack({ 471, 227, 19, 32 });
-	//attackLeftDownUpAnim.PushBack({ 422, 233, 18, 26 });
 	attackLeftDownUpAnim.loop = false;
 
 }
@@ -129,8 +118,6 @@ bool Player::Load(pugi::xml_node& playerNode)
 	position.y = playerNode.child("position").attribute("y").as_float();
 
 	savedPosition = position;
-	//currentLevel = playerNode.child("saved_level").attribute("value").as_int();
-	//prevLevel = playerNode.child("previous_level").attribute("value").as_int();
 
 	return true;
 }
@@ -141,12 +128,6 @@ bool Player::Save(pugi::xml_node& playerNode)
 	pugi::xml_node player = playerNode.append_child("position");
 	player.append_attribute("x").set_value(position.x);
 	player.append_attribute("y").set_value(position.y);
-
-	pugi::xml_node sLevel = playerNode.append_child("saved_level");
-	//sLevel.append_attribute("value").set_value(currentLevel);
-
-	//pugi::xml_node prevLvl = playerNode.append_child("previous_level");
-	//prevLvl.append_attribute("value").set_value(prevLevel);
 
 	return true;
 }
@@ -180,14 +161,12 @@ bool Player::Update(float dt)
 {
 	idleLeftAnim.speed = 5.0f * dt;
 	idleRightAnim.speed = 5.0f * dt;
-	
+
 	// Detect player's input
 	HandleInput(dt);
 		
 	if (jump == true)
-	{
 		Jump(dt);
-	}
 
 	if (isFalling == true)
 	{
@@ -231,9 +210,7 @@ bool Player::Update(float dt)
 
 void Player::Draw()
 {
-	SDL_Rect rect = currentAnim->GetCurrentFrame();
-	app->render->DrawTexture(texture,position.x,position.y, &rect);
-
+	app->render->DrawTexture(texture,position.x,position.y, &currentAnim->GetCurrentFrame());
 }
 
 bool Player::CleanUp()
@@ -629,6 +606,18 @@ void Player::Attack()
 	}
 	
 	attackCollider->pendingToDelete = true;
+}
+
+Collider* Player::GetCollider()
+{
+	return collider;
+}
+
+void Player::PickItem(ItemType type)
+{
+	if (type == ItemType::GEM)
+		++gemsAchieved;
+
 }
 
 iPoint Player::SetPosition(int x, int y)

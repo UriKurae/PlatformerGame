@@ -94,7 +94,7 @@ bool Executioner::Update(float dt)
 	}
 
    
-	if ((currentAnim != &idleAnim) && (hurtAnim.HasFinished()) && (life > 0))
+	if ((currentAnim != &idleAnim) && (hurtAnim.HasFinished()) && (this->life > 0))
 	{
 		currentAnim = &idleAnim;
 	}
@@ -102,8 +102,6 @@ bool Executioner::Update(float dt)
 
 	currentAnim->Update();
 	collider->SetPos(position.x - 2, position.y + 10);
-
-
 
 	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
 	{
@@ -116,21 +114,16 @@ bool Executioner::Update(float dt)
 	}
 
 
-	if (life <= 0)
-		EnemyDies();
+	if (this->life <= 0)
+		this->EnemyDies();
 
-   // app->pathFinding->DrawPath();
 
 	return true;
 }
 
 bool Executioner::CleanUp()
 {
-	app->tex->UnLoad(texture);
-	
-	// The collider is destroyed in DeleteEnemy()
 	app->enemyManager->DeleteEnemy(this);
-
 	pathExecutioner.Clear();
 
 	return true;
@@ -140,10 +133,10 @@ void Executioner::TakeDamage(int damage)
 {
 	life -= damage;
 
-	if ((currentAnim != &hurtAnim) && (life > 0))
+	if ((this->currentAnim != &this->hurtAnim) && (this->life > 0))
 	{
-		hurtAnim.Reset();
-		currentAnim = &hurtAnim;
+		this->hurtAnim.Reset();
+		this->currentAnim = &this->hurtAnim;
 	}
 }
 
@@ -156,7 +149,9 @@ void Executioner::EnemyDies()
 	}
 
 	if (deathAnim.HasFinished())
-		CleanUp();
+	{	
+		this->CleanUp();
+	}
 }
 
 void Executioner::Attack()

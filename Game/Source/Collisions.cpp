@@ -105,8 +105,13 @@ void Collisions::DebugDraw()
 			app->render->DrawRectangle(colliders[i]->rect, 255, 0, 0, alpha);
 			break;
 
-			case Collider::Type::PLAYER_HIT: // Blue
+		case Collider::Type::PLAYER_HIT: // Blue
 			app->render->DrawRectangle(colliders[i]->rect, 0, 0, 255, alpha);
+			break;
+
+		case Collider::Type::ITEM:
+			app->render->DrawRectangle(colliders[i]->rect, 255, 0, 255, alpha);
+			break;
 		}
 	}
 }

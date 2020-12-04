@@ -5,6 +5,8 @@
 class Player;
 class Executioner;
 class Wolf;
+class GreenGem;
+
 
 class Scene1: public Scene
 {
@@ -49,8 +51,7 @@ private:
 	Wolf* wolf;
 	Wolf* wolf2;
 
-	// Colliders for the gems
-	DynArray<Collider*> gemColliders;
+	GreenGem* gem;
 
 	// CheckPoints
 	bool checkPoint1 = false;

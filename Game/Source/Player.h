@@ -5,8 +5,9 @@
 #include "Animation.h"
 #include "Point.h"
 #include "Collider.h"
+#include "Item.h"
 
-struct SDL_Texture;
+#include "SDL_image/include/SDL_image.h"
 
 class Player : public Module
 {
@@ -48,12 +49,11 @@ public:
 
 	void Attack();
 
+	Collider* GetCollider();
+
+	void PickItem(ItemType type);
 
 public:
-
-	// Player's current level
-	//int currentLevel = 0;
-	//int prevLevel = 0;
 
 	// Control if the player loaded a saved game
 	bool loadedGame = false;
@@ -64,6 +64,9 @@ public:
 	iPoint savedPosition;
 
 private:
+
+	// Texture for the player
+	SDL_Texture* texture;
 
 	Collider* collider;
 	Collider* attackCollider;
@@ -78,11 +81,11 @@ private:
 	float speedX;
 	float speedY;
 
-	// Camera offset
-	float camOffset = position.x;
-
 	// Constant gravity applied to the player
 	float gravity;
+
+	// Camera offset
+	float camOffset = position.x;
 
 	// Jump mechanic
 	bool jump = false;
@@ -97,10 +100,6 @@ private:
 	bool blockJump = false;
 	bool blockFall = false;
 
-	// Texture for the player
-	SDL_Texture* texture;
-	
-	
 	// Animations
 	Animation* currentAnim;
 	Animation idleRightAnim;
@@ -116,7 +115,9 @@ private:
 
 	// Fx
 	int jumpFx;
-	
+
+	// Collectibles info
+	int gemsAchieved = 0;
 };
 
 #endif //!__MODULE_PLAYER_H__

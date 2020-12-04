@@ -57,7 +57,6 @@
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Pathfinding.cpp" />
-    <ClCompile Include="Source\EnemyManager.cpp" />
     <ClCompile Include="Source\SceneS1.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -76,7 +75,21 @@
     <ClCompile Include="Source\Wolf.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneManager.cpp" />
+    <ClCompile Include="Source\Item.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ItemManager.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EnemyManager.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneManager.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GreenGem.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -162,7 +175,6 @@
       <Filter>Core Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Pathfinding.h" />
-    <ClInclude Include="Source\EnemyManager.h" />
     <ClInclude Include="Source\SceneS1.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -184,7 +196,21 @@
     <ClInclude Include="Source\Wolf.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneManager.h" />
+    <ClInclude Include="Source\Item.h">
+      <Filter>Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EnemyManager.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ItemManager.h">
+      <Filter>Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneManager.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GreenGem.h">
+      <Filter>Items</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -204,6 +230,9 @@
     </Filter>
     <Filter Include="Enemies">
       <UniqueIdentifier>{933af5c6-e0e3-45c7-ab49-7b63b58e21cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Items">
+      <UniqueIdentifier>{773a6d36-c19c-4e1e-8c20-ddc3019e02bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

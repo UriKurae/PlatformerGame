@@ -5,8 +5,10 @@
 
 #include "List.h"
 
-struct SDL_Texture;
-struct SDL_Surface;
+#include "SDL_image/include/SDL_image.h"
+
+class SDL_Texture;
+class SDL_Surface;
 
 class Textures : public Module
 {

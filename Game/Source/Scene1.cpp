@@ -11,6 +11,8 @@
 #include "Player.h"
 #include "EnemyManager.h"
 #include "Executioner.h"
+#include "ItemManager.h"
+#include "GreenGem.h"
 #include "Wolf.h"
 #include "FadeToBlack.h"
 #include "Collisions.h"
@@ -34,16 +36,10 @@ bool Scene1::Start()
 		if (app->player->active == false)
 			app->player->Enable();
 
-
 		if ((app->player->loadedGame) && (app->sceneManager->savedScene == this))
-		{
 			app->player->SetPosition(app->player->savedPosition.x, app->player->savedPosition.y);
 
-		}
-		else
-		{
-			playerStartPosition = app->player->SetPosition(250, 5);
-		}
+		else playerStartPosition = app->player->SetPosition(250, 5);
 
 		// Enemy instantiation
 		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100));
@@ -58,7 +54,10 @@ bool Scene1::Start()
 		executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100));
 		executioner2->Start();
 
-		
+		// Items instantiation
+		gem = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(1200, 140));
+		gem->Start();
+
 		// Assets loading and playing
 		app->audio->PlayMusic("Assets/Audio/Music/scene_1.ogg");
 		sky = app->tex->Load("Assets/Textures/sky.png");
@@ -107,8 +106,7 @@ bool Scene1::Draw()
 	
 	app->player->Draw();
 	app->enemyManager->Draw();
-
-	
+	gem->Draw();
 
 	return ret;
 }

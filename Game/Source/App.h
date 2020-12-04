@@ -26,6 +26,7 @@ class Map;
 class Player;
 class SceneManager;
 class EnemyManager;
+class ItemManager;
 class Collisions;
 class FadeToBlack;
 class DeadScene;
@@ -109,6 +110,7 @@ public:
 	Player* player;
 	SceneManager* sceneManager;
 	EnemyManager* enemyManager;
+	ItemManager* itemManager;
 	Collisions* collisions;
 	FadeToBlack* fade;
 	PathFinding* pathFinding;
