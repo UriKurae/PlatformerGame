@@ -77,6 +77,9 @@ private:
 	// Direction player is facing at
 	SString direction;
 
+	// Player's life
+	int health = 3;
+
 	// Speed to run
 	float speedX;
 	float speedY;
@@ -112,6 +115,11 @@ private:
 	Animation fallingLeftAnim;
 	Animation attackRightDownUpAnim;
 	Animation attackLeftDownUpAnim;
+
+	// Health animation and texture
+	SDL_Texture* healthTexture;
+	Animation* currentAnimHeart;
+	Animation hearthAnim;
 
 	// Fx
 	int jumpFx;

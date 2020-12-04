@@ -9,6 +9,7 @@
 #include "EnemyManager.h"
 #include "Collisions.h"
 
+
 #include "List.h"
 #include "Log.h"
 
@@ -105,6 +106,16 @@ Player::Player() : Module()
 	attackLeftDownUpAnim.PushBack({ 471, 227, 19, 32 });
 	attackLeftDownUpAnim.loop = false;
 
+	// Pushes hearth
+	hearthAnim.PushBack({3,4,16,16});
+	hearthAnim.PushBack({25,3,16,16});
+	hearthAnim.PushBack({49,3,16,16});
+	hearthAnim.PushBack({73,3,16,16});
+	hearthAnim.PushBack({100,3,16,16});
+	hearthAnim.PushBack({124,3,16,16});
+	hearthAnim.PushBack({149,3,16,16});
+	hearthAnim.PushBack({173,3,16,16});
+	hearthAnim.loop = true;
 }
 
 Player::~Player()
@@ -142,6 +153,7 @@ bool Player::Start()
 	{
 		texture = app->tex->Load("Assets/Textures/Player/player.png");
 		jumpFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
+		healthTexture = app->tex->Load("Assets/Textures/Hearth/hearth.png");
 
 		speedX = 250.0f;
 		speedY = 500.0f;
@@ -150,6 +162,7 @@ bool Player::Start()
 		godMode = false;
 		direction = "right";
 		
+		currentAnimHeart = &hearthAnim;
 		currentAnim = &idleRightAnim;
 		collider = app->collisions->AddCollider({ (int)position.x + 4, (int)position.y + 5, 10, 22 }, Collider::Type::PLAYER);
 	}
@@ -196,6 +209,7 @@ bool Player::Update(float dt)
 	}
 
 	currentAnim->Update();
+	currentAnimHeart->Update();
 
 	if (direction == "right")
 		collider->SetPos(position.x + 8, position.y + 5);
@@ -211,11 +225,22 @@ bool Player::Update(float dt)
 void Player::Draw()
 {
 	app->render->DrawTexture(texture,position.x,position.y, &currentAnim->GetCurrentFrame());
+	int offSetX = position.x - 200;
+	uint testY;
+	uint testX;
+	app->win->GetWindowSize(testX, testY);
+	int offSetY = (testY - 600 +speedY-gravity/1000);
+	for (int i = 0; i < health; i++)
+	{
+		app->render->DrawTexture(healthTexture, offSetX, offSetY, &currentAnimHeart->GetCurrentFrame());
+	}
 }
 
 bool Player::CleanUp()
 {
 	app->tex->UnLoad(texture);
+	app->tex->UnLoad(healthTexture);
+
 	collider->pendingToDelete = true;
 
 	return true;
