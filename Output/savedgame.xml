@@ -9,16 +9,16 @@
   <enemymanager>
     <enemies>
       <executioner>
-        <position x="640" y="256" />
+        <position x="400" y="100" />
       </executioner>
       <wolf>
-        <position x="670" y="250" />
+        <position x="350" y="250" />
       </wolf>
       <wolf>
-        <position x="770" y="250" />
+        <position x="450" y="250" />
       </wolf>
       <executioner>
-        <position x="640" y="256" />
+        <position x="600" y="100" />
       </executioner>
     </enemies>
   </enemymanager>
@@ -27,7 +27,7 @@
   </scenemanager>
   <map />
   <player>
-    <position x="617" y="260" />
+    <position x="541" y="130" />
     <saved_level />
   </player>
   <pathfinding />

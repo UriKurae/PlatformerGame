@@ -40,4 +40,8 @@ private:
 	SDL_Texture* clouds;
 	SDL_Texture* sea;
 
+	// Checkpoints
+	bool checkPoint1 = false;
+	bool checkPoint2 = false;
+
 };
