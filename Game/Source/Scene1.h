@@ -49,6 +49,9 @@ private:
 	Wolf* wolf;
 	Wolf* wolf2;
 
+	// Colliders for the gems
+	DynArray<Collider*> gemColliders;
+
 	// CheckPoints
 	bool checkPoint1 = false;
 	bool checkPoint2 = false;

@@ -13,6 +13,7 @@
 #include "Executioner.h"
 #include "Wolf.h"
 #include "FadeToBlack.h"
+#include "Collisions.h"
 
 Scene1::Scene1()
 {
@@ -57,14 +58,15 @@ bool Scene1::Start()
 		executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100));
 		executioner2->Start();
 
+		
 		// Assets loading and playing
 		app->audio->PlayMusic("Assets/Audio/Music/scene_1.ogg");
 		sky = app->tex->Load("Assets/Textures/sky.png");
 		sea = app->tex->Load("Assets/Textures/sea.png");
 		clouds = app->tex->Load("Assets/Textures/clouds.png");
+	
 
 		app->sceneManager->currentScene = this;
-	
 
 	}
 	return true;
