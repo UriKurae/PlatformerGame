@@ -71,7 +71,7 @@ Executioner::Executioner(iPoint pos) : Enemy(pos)
 
 bool Executioner::Start()
 {
-	texture = app->tex->Load("Assets/Textures/Executioner/executioner.png");
+	texture = app->enemyManager->executionerTexture;
 	
 	currentAnim = &idleAnim;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
@@ -200,22 +200,22 @@ bool Executioner::ChaseTarget()
 	}
 	else
 	{
-		if (pathExecutioner[indexPath].y > position.y/16)
+		if (pathExecutioner[indexPath].y > position.y / app->map->data.tileHeight)
 		{
 			position.y += 4;
 		}
 
-		if (pathExecutioner[indexPath].y < position.y / 16)
+		if (pathExecutioner[indexPath].y < position.y / app->map->data.tileHeight)
 		{
 			position.y -= 4;
 		}
 
-		if (pathExecutioner[indexPath].x > position.x / 16)
+		if (pathExecutioner[indexPath].x > position.x / app->map->data.tileWidth)
 		{
 			position.x += 4;
 		}
 
-		if (pathExecutioner[indexPath].x < position.x / 16)
+		if (pathExecutioner[indexPath].x < position.x / app->map->data.tileWidth)
 		{
 			position.x -= 4;
 		}

@@ -45,7 +45,9 @@ private:
 	SDL_Texture* sea;
 
 	Executioner* executioner;
+	Executioner* executioner2;
 	Wolf* wolf;
+	Wolf* wolf2;
 
 	// CheckPoints
 	bool checkPoint1 = false;

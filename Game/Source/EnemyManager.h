@@ -8,13 +8,17 @@
 
 #define MAX_ENEMIES 100
 
+struct SDL_Texture;
+
 class EnemyManager : public Module
 {
 public:
 	EnemyManager();
 	virtual ~EnemyManager();
 
-	bool Update(float dt);
+	bool Start() override;
+
+	bool Update(float dt) override;
 
 	void Draw();
 
@@ -27,5 +31,8 @@ public:
 
 public:
 	List<Enemy*> enemies;
+
+	SDL_Texture* executionerTexture;
+	SDL_Texture* wolfTexture;
 
 };

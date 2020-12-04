@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Textures.h"
 #include "EnemyManager.h"
 #include "Executioner.h"
 #include "Wolf.h"
@@ -13,6 +14,15 @@ EnemyManager::EnemyManager(): Module()
 EnemyManager::~EnemyManager()
 {
 	enemies.Clear();
+}
+
+bool EnemyManager::Start()
+{
+	// Loading all textures for each enemy
+	executionerTexture = app->tex->Load("Assets/Textures/Executioner/executioner.png");
+	wolfTexture = app->tex->Load("Assets/Textures/wolf/Wolf.png");
+
+	return true;
 }
 
 bool EnemyManager::Update(float dt)

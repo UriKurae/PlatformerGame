@@ -51,6 +51,12 @@ bool Scene1::Start()
 		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(350, 250));
 		wolf->Start();
 
+		wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(450, 250));
+		wolf2->Start();
+
+		executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100));
+		executioner2->Start();
+
 		// Assets loading and playing
 		app->audio->PlayMusic("Assets/Audio/Music/scene_1.ogg");
 		sky = app->tex->Load("Assets/Textures/sky.png");

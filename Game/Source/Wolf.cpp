@@ -72,7 +72,7 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 
 bool Wolf::Start()
 {
-	texture = app->tex->Load("Assets/Textures/Wolf/Wolf.png");
+	texture = app->enemyManager->wolfTexture;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
 	currentAnim = &idleAnim;
 	life = 60;
@@ -183,12 +183,12 @@ bool Wolf::ChaseTarget()
 	}
 	else
 	{
-		if (pathWolf[indexPath].y > position.y / 16)
+		if (pathWolf[indexPath].y > position.y / app->map->data.tileHeight)
 		{
 			position.y += 4;
 		}
 
-		if (pathWolf[indexPath].y < position.y / 16)
+		if (pathWolf[indexPath].y < position.y / app->map->data.tileHeight)
 		{
 			position.y -= 20;
 
@@ -199,12 +199,12 @@ bool Wolf::ChaseTarget()
 			}
 		}
 
-		if (pathWolf[indexPath].x > position.x / 16)
+		if (pathWolf[indexPath].x > position.x / app->map->data.tileWidth)
 		{
 			position.x += 4;
 		}
 
-		if (pathWolf[indexPath].x < position.x / 16)
+		if (pathWolf[indexPath].x < position.x / app->map->data.tileWidth)
 		{
 			position.x -= 4;
 		}
@@ -217,17 +217,17 @@ bool Wolf::ChaseTarget()
 
 bool Wolf::Load(pugi::xml_node& node)
 {
-	position.x = node.child("position").attribute("positionX").as_float();
-	position.y = node.child("position").attribute("positionY").as_float();
+	position.x = node.child("position").attribute("x").as_int();
+	position.y = node.child("position").attribute("y").as_int();
 
 	return true;
 }
 
 bool Wolf::Save(pugi::xml_node& node)
 {
-	pugi::xml_node executioner = node.append_child("position");
-	executioner.append_attribute("x").set_value(position.x);
-	executioner.append_attribute("y").set_value(position.y);
+	pugi::xml_node wolf = node.append_child("position");
+	wolf.append_attribute("x").set_value(position.x);
+	wolf.append_attribute("y").set_value(position.y);
 
 	return true;
 }
