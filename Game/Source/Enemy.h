@@ -19,6 +19,13 @@ enum class EnemyType
 	GROUND,
 };
 
+enum class EnemyState
+{
+	PATROL = 0,
+	ALERT,
+	ATTACK,
+};
+
 class Enemy
 {
 public:
@@ -42,6 +49,8 @@ public:
 
 	virtual void EnemyDies();
 
+	virtual bool Patrol(float dt);
+
 	// Load and save functions for each enemy
 	virtual bool Load(pugi::xml_node&)
 	{
@@ -59,6 +68,8 @@ public:
 	int life;
 	int damage;
 	int attackSpeed;
+
+	EnemyState currentState;
 
 	SDL_Texture* texture;
 	Animation* currentAnim;

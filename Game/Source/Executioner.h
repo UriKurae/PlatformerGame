@@ -27,6 +27,8 @@ public:
 
 	bool ChaseTarget() override;
 
+	bool Patrol(float dt) override;
+
 	// Load and save functions for each module
 	bool Load(pugi::xml_node&) override;
 
@@ -35,6 +37,8 @@ public:
 
 
 private:
+
+	int speedX;
 
 	Animation idleAnim;
 	Animation skillAnim;

@@ -8,6 +8,7 @@
 #include "Input.h"
 #include "Player.h"
 #include "Map.h"
+#include <math.h>
 
 
 
@@ -75,7 +76,9 @@ bool Executioner::Start()
 	
 	currentAnim = &idleAnim;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
-
+	
+	speedX = 200;
+	currentState = EnemyState::PATROL;
 	life = 200;
 
 	return true;
@@ -87,6 +90,8 @@ bool Executioner::Update(float dt)
 	idleAnim.speed = 4.0f * dt;
 	hurtAnim.speed = 15.0f * dt;
 	deathAnim.speed = 6.0f * dt;
+
+	position.x += speedX * dt;
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 	{
@@ -103,15 +108,22 @@ bool Executioner::Update(float dt)
 	currentAnim->Update();
 	collider->SetPos(position.x - 2, position.y + 10);
 
-	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+	if (currentState == EnemyState::PATROL)
 	{
-		FindTarget(app->player);
-	}
+		if (Patrol(dt))
+			currentState = EnemyState::ALERT;
 
-	if (app->input->GetKey(SDL_SCANCODE_C) == KEY_REPEAT)
+	}
+	else if(currentState == EnemyState::ALERT)
+	{
+		if (FindTarget(app->player))
+			currentState = EnemyState::ATTACK;	
+	}
+	else if (currentState == EnemyState::ATTACK)
 	{
 		ChaseTarget();
 	}
+
 
 
 	if (this->life <= 0)
@@ -172,7 +184,7 @@ bool Executioner::FindTarget(Player* player)
 
 	pathExecutioner.Clear();
 	
-	app->pathFinding->ResetPath(iPoint(position.x/16,position.y/16));
+	app->pathFinding->ResetPath(iPoint(position.x/app->map->data.tileWidth,position.y/app->map->data.tileHeight));
 	app->pathFinding->PropagateAStar(player);
 	
 	pathExecutioner = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
@@ -219,6 +231,28 @@ bool Executioner::ChaseTarget()
 
 	
 	return true;
+}
+
+bool Executioner::Patrol(float dt)
+{
+	if (position.x < 80)
+	{
+		speedX = -speedX;
+	}
+	if (position.x > 880)
+	{
+		speedX = -speedX;
+	}
+
+	int vec1 = app->player->GetPosition().x - position.x;
+	int vec2 = app->player->GetPosition().y - position.y;
+
+	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 200)
+		return true;
+
+
+	return false;
+
 }
 
 bool Executioner::Load(pugi::xml_node& node)

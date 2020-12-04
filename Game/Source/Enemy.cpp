@@ -46,6 +46,11 @@ void Enemy::EnemyDies()
 {
 }
 
+bool Enemy::Patrol(float dt)
+{
+	return true;
+}
+
 bool Enemy::CleanUp()
 {
 	return true;

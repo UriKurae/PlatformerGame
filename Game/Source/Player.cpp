@@ -239,7 +239,6 @@ void Player::Draw()
 	//Draw gems textures
 	if(currentAnimGem != nullptr)
 		app->render->DrawTexture(gemsTexture, position.x + 20, position.y - 6, &currentAnimGem->GetCurrentFrame());
-
 }
 
 bool Player::CleanUp()
@@ -334,13 +333,6 @@ void Player::HandleInput(float dt)
 		if (blockLeftMovement == false)
 		{
 			position.x -= speedX * dt;
-
-			//if (position.x < app->render->offset.x + 175)
-		//	{
-				//app->render->offset.x -= floor(480 * dt);
-				//app->render->camera.x += floor(480 * dt);
-			//}
-
 		}
 
 		direction = "left";
@@ -507,18 +499,6 @@ void Player::CameraFollow()
 	app->render->camera.x = -(position.x * 2.0f) + (app->render->camera.w / 3);
 	app->render->camera.y = (-position.y);
 
-	/*if (position.y >= app->render->offset.y + 360)
-	{
-		app->render->offset.y = position.y - 360;
-		app->render->camera.y = -(position.y - 360);
-	}
-
-	if (position.y < app->render->offset.y + 360)
-	{
-		app->render->offset.y = position.y - 360;
-		app->render->camera.y = -(position.y - 360);
-	}
-	*/
 }
 
 
