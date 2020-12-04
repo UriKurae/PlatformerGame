@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Audio.h"
 #include "Input.h"
+#include "Textures.h"
 #include "Map.h"
 #include "Player.h"
 #include "SceneManager.h"
@@ -69,6 +70,11 @@ bool SceneManager::Save(pugi::xml_node& node)
 
 bool SceneManager::Start()
 {
+
+	gemTexture = app->tex->Load("Assets/Textures/Coins/gems.png");
+
+	// Call all Scenes' start
+
 	ListItem<Scene*>* item = scenes.start;
 	while (item != nullptr)
 	{

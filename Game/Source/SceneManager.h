@@ -50,4 +50,6 @@ public:
 	Scene2* scene2;
 	DeadScene* deadScene;
 
+	SDL_Texture* gemTexture;
+
 };
