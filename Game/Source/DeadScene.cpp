@@ -3,13 +3,9 @@
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
-//#include "IntroScene.h"
 #include "Window.h"
-//#include "Scene.h"
-//#include "Scene2.h"
 #include "DeadScene.h"
 #include "FadeToBlack.h"
-//#include "WinScene.h"
 #include "SceneManager.h"
 
 DeadScene::DeadScene()
@@ -26,7 +22,7 @@ bool DeadScene::Start()
 {
 	if (this->active == true)
 	{
-		deadTexture = app->tex->Load("Assets/Textures/LoseScene.png");
+		deadTexture = app->tex->Load("Assets/Textures/lose.png");
 		app->render->SetCameraPosition(0, 0);
 	}
 

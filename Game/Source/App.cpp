@@ -41,8 +41,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex, true);
 	AddModule(audio, true);
 	AddModule(map, false);
-	AddModule(player, true);
 	AddModule(sceneManager, true);
+	AddModule(player, true);
 	AddModule(enemyManager, true);
 	AddModule(pathFinding, true);
 	AddModule(collisions, true);
@@ -202,9 +202,9 @@ void App::FinishUpdate()
 {
 
 	if (saveGameRequested)
-		LoadGame();
-	if (loadGameRequested)
 		SaveGame();
+	if (loadGameRequested)
+		LoadGame();
 
 	// Frame rate and dt control
 
@@ -360,7 +360,7 @@ void App::RequestSaveGame()
 
 bool App::LoadGame()
 {
-	saveGameRequested = false;
+	loadGameRequested = false;
 	bool ret = true;
 
 	pugi::xml_parse_result resul = saveLoadFile.load_file("savedgame.xml");
@@ -393,7 +393,7 @@ bool App::SaveGame()
 {
 	LOG("Saving Results!!");
 
-	loadGameRequested = false;
+	saveGameRequested = false;
 	bool ret = true;
 
 	ListItem<Module*>* item = modules.start;

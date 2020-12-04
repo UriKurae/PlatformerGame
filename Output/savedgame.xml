@@ -4,14 +4,16 @@
   <window />
   <textures />
   <audio>
-    <music_volume value="25" />
+    <music_volume value="15" />
   </audio>
   <map />
+  <scenemanager>
+    <active_scene value="1" />
+  </scenemanager>
   <player>
-    <position x="250" y="209" />
-    <current_level value="0" />
+    <position x="430" y="242" />
+    <saved_level value="1" />
   </player>
-  <scenemanager />
   <enemymanager>
     <executioner>
       <position x="400" y="100" />

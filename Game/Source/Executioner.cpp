@@ -131,7 +131,6 @@ bool Executioner::CleanUp()
 	// The collider is destroyed in DeleteEnemy()
 	app->enemyManager->DeleteEnemy(this);
 
-
 	pathExecutioner.Clear();
 
 	return true;

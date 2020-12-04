@@ -53,6 +53,7 @@ public:
 
 	// Player's current level
 	int currentLevel = 0;
+	//int prevLevel = 0;
 
 	// Control if the player loaded a saved game
 	bool loadedGame = false;

@@ -125,9 +125,10 @@ Player::~Player()
 bool Player::Load(pugi::xml_node& playerNode)
 {
 	loadedGame = true;
-	position.x = playerNode.child("position").attribute("positionX").as_float();
-	position.y = playerNode.child("position").attribute("positionY").as_float();
-	currentLevel = playerNode.child("current_level").attribute("value").as_int();
+	position.x = playerNode.child("position").attribute("x").as_float();
+	position.y = playerNode.child("position").attribute("y").as_float();
+	currentLevel = playerNode.child("saved_level").attribute("value").as_int();
+	//prevLevel = playerNode.child("previous_level").attribute("value").as_int();
 
 	return true;
 }
@@ -139,8 +140,12 @@ bool Player::Save(pugi::xml_node& playerNode)
 	player.append_attribute("x").set_value(position.x);
 	player.append_attribute("y").set_value(position.y);
 
-	pugi::xml_node currLevel = playerNode.append_child("current_level");
-	currLevel.append_attribute("value").set_value(currentLevel);
+	pugi::xml_node sLevel = playerNode.append_child("saved_level");
+	sLevel.append_attribute("value").set_value(currentLevel);
+
+	//pugi::xml_node prevLvl = playerNode.append_child("previous_level");
+	//prevLvl.append_attribute("value").set_value(prevLevel);
+
 	return true;
 }
 

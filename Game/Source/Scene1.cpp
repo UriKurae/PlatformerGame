@@ -25,8 +25,8 @@ Scene1::~Scene1()
 
 bool Scene1::Start()
 {	
-	if (this->active == true)
-	{
+	//if (this->active == true)
+	//{
 		app->map->active = true;
 		app->map->Load("level_1.tmx");
 
@@ -35,19 +35,25 @@ bool Scene1::Start()
 
 		app->player->SetPosition(250, 5);
 
+		// Enemy instantiation
 		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100));
 		executioner->Start();
 
 		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(350, 250));
 		wolf->Start();
 
+		// Assets loading and playing
 		app->audio->PlayMusic("Assets/Audio/Music/scene_1.ogg");
-
 		sky = app->tex->Load("Assets/Textures/sky.png");
 		sea = app->tex->Load("Assets/Textures/sea.png");
 		clouds = app->tex->Load("Assets/Textures/clouds.png");
 
-	}
+		app->sceneManager->currentScene = this;
+
+		app->player->currentLevel = 1;
+	
+
+	//}
 	return true;
 }
 

@@ -30,7 +30,21 @@ bool Scene2::Start()
 	sea = app->tex->Load("Assets/Textures/sea.png");
 	clouds = app->tex->Load("Assets/Textures/clouds.png");
 
+
+	app->player->Enable();
+	if ((app->player->loadedGame == true) && (app->player->currentLevel == 2) && (deadOnScene == false))
+	{
+		playerStartPosition = app->player->SetPosition(app->player->GetPosition().x, app->player->GetPosition().y);
+	}
+	else
+	{
+		playerStartPosition = app->player->SetPosition(230, 300);
+	}
 	
+	app->sceneManager->currentScene = this;
+
+	app->player->currentLevel = 2;
+
 	return true;
 	
 }
@@ -43,7 +57,9 @@ bool Scene2::Update(float dt)
 	}
 	else if (CheckWin() == 2)
 	{
+		deadOnScene = true;
 		app->fade->Fade(this, (Scene*)app->sceneManager->deadScene, 1 / dt);
+		app->sceneManager->lastScene = this;
 		app->player->Disable();
 	}
 
@@ -62,10 +78,11 @@ bool Scene2::Draw()
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 
-	if (app->map->active == true)
+	if (app->map->active)
 		app->map->Draw();
 
-	app->player->Draw();
+	if(app->player->active)
+		app->player->Draw();
 	
 	return ret;
 }
@@ -78,6 +95,7 @@ bool Scene2::CleanUp()
 	app->tex->UnLoad(clouds);
 	app->tex->UnLoad(sea);
 
+	app->map->CleanUp();
 	app->player->Disable();
 
 

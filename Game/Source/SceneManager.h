@@ -23,6 +23,10 @@ public:
 	// Draw everything from the current scene
 	bool PostUpdate();
 
+	bool Load(pugi::xml_node&) override;
+
+	bool Save(pugi::xml_node&) override;
+
 	// Is bool because we want to detect when ESC is pressed
 	bool HandleInput(float dt);
 
@@ -38,6 +42,8 @@ public:
 
 	List<Scene*> scenes;
 	Scene* lastScene;
+	Scene* currentScene;
+	Scene* savedScene = nullptr;
 
 	IntroScene* introScene;
 	Scene1* scene1;

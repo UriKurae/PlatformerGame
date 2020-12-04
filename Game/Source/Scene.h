@@ -71,4 +71,6 @@ public:
 	SString name;
 	bool active;
 
+	bool deadOnScene = false;
+
 };

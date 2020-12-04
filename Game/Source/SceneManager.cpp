@@ -2,12 +2,13 @@
 #include "Audio.h"
 #include "Input.h"
 #include "Map.h"
+#include "Player.h"
 #include "SceneManager.h"
-#include "FadeToBlack.h"
 #include "IntroScene.h"
 #include "Scene1.h"
 #include "Scene2.h"
 #include "DeadScene.h"
+#include "FadeToBlack.h"
 
 
 #include "SDL/include/SDL_scancode.h"
@@ -32,14 +33,48 @@ SceneManager::~SceneManager()
 	scenes.Clear();
 }
 
+bool SceneManager::Load(pugi::xml_node& node)
+{
+	int count = 0;
+	count = node.child("active_scene").attribute("value").as_int();
+
+	if (count == 1)
+		savedScene = scene1;
+
+	else if (count == 2)
+		savedScene = scene2;
+
+	return true;
+}
+
+bool SceneManager::Save(pugi::xml_node& node)
+{
+	ListItem<Scene*>* item = scenes.start;
+	int count = 0;
+	while (item != nullptr)
+	{
+		if (item->data->active == true)
+			break;
+
+		item = item->next;
+		++count;
+	}
+
+	node.append_child("active_scene").append_attribute("value").set_value(count);
+
+	return true;
+}
+
+
+
 bool SceneManager::Start()
 {
 	ListItem<Scene*>* item = scenes.start;
 	while (item != nullptr)
 	{
-		if(item->data->active == true)
+		if (item->data->active == true)
 			item->data->Start();
-		
+
 		item = item->next;
 	}
 	
@@ -89,14 +124,20 @@ bool SceneManager::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
-	if (app->input->GetKey(SDL_SCANCODE_F6) == KeyState::KEY_DOWN)
-		app->RequestLoadGame();
-
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KeyState::KEY_DOWN)
 		app->RequestSaveGame();
 
+	if (app->input->GetKey(SDL_SCANCODE_F6) == KeyState::KEY_DOWN)
+	{
+		app->RequestLoadGame();
+
+		if ((savedScene != nullptr) && (savedScene != currentScene))
+			app->fade->Fade(currentScene, savedScene, 1 / dt);
+
+	}
+
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KeyState::KEY_DOWN)
-		RestartPlayerPosition();
+		app->fade->Fade((Scene*)scene2, (Scene*)scene1, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 		app->map->viewHitboxes = !app->map->viewHitboxes;
