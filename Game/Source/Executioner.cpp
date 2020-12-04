@@ -228,8 +228,8 @@ bool Executioner::ChaseTarget()
 
 bool Executioner::Load(pugi::xml_node& node)
 {
-	position.x = node.child("position").attribute("positionX").as_float();
-	position.y = node.child("position").attribute("positionY").as_float();
+	position.x = node.child("position").attribute("x").as_int();
+	position.y = node.child("position").attribute("y").as_int();
 
 	return true;
 }

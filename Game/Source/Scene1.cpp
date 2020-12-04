@@ -33,9 +33,11 @@ bool Scene1::Start()
 		if (app->player->active == false)
 			app->player->Enable();
 
+
 		if ((app->player->loadedGame) && (app->sceneManager->savedScene == this))
 		{
 			app->player->SetPosition(app->player->savedPosition.x, app->player->savedPosition.y);
+
 		}
 		else
 		{

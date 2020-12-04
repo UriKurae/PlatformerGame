@@ -13,14 +13,17 @@
   <player>
     <position x="294" y="244" />
     <saved_level />
+
   </player>
   <enemymanager>
-    <executioner>
-      <position x="400" y="100" />
-    </executioner>
-    <wolf>
-      <position x="350" y="250" />
-    </wolf>
+    <enemies>
+      <executioner>
+        <position x="512" y="132" />
+      </executioner>
+      <wolf>
+        <position x="0" y="0" />
+      </wolf>
+    </enemies>
   </enemymanager>
   <pathfinding />
   <collisions />

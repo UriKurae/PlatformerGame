@@ -138,7 +138,7 @@ bool SceneManager::HandleInput(float dt)
 		}
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KeyState::KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_O) == KeyState::KEY_DOWN)
 		app->fade->Fade((Scene*)scene2, (Scene*)scene1, 1 / dt);
 	
 	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)

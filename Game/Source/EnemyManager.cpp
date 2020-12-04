@@ -82,10 +82,10 @@ void EnemyManager::DeleteEnemy(Enemy* enemy)
 bool EnemyManager::Save(pugi::xml_node& node)
 {
 	ListItem<Enemy*>* item = enemies.start;
-
+	pugi::xml_node enemies = node.append_child("enemies");
 	while (item != nullptr)
 	{
-		item->data->Save(node.append_child(item->data->name.GetString()));
+		item->data->Save(enemies.append_child(item->data->name.GetString()));
 		item = item->next;
 	}
 
@@ -95,10 +95,10 @@ bool EnemyManager::Save(pugi::xml_node& node)
 bool EnemyManager::Load(pugi::xml_node& node)
 {
 	ListItem<Enemy*>* item = enemies.start;
-
+	pugi::xml_node enemies = node.child("enemies");
 	while (item != nullptr)
 	{
-		item->data->Load(app->saveState.child("enemies").child(item->data->name.GetString()));
+		item->data->Load(enemies.child(item->data->name.GetString()));
 		item = item->next;
 	}
 
