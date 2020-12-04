@@ -335,6 +335,7 @@ void Player::HandleInput(float dt)
 		if (blockLeftMovement == false)
 		{
 			position.x -= speedX * dt;
+
 		}
 
 		direction = "left";
@@ -500,6 +501,7 @@ void Player::CameraFollow()
 {
 	app->render->camera.x = -(position.x * 2.0f) + (app->render->camera.w / 3);
 	app->render->camera.y = (-position.y);
+
 }
 
 
