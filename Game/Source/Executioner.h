@@ -7,10 +7,7 @@ class Executioner : public Enemy
 {
 public:
 	Executioner(iPoint pos);
-	virtual ~Executioner() 
-	{
-	
-	};
+	virtual ~Executioner() {};
 
 	bool Start();
 
@@ -46,7 +43,7 @@ private:
 	Animation deathAnim;
 	Animation hurtAnim;
 
-	DynArray<iPoint> pathExecutioner;
+	
 	int indexPath;
 
 

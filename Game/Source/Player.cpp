@@ -503,8 +503,6 @@ void Player::CameraFollow()
 {
 	app->render->camera.x = -(position.x * 2.0f) + (app->render->camera.w / 3);
 	app->render->camera.y = (-position.y);
-
-
 }
 
 

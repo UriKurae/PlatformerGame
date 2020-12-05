@@ -155,6 +155,7 @@ bool Scene1::CleanUp()
 	app->enemyManager->DeleteColliders();
 	app->enemyManager->enemies.Clear();
 	
+
 	app->itemManager->DeleteColliders();
 	app->itemManager->items.Clear();
 
