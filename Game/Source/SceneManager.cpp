@@ -92,7 +92,7 @@ bool SceneManager::Save(pugi::xml_node& node)
 
 bool SceneManager::Start()
 {
-	checkPointTexture = app->tex->Load("Assets/Textures/CheckPoint/FireCheckPoint.png");
+	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
 
 	// Call all Scenes' start

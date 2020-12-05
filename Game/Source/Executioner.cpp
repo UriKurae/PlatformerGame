@@ -94,16 +94,11 @@ bool Executioner::Update(float dt)
 
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
-	{
 		app->pathFinding->ResetPath(iPoint(position.x / 16, position.y / 16));
-	}
 
    
 	if ((currentAnim != &idleAnim) && (hurtAnim.HasFinished()) && (this->life > 0))
-	{
 		currentAnim = &idleAnim;
-	}
-
 
 	currentAnim->Update();
 	collider->SetPos(position.x - 2, position.y + 10);
@@ -141,7 +136,6 @@ bool Executioner::CleanUp()
 {
 	app->enemyManager->DeleteEnemy(this);
 	path.Clear();
-	app->tex->UnLoad(texture);
 
 	return true;
 }

@@ -20,8 +20,8 @@ EnemyManager::~EnemyManager()
 bool EnemyManager::Start()
 {
 	// Loading all textures for each enemy
-	executionerTexture = app->tex->Load("Assets/Textures/Executioner/executioner.png");
-	wolfTexture = app->tex->Load("Assets/Textures/wolf/Wolf.png");
+	executionerTexture = app->tex->Load("Assets/Textures/Enemies/Executioner/executioner.png");
+	wolfTexture = app->tex->Load("Assets/Textures/Enemies/wolf/wolf.png");
 
 	return true;
 }
@@ -63,7 +63,7 @@ Enemy* EnemyManager::AddEnemy(EnemyType type, iPoint pos)
 	case EnemyType::BIRD:
 		enemy = new Ghost(pos);
 		break;
-	case EnemyType::GROUND:
+	case EnemyType::WOLF:
 		enemy = new Wolf(pos);
 		break;	
 	}
@@ -77,13 +77,11 @@ void EnemyManager::DeleteEnemy(Enemy* enemy)
 {
 	ListItem<Enemy*>* item = enemies.start;
 	
-	DeleteColliders();
-
 	while (item != nullptr)
 	{
 		if (enemy == item->data)
 		{
-			//item->data->collider->pendingToDelete = true;
+			item->data->collider->pendingToDelete = true;
 			enemies.Del(item);
 			break;
 		}

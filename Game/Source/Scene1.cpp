@@ -53,19 +53,19 @@ bool Scene1::Start()
 		executioner3 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(2096, 180));
 		executioner3->Start();
 
-		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(350, 250));
+		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(350, 250));
 		wolf->Start();
 
-		wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(450, 250));
+		wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(400, 250));
 		wolf2->Start();
 
-		wolf3 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(650, 256));
+		wolf3 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(650, 260));
 		wolf3->Start();
 
-		wolf4 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(2496, 260));
+		wolf4 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(2496, 260));
 		wolf4->Start();
 
-		wolf5 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(3552, 420));
+		wolf5 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(3552, 420));
 		wolf5->Start();
 
 
@@ -75,9 +75,9 @@ bool Scene1::Start()
 
 		// Assets loading and playing
 		app->audio->PlayMusic("Assets/Audio/Music/scene_1.ogg");
-		sky = app->tex->Load("Assets/Textures/sky.png");
-		sea = app->tex->Load("Assets/Textures/sea.png");
-		clouds = app->tex->Load("Assets/Textures/clouds.png");
+		sky = app->tex->Load("Assets/Textures/Scenes/sky.png");
+		sea = app->tex->Load("Assets/Textures/Scenes/sea.png");
+		clouds = app->tex->Load("Assets/Textures/Scenes/clouds.png");
 	
 
 		app->sceneManager->currentScene = this;
@@ -88,12 +88,12 @@ bool Scene1::Start()
 
 bool Scene1::Update(float dt)
 {	
-	if (CheckWin() == 1)
+	if ((CheckWin() == 1) && (app->player->godMode == false))
 	{
 		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1/dt);
 	}
 
-	else if (CheckWin() == 2)
+	else if ((CheckWin() == 2) && (app->player->godMode == false))
 	{
 		app->fade->Fade(this, (Scene*)app->sceneManager->deadScene, 1 / dt);
 		app->player->Disable();
@@ -131,7 +131,7 @@ bool Scene1::Draw()
 			app->sceneManager->checkPointKeepAnim.Reset();
 			currentAnim = &app->sceneManager->checkPointKeepAnim;
 		}
-		app->render->DrawTexture(app->sceneManager->checkPointTexture, 1535, 155, &currentAnim->GetCurrentFrame());
+		app->render->DrawTexture(app->sceneManager->checkpointTexture, 1535, 155, &currentAnim->GetCurrentFrame());
 		currentAnim->Update();
 	}
 	else if (checkPoint2 == true)
@@ -141,7 +141,7 @@ bool Scene1::Draw()
 			app->sceneManager->checkPointKeepAnim.Reset();
 			currentAnim = &app->sceneManager->checkPointKeepAnim;
 		}
-		app->render->DrawTexture(app->sceneManager->checkPointTexture, 2256, 268, &currentAnim->GetCurrentFrame());
+		app->render->DrawTexture(app->sceneManager->checkpointTexture, 2256, 268, &currentAnim->GetCurrentFrame());
 		currentAnim->Update();
 	}
 

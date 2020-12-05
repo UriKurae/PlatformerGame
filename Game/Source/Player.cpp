@@ -53,7 +53,6 @@ Player::Player() : Module()
 	runLeftAnim.PushBack({ 368,49,20,25 });
 	runLeftAnim.loop = true;
 
-
 	// Jump right animation
 	jumpRightAnim.PushBack({ 15, 86, 20, 24 });
 	jumpRightAnim.PushBack({ 65, 88, 20, 22 });
@@ -66,7 +65,6 @@ Player::Player() : Module()
 	jumpRightAnim.PushBack({ 68, 112, 17, 31 });
 	jumpRightAnim.PushBack({ 118, 113, 18, 30 });
 	jumpRightAnim.loop = false;
-
 
 	// Jump left animation
 	jumpLeftAnim.PushBack({ 620,89,20,22 });
@@ -117,7 +115,6 @@ Player::Player() : Module()
 	threeGemAnim.PushBack({ 8,1,5,9 });
 	fourGemAnim.PushBack({ 2,1,5,9 });
 
-
 }
 
 Player::~Player()
@@ -156,8 +153,8 @@ bool Player::Start()
 		texture = app->tex->Load("Assets/Textures/Player/player.png");
 		jumpFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
 		hitFx = app->audio->LoadFx("Assets/Audio/Fx/hit.wav");
-		healthTexture = app->tex->Load("Assets/Textures/hearts.png");
-		gemsTexture = app->tex->Load("Assets/Textures/gem.png");
+		healthTexture = app->tex->Load("Assets/Textures/Collectibles/hearts.png");
+		gemsTexture = app->tex->Load("Assets/Textures/Collectibles/gem.png");
 
 
 		speedX = 250.0f;
@@ -301,13 +298,6 @@ void Player::HandleInput(float dt)
 		if (blockRightMovement == false)
 		{
 			position.x += speedX * dt;
-			//position.x += floor(speedX * dt);
-		
-			//if (position.x >= app->render->offset.x + app->render->camera.w / 4)
-			//{
-				//app->render->offset.x += floor(480 * dt);
-				//app->render->camera.x -= floor(480 * dt);
-			//}
 		}
 
 		direction = "right";
@@ -650,11 +640,6 @@ void Player::Attack()
 	attackCollider->pendingToDelete = true;
 }
 
-Collider* Player::GetCollider()
-{
-	return collider;
-}
-
 void Player::PickItem(ItemType type)
 {
 	if (type == ItemType::GEM)
@@ -690,4 +675,9 @@ iPoint Player::SetPosition(int x, int y)
 iPoint Player::GetPosition()
 {
 	return position;
+}
+
+Collider* Player::GetCollider()
+{
+	return collider;
 }

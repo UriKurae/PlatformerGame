@@ -235,7 +235,6 @@ void PathFinding::PropagateDijkstra()
 			}
 		}
 	}
-
 }
 
 void PathFinding::PropagateAStar(Player* player)

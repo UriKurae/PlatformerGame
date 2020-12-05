@@ -53,7 +53,7 @@ public:
 	WinScene* winScene;
 
 	SDL_Texture* gemTexture;
-	SDL_Texture* checkPointTexture;
+	SDL_Texture* checkpointTexture;
 
 	// Animations for checkPoints
 

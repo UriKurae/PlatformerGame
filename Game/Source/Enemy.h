@@ -19,7 +19,7 @@ enum class EnemyType
 	NONE = -1,
 	EXECUTIONER,
 	BIRD,
-	GROUND,
+	WOLF,
 };
 
 enum class EnemyState

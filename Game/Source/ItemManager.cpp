@@ -17,7 +17,7 @@ ItemManager::~ItemManager()
 
 bool ItemManager::Start()
 {
-	texture = app->tex->Load("Assets/Textures/Coins/coins.png");
+	texture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
 
 	ListItem<Item*>* it = items.start;
 

@@ -52,7 +52,8 @@ bool GreenGem::Update(float dt)
 
 void GreenGem::Draw()
 {
-	app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
+	if(active)
+		app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
 }
 
 bool GreenGem::CleanUp()

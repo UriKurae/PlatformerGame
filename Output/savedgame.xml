@@ -11,24 +11,36 @@
   <enemymanager>
     <enemies>
       <executioner>
-        <position x="665" y="100" />
+        <position x="591" y="100" />
       </executioner>
-      <wolf>
-        <position x="306" y="250" />
-      </wolf>
-      <wolf>
-        <position x="402" y="250" />
-      </wolf>
       <executioner>
-        <position x="865" y="100" />
+        <position x="791" y="100" />
       </executioner>
+      <executioner>
+        <position x="2000" y="180" />
+      </executioner>
+      <wolf>
+        <position x="338" y="250" />
+      </wolf>
+      <wolf>
+        <position x="334" y="250" />
+      </wolf>
+      <wolf>
+        <position x="761" y="260" />
+      </wolf>
+      <wolf>
+        <position x="2397" y="260" />
+      </wolf>
+      <wolf>
+        <position x="3597" y="420" />
+      </wolf>
     </enemies>
   </enemymanager>
   <scenemanager>
     <active_scene value="1" />
   </scenemanager>
   <player>
-    <position x="402" y="242" />
+    <position x="362" y="245" />
   </player>
   <pathfinding />
   <collisions />
