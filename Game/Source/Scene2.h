@@ -3,6 +3,10 @@
 #include "Scene.h"
 
 class Player;
+class Executioner;
+class Wolf;
+class GreenGem;
+class Animation;
 
 class Scene2 : public Scene
 {
@@ -43,5 +47,17 @@ private:
 	// Checkpoints
 	bool checkPoint1 = false;
 	bool checkPoint2 = false;
+
+	// Enemies
+	Executioner* executioner;
+	Executioner* executioner2;
+	Executioner* executioner3;
+	Executioner* executioner4;
+
+	Wolf* wolf;
+	Wolf* wolf2;
+	Wolf* wolf3;
+	Wolf* wolf4;
+	Wolf* wolf5;
 
 };

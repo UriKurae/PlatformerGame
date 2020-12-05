@@ -49,8 +49,13 @@ private:
 
 	Executioner* executioner;
 	Executioner* executioner2;
+	Executioner* executioner3;
+
 	Wolf* wolf;
 	Wolf* wolf2;
+	Wolf* wolf3;
+	Wolf* wolf4;
+	Wolf* wolf5;
 
 	GreenGem* gem;
 

@@ -74,11 +74,10 @@ bool Executioner::Start()
 	texture = app->enemyManager->executionerTexture;
 	
 	path.Clear();
-	visitedPath.Clear();
 	currentAnim = &idleAnim;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
 	
-	speedX = 200;
+	speedX = 100;
 	currentState = EnemyState::PATROL;
 	life = 200;
 
@@ -111,7 +110,6 @@ bool Executioner::Update(float dt)
 
 	if (currentState == EnemyState::PATROL)
 	{
-		position.x += speedX * dt;
 		currentAnim = &idleAnim;
 		
 		if (Patrol(dt))
@@ -126,13 +124,15 @@ bool Executioner::Update(float dt)
 	{
 		if (ChaseTarget(dt))
 		{
+			path.Clear();
 			currentState = EnemyState::PATROL;
 		}
 	}
 
 	if (this->life <= 0)
-		this->EnemyDies();
+		EnemyDies();
 
+	HandleCollisions();
 
 	return true;
 }
@@ -161,13 +161,13 @@ void Executioner::EnemyDies()
 {
 	if (currentAnim != &deathAnim)
 	{
-		deathAnim.Reset();
 		currentAnim = &deathAnim;
 	}
 
 	if (deathAnim.HasFinished())
 	{	
 		this->CleanUp();
+		deathAnim.Reset();
 	}
 }
 
@@ -182,7 +182,7 @@ void Executioner::Draw()
 		app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
 	}
 	
-	app->pathFinding->DrawPath(path, visitedPath);
+	app->pathFinding->DrawPath(path);
 	
 }
 
@@ -192,10 +192,9 @@ bool Executioner::FindTarget(Player* player, float dt)
 	if (pathCooldown <= 0)
 	{
 		path.Clear();
-		visitedPath.Clear();
 
 		app->pathFinding->ResetPath(iPoint(position.x / app->map->data.tileWidth, position.y / app->map->data.tileHeight));
-		visitedPath = *(app->pathFinding->PropagateAStar(player));
+		app->pathFinding->PropagateAStar(player);
 
 		path = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
 
@@ -261,14 +260,7 @@ bool Executioner::ChaseTarget(float dt)
 
 bool Executioner::Patrol(float dt)
 {
-	if (position.x < 200)
-	{
-		speedX = -speedX;
-	}
-	if (position.x > 880)
-	{
-		speedX = -speedX;
-	}
+	position.x += speedX * dt;
 
 	int vec1 = app->player->GetPosition().x - position.x;
 	int vec2 = app->player->GetPosition().y - position.y;
@@ -296,4 +288,58 @@ bool Executioner::Save(pugi::xml_node& node)
 	executioner.append_attribute("y").set_value(position.y);
 
 	return true;
+}
+
+void Executioner::HandleCollisions()
+{
+
+	ListItem<MapLayer*>* layer = app->map->data.layers.start;
+
+	iPoint playerPosTop = app->map->WorldToMap(position.x + 2, position.y - 3);
+	iPoint playerPosBottom = app->map->WorldToMap(position.x + collider->rect.w / 2, position.y + collider->rect.h);
+
+	iPoint playerPosRight = app->map->WorldToMap(position.x + collider->rect.w + 10, position.y + collider->rect.h / 2);
+	iPoint playerPosLeft = app->map->WorldToMap(position.x - 10, position.y + collider->rect.h / 2);
+
+	iPoint playerPosTopRight = app->map->WorldToMap(position.x + collider->rect.w, position.y - 3);
+	iPoint playerPosTopLeft = app->map->WorldToMap(position.x - 3, position.y - 3);
+
+	iPoint playerPosBottomRight = app->map->WorldToMap(position.x + collider->rect.w, position.y + collider->rect.h);
+	iPoint playerPosBottomLeft = app->map->WorldToMap(position.x - 3, position.y + collider->rect.h);
+
+
+	while (layer != NULL)
+	{
+
+		if (layer->data->name == "HitBoxes")
+		{
+			// Here we get the surrounders player's tiles
+			uint playerIdBottom = layer->data->Get(playerPosBottom.x, playerPosBottom.y);
+
+			uint playerIdRight = layer->data->Get(playerPosRight.x, playerPosRight.y);
+			uint playerIdLeft = layer->data->Get(playerPosLeft.x, playerPosLeft.y);
+
+			uint playerIdBottomRight = layer->data->Get(playerPosBottomRight.x, playerPosBottomRight.y);
+			uint playerIdBottomLeft = layer->data->Get(playerPosBottomLeft.x, playerPosBottomLeft.y);
+
+			if (playerIdRight == 1164)
+			{
+				position.x -= 5;
+				speedX = -speedX;
+				currentState = EnemyState::PATROL;
+			}
+
+			if (playerIdLeft == 1164)
+			{
+				position.x += 5;
+				speedX = -speedX;
+				currentState = EnemyState::PATROL;
+			}
+			break;
+		}
+
+		layer = layer->next;
+	}
+
+
 }

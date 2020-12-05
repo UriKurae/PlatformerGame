@@ -1,13 +1,21 @@
 #include "App.h"
+#include "Audio.h"
 #include "Log.h"
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
 #include "Map.h"
+#include "Scene1.h"
+#include "SceneManager.h"
 #include "Scene2.h"
 #include "Player.h"
+#include "EnemyManager.h"
+#include "Executioner.h"
+#include "ItemManager.h"
+#include "GreenGem.h"
+#include "Wolf.h"
 #include "FadeToBlack.h"
-#include "SceneManager.h"
+#include "Collisions.h"
 
 Scene2::Scene2()
 {
@@ -42,6 +50,34 @@ bool Scene2::Start()
 		{
 			playerStartPosition = app->player->SetPosition(250, 5);
 		}
+
+		// Enemy instantiation
+		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(800, 90));
+		executioner->Start();
+
+		executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 200));
+		executioner2->Start();
+
+		executioner3 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(1456, 400));
+		executioner3->Start();
+
+		executioner4 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(3456, 240));
+		executioner4->Start();
+
+		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(272, 320));
+		wolf->Start();
+
+		wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(784, 320));
+		wolf2->Start();
+
+		wolf3 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(1184, 208));
+		wolf3->Start();
+		
+		wolf4 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(2928, 224));
+		wolf4->Start();
+
+		wolf5 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(3984, 304));
+		wolf5->Start();
 		app->sceneManager->currentScene = this;
 	}
 
@@ -85,6 +121,7 @@ bool Scene2::Draw()
 
 	if(app->player->active)
 		app->player->Draw();
+	app->enemyManager->Draw();
 	
 	return ret;
 }
@@ -100,6 +137,13 @@ bool Scene2::CleanUp()
 	app->map->CleanUp();
 	app->player->Disable();
 
+
+	app->enemyManager->DeleteColliders();
+	app->enemyManager->enemies.Clear();
+
+
+	app->itemManager->DeleteColliders();
+	app->itemManager->items.Clear();
 
 	return true;
 }

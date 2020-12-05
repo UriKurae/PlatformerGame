@@ -29,6 +29,8 @@ public:
 
 	bool Patrol(float dt) override;
 
+	void HandleCollisions() override;
+
 	// Load and save functions for each module
 	bool Load(pugi::xml_node&) override;
 

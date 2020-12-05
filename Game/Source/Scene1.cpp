@@ -47,14 +47,27 @@ bool Scene1::Start()
 		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100));
 		executioner->Start();
 
+		executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100));
+		executioner2->Start();
+
+		executioner3 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(2096, 180));
+		executioner3->Start();
+
 		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(350, 250));
 		wolf->Start();
 
 		wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(450, 250));
 		wolf2->Start();
 
-		executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100));
-		executioner2->Start();
+		wolf3 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(650, 256));
+		wolf3->Start();
+
+		wolf4 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(2496, 260));
+		wolf4->Start();
+
+		wolf5 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::GROUND, iPoint(3552, 420));
+		wolf5->Start();
+
 
 		// Items instantiation
 		gem = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(1200, 140));
@@ -113,7 +126,6 @@ bool Scene1::Draw()
 
 	if (checkPoint1 == true)
 	{
-
 		if (currentAnim != &app->sceneManager->checkPointKeepAnim)
 		{
 			app->sceneManager->checkPointKeepAnim.Reset();
@@ -121,7 +133,6 @@ bool Scene1::Draw()
 		}
 		app->render->DrawTexture(app->sceneManager->checkPointTexture, 1535, 155, &currentAnim->GetCurrentFrame());
 		currentAnim->Update();
-
 	}
 	else if (checkPoint2 == true)
 	{
@@ -132,8 +143,6 @@ bool Scene1::Draw()
 		}
 		app->render->DrawTexture(app->sceneManager->checkPointTexture, 2256, 268, &currentAnim->GetCurrentFrame());
 		currentAnim->Update();
-
-
 	}
 
 

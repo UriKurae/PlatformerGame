@@ -67,14 +67,14 @@ void PathFinding::ResetPath(iPoint start)
 	memset(costSoFar, 0, sizeof(uint) * COST_MAP_SIZE * COST_MAP_SIZE);
 }
 
-void PathFinding::DrawPath(DynArray<iPoint> &pathToDraw, List<iPoint> &visitedPath)
+void PathFinding::DrawPath(DynArray<iPoint> &pathToDraw)
 {
 	iPoint point;
 
 	// Draw visited
-	ListItem<iPoint>* item = visitedPath.start;
+	ListItem<iPoint>* item = visited.start;
 
-	while (item)
+	/*while (item)
 	{
 		point = item->data;
 		TileSet* tileset = app->map->GetTilesetFromTileId(1162);
@@ -85,19 +85,19 @@ void PathFinding::DrawPath(DynArray<iPoint> &pathToDraw, List<iPoint> &visitedPa
 		app->render->DrawTexture(tileset->texture, pos.x, pos.y, &rec);
 	
 		item = item->next;
-	}
+	}*/
 
-	// Draw frontier
-	for (uint i = 0; i < frontier.Count(); ++i)
-	{
-		point = *(frontier.Peek(i));
-		TileSet* tileset = app->map->GetTilesetFromTileId(1161);
+	//// Draw frontier
+	//for (uint i = 0; i < frontier.Count(); ++i)
+	//{
+	//	point = *(frontier.Peek(i));
+	//	TileSet* tileset = app->map->GetTilesetFromTileId(1161);
 
-		SDL_Rect rec = tileset->GetTileRect(1161);
-		iPoint pos = app->map->MapToWorld(point.x, point.y);
+	//	SDL_Rect rec = tileset->GetTileRect(1161);
+	//	iPoint pos = app->map->MapToWorld(point.x, point.y);
 
-		app->render->DrawTexture(tileset->texture, pos.x, pos.y, &rec);
-	}
+	//	app->render->DrawTexture(tileset->texture, pos.x, pos.y, &rec);
+	//}
 
 	// Draw path
 	for (uint i = 0; i < pathToDraw.Count(); ++i)
@@ -238,7 +238,7 @@ void PathFinding::PropagateDijkstra()
 
 }
 
-List<iPoint>* PathFinding::PropagateAStar(Player* player)
+void PathFinding::PropagateAStar(Player* player)
 {
 	iPoint curr;
 	goalAStar = app->map->WorldToMap(player->GetPosition().x, player->GetPosition().y);
@@ -253,7 +253,7 @@ List<iPoint>* PathFinding::PropagateAStar(Player* player)
 
 		//This works if the pathFinding is a while, it's used for early exit when we find the objective.
 		if (curr == goalAStar)
-			return &visited;
+			break;
 
 		for (uint i = 0; i < 4; ++i)
 		{

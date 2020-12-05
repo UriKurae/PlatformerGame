@@ -49,13 +49,13 @@ public:
 
 public:
 	void ResetPath(iPoint start);
-	void DrawPath(DynArray<iPoint> &path, List<iPoint> &visitedPath);
+	void DrawPath(DynArray<iPoint> &path);
 	int MovementCost(int x, int y) const;
 	DynArray<iPoint>* ComputePath(int x, int y);
 	bool IsWalkable(int x, int y) const;
 	void PropagateBFS(Player* player);
 	void PropagateDijkstra();
-	List<iPoint>* PropagateAStar(Player* player);
+	void PropagateAStar(Player* player);
 
 private:
 	PQueue<iPoint> frontier;

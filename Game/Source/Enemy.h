@@ -85,6 +85,5 @@ public:
 	Collider* collider;
 
 	DynArray<iPoint> path;
-	List<iPoint> visitedPath;
-	PQueue<iPoint> frontierPath;
+
 };

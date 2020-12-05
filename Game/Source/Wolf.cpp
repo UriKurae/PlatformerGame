@@ -135,7 +135,7 @@ bool Wolf::Start()
 {
 	texture = app->enemyManager->wolfTexture;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
-	currentAnim = &idleLeftAnim;
+	currentAnim = &walkRightAnim;
 	pathWolf.Clear();
 
 	life = 60;
@@ -206,7 +206,6 @@ bool Wolf::Update(float dt)
 		{	
 			currentState = EnemyState::PATROL;
 		}
-
 	}
 
 	HandleCollisions();
@@ -258,7 +257,7 @@ bool Wolf::Patrol(float dt)
 	int vec1 = app->player->GetPosition().x - position.x;
 	int vec2 = app->player->GetPosition().y - position.y;
 
-	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 50)
+	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 150)
 		return true;
 
 
@@ -268,16 +267,25 @@ bool Wolf::Patrol(float dt)
 
 bool Wolf::FindTarget(Player* player, float dt)
 {
-	pathWolf.Clear();
-	app->pathFinding->ResetPath(iPoint(position.x / 16, position.y / 16));
-	app->pathFinding->PropagateAStar(player);
+	if (pathCooldown <= 0)
+	{
+		pathWolf.Clear();
+		app->pathFinding->ResetPath(iPoint(position.x / 16, position.y / 16));
+		app->pathFinding->PropagateAStar(player);
 
-	pathWolf = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
+		pathWolf = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
 
-	indexPath = pathWolf.Count() - 1;
+		indexPath = pathWolf.Count() - 1;
+		pathCooldown = 50;
 
+		return true;
+	}
+	else
+	{
+		pathCooldown -= 5 * dt;
+	}
 
-	return true;
+	return false;
 }
 
 bool Wolf::ChaseTarget(float dt)
@@ -285,8 +293,7 @@ bool Wolf::ChaseTarget(float dt)
 	if (((position.x / app->map->data.tileWidth) == (pathWolf[indexPath].x)) /*&& ((position.y / app->map->data.tileHeight) == (pathWolf[indexPath].y))*/)
 	{
 		if (indexPath > 1)
-			indexPath--;
-
+			indexPath--;	
 		else
 			return true;
 	}
