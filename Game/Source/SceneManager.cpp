@@ -11,6 +11,7 @@
 #include "DeadScene.h"
 #include "WinScene.h"
 #include "FadeToBlack.h"
+#include "EnemyManager.h"
 
 
 #include "SDL/include/SDL_scancode.h"
@@ -68,6 +69,29 @@ bool SceneManager::Load(pugi::xml_node& node)
 	else if (count == 2)
 		savedScene = scene2;
 
+	ListItem<Enemy*>* item = app->enemyManager->enemies.start;
+	pugi::xml_node enemies = node.child("enemies");
+	pugi::xml_node wolf = enemies.child("wolf");
+	pugi::xml_node executioner = enemies.child("executioner");
+	while (item != nullptr)
+	{
+		if (item->data->name == "wolf")
+		{
+			if(item->data->isAlive)
+				item->data->Load(wolf);
+
+			wolf = wolf.next_sibling("wolf");
+		}
+		else if (item->data->name == "executioner")
+		{
+			if(item->data->isAlive)
+				item->data->Load(executioner);
+
+			executioner = executioner.next_sibling("executioner");
+		}
+		item = item->next;
+	}
+
 	return true;
 }
 
@@ -85,6 +109,17 @@ bool SceneManager::Save(pugi::xml_node& node)
 	}
 
 	node.append_child("active_scene").append_attribute("value").set_value(count);
+	
+	ListItem<Enemy*>* it = app->enemyManager->enemies.start;
+	pugi::xml_node enemies = node.append_child("enemies");
+	while (it != nullptr)
+	{
+		it->data->Save(enemies.append_child(it->data->name.GetString()));
+		it = it->next;
+	}
+
+	return true;
+
 
 	return true;
 }

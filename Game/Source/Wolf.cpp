@@ -136,7 +136,9 @@ bool Wolf::Start()
 	texture = app->enemyManager->wolfTexture;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
 	currentAnim = &walkRightAnim;
-	pathWolf.Clear();
+	path.Clear();
+
+	isAlive = true;
 
 	life = 60;
 	speedX = 100;
@@ -174,15 +176,6 @@ bool Wolf::Update(float dt)
 		}
 	}
 
-	if (this->life == 0)
-	{
-		if (currentAnim != &deathLeftAnim)
-		{
-			deathLeftAnim.Reset();
-			currentAnim = &deathLeftAnim;
-		}
-	}
-
 	if (this->life > 0)
 	{
 		// Enemy state machine
@@ -205,6 +198,15 @@ bool Wolf::Update(float dt)
 		}
 	}
 
+	if (this->life == 0)
+	{
+		if (currentAnim != &deathLeftAnim)
+		{
+			deathLeftAnim.Reset();
+			currentAnim = &deathLeftAnim;
+		}
+	}
+
 	HandleCollisions();
 
 	if (this->life <= 0)
@@ -218,6 +220,7 @@ bool Wolf::Update(float dt)
 
 bool Wolf::CleanUp()
 {
+	this->isAlive = false;
 	app->enemyManager->DeleteEnemy(this);
 
 	return true;
@@ -261,81 +264,76 @@ bool Wolf::Patrol(float dt)
 
 bool Wolf::FindTarget(Player* player, float dt)
 {
-	//if (pathCooldown <= 0)
-	//{
-		pathWolf.Clear();
-		app->pathFinding->ResetPath(iPoint(position.x / app->map->data.tileWidth, position.y / app->map->data.tileHeight));
-		app->pathFinding->PropagateAStar(player);
+	path.Clear();
+	app->pathFinding->ResetPath(iPoint(position.x / app->map->data.tileWidth, position.y / app->map->data.tileHeight));
+	app->pathFinding->PropagateAStar(player);
 
-		pathWolf = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
+	path = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
 
-		indexPath = pathWolf.Count() - 1;
-		//pathCooldown = 50;
+	indexPath = path.Count() - 1;
+	
 
-		return true;
-	//}
-	//else
-	//{
-	//	pathCooldown -= 5 * dt;
-	//}
+	return true;
 
-	return false;
 }
 
 bool Wolf::ChaseTarget(float dt)
 {
-	if (((position.x / app->map->data.tileWidth) == (pathWolf[indexPath].x)) /*&& ((position.y / app->map->data.tileHeight) == (pathWolf[indexPath].y))*/)
+	if (path.Count() > 0)
 	{
-		if (indexPath > 1)
-			indexPath--;	
+		if ((position.x / app->map->data.tileWidth) == (path[indexPath].x))
+		{
+			if (indexPath > 1)
+				indexPath--;
+			else
+				return true;
+		}
 		else
-			return true;
-	}
-	else
-	{
-		if (pathWolf[indexPath].y > position.y / app->map->data.tileHeight)
 		{
-			if(blockFall == false)
-				position.y += 4;
-		}
-
-		if (pathWolf[indexPath].y < position.y / app->map->data.tileHeight)
-		{
-			if (currentAnim != &jumpLeftAnim)
+			if (path[indexPath].y > position.y / app->map->data.tileHeight)
 			{
-				jumpLeftAnim.Reset();
-				currentAnim = &jumpLeftAnim;
+				if (blockFall == false)
+					position.y += 4;
 			}
 
-			if(blockFall == false)
-				position.y += 4;
-		}
-
-		if (pathWolf[indexPath].x > position.x / app->map->data.tileWidth)
-		{
-			if ((currentAnim != &runRightAnim) && (blockRight == false))
+			if (path[indexPath].y < position.y / app->map->data.tileHeight)
 			{
-				runRightAnim.Reset();
-				currentAnim = &runRightAnim;
+				if (currentAnim != &jumpLeftAnim)
+				{
+					jumpLeftAnim.Reset();
+					currentAnim = &jumpLeftAnim;
+				}
 
+				if (blockFall == false)
+					position.y += 4;
 			}
 
-			if (currentAnim != &deathRightAnim)
-				position.x += 300.0f * dt;
-
-		}
-
-		if (pathWolf[indexPath].x < position.x / app->map->data.tileWidth)
-		{
-			if ((currentAnim != &runLeftAnim) && (blockLeft == false))
+			if (path[indexPath].x > position.x / app->map->data.tileWidth)
 			{
-				runLeftAnim.Reset();
-				currentAnim = &runLeftAnim;
+				if ((currentAnim != &runRightAnim) && (blockRight == false))
+				{
+					runRightAnim.Reset();
+					currentAnim = &runRightAnim;
+
+				}
+
+				if (currentAnim != &deathRightAnim)
+					position.x += 300.0f * dt;
 
 			}
 
-			if(currentAnim != &deathLeftAnim)
-				position.x -= 300.0f * dt;
+			if (path[indexPath].x < position.x / app->map->data.tileWidth)
+			{
+				if ((currentAnim != &runLeftAnim) && (blockLeft == false))
+				{
+					runLeftAnim.Reset();
+					currentAnim = &runLeftAnim;
+
+				}
+
+				if (currentAnim != &deathLeftAnim)
+					position.x -= 300.0f * dt;
+			}
 		}
 	}
 
@@ -460,6 +458,7 @@ bool Wolf::Load(pugi::xml_node& node)
 {
 	position.x = node.child("position").attribute("x").as_int();
 	position.y = node.child("position").attribute("y").as_int();
+	currentState = (EnemyState)node.child("current_state").attribute("value").as_int();
 
 	return true;
 }
@@ -469,6 +468,9 @@ bool Wolf::Save(pugi::xml_node& node)
 	pugi::xml_node wolf = node.append_child("position");
 	wolf.append_attribute("x").set_value(position.x);
 	wolf.append_attribute("y").set_value(position.y);
+
+	pugi::xml_node state = node.append_child("current_state");
+	state.append_attribute("value").set_value((int)currentState);
 
 	return true;
 }

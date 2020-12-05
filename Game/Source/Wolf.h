@@ -61,7 +61,6 @@ private:
 
 
 	int indexPath;
-	DynArray<iPoint> pathWolf;
 
 	bool blockFall;
 	bool blockRight;

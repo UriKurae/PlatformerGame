@@ -55,7 +55,7 @@ private:
 	Wolf* wolf2;
 	Wolf* wolf3;
 	Wolf* wolf4;
-	Wolf* wolf5;
+
 
 	GreenGem* gem;
 

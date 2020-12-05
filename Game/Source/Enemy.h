@@ -77,6 +77,8 @@ public:
 	int damage;
 	int attackSpeed;
 
+	bool isAlive;
+
 	EnemyState currentState;
 	int pathCooldown;
 

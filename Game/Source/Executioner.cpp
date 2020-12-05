@@ -73,6 +73,8 @@ bool Executioner::Start()
 {
 	texture = app->enemyManager->executionerTexture;
 	
+	isAlive = true;
+
 	path.Clear();
 	currentAnim = &idleAnim;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
@@ -134,6 +136,7 @@ bool Executioner::Update(float dt)
 
 bool Executioner::CleanUp()
 {
+	this->isAlive = false;
 	app->enemyManager->DeleteEnemy(this);
 	path.Clear();
 
@@ -208,46 +211,48 @@ bool Executioner::FindTarget(Player* player, float dt)
 
 bool Executioner::ChaseTarget(float dt)
 {	
-	if (((position.x / app->map->data.tileWidth) == (path[indexPath].x)) && ((position.y / app->map->data.tileHeight) == (path[indexPath].y)))
+	if (path.Count() > 0)
 	{
-		if (indexPath > 1)
+		if (((position.x / app->map->data.tileWidth) == (path[indexPath].x)) && ((position.y / app->map->data.tileHeight) == (path[indexPath].y)))
 		{
-			indexPath--;
+			if (indexPath > 1)
+			{
+				indexPath--;
+			}
+			else
+			{
+				if (currentAnim != &skillAnim)
+				{
+					skillAnim.Reset();
+					currentAnim = &skillAnim;
+				}
+				return true;
+			}
 		}
 		else
 		{
-			if (currentAnim != &skillAnim)
+			if (path[indexPath].y > position.y / app->map->data.tileHeight)
 			{
-				skillAnim.Reset();
-				currentAnim = &skillAnim;
+				position.y += 4;
 			}
-			return true;
+
+			if (path[indexPath].y < position.y / app->map->data.tileHeight)
+			{
+				position.y -= 4;
+			}
+
+			if (path[indexPath].x > position.x / app->map->data.tileWidth)
+			{
+				position.x += 4;
+			}
+
+			if (path[indexPath].x < position.x / app->map->data.tileWidth)
+			{
+				position.x -= 4;
+			}
+
 		}
 	}
-	else
-	{
-		if (path[indexPath].y > position.y / app->map->data.tileHeight)
-		{
-			position.y += 4;
-		}
-
-		if (path[indexPath].y < position.y / app->map->data.tileHeight)
-		{
-			position.y -= 4;
-		}
-
-		if (path[indexPath].x > position.x / app->map->data.tileWidth)
-		{
-			position.x += 4;
-		}
-
-		if (path[indexPath].x < position.x / app->map->data.tileWidth)
-		{
-			position.x -= 4;
-		}
-
-	}
-
 	
 	return false;
 }
@@ -259,7 +264,7 @@ bool Executioner::Patrol(float dt)
 	int vec1 = app->player->GetPosition().x - position.x;
 	int vec2 = app->player->GetPosition().y - position.y;
 
-	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 50)
+	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 200)
 		return true;
 
 
@@ -271,15 +276,20 @@ bool Executioner::Load(pugi::xml_node& node)
 {
 	position.x = node.child("position").attribute("x").as_int();
 	position.y = node.child("position").attribute("y").as_int();
+	currentState = (EnemyState)node.child("current_state").attribute("value").as_int();
+
 
 	return true;
 }
 
 bool Executioner::Save(pugi::xml_node& node)
 {
-	pugi::xml_node executioner = node.append_child("position");
-	executioner.append_attribute("x").set_value(position.x);
-	executioner.append_attribute("y").set_value(position.y);
+	pugi::xml_node pos = node.append_child("position");
+	pos.append_attribute("x").set_value(position.x);
+	pos.append_attribute("y").set_value(position.y);
+	
+	pugi::xml_node state = node.append_child("current_state");
+	state.append_attribute("value").set_value((int)currentState);
 
 	return true;
 }
@@ -316,14 +326,14 @@ void Executioner::HandleCollisions()
 			uint playerIdBottomRight = layer->data->Get(playerPosBottomRight.x, playerPosBottomRight.y);
 			uint playerIdBottomLeft = layer->data->Get(playerPosBottomLeft.x, playerPosBottomLeft.y);
 
-			if (playerIdRight == 1164)
+			if (playerIdRight == 1163)
 			{
 				position.x -= 5;
 				speedX = -speedX;
 				currentState = EnemyState::PATROL;
 			}
 
-			if (playerIdLeft == 1164)
+			if (playerIdLeft == 1163)
 			{
 				position.x += 5;
 				speedX = -speedX;

@@ -105,26 +105,27 @@ void EnemyManager::DeleteColliders()
 
 bool EnemyManager::Save(pugi::xml_node& node)
 {
-	ListItem<Enemy*>* item = enemies.start;
-	pugi::xml_node enemies = node.append_child("enemies");
-	while (item != nullptr)
-	{
-		item->data->Save(enemies.append_child(item->data->name.GetString()));
-		item = item->next;
-	}
+	//ListItem<Enemy*>* item = enemies.start;
+	//pugi::xml_node enemies = node.append_child("enemies");
+	//while (item != nullptr)
+	//{
+	//	item->data->Save(enemies.append_child(item->data->name.GetString()));
+	//	item = item->next;
+	//}
 
+	//return true;
 	return true;
 }
 
 bool EnemyManager::Load(pugi::xml_node& node)
 {
-	ListItem<Enemy*>* item = enemies.start;
+	/*ListItem<Enemy*>* item = enemies.start;
 	pugi::xml_node enemies = node.child("enemies");
 	while (item != nullptr)
 	{
 		item->data->Load(enemies.child(item->data->name.GetString()));
 		item = item->next;
-	}
+	}*/
 
 	return true;
 }

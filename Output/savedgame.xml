@@ -8,39 +8,42 @@
   </audio>
   <map />
   <itemmanager />
-  <enemymanager>
-    <enemies>
-      <executioner>
-        <position x="591" y="100" />
-      </executioner>
-      <executioner>
-        <position x="791" y="100" />
-      </executioner>
-      <executioner>
-        <position x="2000" y="180" />
-      </executioner>
-      <wolf>
-        <position x="338" y="250" />
-      </wolf>
-      <wolf>
-        <position x="334" y="250" />
-      </wolf>
-      <wolf>
-        <position x="761" y="260" />
-      </wolf>
-      <wolf>
-        <position x="2397" y="260" />
-      </wolf>
-      <wolf>
-        <position x="3597" y="420" />
-      </wolf>
-    </enemies>
-  </enemymanager>
+  <enemymanager />
   <scenemanager>
     <active_scene value="1" />
+    <enemies>
+      <executioner>
+        <position x="543" y="256" />
+        <current_state value="1" />
+      </executioner>
+      <executioner>
+        <position x="638" y="248" />
+        <current_state value="2" />
+      </executioner>
+      <executioner>
+        <position x="2488" y="180" />
+        <current_state value="0" />
+      </executioner>
+      <wolf>
+        <position x="518" y="250" />
+        <current_state value="1" />
+      </wolf>
+      <wolf>
+        <position x="621" y="264" />
+        <current_state value="1" />
+      </wolf>
+      <wolf>
+        <position x="2584" y="260" />
+        <current_state value="0" />
+      </wolf>
+      <wolf>
+        <position x="3598" y="420" />
+        <current_state value="0" />
+      </wolf>
+    </enemies>
   </scenemanager>
   <player>
-    <position x="362" y="245" />
+    <position x="509" y="245" />
   </player>
   <pathfinding />
   <collisions />

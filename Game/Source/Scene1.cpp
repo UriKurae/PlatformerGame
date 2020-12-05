@@ -20,8 +20,6 @@
 Scene1::Scene1()
 {
 	name.Create("scene1");
-
-
 }
 
 Scene1::~Scene1()
@@ -53,20 +51,17 @@ bool Scene1::Start()
 		executioner3 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(2096, 180));
 		executioner3->Start();
 
-		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(350, 250));
+		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(400, 250));
 		wolf->Start();
 
-		wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(400, 250));
+		wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(650, 260));
 		wolf2->Start();
 
-		wolf3 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(650, 260));
+		wolf3 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(2496, 260));
 		wolf3->Start();
 
-		wolf4 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(2496, 260));
+		wolf4 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(3552, 420));
 		wolf4->Start();
-
-		wolf5 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(3552, 420));
-		wolf5->Start();
 
 
 		// Items instantiation
