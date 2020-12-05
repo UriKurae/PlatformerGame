@@ -4,6 +4,9 @@
 #include "Animation.h"
 #include "Collider.h"
 #include "SString.h"
+#include "DynArray.h"
+#include "List.h"
+#include "PQueue.h"
 
 #include "SDL_image/include/SDL_image.h"
 #include "PugiXml/src/pugixml.hpp"
@@ -81,4 +84,7 @@ public:
 	Animation* currentAnim;
 	Collider* collider;
 
+	DynArray<iPoint> path;
+	List<iPoint> visitedPath;
+	PQueue<iPoint> frontierPath;
 };

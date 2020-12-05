@@ -67,12 +67,12 @@ void PathFinding::ResetPath(iPoint start)
 	memset(costSoFar, 0, sizeof(uint) * COST_MAP_SIZE * COST_MAP_SIZE);
 }
 
-void PathFinding::DrawPath()
+void PathFinding::DrawPath(DynArray<iPoint> &pathToDraw, List<iPoint> &visitedPath)
 {
 	iPoint point;
 
 	// Draw visited
-	ListItem<iPoint>* item = visited.start;
+	ListItem<iPoint>* item = visitedPath.start;
 
 	while (item)
 	{
@@ -100,9 +100,9 @@ void PathFinding::DrawPath()
 	}
 
 	// Draw path
-	for (uint i = 0; i < path.Count(); ++i)
+	for (uint i = 0; i < pathToDraw.Count(); ++i)
 	{
-		iPoint pos = app->map->MapToWorld(path[i].x, path[i].y);
+		iPoint pos = app->map->MapToWorld(pathToDraw[i].x, pathToDraw[i].y);
 		app->render->DrawTexture(tileX, pos.x, pos.y);
 	}
 }
@@ -238,7 +238,7 @@ void PathFinding::PropagateDijkstra()
 
 }
 
-void PathFinding::PropagateAStar(Player* player)
+List<iPoint>* PathFinding::PropagateAStar(Player* player)
 {
 	iPoint curr;
 	goalAStar = app->map->WorldToMap(player->GetPosition().x, player->GetPosition().y);
@@ -253,7 +253,7 @@ void PathFinding::PropagateAStar(Player* player)
 
 		//This works if the pathFinding is a while, it's used for early exit when we find the objective.
 		if (curr == goalAStar)
-			break;
+			return &visited;
 
 		for (uint i = 0; i < 4; ++i)
 		{

@@ -8,6 +8,7 @@
 #include "Map.h"
 #include "Pathfinding.h"
 #include "Input.h"
+#include "Log.h"
 
 Wolf::Wolf(iPoint pos) : Enemy(pos)
 {
@@ -135,7 +136,8 @@ bool Wolf::Start()
 	texture = app->enemyManager->wolfTexture;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
 	currentAnim = &idleLeftAnim;
-	
+	pathWolf.Clear();
+
 	life = 60;
 	speedX = 100;
 	speedY = 10;
@@ -154,12 +156,14 @@ bool Wolf::Update(float dt)
 	deathLeftAnim.speed = 1.0f * dt;
 	runLeftAnim.speed = 8.0f * dt;
 	jumpLeftAnim.speed = 4.50f * dt;
-
+	walkLeftAnim.speed = 10.0f * dt;
+	
 	idleRightAnim.speed = 4.50f * dt;
 	hurtRightAnim.speed = 10.0f * dt;
 	deathRightAnim.speed = 1.0f * dt;
 	runRightAnim.speed = 8.0f * dt;
 	jumpRightAnim.speed = 4.50f * dt;
+	walkRightAnim.speed = 10.0f * dt;
 
 	if ((currentAnim != &idleLeftAnim) && (life > 0))
 	{
@@ -186,9 +190,6 @@ bool Wolf::Update(float dt)
 	// Enemy state machine
 	if (currentState == EnemyState::PATROL)
 	{
-		if(blockFall == true)
-			//position.x += speedX * dt;
-
 		if (Patrol(dt))
 			currentState = EnemyState::ALERT;
 	}
@@ -202,9 +203,10 @@ bool Wolf::Update(float dt)
 	else if (currentState == EnemyState::ATTACK)
 	{
 		if (ChaseTarget(dt))
-		{
+		{	
 			currentState = EnemyState::PATROL;
 		}
+
 	}
 
 	HandleCollisions();
@@ -250,19 +252,13 @@ void Wolf::EnemyDies()
 
 bool Wolf::Patrol(float dt)
 {
-	if (position.x < 80)
-	{
-		speedX = -speedX;
-	}
-	if (position.x > 880)
-	{
-		speedX = -speedX;
-	}
+	position.x += speedX * dt;
+	
 
 	int vec1 = app->player->GetPosition().x - position.x;
 	int vec2 = app->player->GetPosition().y - position.y;
 
-	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 200)
+	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 50)
 		return true;
 
 
@@ -311,7 +307,7 @@ bool Wolf::ChaseTarget(float dt)
 			}
 
 			if(blockFall == false)
-				position.y += 2;
+				position.y += 4;
 		}
 
 		if (pathWolf[indexPath].x > position.x / app->map->data.tileWidth)
@@ -321,8 +317,8 @@ bool Wolf::ChaseTarget(float dt)
 				runRightAnim.Reset();
 				currentAnim = &runRightAnim;
 
-				position.x += speedX * dt;
 			}
+			position.x += 300.0f * dt;
 
 		}
 
@@ -333,8 +329,8 @@ bool Wolf::ChaseTarget(float dt)
 				runLeftAnim.Reset();
 				currentAnim = &runLeftAnim;
 
-				position.x -= 1;
 			}				
+			position.x -= 300.0f * dt;
 		}
 
 	}
@@ -350,8 +346,8 @@ void Wolf::HandleCollisions()
 	iPoint playerPosTop = app->map->WorldToMap(position.x + 2, position.y - 3);
 	iPoint playerPosBottom = app->map->WorldToMap(position.x + collider->rect.w / 2, position.y + collider->rect.h);
 
-	iPoint playerPosRight = app->map->WorldToMap(position.x + collider->rect.w, position.y + collider->rect.h / 2);
-	iPoint playerPosLeft = app->map->WorldToMap(position.x - 3, position.y + collider->rect.h / 2);
+	iPoint playerPosRight = app->map->WorldToMap(position.x + collider->rect.w + 10, position.y + collider->rect.h / 2);
+	iPoint playerPosLeft = app->map->WorldToMap(position.x - 10, position.y + collider->rect.h / 2);
 
 	iPoint playerPosTopRight = app->map->WorldToMap(position.x + collider->rect.w, position.y - 3);
 	iPoint playerPosTopLeft = app->map->WorldToMap(position.x - 3, position.y - 3);
@@ -420,6 +416,32 @@ void Wolf::HandleCollisions()
 			else
 			{
 				blockLeft = false;
+			}
+
+			if (playerIdRight == 1164)
+			{
+				position.x -= 5;
+ 				speedX = -speedX;
+				if (currentAnim != &walkLeftAnim)
+				{
+					walkLeftAnim.Reset();
+					currentAnim = &walkLeftAnim;
+				}
+				currentState = EnemyState::PATROL;
+				LOG("Cambiando position a la izquierda");
+			}
+
+			if (playerIdLeft == 1164)
+			{
+				position.x += 5;
+				speedX = -speedX;
+				if (currentAnim != &walkRightAnim)
+				{
+					walkRightAnim.Reset();
+					currentAnim = &walkRightAnim;
+				}
+				currentState = EnemyState::PATROL;
+				LOG("Cambiando position a la derecha");
 			}
 
 			break;

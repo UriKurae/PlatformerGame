@@ -73,6 +73,8 @@ bool Executioner::Start()
 {
 	texture = app->enemyManager->executionerTexture;
 	
+	path.Clear();
+	visitedPath.Clear();
 	currentAnim = &idleAnim;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
 	
@@ -128,8 +130,6 @@ bool Executioner::Update(float dt)
 		}
 	}
 
-
-
 	if (this->life <= 0)
 		this->EnemyDies();
 
@@ -140,7 +140,7 @@ bool Executioner::Update(float dt)
 bool Executioner::CleanUp()
 {
 	app->enemyManager->DeleteEnemy(this);
-	pathExecutioner.Clear();
+	path.Clear();
 	app->tex->UnLoad(texture);
 
 	return true;
@@ -181,7 +181,9 @@ void Executioner::Draw()
 	{
 		app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
 	}
-	//app->pathFinding->DrawPath();
+	
+	app->pathFinding->DrawPath(path, visitedPath);
+	
 }
 
 bool Executioner::FindTarget(Player* player, float dt)
@@ -189,14 +191,15 @@ bool Executioner::FindTarget(Player* player, float dt)
 
 	if (pathCooldown <= 0)
 	{
-		pathExecutioner.Clear();
+		path.Clear();
+		visitedPath.Clear();
 
 		app->pathFinding->ResetPath(iPoint(position.x / app->map->data.tileWidth, position.y / app->map->data.tileHeight));
-		app->pathFinding->PropagateAStar(player);
+		visitedPath = *(app->pathFinding->PropagateAStar(player));
 
-		pathExecutioner = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
+		path = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
 
-		indexPath = pathExecutioner.Count() - 1;
+		indexPath = path.Count() - 1;
 		pathCooldown = 50;
 
 		return true;
@@ -212,7 +215,7 @@ bool Executioner::FindTarget(Player* player, float dt)
 
 bool Executioner::ChaseTarget(float dt)
 {	
-	if (((position.x / app->map->data.tileWidth) == (pathExecutioner[indexPath].x)) && ((position.y / app->map->data.tileHeight) == (pathExecutioner[indexPath].y)))
+	if (((position.x / app->map->data.tileWidth) == (path[indexPath].x)) && ((position.y / app->map->data.tileHeight) == (path[indexPath].y)))
 	{
 		if (indexPath > 1)
 		{
@@ -230,22 +233,22 @@ bool Executioner::ChaseTarget(float dt)
 	}
 	else
 	{
-		if (pathExecutioner[indexPath].y > position.y / app->map->data.tileHeight)
+		if (path[indexPath].y > position.y / app->map->data.tileHeight)
 		{
 			position.y += 4;
 		}
 
-		if (pathExecutioner[indexPath].y < position.y / app->map->data.tileHeight)
+		if (path[indexPath].y < position.y / app->map->data.tileHeight)
 		{
 			position.y -= 4;
 		}
 
-		if (pathExecutioner[indexPath].x > position.x / app->map->data.tileWidth)
+		if (path[indexPath].x > position.x / app->map->data.tileWidth)
 		{
 			position.x += 4;
 		}
 
-		if (pathExecutioner[indexPath].x < position.x / app->map->data.tileWidth)
+		if (path[indexPath].x < position.x / app->map->data.tileWidth)
 		{
 			position.x -= 4;
 		}
@@ -258,7 +261,7 @@ bool Executioner::ChaseTarget(float dt)
 
 bool Executioner::Patrol(float dt)
 {
-	if (position.x < 80)
+	if (position.x < 200)
 	{
 		speedX = -speedX;
 	}
@@ -270,7 +273,7 @@ bool Executioner::Patrol(float dt)
 	int vec1 = app->player->GetPosition().x - position.x;
 	int vec2 = app->player->GetPosition().y - position.y;
 
-	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 200)
+	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 50)
 		return true;
 
 
