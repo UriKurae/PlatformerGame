@@ -47,9 +47,6 @@ bool DeadScene::Draw()
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
-
 	app->render->DrawTexture(deadTexture, 0, 0, NULL);
 
 	return ret;

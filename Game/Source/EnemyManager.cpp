@@ -99,7 +99,6 @@ void EnemyManager::DeleteColliders()
 	while (item != nullptr)
 	{
 		item->data->collider->pendingToDelete = true;
-
 		item = item->next;
 	}
 

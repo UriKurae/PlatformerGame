@@ -83,6 +83,7 @@ bool Scene1::Update(float dt)
 	else if (CheckWin() == 2)
 	{
 		app->fade->Fade(this, (Scene*)app->sceneManager->deadScene, 1 / dt);
+		app->player->Disable();
 		app->sceneManager->lastScene = this;
 	}
 
@@ -151,8 +152,10 @@ bool Scene1::CleanUp()
 
 	app->player->Disable();
 
+	app->enemyManager->DeleteColliders();
 	app->enemyManager->enemies.Clear();
 	
+	app->itemManager->DeleteColliders();
 	app->itemManager->items.Clear();
 
 	return true;

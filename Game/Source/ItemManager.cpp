@@ -109,3 +109,17 @@ void ItemManager::DeleteItem(Item* item)
 		it = it->next;
 	}
 }
+
+void ItemManager::DeleteColliders()
+{
+	ListItem<Item*>* it = items.start;
+
+	while (it != nullptr)
+	{
+		it->data->collider->pendingToDelete = true;
+
+		it = it->next;
+	}
+
+
+}

@@ -26,6 +26,8 @@ public:
 
 	void DeleteItem(Item* item);
 
+	void DeleteColliders();
+
 public:
 	SDL_Texture* texture;
 	List<Item*> items;
