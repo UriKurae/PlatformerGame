@@ -28,7 +28,7 @@ void Enemy::Draw()
 	}
 }
 
-bool Enemy::FindTarget(Player* player)
+bool Enemy::FindTarget(Player* player, float dt)
 {
 	return true;
 }
@@ -49,6 +49,10 @@ void Enemy::EnemyDies()
 bool Enemy::Patrol(float dt)
 {
 	return true;
+}
+
+void Enemy::PushBacks()
+{
 }
 
 bool Enemy::CleanUp()

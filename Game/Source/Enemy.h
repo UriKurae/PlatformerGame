@@ -41,7 +41,7 @@ public:
 
 	virtual bool CleanUp();
 	
-	virtual bool FindTarget(Player* player);
+	virtual bool FindTarget(Player* player, float dt);
 
 	virtual bool ChaseTarget();
 
@@ -50,6 +50,8 @@ public:
 	virtual void EnemyDies();
 
 	virtual bool Patrol(float dt);
+
+	virtual void PushBacks();
 
 	// Load and save functions for each enemy
 	virtual bool Load(pugi::xml_node&)
@@ -71,6 +73,7 @@ public:
 	int attackSpeed;
 
 	EnemyState currentState;
+	int pathCooldown;
 
 	SDL_Texture* texture;
 	Animation* currentAnim;

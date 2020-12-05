@@ -25,9 +25,11 @@ public:
 
 	void EnemyDies() override;
 	
-	bool FindTarget(Player* player) override;
+	bool FindTarget(Player* player, float dt) override;
 
 	bool ChaseTarget() override;
+
+	void PushBacks() override;
 
 	bool Load(pugi::xml_node&) override;
 	bool Save(pugi::xml_node&) override;
@@ -35,12 +37,19 @@ public:
 
 private:
 
-	Animation hurtAnim;
-	Animation idleAnim;
-	Animation runAnim;
-	Animation walkAnim;
-	Animation deathAnim;
-	Animation jumpAnim;
+	Animation hurtLeftAnim;
+	Animation idleLeftAnim;
+	Animation runLeftAnim;
+	Animation walkLeftAnim;
+	Animation deathLeftAnim;
+	Animation jumpLeftAnim;
+
+	Animation hurtRightAnim;
+	Animation idleRightAnim;
+	Animation runRightAnim;
+	Animation walkRightAnim;
+	Animation deathRightAnim;
+	Animation jumpRightAnim;
 
 
 	int indexPath;
