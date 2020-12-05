@@ -122,8 +122,8 @@ public:
 	// Destroy and free all mem
 	void Clear()
 	{
-		ListItem<tdata>*   p_data;
-		ListItem<tdata>*   p_next;
+		ListItem<tdata>*	p_data;
+		ListItem<tdata>*	p_next;
 		p_data = start;
 
 		while(p_data != NULL)
@@ -165,7 +165,7 @@ public:
 	const tdata& operator [](const unsigned int index) const
 	{
 		long				  pos;
-		ListItem<tdata>*   p_item;
+		ListItem<tdata>*	p_item;
 		pos = 0;
 		p_item = start;
 
@@ -190,7 +190,7 @@ public:
 	*/
 	const List<tdata>& operator +=(const List<tdata>& other_list)
 	{
-		ListItem<tdata>*   p_item = other_list.start;
+		ListItem<tdata>*	p_item = other_list.start;
 
 		while(p_item != NULL)
 		{
@@ -207,7 +207,7 @@ public:
 	const ListItem<tdata>* At(unsigned int index) const
 	{
 		long				  pos = 0;
-		ListItem<tdata>*   p_item = start;
+		ListItem<tdata>*	p_item = start;
 
 		while(p_item != NULL)
 		{
@@ -226,7 +226,7 @@ public:
 	ListItem<tdata>* At(unsigned int index)
 	{
 		long				  pos = 0;
-		ListItem<tdata>*   p_item = start;
+		ListItem<tdata>*	p_item = start;
 
 		while(p_item != NULL)
 		{

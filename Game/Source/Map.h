@@ -129,7 +129,7 @@ public:
 
 private:
 
-   // Methods for loading the maps
+	// Methods for loading the maps
 	
 	bool LoadMap();
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);

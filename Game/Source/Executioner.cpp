@@ -98,7 +98,7 @@ bool Executioner::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 		app->pathFinding->ResetPath(iPoint(position.x / 16, position.y / 16));
 
-   
+	
 	if ((currentAnim != &idleAnim) && (hurtAnim.HasFinished()) && (this->life > 0))
 		currentAnim = &idleAnim;
 
@@ -277,6 +277,7 @@ bool Executioner::Load(pugi::xml_node& node)
 	position.x = node.child("position").attribute("x").as_int();
 	position.y = node.child("position").attribute("y").as_int();
 	currentState = (EnemyState)node.child("current_state").attribute("value").as_int();
+
 
 
 	return true;

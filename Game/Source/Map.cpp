@@ -248,7 +248,7 @@ bool Map::Load(const char* filename)
 			LOG("Firstgid: %d", tileset.attribute("firstgid").as_int());
 			LOG("Tile count: %d; Columns: %d", tileset.attribute("tilecount").as_int(), tileset.attribute("columns").as_int());
 		}
-	   
+		
 		LOG("Layers Info -----------------------");
 
 		for (layer = mapFile.child("map").child("layer"); layer; layer = layer.next_sibling("layer"))
