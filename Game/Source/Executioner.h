@@ -38,8 +38,6 @@ public:
 
 private:
 
-	int speedX;
-
 	Animation idleAnim;
 	Animation skillAnim;
 	Animation deathAnim;

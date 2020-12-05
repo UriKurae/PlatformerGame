@@ -91,7 +91,6 @@ bool Executioner::Update(float dt)
 	hurtAnim.speed = 15.0f * dt;
 	deathAnim.speed = 6.0f * dt;
 
-	position.x += speedX * dt;
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 	{
@@ -110,6 +109,8 @@ bool Executioner::Update(float dt)
 
 	if (currentState == EnemyState::PATROL)
 	{
+		position.x += speedX * dt;
+
 		if (Patrol(dt))
 			currentState = EnemyState::ALERT;
 	}
@@ -120,7 +121,11 @@ bool Executioner::Update(float dt)
 	}
 	else if (currentState == EnemyState::ATTACK)
 	{
-		ChaseTarget();
+		if (ChaseTarget())
+		{
+			position.x = 880;
+			currentState = EnemyState::PATROL;
+		}
 	}
 
 
@@ -175,7 +180,7 @@ void Executioner::Draw()
 	{
 		app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
 	}
-	app->pathFinding->DrawPath();
+	//app->pathFinding->DrawPath();
 }
 
 bool Executioner::FindTarget(Player* player)
@@ -203,6 +208,10 @@ bool Executioner::ChaseTarget()
 		{
 			indexPath--;
 		}
+		else
+		{
+			return true;
+		}
 	}
 	else
 	{
@@ -229,7 +238,7 @@ bool Executioner::ChaseTarget()
 	}
 
 	
-	return true;
+	return false;
 }
 
 bool Executioner::Patrol(float dt)

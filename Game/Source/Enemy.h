@@ -65,6 +65,7 @@ public:
 	SString name;
 
 	iPoint position;
+	int speedX;
 	int life;
 	int damage;
 	int attackSpeed;

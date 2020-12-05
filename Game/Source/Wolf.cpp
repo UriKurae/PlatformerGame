@@ -76,6 +76,7 @@ bool Wolf::Start()
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
 	currentAnim = &idleAnim;
 	life = 60;
+	speedX = 200;
 
 	return true;
 }
@@ -112,15 +113,25 @@ bool Wolf::Update(float dt)
 
 	if (life <= 0)
 		EnemyDies();
-
-	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if (currentState == EnemyState::PATROL)
 	{
-		FindTarget(app->player);
+		position.x += speedX * dt;
+
+		if (Patrol(dt))
+			currentState = EnemyState::ALERT;
 	}
-
-	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT)
+	else if (currentState == EnemyState::ALERT)
 	{
-		ChaseTarget();
+		if (FindTarget(app->player))
+			currentState = EnemyState::ATTACK;
+	}
+	else if (currentState == EnemyState::ATTACK)
+	{
+		if (ChaseTarget())
+		{
+			position.x = 880;
+			currentState = EnemyState::PATROL;
+		}
 	}
 
 	return true;
@@ -182,6 +193,10 @@ bool Wolf::ChaseTarget()
 		{
 			indexPath--;
 		}
+		else
+		{
+			return true;
+		}
 	}
 	else
 	{
@@ -214,7 +229,7 @@ bool Wolf::ChaseTarget()
 	}
 
 
-	return true;
+	return false;
 }
 
 bool Wolf::Load(pugi::xml_node& node)
