@@ -28,7 +28,6 @@ public:
 
 public:
 	SDL_Texture* texture;
-
-private:
 	List<Item*> items;
+
 };

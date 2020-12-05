@@ -218,6 +218,7 @@ bool Wolf::Update(float dt)
 bool Wolf::CleanUp()
 {
 	app->enemyManager->DeleteEnemy(this);
+	app->tex->UnLoad(texture);
 
 	return true;
 }
@@ -247,6 +248,27 @@ void Wolf::EnemyDies()
 	}
 }
 
+bool Wolf::Patrol(float dt)
+{
+	if (position.x < 80)
+	{
+		speedX = -speedX;
+	}
+	if (position.x > 880)
+	{
+		speedX = -speedX;
+	}
+
+	int vec1 = app->player->GetPosition().x - position.x;
+	int vec2 = app->player->GetPosition().y - position.y;
+
+	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 200)
+		return true;
+
+
+	return false;
+
+}
 
 bool Wolf::FindTarget(Player* player, float dt)
 {

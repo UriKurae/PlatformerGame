@@ -10,9 +10,9 @@ class Wolf : public Enemy
 public:
 	
 	Wolf(iPoint pos);
-	
-	virtual ~Wolf() {};
 
+	virtual ~Wolf() {};
+	
 	bool Start();
 
 	bool Update(float dt) override;
@@ -29,7 +29,11 @@ public:
 	
 	bool FindTarget(Player* player, float dt) override;
 
+
 	bool ChaseTarget(float dt) override;
+
+	bool Patrol(float dt) override;
+
 
 	void HandleCollisions() override;
 

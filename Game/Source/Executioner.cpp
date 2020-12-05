@@ -141,6 +141,7 @@ bool Executioner::CleanUp()
 {
 	app->enemyManager->DeleteEnemy(this);
 	pathExecutioner.Clear();
+	app->tex->UnLoad(texture);
 
 	return true;
 }

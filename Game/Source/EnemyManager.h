@@ -24,6 +24,7 @@ public:
 
 	Enemy* AddEnemy(EnemyType type, iPoint pos);
 	void DeleteEnemy(Enemy* enemy);
+	void DeleteColliders();
 
 
 	bool Save(pugi::xml_node&) override;

@@ -7,7 +7,10 @@ class Executioner : public Enemy
 {
 public:
 	Executioner(iPoint pos);
-	virtual ~Executioner() {};
+	virtual ~Executioner() 
+	{
+	
+	};
 
 	bool Start();
 

@@ -248,6 +248,7 @@ bool Player::CleanUp()
 {
 	app->tex->UnLoad(texture);
 	app->tex->UnLoad(healthTexture);
+	app->tex->UnLoad(gemsTexture);
 
 	collider->pendingToDelete = true;
 

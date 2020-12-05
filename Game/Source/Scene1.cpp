@@ -151,11 +151,9 @@ bool Scene1::CleanUp()
 
 	app->player->Disable();
 
-	wolf->CleanUp();
-	RELEASE(wolf);
-
-	executioner->CleanUp();
-	RELEASE(executioner);
+	app->enemyManager->enemies.Clear();
+	
+	app->itemManager->items.Clear();
 
 	return true;
 }

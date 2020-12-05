@@ -4,6 +4,7 @@
 #include "Executioner.h"
 #include "Wolf.h"
 #include "Ghost.h"
+#include "Collisions.h"
 
 
 EnemyManager::EnemyManager(): Module()
@@ -76,17 +77,33 @@ void EnemyManager::DeleteEnemy(Enemy* enemy)
 {
 	ListItem<Enemy*>* item = enemies.start;
 	
+	DeleteColliders();
+
 	while (item != nullptr)
 	{
 		if (enemy == item->data)
 		{
-			item->data->collider->pendingToDelete = true;
+			//item->data->collider->pendingToDelete = true;
 			enemies.Del(item);
 			break;
 		}
 
 		item = item->next;
 	}
+}
+
+void EnemyManager::DeleteColliders()
+{
+	ListItem<Enemy*>* item = enemies.start;
+
+	while (item != nullptr)
+	{
+		item->data->collider->pendingToDelete = true;
+
+		item = item->next;
+	}
+
+
 }
 
 bool EnemyManager::Save(pugi::xml_node& node)
