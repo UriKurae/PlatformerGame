@@ -6,28 +6,29 @@
   <audio>
     <music_volume value="15" />
   </audio>
+  <map />
+  <itemmanager />
   <enemymanager>
     <enemies>
       <executioner>
-        <position x="400" y="100" />
+        <position x="665" y="100" />
       </executioner>
       <wolf>
-        <position x="350" y="250" />
+        <position x="306" y="250" />
       </wolf>
       <wolf>
-        <position x="450" y="250" />
+        <position x="402" y="250" />
       </wolf>
       <executioner>
-        <position x="600" y="100" />
+        <position x="865" y="100" />
       </executioner>
     </enemies>
   </enemymanager>
   <scenemanager>
     <active_scene value="1" />
   </scenemanager>
-  <map />
   <player>
-    <position x="331" y="245" />
+    <position x="402" y="242" />
   </player>
   <pathfinding />
   <collisions />

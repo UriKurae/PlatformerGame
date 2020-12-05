@@ -13,218 +13,6 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 {
 	name.Create("wolf");
 
-	PushBacks();
-
-}
-
-bool Wolf::Start()
-{
-	texture = app->enemyManager->wolfTexture;
-	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
-	currentAnim = &idleLeftAnim;
-	life = 60;
-	speedX = 200;
-
-	return true;
-}
-
-bool Wolf::Update(float dt)
-{
-	idleLeftAnim.speed = 4.50f * dt;
-	hurtLeftAnim.speed = 10.0f * dt;
-	deathLeftAnim.speed = 1.0f * dt;
-	runLeftAnim.speed = 8.0f * dt;
-	jumpLeftAnim.speed = 4.50f * dt;
-
-	idleRightAnim.speed = 4.50f * dt;
-	hurtRightAnim.speed = 10.0f * dt;
-	deathRightAnim.speed = 1.0f * dt;
-	runRightAnim.speed = 8.0f * dt;
-	jumpRightAnim.speed = 4.50f * dt;
-
-	if ((currentAnim != &idleLeftAnim) && (life > 0))
-	{
-		if ((hurtLeftAnim.IsPlaying() == false))
-		{
-			idleLeftAnim.Reset();
-			currentAnim = &idleLeftAnim;
-		}
-
-	}
-
-	if (life == 0)
-	{
-		if (currentAnim != &deathLeftAnim)
-		{
-			deathLeftAnim.Reset();
-			currentAnim = &deathLeftAnim;
-		}
-	}
-
-	collider->SetPos(position.x, position.y);
-	currentAnim->Update();
-
-	if (life <= 0)
-		EnemyDies();
-	if (currentState == EnemyState::PATROL)
-	{
-		position.x += speedX * dt;
-
-		if (Patrol(dt))
-			currentState = EnemyState::ALERT;
-	}
-	else if (currentState == EnemyState::ALERT)
-	{
-		if (FindTarget(app->player, dt))
-			currentState = EnemyState::ATTACK;
-	}
-	else if (currentState == EnemyState::ATTACK)
-	{
-		if (ChaseTarget())
-		{
-			currentState = EnemyState::PATROL;
-		}
-	}
-
-	return true;
-}
-
-bool Wolf::CleanUp()
-{
-	app->enemyManager->DeleteEnemy(this);
-
-	return true;
-}
-
-void Wolf::TakeDamage(int damage)
-{
-	life -= damage;	
-
-	if ((currentAnim != &hurtLeftAnim) && (life > 0))
-	{
-		hurtLeftAnim.Reset();
-		currentAnim = &hurtLeftAnim;
-	}
-}
-
-void Wolf::EnemyDies()
-{
-	if (currentAnim != &deathLeftAnim)
-	{
-		deathLeftAnim.Reset();
-		currentAnim = &deathLeftAnim;
-	}
-
-	if (deathLeftAnim.HasFinished())
-	{
-		this->CleanUp();
-	}
-
-}
-
-
-bool Wolf::FindTarget(Player* player, float dt)
-{
-	pathWolf.Clear();
-	app->pathFinding->ResetPath(iPoint(position.x / 16, position.y / 16));
-	app->pathFinding->PropagateAStar(player);
-
-	pathWolf = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
-
-	indexPath = pathWolf.Count() - 1;
-
-
-	return true;
-}
-
-bool Wolf::ChaseTarget()
-{
-	if (((position.x / app->map->data.tileWidth) == (pathWolf[indexPath].x)) /*&& ((position.y / app->map->data.tileHeight) == (pathWolf[indexPath].y))*/)
-	{
-		if (indexPath > 1)
-		{
-			indexPath--;
-		}
-		else
-		{
-			return true;
-		}
-	}
-	else
-	{
-		/*if (pathWolf[indexPath].y > position.y / app->map->data.tileHeight)
-		{
-			position.y += 4;
-		}*/
-
-		/*if (pathWolf[indexPath].y < position.y / app->map->data.tileHeight)
-		{
-			position.y -= 20;
-
-			if (currentAnim != &jumpAnim)
-			{
-				jumpAnim.Reset();
-				currentAnim = &jumpAnim;
-			}
-		}*/
-
-		if (pathWolf[indexPath].x > position.x / app->map->data.tileWidth)
-		{
-			position.x += 4;
-
-			if (currentAnim != &runRightAnim)
-			{
-				runRightAnim.Reset();
-				currentAnim = &runRightAnim;
-			}
-		}
-
-		if (pathWolf[indexPath].x < position.x / app->map->data.tileWidth)
-		{
-			position.x -= 4;
-
-			if (currentAnim != &runLeftAnim)
-			{
-				runLeftAnim.Reset();
-				currentAnim = &runLeftAnim;
-			}
-		}
-
-	}
-
-
-	return false;
-}
-
-bool Wolf::Load(pugi::xml_node& node)
-{
-	position.x = node.child("position").attribute("x").as_int();
-	position.y = node.child("position").attribute("y").as_int();
-
-	return true;
-}
-
-bool Wolf::Save(pugi::xml_node& node)
-{
-	pugi::xml_node wolf = node.append_child("position");
-	wolf.append_attribute("x").set_value(position.x);
-	wolf.append_attribute("y").set_value(position.y);
-
-	return true;
-}
-
-void Wolf::Attack()
-{
-}
-
-void Wolf::Draw()
-{
-	app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
-}
-
-
-void Wolf::PushBacks()
-{
 	// Left Animations
 	// Idle animation
 	idleLeftAnim.PushBack({ 13,124,38,24 });
@@ -340,4 +128,309 @@ void Wolf::PushBacks()
 	deathRightAnim.PushBack({ 700,257,51,24 });
 	deathRightAnim.loop = false;
 
+}
+
+bool Wolf::Start()
+{
+	texture = app->enemyManager->wolfTexture;
+	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
+	currentAnim = &idleLeftAnim;
+	
+	life = 60;
+	speedX = 100;
+	speedY = 10;
+
+	blockFall = false;
+	blockRight = false;
+	blockLeft = false;
+
+	return true;
+}
+
+bool Wolf::Update(float dt)
+{
+	idleLeftAnim.speed = 4.50f * dt;
+	hurtLeftAnim.speed = 10.0f * dt;
+	deathLeftAnim.speed = 1.0f * dt;
+	runLeftAnim.speed = 8.0f * dt;
+	jumpLeftAnim.speed = 4.50f * dt;
+
+	idleRightAnim.speed = 4.50f * dt;
+	hurtRightAnim.speed = 10.0f * dt;
+	deathRightAnim.speed = 1.0f * dt;
+	runRightAnim.speed = 8.0f * dt;
+	jumpRightAnim.speed = 4.50f * dt;
+
+	if ((currentAnim != &idleLeftAnim) && (life > 0))
+	{
+		if ((hurtLeftAnim.IsPlaying() == false))
+		{
+			idleLeftAnim.Reset();
+			currentAnim = &idleLeftAnim;
+		}
+
+	}
+
+	if (life == 0)
+	{
+		if (currentAnim != &deathLeftAnim)
+		{
+			deathLeftAnim.Reset();
+			currentAnim = &deathLeftAnim;
+		}
+	}
+
+	if (life <= 0)
+		EnemyDies();
+
+	// Enemy state machine
+	if (currentState == EnemyState::PATROL)
+	{
+		if(blockFall == true)
+			//position.x += speedX * dt;
+
+		if (Patrol(dt))
+			currentState = EnemyState::ALERT;
+	}
+
+	else if (currentState == EnemyState::ALERT)
+	{
+		if (FindTarget(app->player, dt))
+			currentState = EnemyState::ATTACK;
+	}
+	
+	else if (currentState == EnemyState::ATTACK)
+	{
+		if (ChaseTarget(dt))
+		{
+			currentState = EnemyState::PATROL;
+		}
+	}
+
+	HandleCollisions();
+
+	collider->SetPos(position.x, position.y);
+	currentAnim->Update();
+
+	return true;
+}
+
+bool Wolf::CleanUp()
+{
+	app->enemyManager->DeleteEnemy(this);
+
+	return true;
+}
+
+void Wolf::TakeDamage(int damage)
+{
+	life -= damage;	
+
+	if ((currentAnim != &hurtLeftAnim) && (life > 0))
+	{
+		hurtLeftAnim.Reset();
+		currentAnim = &hurtLeftAnim;
+	}
+}
+
+void Wolf::EnemyDies()
+{
+	if (currentAnim != &deathLeftAnim)
+	{
+		deathLeftAnim.Reset();
+		currentAnim = &deathLeftAnim;
+	}
+
+	if (deathLeftAnim.HasFinished())
+	{
+		this->CleanUp();
+	}
+}
+
+
+bool Wolf::FindTarget(Player* player, float dt)
+{
+	pathWolf.Clear();
+	app->pathFinding->ResetPath(iPoint(position.x / 16, position.y / 16));
+	app->pathFinding->PropagateAStar(player);
+
+	pathWolf = *(app->pathFinding->ComputePath(player->GetPosition().x, player->GetPosition().y));
+
+	indexPath = pathWolf.Count() - 1;
+
+
+	return true;
+}
+
+bool Wolf::ChaseTarget(float dt)
+{
+	if (((position.x / app->map->data.tileWidth) == (pathWolf[indexPath].x)) /*&& ((position.y / app->map->data.tileHeight) == (pathWolf[indexPath].y))*/)
+	{
+		if (indexPath > 1)
+			indexPath--;
+
+		else
+			return true;
+	}
+	else
+	{
+		if (pathWolf[indexPath].y > position.y / app->map->data.tileHeight)
+		{
+			if(blockFall == false)
+				position.y += 4;
+		}
+
+		if (pathWolf[indexPath].y < position.y / app->map->data.tileHeight)
+		{
+			if (currentAnim != &jumpLeftAnim)
+			{
+				jumpLeftAnim.Reset();
+				currentAnim = &jumpLeftAnim;
+			}
+
+			if(blockFall == false)
+				position.y += 2;
+		}
+
+		if (pathWolf[indexPath].x > position.x / app->map->data.tileWidth)
+		{
+			if ((currentAnim != &runRightAnim) && blockRight == false)
+			{
+				runRightAnim.Reset();
+				currentAnim = &runRightAnim;
+
+				position.x += speedX * dt;
+			}
+
+		}
+
+		if (pathWolf[indexPath].x < position.x / app->map->data.tileWidth)
+		{
+			if ((currentAnim != &runLeftAnim) && blockLeft == false)
+			{
+				runLeftAnim.Reset();
+				currentAnim = &runLeftAnim;
+
+				position.x -= 1;
+			}				
+		}
+
+	}
+
+
+	return false;
+}
+
+void Wolf::HandleCollisions()
+{
+	ListItem<MapLayer*>* layer = app->map->data.layers.start;
+
+	iPoint playerPosTop = app->map->WorldToMap(position.x + 2, position.y - 3);
+	iPoint playerPosBottom = app->map->WorldToMap(position.x + collider->rect.w / 2, position.y + collider->rect.h);
+
+	iPoint playerPosRight = app->map->WorldToMap(position.x + collider->rect.w, position.y + collider->rect.h / 2);
+	iPoint playerPosLeft = app->map->WorldToMap(position.x - 3, position.y + collider->rect.h / 2);
+
+	iPoint playerPosTopRight = app->map->WorldToMap(position.x + collider->rect.w, position.y - 3);
+	iPoint playerPosTopLeft = app->map->WorldToMap(position.x - 3, position.y - 3);
+
+	iPoint playerPosBottomRight = app->map->WorldToMap(position.x + collider->rect.w, position.y + collider->rect.h);
+	iPoint playerPosBottomLeft = app->map->WorldToMap(position.x - 3, position.y + collider->rect.h);
+
+
+	while (layer != NULL)
+	{
+
+		if (layer->data->name == "HitBoxes")
+		{
+			// Here we get the surrounders player's tiles
+			uint playerIdBottom = layer->data->Get(playerPosBottom.x, playerPosBottom.y);
+
+			uint playerIdRight = layer->data->Get(playerPosRight.x, playerPosRight.y);
+			uint playerIdLeft = layer->data->Get(playerPosLeft.x, playerPosLeft.y);
+
+			uint playerIdBottomRight = layer->data->Get(playerPosBottomRight.x, playerPosBottomRight.y);
+			uint playerIdBottomLeft = layer->data->Get(playerPosBottomLeft.x, playerPosBottomLeft.y);
+
+			// Detect platform collision and ignore it if hes jumping upwards
+			if (playerIdBottom == 1162 /*&& upwards == false*/)
+			{
+				blockFall = true;
+			}
+			else if ((playerIdBottom == 1161) && (playerIdRight != 1161) /*&& (upwards == false)*/)
+			{
+				blockFall = true;
+			}
+			else
+			{
+				blockFall = false;
+			}
+
+			// Check if the player is facing a collision with his right tile
+			// If he does, we dont allow to walk to the right
+			// If he doesn't, we allow to walk to the right
+			if (playerIdRight == 1161)
+			{
+				blockRight = true;
+			}
+			else if ((playerIdBottomRight == 1162) && (playerIdBottom != 1162))
+			{
+				blockRight = true;
+				jumpLeftAnim.Reset();
+			}
+			else
+			{
+				blockRight = false;
+			}
+
+			// Here we check if the player is facing a wall with his left tile
+			// If he does, we dont allow to move to the left
+			// If he doesn't, we allow to move to the left
+			if (playerIdLeft == 1161)
+			{
+				blockLeft = true;
+			}
+			else if ((playerIdBottomLeft == 1162) && (playerIdBottom != 1162))
+			{
+				blockLeft = true;
+				//jumpRightAnim.Reset();
+			}
+			else
+			{
+				blockLeft = false;
+			}
+
+			break;
+		}
+
+		layer = layer->next;
+	}
+
+
+}
+
+bool Wolf::Load(pugi::xml_node& node)
+{
+	position.x = node.child("position").attribute("x").as_int();
+	position.y = node.child("position").attribute("y").as_int();
+
+	return true;
+}
+
+bool Wolf::Save(pugi::xml_node& node)
+{
+	pugi::xml_node wolf = node.append_child("position");
+	wolf.append_attribute("x").set_value(position.x);
+	wolf.append_attribute("y").set_value(position.y);
+
+	return true;
+}
+
+void Wolf::Attack()
+{
+}
+
+void Wolf::Draw()
+{
+	app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
 }

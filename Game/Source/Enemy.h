@@ -41,17 +41,17 @@ public:
 
 	virtual bool CleanUp();
 	
+	virtual void HandleCollisions();
+
 	virtual bool FindTarget(Player* player, float dt);
 
-	virtual bool ChaseTarget();
+	virtual bool ChaseTarget(float dt);
 
 	virtual void TakeDamage(int damage);
 
 	virtual void EnemyDies();
 
 	virtual bool Patrol(float dt);
-
-	virtual void PushBacks();
 
 	// Load and save functions for each enemy
 	virtual bool Load(pugi::xml_node&)
@@ -68,6 +68,8 @@ public:
 
 	iPoint position;
 	int speedX;
+	int speedY;
+
 	int life;
 	int damage;
 	int attackSpeed;

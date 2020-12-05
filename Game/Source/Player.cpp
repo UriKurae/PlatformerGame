@@ -155,8 +155,10 @@ bool Player::Start()
 	{
 		texture = app->tex->Load("Assets/Textures/Player/player.png");
 		jumpFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
+		hitFx = app->audio->LoadFx("Assets/Audio/Fx/hit.wav");
 		healthTexture = app->tex->Load("Assets/Textures/hearts.png");
 		gemsTexture = app->tex->Load("Assets/Textures/gem.png");
+
 
 		speedX = 250.0f;
 		speedY = 500.0f;
@@ -477,6 +479,7 @@ void Player::HandleInput(float dt)
 				currentAnim = &attackLeftDownUpAnim;
 			}
 		}
+		app->audio->PlayFx(hitFx);
 
 		Attack();
 	}

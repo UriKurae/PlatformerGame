@@ -137,6 +137,7 @@ private:
 
 	// Fx
 	int jumpFx;
+	int hitFx;
 
 	// Collectibles info
 	int gemsAchieved = 0;

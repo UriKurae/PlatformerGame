@@ -2,6 +2,8 @@
 
 #include "Enemy.h"
 #include "DynArray.h"
+#include "SString.h"
+
 
 class Wolf : public Enemy
 {
@@ -27,15 +29,17 @@ public:
 	
 	bool FindTarget(Player* player, float dt) override;
 
-	bool ChaseTarget() override;
+	bool ChaseTarget(float dt) override;
 
-	void PushBacks() override;
+	void HandleCollisions() override;
 
 	bool Load(pugi::xml_node&) override;
 	bool Save(pugi::xml_node&) override;
 	
 
 private:
+
+	SString direction;
 
 	Animation hurtLeftAnim;
 	Animation idleLeftAnim;
@@ -54,5 +58,9 @@ private:
 
 	int indexPath;
 	DynArray<iPoint> pathWolf;
+
+	bool blockFall;
+	bool blockRight;
+	bool blockLeft;
 
 };

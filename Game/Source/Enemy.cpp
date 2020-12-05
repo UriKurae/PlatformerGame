@@ -33,7 +33,7 @@ bool Enemy::FindTarget(Player* player, float dt)
 	return true;
 }
 
-bool Enemy::ChaseTarget()
+bool Enemy::ChaseTarget(float dt)
 {
 	return true;
 }
@@ -51,8 +51,9 @@ bool Enemy::Patrol(float dt)
 	return true;
 }
 
-void Enemy::PushBacks()
+void Enemy::HandleCollisions()
 {
+
 }
 
 bool Enemy::CleanUp()
