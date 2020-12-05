@@ -233,7 +233,6 @@ void Player::Draw()
 	// Draw player texture
 	app->render->DrawTexture(texture,position.x,position.y, &currentAnim->GetCurrentFrame());
 
-
 	// Draw lifes texture
 	app->render->DrawTexture(healthTexture, position.x - 2, position.y - 2, &currentAnimHeart->GetCurrentFrame());
 
@@ -335,7 +334,6 @@ void Player::HandleInput(float dt)
 		if (blockLeftMovement == false)
 		{
 			position.x -= speedX * dt;
-
 		}
 
 		direction = "left";
@@ -501,6 +499,7 @@ void Player::CameraFollow()
 {
 	app->render->camera.x = -(position.x * 2.0f) + (app->render->camera.w / 3);
 	app->render->camera.y = (-position.y);
+
 
 }
 

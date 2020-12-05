@@ -110,10 +110,8 @@ bool Executioner::Update(float dt)
 
 	if (currentState == EnemyState::PATROL)
 	{
-
 		if (Patrol(dt))
 			currentState = EnemyState::ALERT;
-
 	}
 	else if(currentState == EnemyState::ALERT)
 	{
