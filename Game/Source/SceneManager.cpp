@@ -9,6 +9,7 @@
 #include "Scene1.h"
 #include "Scene2.h"
 #include "DeadScene.h"
+#include "WinScene.h"
 #include "FadeToBlack.h"
 
 
@@ -22,11 +23,13 @@ SceneManager::SceneManager()
 	scene1 = new Scene1();
 	scene2 = new Scene2();
 	deadScene = new DeadScene();
+	winScene = new WinScene();
 
 	AddScene(introScene, false);
 	AddScene(scene1, true);
 	AddScene(scene2, false);
 	AddScene(deadScene, false);
+	AddScene(winScene, false);
 
 
 	checkPointAnim.PushBack({0,0,11,9});
@@ -92,10 +95,9 @@ bool SceneManager::Start()
 	checkPointTexture = app->tex->Load("Assets/Textures/CheckPoint/FireCheckPoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
 
-
 	// Call all Scenes' start
-
 	ListItem<Scene*>* item = scenes.start;
+
 	while (item != nullptr)
 	{
 		if (item->data->active == true)

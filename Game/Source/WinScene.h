@@ -4,7 +4,7 @@
 
 struct SDL_Texture;
 
-class WinScene : public Module
+class WinScene : public Scene
 {
 public:
 
@@ -13,20 +13,14 @@ public:
 	// Destructor
 	virtual ~WinScene();
 
-	// Called before render is available
-	bool Awake(pugi::xml_node& config) override;
-
 	// Called before the first frame
 	bool Start() override;
-
-	// Called before all Updates
-	bool PreUpdate() override;
 
 	// Called each loop iteration
 	bool Update(float dt) override;
 
 	// Called before all Updates
-	bool PostUpdate() override;
+	bool Draw() override;
 
 	// Called before quitting
 	bool CleanUp() override;

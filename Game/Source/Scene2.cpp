@@ -52,9 +52,8 @@ bool Scene2::Start()
 bool Scene2::Update(float dt)
 {
 	if (CheckWin() == 1)
-	{
-		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1 / dt);
-	}
+		app->fade->Fade(this, (Scene*)app->sceneManager->winScene, 1 / dt);
+
 	else if (CheckWin() == 2)
 	{
 		deadOnScene = true;
@@ -65,9 +64,7 @@ bool Scene2::Update(float dt)
 
 
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-	{
 		RestartPlayerPosition();
-	}
 
 	return true;
 }

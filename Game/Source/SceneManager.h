@@ -50,6 +50,7 @@ public:
 	Scene1* scene1;
 	Scene2* scene2;
 	DeadScene* deadScene;
+	WinScene* winScene;
 
 	SDL_Texture* gemTexture;
 	SDL_Texture* checkPointTexture;
