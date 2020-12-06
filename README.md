@@ -65,7 +65,9 @@ License(Tiles and background): http://creativecommons.org/licenses/by/3.0/
 Wolf enemy license: http://creativecommons.org/licenses/by/3.0/
 
 Collectibles: 
+
     - Hearts: https://mikiz.itch.io/full-heart-animation
+    
     - Gems: https://laredgames.itch.io/gems-coins-free
 
 Checkpoint: https://sanctumpixel.itch.io/fire-column-pixel-art-effect
