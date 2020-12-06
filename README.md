@@ -70,5 +70,4 @@ Intro music: https://octopupus.itch.io/8-bit-looped-track?download
 
 Gameplay music: https://alecxs-sunders.itch.io/rpgjrpg-5-songs-free-pack
 
-
-
+Checkpoint FX: http://sonidosmp3gratis.com/download.php?id=890&sonido=fuego%201
