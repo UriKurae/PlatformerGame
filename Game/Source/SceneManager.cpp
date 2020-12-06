@@ -190,6 +190,15 @@ bool SceneManager::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		app->fade->Fade(currentScene, scene1, 1 / dt);
+
+	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
+		app->fade->Fade(currentScene, (Scene*)scene2, 1 / dt);
+
+	if (app->input->GetKey(SDL_SCANCODE_F3) == KeyState::KEY_DOWN)
+		app->fade->Fade(currentScene, currentScene, 1 / dt);
+
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KeyState::KEY_DOWN)
 		app->RequestSaveGame();
 
@@ -201,15 +210,6 @@ bool SceneManager::HandleInput(float dt)
 		app->player->Disable();
 		app->fade->Fade(currentScene, savedScene, 1 / dt);
 	}
-
-	if (app->input->GetKey(SDL_SCANCODE_O) == KeyState::KEY_DOWN)
-		app->fade->Fade((Scene*)scene2, (Scene*)scene1, 1 / dt);
-
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		app->fade->Fade(currentScene, scene1, 1 / dt);
-	
-	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
-		app->fade->Fade(currentScene, (Scene*)scene2, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 		app->map->viewHitboxes = !app->map->viewHitboxes;
