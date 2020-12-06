@@ -449,8 +449,8 @@ void Wolf::HandleCollisions(float dt)
 
 bool Wolf::Load(pugi::xml_node& node)
 {
-	savedPosition.x = node.child("position").attribute("x").as_int();
-	savedPosition.y = node.child("position").attribute("y").as_int();
+	position.x = node.child("position").attribute("x").as_int();
+	position.y = node.child("position").attribute("y").as_int();
 	currentState = (EnemyState)node.child("current_state").attribute("value").as_int();
 
 	//app->enemyManager->AddEnemy(EnemyType::WOLF, position);
