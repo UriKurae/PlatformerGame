@@ -149,6 +149,7 @@ private:
 	int hitFx;
 	int dodgingFx;
 	int pickGemFx;
+	int pickHeart;
 
 	// If the player is on a reachable position or not
 	bool isReachable;
