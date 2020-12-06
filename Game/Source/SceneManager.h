@@ -31,9 +31,6 @@ public:
 	// Is bool because we want to detect when ESC is pressed
 	bool HandleInput(float dt);
 
-	// Restart level
-	bool RestartPlayerPosition();
-
 	// Check if player won
 	void CheckWin();
 

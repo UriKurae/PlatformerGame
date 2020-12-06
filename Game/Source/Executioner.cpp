@@ -76,9 +76,9 @@ bool Executioner::Start()
 	isAlive = true;
 
 	path.Clear();
-	currentAnim = &idleAnim;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
-	
+	currentAnim = &idleAnim;
+
 	offsetPathfinding.x = 21;
 	offsetPathfinding.y = 47;
 
@@ -130,9 +130,11 @@ bool Executioner::Update(float dt)
 	}
 
 	currentAnim->Update();
-	collider->SetPos(position.x - 2, position.y + 10);
+	if(collider != nullptr)
+		collider->SetPos(position.x - 2, position.y + 10);
 
-	HandleCollisions(dt);
+	if(dt < 0.5)
+		HandleCollisions(dt);
 
 	if (this->life <= 0)
 	{
@@ -300,16 +302,16 @@ void Executioner::HandleCollisions(float dt)
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
 	iPoint executionerPosTop = app->map->WorldToMap(position.x + 2, position.y - 3);
-	iPoint executionerPosBottom = app->map->WorldToMap(position.x + collider->rect.w / 2, position.y + collider->rect.h);
+	iPoint executionerPosBottom = app->map->WorldToMap(position.x + 15, position.y + 80);
 
-	iPoint executionerPosRight = app->map->WorldToMap(position.x + collider->rect.w + 10, position.y + collider->rect.h / 2);
-	iPoint executionerPosLeft = app->map->WorldToMap(position.x - 10, position.y + collider->rect.h / 2);
+	iPoint executionerPosRight = app->map->WorldToMap(position.x + 30 + 10, position.y + 40);
+	iPoint executionerPosLeft = app->map->WorldToMap(position.x - 10, position.y + 40);
 
-	iPoint executionerPosTopRight = app->map->WorldToMap(position.x + collider->rect.w, position.y - 3);
+	iPoint executionerPosTopRight = app->map->WorldToMap(position.x + 30, position.y - 3);
 	iPoint executionerPosTopLeft = app->map->WorldToMap(position.x - 3, position.y - 3);
 
-	iPoint executionerPosBottomRight = app->map->WorldToMap(position.x + collider->rect.w, position.y + collider->rect.h);
-	iPoint executionerPosBottomLeft = app->map->WorldToMap(position.x - 3, position.y + collider->rect.h);
+	iPoint executionerPosBottomRight = app->map->WorldToMap(position.x + 30, position.y + 80);
+	iPoint executionerPosBottomLeft = app->map->WorldToMap(position.x - 3, position.y + 80);
 
 
 	while (layer != NULL)

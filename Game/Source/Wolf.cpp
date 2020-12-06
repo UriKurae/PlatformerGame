@@ -110,7 +110,6 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 	walkRightAnim.PushBack({ 9,295,44,24 });
 	walkRightAnim.loop = true;
 
-
 	// Jump Animation
 	jumpRightAnim.PushBack({ 710,74,44,26 });
 	jumpRightAnim.PushBack({ 650,66,39,34 });
@@ -133,9 +132,13 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 
 bool Wolf::Start()
 {
+	if (app->player->loadedGame)
+		position = savedPosition;
+
 	texture = app->enemyManager->wolfTexture;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
 	currentAnim = &walkRightAnim;
+
 	path.Clear();
 
 	isAlive = true;
@@ -176,7 +179,7 @@ bool Wolf::Update(float dt)
 		}
 	}
 
-	if (this->life > 0)
+	if (this->life > 0 && dt < 0.4f)
 	{
 		// Enemy state machine
 		if (currentState == EnemyState::PATROL)
@@ -212,7 +215,8 @@ bool Wolf::Update(float dt)
 	if (this->life <= 0)
 		EnemyDies();
 
-	collider->SetPos(position.x, position.y);
+	if (collider != nullptr)
+		collider->SetPos(position.x, position.y);
 	currentAnim->Update();
 
 	return true;
@@ -345,16 +349,16 @@ void Wolf::HandleCollisions(float dt)
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
 	iPoint wolfPosTop = app->map->WorldToMap(position.x + 2, position.y - 3);
-	iPoint wolfPosBottom = app->map->WorldToMap(position.x + collider->rect.w / 2, position.y + collider->rect.h);
+	iPoint wolfPosBottom = app->map->WorldToMap(position.x + 23, position.y + 26);
 
-	iPoint wolfPosRight = app->map->WorldToMap(position.x + collider->rect.w + 10, position.y + collider->rect.h / 2);
-	iPoint wolfPosLeft = app->map->WorldToMap(position.x - 10, position.y + collider->rect.h / 2);
+	iPoint wolfPosRight = app->map->WorldToMap(position.x + 45 + 10, position.y + 13);
+	iPoint wolfPosLeft = app->map->WorldToMap(position.x - 10, position.y + 13);
 
-	iPoint wolfPosTopRight = app->map->WorldToMap(position.x + collider->rect.w, position.y - 3);
+	iPoint wolfPosTopRight = app->map->WorldToMap(position.x + 45, position.y - 3);
 	iPoint playerPosTopLeft = app->map->WorldToMap(position.x - 3, position.y - 3);
 
-	iPoint wolfPosBottomRight = app->map->WorldToMap(position.x + collider->rect.w, position.y + collider->rect.h);
-	iPoint wolfPosBottomLeft = app->map->WorldToMap(position.x - 3, position.y + collider->rect.h);
+	iPoint wolfPosBottomRight = app->map->WorldToMap(position.x + 45, position.y + 26);
+	iPoint wolfPosBottomLeft = app->map->WorldToMap(position.x - 3, position.y + 26);
 
 
 	while (layer != NULL)
@@ -372,18 +376,14 @@ void Wolf::HandleCollisions(float dt)
 			uint playerIdBottomLeft = layer->data->Get(wolfPosBottomLeft.x, wolfPosBottomLeft.y);
 
 			// Detect platform collision and ignore it if hes jumping upwards
-			if (playerIdBottom == 1162 /*&& upwards == false*/)
-			{
+			if (playerIdBottom == 1162 )
 				blockFall = true;
-			}
-			else if ((playerIdBottom == 1161) && (playerIdRight != 1161) /*&& (upwards == false)*/)
-			{
+			
+			else if ((playerIdBottom == 1161) && (playerIdRight != 1161))
 				blockFall = true;
-			}
+			
 			else
-			{
 				blockFall = false;
-			}
 
 			// Check if the player is facing a collision with his right tile
 			// If he does, we dont allow to walk to the right
@@ -451,8 +451,8 @@ void Wolf::HandleCollisions(float dt)
 
 bool Wolf::Load(pugi::xml_node& node)
 {
-	position.x = node.child("position").attribute("x").as_int();
-	position.y = node.child("position").attribute("y").as_int();
+	savedPosition.x = node.child("position").attribute("x").as_int();
+	savedPosition.y = node.child("position").attribute("y").as_int();
 	currentState = (EnemyState)node.child("current_state").attribute("value").as_int();
 
 	return true;

@@ -65,4 +65,5 @@ private:
 	bool blockFall;
 	bool blockRight;
 	bool blockLeft;
+
 };

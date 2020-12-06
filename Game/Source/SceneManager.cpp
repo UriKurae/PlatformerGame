@@ -26,12 +26,11 @@ SceneManager::SceneManager()
 	deadScene = new DeadScene();
 	winScene = new WinScene();
 
-	AddScene(introScene, false);
-	AddScene(scene1, true);
+	AddScene(introScene, true);
+	AddScene(scene1, false);
 	AddScene(scene2, false);
 	AddScene(deadScene, false);
 	AddScene(winScene, false);
-
 
 	checkpointAnim.PushBack({0,0,11,9});
 	checkpointAnim.PushBack({44,0,12,19});
@@ -120,9 +119,6 @@ bool SceneManager::Save(pugi::xml_node& node)
 	}
 
 	return true;
-
-
-	return true;
 }
 
 
@@ -197,12 +193,12 @@ bool SceneManager::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KeyState::KEY_DOWN)
 	{
 		app->RequestLoadGame();
-
-		if ((savedScene != nullptr) && (savedScene != currentScene))
-		{
-			app->player->Disable();
-			app->fade->Fade(currentScene, savedScene, 1 / dt);
-		}
+	}
+	
+	if ((savedScene != nullptr) && (savedScene != currentScene))
+	{
+		app->player->Disable();
+		app->fade->Fade(currentScene, savedScene, 1 / dt);
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_O) == KeyState::KEY_DOWN)
@@ -224,11 +220,6 @@ bool SceneManager::HandleInput(float dt)
 		app->audio->VolumeControl(4);
 
 	return ret;
-}
-
-bool SceneManager::RestartPlayerPosition()
-{
-	return true;
 }
 
 void SceneManager::CheckWin()

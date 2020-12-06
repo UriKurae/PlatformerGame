@@ -70,6 +70,7 @@ public:
 	SString name;
 
 	iPoint position;
+	iPoint savedPosition;
 	int speedX;
 	int speedY;
 

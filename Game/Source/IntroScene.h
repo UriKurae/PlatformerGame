@@ -2,7 +2,7 @@
 
 #include "Scene.h"
 
-class SDL_Texture;
+struct SDL_Texture;
 
 class IntroScene : public Scene
 {
@@ -15,8 +15,6 @@ public:
 
 	// Loads the necessary textures for the map background
 	bool Start() override;
-
-	// Called before render is available
 
 	// Called at the middle of the application loop
 	// Updates the scene's background animations

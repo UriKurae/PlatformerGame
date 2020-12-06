@@ -1,12 +1,10 @@
 #include "App.h"
-#include "IntroScene.h"
-
 #include "Audio.h"
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
-#include "Window.h"
-#include "Scene.h"
+#include "IntroScene.h"
+#include "SceneManager.h"
 #include "FadeToBlack.h"
 
 #include "Defs.h"
@@ -27,8 +25,8 @@ IntroScene::~IntroScene()
 // Load assets
 bool IntroScene::Start()
 {
-	//intro = app->tex->Load("Assets/Textures/intro.png");
-	//logo = app->tex->Load("Assets/Textures/logo.png");
+	intro = app->tex->Load("Assets/Textures/Scenes/intro.png");
+	logo = app->tex->Load("Assets/Textures/Scenes/logo.png");
 	
 	app->audio->PlayMusic("Assets/Audio/Music/track_1.ogg");
 
@@ -39,18 +37,12 @@ bool IntroScene::Start()
 
 bool IntroScene::Update(float dt)
 {
-	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
-		app->audio->VolumeControl(-4);
-
-	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KeyState::KEY_DOWN)
-		app->audio->VolumeControl(4);
-	
 	if ((app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) && (count <= 0) && (showLogo == false))
-		//app->fade->FadingToBlack(this, app->scene, 1 / dt);
+		app->fade->Fade(this, (Scene*)app->sceneManager->scene1, 1 / dt);
 	
-	if (count == 100)
+	if ((count >= 100) && (count <= 110))
 	{
-		//app->fade->FadingToBlack(this, this, 1 / dt);
+		app->fade->Fade(this, this, 1 / dt);
 	}
 	else if (count <= 40)
 	{
@@ -69,19 +61,19 @@ bool IntroScene::Draw()
 
 	if ((count >= 65) && (showLogo == true))
 	{
-		//app->render->DrawTexture(logo, 150, 0, NULL);
+		app->render->DrawTexture(logo, 150, 0, NULL);
 	}
 	else if (count <= 60)
 	{
-		//app->render->DrawTexture(intro, 0, 0, NULL);
+		app->render->DrawTexture(intro, 0, 0, NULL);
 	}
 	return ret;
 }
 
 bool IntroScene::CleanUp()
 {
-	//app->tex->UnLoad(intro);
-	//app->tex->UnLoad(logo);
+	app->tex->UnLoad(intro);
+	app->tex->UnLoad(logo);
 	
 	return true;
 }
