@@ -117,6 +117,16 @@ bool Scene1::Update(float dt)
 
 	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
 
+	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+	{
+		if (checkpoint1 == true || checkpoint2 == true)
+		{
+			RestartPlayerPosition();
+		}
+
+
+	}
+
 	return true;
 }
 
@@ -185,7 +195,7 @@ bool Scene1::CleanUp()
 
 bool Scene1::RestartPlayerPosition()
 {
-	if (checkpoint1 == true)
+	if (checkpoint1 == true && checkpoint2 == false)
 	{
 		app->player->SetPosition(1535, 176);
 	}
