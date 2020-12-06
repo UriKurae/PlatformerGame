@@ -159,7 +159,8 @@ bool Player::Start()
 		texture = app->tex->Load("Assets/Textures/Player/player.png");
 		jumpFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
 		hitFx = app->audio->LoadFx("Assets/Audio/Fx/hit.wav");
-		dodgingFx = app->audio->LoadFx("Assets/Audio/Fx/dodging2.wav");
+		dodgingFx = app->audio->LoadFx("Assets/Audio/Fx/dodging.wav");
+		pickGemFx = app->audio->LoadFx("Assets/Audi/Fx/pick_gem.wav");
 		healthTexture = app->tex->Load("Assets/Textures/Collectibles/hearts.png");
 		gemsTexture = app->tex->Load("Assets/Textures/Collectibles/gem.png");
 
@@ -721,6 +722,8 @@ void Player::PickItem(ItemType type)
 			currentAnimGem = &fourGemAnim;
 			break;
 		}
+
+		app->audio->PlayFx(pickGemFx);
 	}
 
 	if (type == ItemType::HEART)

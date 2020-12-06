@@ -402,39 +402,34 @@ void Wolf::HandleCollisions(float dt)
 				blockRight = false;
 			}
 
-			// Here we check if the player is facing a wall with his left tile
+			// Here we check if is facing a wall with his left tile
 			// If he does, we dont allow to move to the left
 			// If he doesn't, we allow to move to the left
 			if (playerIdLeft == 1161)
-			{
 				blockLeft = true;
-			}
+			
 			else if ((playerIdBottomLeft == 1162) && (playerIdBottom != 1162))
-			{
 				blockLeft = true;
-				//jumpRightAnim.Reset();
-			}
+			
 			else
-			{
 				blockLeft = false;
-			}
 
 			if (playerIdRight == 1164)
 			{
-				position.x -= 5;
+				position.x -= 100 * dt;
  				speedX = -speedX;
+
 				if (currentAnim != &walkLeftAnim)
 				{
 					walkLeftAnim.Reset();
 					currentAnim = &walkLeftAnim;
 				}
 				currentState = EnemyState::PATROL;
-				//LOG("Cambiando position a la izquierda");
 			}
 
 			if (playerIdLeft == 1164)
 			{
-				position.x += 5;
+				position.x += 100 * dt;
 				speedX = -speedX;
 				if (currentAnim != &walkRightAnim)
 				{
