@@ -38,6 +38,8 @@ public:
 
 public:
 
+	bool loadedOnScene = false;
+
 	List<Scene*> scenes;
 	Scene* lastScene;
 	Scene* currentScene;

@@ -10,30 +10,11 @@
   <enemymanager />
   <itemmanager />
   <scenemanager>
-    <active_scene value="1" />
-    <enemies>
-      <executioner>
-        <position x="771" y="100" />
-        <current_state value="0" />
-        <is_alive value="true" />
-      </executioner>
-      <executioner>
-        <position x="632" y="100" />
-        <current_state value="0" />
-        <is_alive value="true" />
-      </executioner>
-      <wolf>
-        <position x="483" y="250" />
-        <current_state value="0" />
-      </wolf>
-      <wolf>
-        <position x="789" y="260" />
-        <current_state value="0" />
-      </wolf>
-    </enemies>
+    <active_scene value="0" />
+    <enemies />
   </scenemanager>
   <player>
-    <position x="310" y="245" />
+    <position x="0" y="0" />
   </player>
   <pathfinding />
   <collisions />

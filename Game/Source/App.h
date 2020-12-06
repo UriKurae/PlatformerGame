@@ -128,8 +128,8 @@ private:
 
 	List<Module*> modules;
 
-	bool saveGameRequested;
-	bool loadGameRequested;
+	bool saveGameRequested = false;
+	bool loadGameRequested = false;
 
 	PerfTimer ptimer;
 	uint64 frameCount = 0;
