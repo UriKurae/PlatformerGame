@@ -51,13 +51,8 @@ private:
 	// Enemies
 	Executioner* executioner;
 	Executioner* executioner2;
-	Executioner* executioner3;
-	Executioner* executioner4;
 
 	Wolf* wolf;
 	Wolf* wolf2;
-	Wolf* wolf3;
-	Wolf* wolf4;
-	Wolf* wolf5;
 
 };

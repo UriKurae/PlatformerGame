@@ -79,6 +79,9 @@ bool Executioner::Start()
 	currentAnim = &idleAnim;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
 	
+	offsetPathfinding.x = 21;
+	offsetPathfinding.y = 47;
+
 	speedX = 100;
 	currentState = EnemyState::PATROL;
 	life = 200;
@@ -108,7 +111,7 @@ bool Executioner::Update(float dt)
 		{
 			currentAnim = &idleAnim;
 
-			if (Patrol(dt))
+			if ((Patrol(dt)) && (app->player->GetReachable()) && (app->player->godMode == false))
 				currentState = EnemyState::ALERT;
 		}
 		else if (currentState == EnemyState::ALERT)
@@ -183,7 +186,10 @@ void Executioner::Draw()
 		app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
 	}
 	
-	app->pathFinding->DrawPath(path);
+	if (app->map->viewHitboxes == true)
+	{
+		app->pathFinding->DrawPath(path);
+	}
 	
 }
 
@@ -216,7 +222,7 @@ bool Executioner::ChaseTarget(float dt)
 {	
 	if (path.Count() > 0)
 	{
-		if (((position.x / app->map->data.tileWidth) == (path[indexPath].x)) && ((position.y / app->map->data.tileHeight) == (path[indexPath].y)))
+		if ((((position.x + offsetPathfinding.x)/ app->map->data.tileWidth) == (path[indexPath].x)) && (((position.y + offsetPathfinding.y)/ app->map->data.tileHeight) == (path[indexPath].y)))
 		{
 			if (indexPath > 1)
 			{
@@ -234,16 +240,16 @@ bool Executioner::ChaseTarget(float dt)
 		}
 		else
 		{
-			if (path[indexPath].y > position.y / app->map->data.tileHeight)
+			if (path[indexPath].y > ((position.y + offsetPathfinding.y) / app->map->data.tileHeight))
 				position.y += 100 * dt;
 
-			if (path[indexPath].y < position.y / app->map->data.tileHeight)
+			if (path[indexPath].y < ((position.y + offsetPathfinding.y) / app->map->data.tileHeight))
 				position.y -= 100 * dt;
 
-			if (path[indexPath].x > position.x / app->map->data.tileWidth)
+			if (path[indexPath].x > ((position.x + offsetPathfinding.x) / app->map->data.tileWidth))
 				position.x += 100 * dt;
 
-			if (path[indexPath].x < position.x / app->map->data.tileWidth)
+			if (path[indexPath].x < ((position.x + offsetPathfinding.x) / app->map->data.tileWidth))
 				position.x -= 100 * dt;
 		}
 	}

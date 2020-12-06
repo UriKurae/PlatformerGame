@@ -181,7 +181,7 @@ bool Wolf::Update(float dt)
 		// Enemy state machine
 		if (currentState == EnemyState::PATROL)
 		{
-			if (Patrol(dt))
+			if ((Patrol(dt)) && (app->player->GetReachable()) && (app->player->godMode == false))
 				currentState = EnemyState::ALERT;
 		}
 
@@ -482,4 +482,9 @@ void Wolf::Attack()
 void Wolf::Draw()
 {
 	app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());
+
+	if (app->map->viewHitboxes == true)
+	{
+		app->pathFinding->DrawPath(path);
+	}
 }

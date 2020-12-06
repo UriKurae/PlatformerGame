@@ -13,6 +13,7 @@
 #include "Executioner.h"
 #include "ItemManager.h"
 #include "GreenGem.h"
+#include "RedHeart.h"
 #include "Wolf.h"
 #include "FadeToBlack.h"
 #include "Collisions.h"
@@ -52,29 +53,16 @@ bool Scene2::Start()
 		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(800, 90));
 		executioner->Start();
 
-		executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 200));
+
+		executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(1456, 400));
 		executioner2->Start();
 
-		executioner3 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(1456, 400));
-		executioner3->Start();
-
-		executioner4 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(3456, 240));
-		executioner4->Start();
 
 		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(272, 320));
 		wolf->Start();
 
 		wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(784, 320));
 		wolf2->Start();
-
-		wolf3 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(1184, 208));
-		wolf3->Start();
-		
-		wolf4 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(2928, 224));
-		wolf4->Start();
-
-		wolf5 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(3984, 304));
-		wolf5->Start();
 
 		app->sceneManager->currentScene = this;
 	}
@@ -96,18 +84,12 @@ bool Scene2::Update(float dt)
 		app->player->Disable();
 	}
 
-	/*if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		RestartPlayerPosition();*/
-
 	return true;
 }
 
 bool Scene2::Draw()
 {
 	bool ret = true;
-
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
 
 	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);

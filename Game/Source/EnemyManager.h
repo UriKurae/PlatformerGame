@@ -22,6 +22,8 @@ public:
 
 	void Draw();
 
+	bool CleanUp() override;
+
 	Enemy* AddEnemy(EnemyType type, iPoint pos);
 	void DeleteEnemy(Enemy* enemy);
 	void DeleteColliders();

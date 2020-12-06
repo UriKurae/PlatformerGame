@@ -561,6 +561,8 @@ void Player::OnCollision()
 	
 	iPoint playerPosBottomRight = app->map->WorldToMap(position.x + 30, position.y + 30);
 	iPoint playerPosBottomLeft = app->map->WorldToMap(position.x - 3, position.y + 30);
+		
+	iPoint playerPosMid = app->map->WorldToMap(position.x + 10, position.y + 15);
 
 
 	while (layer != NULL)
@@ -581,7 +583,7 @@ void Player::OnCollision()
 			uint playerIdBottomRight = layer->data->Get(playerPosBottomRight.x, playerPosBottomRight.y);
 			uint playerIdBottomLeft = layer->data->Get(playerPosBottomLeft.x, playerPosBottomLeft.y);
 
-			uint playerMidTile = layer->data->Get(playerPosTop.x + 15, playerPosTop.y + 20);
+			uint playerIdMidTile = layer->data->Get(playerPosMid.x, playerPosMid.y);
 
 			// Block the player speed when collides with ceiling
 			if (playerIdTop == 1161)
@@ -589,6 +591,14 @@ void Player::OnCollision()
 				speedY = 0;
 			}
 
+			if (playerIdMidTile == 1162 || playerIdTop == 1162)
+			{
+				isReachable = false;
+			}
+			else
+			{
+				isReachable = true;
+			}
 			// Detect platform collision and ignore it if hes jumping upwards
 			if (playerIdBottom == 1162 && upwards == false)
 			{
@@ -757,4 +767,9 @@ iPoint Player::GetPosition()
 Collider* Player::GetCollider()
 {
 	return collider;
+}
+
+bool Player::GetReachable() const
+{
+	return isReachable;
 }

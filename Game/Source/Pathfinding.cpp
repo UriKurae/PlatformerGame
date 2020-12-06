@@ -16,7 +16,11 @@ PathFinding::PathFinding() : Module()
 
 // Destructor
 PathFinding::~PathFinding()
-{}
+{
+	path.Clear();
+	visited.Clear();
+	frontier.Clear();
+}
 
 bool PathFinding::Awake(pugi::xml_node & conf)
 {
@@ -51,6 +55,8 @@ void PathFinding::Draw()
 
 bool PathFinding::CleanUp()
 {
+	app->tex->UnLoad(tileX);
+
 	return true;
 }
 
@@ -69,36 +75,6 @@ void PathFinding::ResetPath(iPoint start)
 
 void PathFinding::DrawPath(DynArray<iPoint> &pathToDraw)
 {
-	iPoint point;
-
-	// Draw visited
-	ListItem<iPoint>* item = visited.start;
-
-	/*while (item)
-	{
-		point = item->data;
-		TileSet* tileset = app->map->GetTilesetFromTileId(1162);
-		
-		SDL_Rect rec = tileset->GetTileRect(1162);
-		iPoint pos = app->map->MapToWorld(point.x, point.y);
-
-		app->render->DrawTexture(tileset->texture, pos.x, pos.y, &rec);
-	
-		item = item->next;
-	}*/
-
-	//// Draw frontier
-	//for (uint i = 0; i < frontier.Count(); ++i)
-	//{
-	//	point = *(frontier.Peek(i));
-	//	TileSet* tileset = app->map->GetTilesetFromTileId(1161);
-
-	//	SDL_Rect rec = tileset->GetTileRect(1161);
-	//	iPoint pos = app->map->MapToWorld(point.x, point.y);
-
-	//	app->render->DrawTexture(tileset->texture, pos.x, pos.y, &rec);
-	//}
-
 	// Draw path
 	for (uint i = 0; i < pathToDraw.Count(); ++i)
 	{
@@ -166,75 +142,6 @@ bool PathFinding::IsWalkable(int x, int y) const
 		return (x >= 0) && (x <= app->map->data.width) && (y >= 0) && (y <= app->map->data.height);
 	}
 
-}
-
-void PathFinding::PropagateBFS(Player* player)
-{
-	iPoint curr;
-	int x = player->GetPosition().x;
-	int y = player->GetPosition().y;
-
-	goalAStar = app->map->WorldToMap(x, y);
-
-	while (frontier.Pop(curr))
-	{
-		iPoint neighbors[4];
-		neighbors[0].Create(curr.x + 1, curr.y + 0);
-		neighbors[1].Create(curr.x + 0, curr.y + 1);
-		neighbors[2].Create(curr.x - 1, curr.y + 0);
-		neighbors[3].Create(curr.x + 0, curr.y - 1);
-
-		if (curr == goalAStar)
-			break;
-
-		for (uint i = 0; i < 4; ++i)
-		{
-			if (MovementCost(neighbors[i].x, neighbors[i].y) > 0)
-			{
-				if (visited.Find(neighbors[i]) == -1)
-				{
-					frontier.Push(neighbors[i], 0);
-					visited.Add(neighbors[i]);
-
-					// L11: TODO 1: Record the direction to the previous node 
-					// with the new list "breadcrumps"
-					breadcrumbs.Add(curr);
-				}
-			}
-		}
-	}
-}
-
-void PathFinding::PropagateDijkstra()
-{
-	// L11: TODO 3: Taking BFS as a reference, implement the Dijkstra algorithm
-	// use the 2 dimensional array "costSoFar" to track the accumulated costs
-	// on each cell (is already reset to 0 automatically)
-	iPoint curr;
-	if (frontier.Pop(curr))
-	{
-		iPoint neighbors[4];
-		neighbors[0].Create(curr.x + 1, curr.y + 0);
-		neighbors[1].Create(curr.x + 0, curr.y + 1);
-		neighbors[2].Create(curr.x - 1, curr.y + 0);
-		neighbors[3].Create(curr.x + 0, curr.y - 1);
-
-		for (uint i = 0; i < 4; ++i)
-		{
-			newCost = costSoFar[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
-
-			if (MovementCost(neighbors[i].x, neighbors[i].y) > 0)
-			{
-				if (visited.Find(neighbors[i]) == -1)
-				{
-					costSoFar[neighbors[i].x][neighbors[i].y] = newCost;
-					frontier.Push(neighbors[i], newCost);
-					visited.Add(neighbors[i]);
-					breadcrumbs.Add(curr);
-				}
-			}
-		}
-	}
 }
 
 void PathFinding::PropagateAStar(Player* player)

@@ -115,12 +115,8 @@ bool Scene1::Update(float dt)
 		app->sceneManager->lastScene = this;
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-	{
-		RestartPlayerPosition();
-	}
-
 	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
+
 	return true;
 }
 
@@ -178,9 +174,11 @@ bool Scene1::CleanUp()
 
 	app->enemyManager->DeleteColliders();
 	app->enemyManager->enemies.Clear();
+	app->enemyManager->CleanUp();
 	
 	app->itemManager->DeleteColliders();
 	app->itemManager->items.Clear();
+	app->itemManager->CleanUp();
 
 	return true;
 }

@@ -20,7 +20,7 @@ bool ItemManager::Start()
 {
 	texture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
 
-	ListItem<Item*>* it = items.start;
+	/*ListItem<Item*>* it = items.start;
 
 	while (it != nullptr)
 	{
@@ -28,7 +28,7 @@ bool ItemManager::Start()
 			it->data->Start();
 
 		it = it->next;
-	}
+	}*/
 
 	return true;
 }

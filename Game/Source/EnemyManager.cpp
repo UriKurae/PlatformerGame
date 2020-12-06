@@ -52,6 +52,20 @@ void EnemyManager::Draw()
 	}
 }
 
+bool EnemyManager::CleanUp()
+{
+	ListItem<Enemy*>* item = enemies.start;
+
+	while (item != nullptr)
+	{
+		item->data->CleanUp();
+		item = item->next;
+	}
+
+
+	return true;
+}
+
 Enemy* EnemyManager::AddEnemy(EnemyType type, iPoint pos)
 {
 	Enemy* enemy;

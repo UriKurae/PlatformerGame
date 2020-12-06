@@ -51,6 +51,8 @@ public:
 
 	Collider* GetCollider();
 
+	bool GetReachable() const;
+
 	void PickItem(ItemType type);
 
 public:
@@ -146,6 +148,9 @@ private:
 	int jumpFx;
 	int hitFx;
 	int dodgingFx;
+
+	// If the player is on a reachable position or not
+	bool isReachable;
 
 	// Collectibles info
 	int gemsAchieved = 0;

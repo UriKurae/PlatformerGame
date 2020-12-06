@@ -45,7 +45,8 @@ private:
 	Animation deathAnim;
 	Animation hurtAnim;
 
-	
+	iPoint offsetPathfinding;
+
 	int indexPath;
 
 
