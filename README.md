@@ -46,8 +46,8 @@ In this game you will play as Zed, a brave adventurer fighting for his fate. On 
 
 ## Developers
 
- - Oriol Bernal Martínez - Coder & Level Designer.
- - David González López - Coder & QA.
+ - [Oriol Bernal Martínez](https://github.com/UriKurae) - Coder & Level Designer.
+ - [David González López](https://github.com/magix7) - Coder & QA.
 
 ## License
 
