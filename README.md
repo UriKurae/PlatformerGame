@@ -54,20 +54,21 @@ This project is licensed under an unmodified MIT license, which is an OSI-certif
 
 Character sprites: https://rvros.itch.io/animated-pixel-hero
 
-Intro music: https://octopupus.itch.io/8-bit-looped-track?download
-
-Gameplay music: https://alecxs-sunders.itch.io/rpgjrpg-5-songs-free-pack
-
 Tiles and background art: https://ansimuz.itch.io/magic-cliffs-environment
 
 License(Tiles and background): http://creativecommons.org/licenses/by/3.0/
 
 Wolf enemy license: http://creativecommons.org/licenses/by/3.0/
 
-Collectibles: 
-
-    - Hearts: https://mikiz.itch.io/full-heart-animation
-    
-    - Gems: https://laredgames.itch.io/gems-coins-free
+Collectibles:
+- Hearts: https://mikiz.itch.io/full-heart-animation
+- Gems: https://laredgames.itch.io/gems-coins-free
 
 Checkpoint: https://sanctumpixel.itch.io/fire-column-pixel-art-effect
+
+Intro music: https://octopupus.itch.io/8-bit-looped-track?download
+
+Gameplay music: https://alecxs-sunders.itch.io/rpgjrpg-5-songs-free-pack
+
+
+
