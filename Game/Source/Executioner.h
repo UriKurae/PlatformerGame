@@ -9,7 +9,7 @@ public:
 	Executioner(iPoint pos);
 	virtual ~Executioner() {};
 
-	bool Start();
+	bool Start() override;
 
 	bool Update(float dt) override;
 

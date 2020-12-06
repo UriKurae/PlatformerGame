@@ -13,7 +13,7 @@ public:
 
 	virtual ~Wolf() {};
 	
-	bool Start();
+	bool Start() override;
 
 	bool Update(float dt) override;
 
@@ -63,7 +63,7 @@ private:
 	int indexPath;
 
 	bool blockFall;
-	bool blockRight;
-	bool blockLeft;
+	//bool blockRight;
+	//bool blockLeft;
 
 };

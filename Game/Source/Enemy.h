@@ -37,6 +37,7 @@ public:
 
 	virtual ~Enemy();
 
+	virtual bool Start();
 	
 	virtual bool Update(float dt);
 

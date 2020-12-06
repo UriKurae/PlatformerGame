@@ -78,12 +78,13 @@ bool SceneManager::Load(pugi::xml_node& node)
 		if (item->data->name == "wolf")
 		{
 			item->data->Load(wolf);
-
+			wolfSavedPositions.Add(item->data->savedPosition);
 			wolf = wolf.next_sibling("wolf");
 		}
 		else if (item->data->name == "executioner")
 		{
 			item->data->Load(executioner);
+			executionerSavedPositions.Add(item->data->savedPosition);
 
 			executioner = executioner.next_sibling("executioner");
 		}

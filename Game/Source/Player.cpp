@@ -592,7 +592,7 @@ void Player::OnCollision()
 				speedY = 0;
 			}
 
-			if (playerIdMidTile == 1162 || playerIdTop == 1162)
+			if ((playerIdMidTile == 1162) || (playerIdTop == 1162) || (playerIdLeft == 1162) || (playerIdRight == 1162) || (playerIdBottom == 1162))
 			{
 				isReachable = false;
 			}
