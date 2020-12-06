@@ -366,7 +366,7 @@ bool App::LoadGame()
 	loadGameRequested = false;
 	bool ret = true;
 
-	pugi::xml_parse_result resul = saveLoadFile.load_file("savedgame.xml");
+	pugi::xml_parse_result resul = saveLoadFile.load_file("save_game.xml");
 
 	if (resul == NULL)
 	{
