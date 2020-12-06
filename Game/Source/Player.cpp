@@ -345,7 +345,9 @@ void Player::HandleInput(float dt)
 				dodgingToRight.Reset();
 				currentAnim = &dodgingToRight;
 			}
-			position.x += 400.0f * dt;
+
+			if(blockRightMovement == false)
+				position.x += 400.0f * dt;
 		}
 		else if (direction == "left")
 		{
@@ -354,7 +356,9 @@ void Player::HandleInput(float dt)
 				dodgingToLeft.Reset();
 				currentAnim = &dodgingToLeft;
 			}
-			position.x -= 400.0f * dt;
+
+			if(blockLeftMovement == false)
+				position.x -= 400.0f * dt;
 		}
 	}
 	else
@@ -363,7 +367,7 @@ void Player::HandleInput(float dt)
 		dodgingCooldown -= 50 * dt;
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT && (isDodging == false))
+	if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) && (isDodging == false))
 	{
 		if ((currentAnim != &runLeftAnim) && (jump == false))
 		{

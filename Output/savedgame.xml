@@ -1,53 +1,40 @@
 <?xml version="1.0"?>
 <save_status>
-  <input />
   <window />
+  <input />
   <textures />
   <audio>
     <music_volume value="10" />
   </audio>
   <map />
-  <player>
-    <position x="318" y="245" />
-  </player>
   <enemymanager />
   <itemmanager />
   <scenemanager>
     <active_scene value="1" />
     <enemies>
       <executioner>
-        <position x="784" y="100" />
+        <position x="582" y="100" />
         <current_state value="0" />
         <is_alive value="true" />
       </executioner>
       <executioner>
-        <position x="606" y="100" />
-        <current_state value="0" />
-        <is_alive value="true" />
-      </executioner>
-      <executioner>
-        <position x="2480" y="180" />
-        <current_state value="0" />
+        <position x="394" y="73" />
+        <current_state value="2" />
         <is_alive value="true" />
       </executioner>
       <wolf>
-        <position x="471" y="250" />
+        <position x="286" y="250" />
         <current_state value="0" />
       </wolf>
       <wolf>
-        <position x="795" y="260" />
-        <current_state value="0" />
-      </wolf>
-      <wolf>
-        <position x="2471" y="260" />
-        <current_state value="0" />
-      </wolf>
-      <wolf>
-        <position x="3671" y="420" />
+        <position x="670" y="260" />
         <current_state value="0" />
       </wolf>
     </enemies>
   </scenemanager>
+  <player>
+    <position x="268" y="245" />
+  </player>
   <pathfinding />
   <collisions />
   <fade />
