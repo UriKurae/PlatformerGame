@@ -41,6 +41,8 @@ bool Scene2::Start()
 		sea = app->tex->Load("Assets/Textures/Scenes/sea.png");
 		clouds = app->tex->Load("Assets/Textures/Scenes/clouds.png");
 
+		app->audio->PlayMusic("Assets/Audio/Music/scene_2.ogg");
+
 		app->player->Enable();
 
 		if ((app->player->loadedGame) && (app->sceneManager->savedScene == this))
