@@ -53,13 +53,12 @@ public:
 	SDL_Texture* checkpointTexture;
 
 	// Animations for checkPoints
-
 	Animation checkpointAnim;
 	Animation checkpointKeepAnim;
 
 	int checkpointFx;
 
+	// Lists for enemies saved positions
 	List<iPoint> wolfSavedPositions;
 	List<iPoint> executionerSavedPositions;
-
 };

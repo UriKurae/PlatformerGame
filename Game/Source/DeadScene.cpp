@@ -10,7 +10,6 @@
 
 DeadScene::DeadScene()
 {
-
 	name.Create("DeadScene");
 }
 

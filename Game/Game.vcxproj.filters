@@ -57,12 +57,6 @@
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Pathfinding.cpp" />
-    <ClCompile Include="Source\SceneS1.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneS2.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene1.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -178,12 +172,6 @@
       <Filter>Core Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Pathfinding.h" />
-    <ClInclude Include="Source\SceneS1.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneS2.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene1.h">
       <Filter>Scenes</Filter>
     </ClInclude>

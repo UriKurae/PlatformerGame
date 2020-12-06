@@ -44,15 +44,13 @@ bool Scene1::Start()
 
 		if (app->player->loadedGame == false)
 		{
-			// Enemy instantiation
-			
 			executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100)));
 			executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100)));
 			
-
 			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(400, 250)));
 			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(650, 260)));
 			
+			// Call the start method for all the enemies
 			ListItem<Wolf*>* itWolfs = wolfs.start;
 			while (itWolfs != nullptr)
 			{
@@ -69,12 +67,10 @@ bool Scene1::Start()
 		}
 		else
 		{
-			// Instantiate
 			ListItem<iPoint>* wolfItem = app->sceneManager->wolfSavedPositions.start;
 			while (wolfItem != nullptr)
 			{
 				wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, wolfItem->data));
-
 				wolfItem = wolfItem->next;
 			}
 			
@@ -123,26 +119,24 @@ bool Scene1::Start()
 		heart3 = (RedHeart*)app->itemManager->AddItem(ItemType::HEART, iPoint(2960, 304));
 		heart3->Start();
 
-
 		// Assets loading and playing
 		app->audio->PlayMusic("Assets/Audio/Music/scene_1.ogg");
 		sky = app->tex->Load("Assets/Textures/Scenes/sky.png");
 		sea = app->tex->Load("Assets/Textures/Scenes/sea.png");
 		clouds = app->tex->Load("Assets/Textures/Scenes/clouds.png");
 	
-
 		app->sceneManager->currentScene = this;
-
 	}
+
 	return true;
 }
 
 bool Scene1::Update(float dt)
 {	
+	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
+
 	if ((CheckWin() == 1) && (app->player->godMode == false))
-	{
 		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1/dt);
-	}
 
 	else if ((CheckWin() == 2) && (app->player->godMode == false))
 	{
@@ -151,14 +145,10 @@ bool Scene1::Update(float dt)
 		app->sceneManager->lastScene = this;
 	}
 
-	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
-
 	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
 	{
 		if (checkpoint1 == true || checkpoint2 == true)
-		{
 			RestartPlayerPosition();
-		}
 	}
 
 	return true;
@@ -181,25 +171,24 @@ bool Scene1::Draw()
 
 	if (checkpoint1 == true)
 	{
-		if (currentAnim != &app->sceneManager->checkpointKeepAnim)
+		if (currentAnimCheckpoint != &app->sceneManager->checkpointKeepAnim)
 		{
 			app->sceneManager->checkpointKeepAnim.Reset();
-			currentAnim = &app->sceneManager->checkpointKeepAnim;
+			currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
 		}
-		app->render->DrawTexture(app->sceneManager->checkpointTexture, 1535, 155, &currentAnim->GetCurrentFrame());
-		currentAnim->Update();
+		app->render->DrawTexture(app->sceneManager->checkpointTexture, 1535, 155, &currentAnimCheckpoint->GetCurrentFrame());
+		currentAnimCheckpoint->Update();
 	}
 	else if (checkpoint2 == true)
 	{
-		if (currentAnim != &app->sceneManager->checkpointKeepAnim)
+		if (currentAnimCheckpoint != &app->sceneManager->checkpointKeepAnim)
 		{
 			app->sceneManager->checkpointKeepAnim.Reset();
-			currentAnim = &app->sceneManager->checkpointKeepAnim;
+			currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
 		}
-		app->render->DrawTexture(app->sceneManager->checkpointTexture, 2256, 268, &currentAnim->GetCurrentFrame());
-		currentAnim->Update();
+		app->render->DrawTexture(app->sceneManager->checkpointTexture, 2256, 268, &currentAnimCheckpoint->GetCurrentFrame());
+		currentAnimCheckpoint->Update();
 	}
-
 
 	return ret;
 }
@@ -232,17 +221,12 @@ bool Scene1::CleanUp()
 bool Scene1::RestartPlayerPosition()
 {
 	if (checkpoint1 == true && checkpoint2 == false)
-	{
 		app->player->SetPosition(1535, 176);
-	}
+	
 	else if (checkpoint2 == true)
-	{
 		app->player->SetPosition(2256, 272);
-	}
-	else
-	{
-		app->player->SetPosition(250, 70);
-	}
+
+	else app->player->SetPosition(250, 70);
 
 	return true;
 }
@@ -255,25 +239,21 @@ int Scene1::CheckWin()
 	
 	while (layer != NULL)
 	{
-	
 		if (layer->data->name == "HitBoxes")
 		{
 			uint playerMidTile = layer->data->Get(playerPosTop.x, playerPosTop.y);
 	
 			if (playerMidTile == 1166)
-			{
 				return 1;
-			}
 	
 			if (playerMidTile == 1170)
-			{
 				return 2;
-			}
 
 			if (playerMidTile == 1167 && checkpoint2 == false)
 			{
 				checkpoint1 = true;
-				currentAnim = &app->sceneManager->checkpointKeepAnim;
+				currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
+				
 				if (checkSound1 == false)
 				{
 					app->audio->PlayFx(app->sceneManager->checkpointFx);
@@ -285,6 +265,7 @@ int Scene1::CheckWin()
 			{
  				checkpoint2 = true;
 				checkpoint1 = false;
+				
 				if (checkSound2 == false)
 				{
 					app->audio->PlayFx(app->sceneManager->checkpointFx);

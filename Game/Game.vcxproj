@@ -113,9 +113,7 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Scene1.cpp" />
     <ClCompile Include="Source\Scene2.cpp" />
-    <ClCompile Include="Source\SceneS1.cpp" />
     <ClCompile Include="Source\Render.cpp" />
-    <ClCompile Include="Source\SceneS2.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
@@ -145,13 +143,11 @@
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Scene1.h" />
     <ClInclude Include="Source\Scene2.h" />
-    <ClInclude Include="Source\SceneS1.h" />
     <ClInclude Include="Source\Audio.h" />
     <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\Render.h" />
-    <ClInclude Include="Source\SceneS2.h" />
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\Timer.h" />

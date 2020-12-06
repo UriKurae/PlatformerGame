@@ -40,15 +40,13 @@ bool IntroScene::Update(float dt)
 	if ((app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) && (count <= 0) && (showLogo == false))
 		app->fade->Fade(this, (Scene*)app->sceneManager->scene1, 1 / dt);
 	
+
 	if ((count >= 100) && (count <= 110))
-	{
 		app->fade->Fade(this, this, 1 / dt);
-	}
+
 	else if (count <= 40)
-	{
 		showLogo = false;
-	}
-	
+
 	count -= 20 * dt;
 
 	return true;
@@ -60,13 +58,11 @@ bool IntroScene::Draw()
 	bool ret = true;
 
 	if ((count >= 65) && (showLogo == true))
-	{
 		app->render->DrawTexture(logo, 150, 0, NULL);
-	}
+
 	else if (count <= 60)
-	{
 		app->render->DrawTexture(intro, 0, 0, NULL);
-	}
+
 	return ret;
 }
 

@@ -72,5 +72,4 @@ public:
 	bool active;
 
 	bool deadOnScene = false;
-
 };

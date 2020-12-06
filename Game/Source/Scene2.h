@@ -64,5 +64,4 @@ private:
 	RedHeart* heart1;
 	RedHeart* heart2;
 	RedHeart* heart3;
-
 };

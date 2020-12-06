@@ -216,7 +216,6 @@ bool Executioner::FindTarget(Player* player, float dt)
 	else
 	{
 		pathCooldown -= 5 * dt;
-
 	}
 
 	return false;
@@ -226,7 +225,7 @@ bool Executioner::ChaseTarget(float dt)
 {	
 	if (path.Count() > 0)
 	{
-		if ((((position.x + offsetPathfinding.x)/ app->map->data.tileWidth) == (path[indexPath].x)) && (((position.y + offsetPathfinding.y)/ app->map->data.tileHeight) == (path[indexPath].y)))
+		if ((((position.x + offsetPathfinding.x) / app->map->data.tileWidth) == (path[indexPath].x)) && (((position.y + offsetPathfinding.y) / app->map->data.tileHeight) == (path[indexPath].y)))
 		{
 			if (indexPath > 1)
 			{
@@ -279,8 +278,6 @@ bool Executioner::Load(pugi::xml_node& node)
 	position.x = node.child("position").attribute("x").as_int();
 	position.y = node.child("position").attribute("y").as_int();
 	currentState = (EnemyState)node.child("current_state").attribute("value").as_int();
-
-	//app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, position);
 
 	return true;
 }

@@ -13,7 +13,6 @@
 #include "FadeToBlack.h"
 #include "EnemyManager.h"
 
-
 #include "SDL/include/SDL_scancode.h"
 
 SceneManager::SceneManager()
@@ -69,6 +68,7 @@ bool SceneManager::Load(pugi::xml_node& node)
 		savedScene = scene2;
 
 	ListItem<Enemy*>* item = app->enemyManager->enemies.start;
+
 	pugi::xml_node enemies = node.child("enemies");
 	pugi::xml_node wolf = enemies.child("wolf");
 	pugi::xml_node executioner = enemies.child("executioner");
@@ -79,6 +79,7 @@ bool SceneManager::Load(pugi::xml_node& node)
 		{
 			item->data->Load(wolf);
 			wolfSavedPositions.Add(item->data->savedPosition);
+
 			wolf = wolf.next_sibling("wolf");
 		}
 		else if (item->data->name == "executioner")
@@ -98,6 +99,7 @@ bool SceneManager::Save(pugi::xml_node& node)
 {
 	ListItem<Scene*>* item = scenes.start;
 	int count = 0;
+
 	while (item != nullptr)
 	{
 		if (item->data->active == true)
@@ -111,6 +113,7 @@ bool SceneManager::Save(pugi::xml_node& node)
 	
 	ListItem<Enemy*>* it = app->enemyManager->enemies.start;
 	pugi::xml_node enemies = node.append_child("enemies");
+	
 	while (it != nullptr)
 	{
 		it->data->Save(enemies.append_child(it->data->name.GetString()));
@@ -128,7 +131,7 @@ bool SceneManager::Start()
 
 	// Call all Scenes' start
 	ListItem<Scene*>* item = scenes.start;
-
+	
 	while (item != nullptr)
 	{
 		if (item->data->active == true)
@@ -151,6 +154,7 @@ bool SceneManager::Update(float dt)
 
 	// Call each scene update
 	ListItem<Scene*>* item = scenes.start;
+	
 	while (item != nullptr )
 	{
 		if(item->data->active == true)
@@ -167,7 +171,7 @@ bool SceneManager::Update(float dt)
 bool SceneManager::PostUpdate()
 {
 	ListItem<Scene*>* item = scenes.start;
-
+	
 	while (item != nullptr)
 	{
 		if (item->data->active == true)
@@ -190,9 +194,7 @@ bool SceneManager::HandleInput(float dt)
 		app->RequestSaveGame();
 
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KeyState::KEY_DOWN)
-	{
 		app->RequestLoadGame();
-	}
 	
 	if ((savedScene != nullptr) && (savedScene != currentScene))
 	{
@@ -240,9 +242,6 @@ void SceneManager::CheckWin()
 
 void SceneManager::AddScene(Scene* scene, bool active)
 {
-	//scene = new Scene();
-	
 	scene->active = active;
 	scenes.Add(scene);
-
 }

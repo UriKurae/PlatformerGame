@@ -132,9 +132,6 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 
 bool Wolf::Start()
 {
-	/*if (app->player->loadedGame && savedIsAlive == true)
-		position = savedPosition;*/
-
 	texture = app->enemyManager->wolfTexture;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
 	currentAnim = &walkRightAnim;
@@ -148,8 +145,6 @@ bool Wolf::Start()
 	speedY = 10;
 
 	blockFall = false;
-	/*blockRight = false;
-	blockLeft = false;*/
 
 	return true;
 }
@@ -313,11 +308,10 @@ bool Wolf::ChaseTarget(float dt)
 
 			if (path[indexPath].x > position.x / app->map->data.tileWidth)
 			{
-				if ((currentAnim != &runRightAnim) /*&& (blockRight == false)*/)
+				if ((currentAnim != &runRightAnim))
 				{
 					runRightAnim.Reset();
 					currentAnim = &runRightAnim;
-
 				}
 
 				if (currentAnim != &deathRightAnim)
@@ -326,11 +320,10 @@ bool Wolf::ChaseTarget(float dt)
 
 			if (path[indexPath].x < position.x / app->map->data.tileWidth)
 			{
-				if ((currentAnim != &runLeftAnim) /*&& (blockLeft == false)*/)
+				if ((currentAnim != &runLeftAnim))
 				{
 					runLeftAnim.Reset();
 					currentAnim = &runLeftAnim;
-
 				}
 
 				if (currentAnim != &deathLeftAnim)
@@ -361,7 +354,6 @@ void Wolf::HandleCollisions(float dt)
 
 	while (layer != NULL)
 	{
-
 		if (layer->data->name == "HitBoxes")
 		{
 			// Here we get the surrounders player's tiles
@@ -382,36 +374,8 @@ void Wolf::HandleCollisions(float dt)
 			
 			else
 				blockFall = false;
-
-			// Check if the player is facing a collision with his right tile
-			// If he does, we dont allow to walk to the right
-			//// If he doesn't, we allow to walk to the right
-			//if (wolfIdRight == 1161)
-			//{
-			//	blockRight = true;
-			//}
-			//else if ((wolfIdBottomRight == 1162) && (wolfIdBottom != 1162))
-			//{
-			//	blockRight = true;
-			//	jumpLeftAnim.Reset();
-			//}
-			//else
-			//{
-			//	blockRight = false;
-			//}
-
-			// Here we check if is facing a wall with his left tile
-			// If he does, we dont allow to move to the left
-			//// If he doesn't, we allow to move to the left
-			//if (wolfIdLeft == 1161)
-			//	blockLeft = true;
-			//
-			//else if ((wolfIdBottomLeft == 1162) && (wolfIdBottom != 1162))
-			//	blockLeft = true;
-			//
-			//else
-			//	blockLeft = false;
-
+			
+			// Block right movement
 			if (wolfIdRight == 1164)
 			{
 				position.x -= 100 * dt;
@@ -429,13 +393,13 @@ void Wolf::HandleCollisions(float dt)
 			{
 				position.x += 100 * dt;
 				speedX = -speedX;
+
 				if (currentAnim != &walkRightAnim)
 				{
 					walkRightAnim.Reset();
 					currentAnim = &walkRightAnim;
 				}
 				currentState = EnemyState::PATROL;
-				//LOG("Cambiando position a la derecha");
 			}
 
 			break;
@@ -443,8 +407,6 @@ void Wolf::HandleCollisions(float dt)
 
 		layer = layer->next;
 	}
-
-
 }
 
 bool Wolf::Load(pugi::xml_node& node)
@@ -452,8 +414,6 @@ bool Wolf::Load(pugi::xml_node& node)
 	position.x = node.child("position").attribute("x").as_int();
 	position.y = node.child("position").attribute("y").as_int();
 	currentState = (EnemyState)node.child("current_state").attribute("value").as_int();
-
-	//app->enemyManager->AddEnemy(EnemyType::WOLF, position);
 
 	return true;
 }

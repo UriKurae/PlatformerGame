@@ -67,6 +67,6 @@ private:
 	bool checkpoint2 = false;
 	bool checkSound1 = false;
 	bool checkSound2 = false;
-	Animation* currentAnim;
 
+	Animation* currentAnimCheckpoint;
 };

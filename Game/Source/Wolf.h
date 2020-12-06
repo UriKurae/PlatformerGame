@@ -29,11 +29,9 @@ public:
 	
 	bool FindTarget(Player* player, float dt) override;
 
-
 	bool ChaseTarget(float dt) override;
 
 	bool Patrol(float dt) override;
-
 
 	void HandleCollisions(float dt) override;
 
@@ -63,7 +61,5 @@ private:
 	int indexPath;
 
 	bool blockFall;
-	//bool blockRight;
-	//bool blockLeft;
 
 };

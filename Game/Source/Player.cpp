@@ -611,8 +611,9 @@ void Player::OnCollision()
 			{
 				isReachable = true;
 			}
+
 			// Detect platform collision and ignore it if hes jumping upwards
-			if (playerIdBottom == 1162 && upwards == false)
+			if ((playerIdBottom == 1162) && (upwards == false))
 			{
 				blockFall = true;
 				isFalling = false;
