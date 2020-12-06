@@ -31,5 +31,4 @@ public:
 public:
 	SDL_Texture* texture;
 	List<Item*> items;
-
 };

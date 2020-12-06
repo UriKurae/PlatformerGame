@@ -20,16 +20,6 @@ bool ItemManager::Start()
 {
 	texture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
 
-	/*ListItem<Item*>* it = items.start;
-
-	while (it != nullptr)
-	{
-		if (it->data->active)
-			it->data->Start();
-
-		it = it->next;
-	}*/
-
 	return true;
 }
 
@@ -59,7 +49,6 @@ void ItemManager::Draw()
 
 		it = it->next;
 	}
-
 }
 
 bool ItemManager::CleanUp()
@@ -92,6 +81,7 @@ Item* ItemManager::AddItem(ItemType type, iPoint pos)
 	}
 
 	items.Add(item);
+
 	return item;
 }
 
@@ -107,7 +97,6 @@ void ItemManager::DeleteItem(Item* item)
 			items.Del(it);
 			break;
 		}
-
 		it = it->next;
 	}
 }
@@ -121,6 +110,4 @@ void ItemManager::DeleteColliders()
 		it->data->collider->pendingToDelete = true;
 		it = it->next;
 	}
-
-
 }

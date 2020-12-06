@@ -42,5 +42,4 @@ public:
 	Collider* collider;
 
 	bool active;
-
 };

@@ -61,7 +61,6 @@ bool EnemyManager::CleanUp()
 		item = item->next;
 	}
 
-
 	return true;
 }
 
@@ -98,7 +97,6 @@ void EnemyManager::DeleteEnemy(Enemy* enemy)
 			enemies.Del(item);
 			break;
 		}
-
 		item = item->next;
 	}
 }
@@ -112,33 +110,14 @@ void EnemyManager::DeleteColliders()
 		item->data->collider->pendingToDelete = true;
 		item = item->next;
 	}
-
-
 }
 
 bool EnemyManager::Save(pugi::xml_node& node)
 {
-	//ListItem<Enemy*>* item = enemies.start;
-	//pugi::xml_node enemies = node.append_child("enemies");
-	//while (item != nullptr)
-	//{
-	//	item->data->Save(enemies.append_child(item->data->name.GetString()));
-	//	item = item->next;
-	//}
-
-	//return true;
 	return true;
 }
 
 bool EnemyManager::Load(pugi::xml_node& node)
 {
-	/*ListItem<Enemy*>* item = enemies.start;
-	pugi::xml_node enemies = node.child("enemies");
-	while (item != nullptr)
-	{
-		item->data->Load(enemies.child(item->data->name.GetString()));
-		item = item->next;
-	}*/
-
 	return true;
 }
