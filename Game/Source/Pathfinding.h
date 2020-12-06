@@ -1,20 +1,21 @@
 #pragma once
 #include "Module.h"
+#include "Enemy.h"
+
 #include "Point.h"
 #include "PQueue.h"
 #include "DynArray.h"
+
 #include "SDL/include/SDL_pixels.h"
 
-struct SDL_Texture;
-struct SDL_Rect;
-struct SDL_Color;
-struct TileSet;
+class SDL_Texture;
+class SDL_Rect;
+class SDL_Color;
+class TileSet;
 
 class Player;
-class Enemy;
 
 #define COST_MAP_SIZE	100
-
 
 class PathFinding: public Module
 {
@@ -53,8 +54,6 @@ public:
 	int MovementCost(int x, int y) const;
 	DynArray<iPoint>* ComputePath(int x, int y);
 	bool IsWalkable(int x, int y) const;
-	void PropagateBFS(Player* player);
-	void PropagateDijkstra();
 	void PropagateAStar(Player* player);
 
 private:

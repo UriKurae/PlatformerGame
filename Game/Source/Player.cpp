@@ -167,6 +167,8 @@ bool Player::Start()
 
 		dodgingCooldown = 0;
 
+		gemsAchieved = 0;
+
 		speedX = 250.0f;
 		speedY = 500.0f;
 		gravity = 250.0f;
@@ -265,7 +267,11 @@ bool Player::CleanUp()
 	app->tex->UnLoad(healthTexture);
 	app->tex->UnLoad(gemsTexture);
 
-	collider->pendingToDelete = true;
+	currentAnimGem = nullptr;
+	gemsAchieved = 0;
+
+	if(collider != nullptr)
+		collider->pendingToDelete = true;
 
 	return true;
 }

@@ -49,23 +49,88 @@ bool Scene2::Start()
 		else
 			playerStartPosition = app->player->SetPosition(250, 5);
 
-		// Enemy instantiation
-		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(800, 90));
-		executioner->Start();
+		if (app->player->loadedGame == false)
+		{
+			// Enemy instantiation
 
+			executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(528, 290)));
 
-		executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(1456, 400));
-		executioner2->Start();
+			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(288, 323)));
+			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(800, 323)));
 
+			ListItem<Wolf*>* itWolfs = wolfs.start;
+			while (itWolfs != nullptr)
+			{
+				itWolfs->data->Start();
+				itWolfs = itWolfs->next;
+			}
 
-		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(272, 320));
-		wolf->Start();
+			ListItem<Executioner*>* itExec = executioners.start;
+			while (itExec != nullptr)
+			{
+				itExec->data->Start();
+				itExec = itExec->next;
+			}
+		}
+		else
+		{
+			// Instantiate
+			ListItem<iPoint>* wolfItem = app->sceneManager->wolfSavedPositions.start;
+			while (wolfItem != nullptr)
+			{
+				wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, wolfItem->data));
 
-		wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(784, 320));
-		wolf2->Start();
+				wolfItem = wolfItem->next;
+			}
 
+			ListItem<iPoint>* execItem = app->sceneManager->executionerSavedPositions.start;
+			while (execItem != nullptr)
+			{
+				executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, execItem->data));
+				execItem = execItem->next;
+			}
+
+			// Call starts
+			ListItem<Wolf*>* itWolfs = wolfs.start;
+			while (itWolfs != nullptr)
+			{
+				itWolfs->data->Start();
+				itWolfs = itWolfs->next;
+			}
+
+			ListItem<Executioner*>* itExec = executioners.start;
+			while (itExec != nullptr)
+			{
+				itExec->data->Start();
+				itExec = itExec->next;
+			}
+		}
 		app->sceneManager->currentScene = this;
+
+		// Items instantiation
+		gem1 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(544, 304));
+		gem1->Start();
+
+		gem2 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(2144, 336));
+		gem2->Start();
+
+		gem3 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(1136, 112));
+		gem3->Start();
+
+		gem4 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(3504, 224));
+		gem4->Start();
+
+		heart1 = (RedHeart*)app->itemManager->AddItem(ItemType::HEART, iPoint(1296, 480));
+		heart1->Start();
+
+		heart2 = (RedHeart*)app->itemManager->AddItem(ItemType::HEART, iPoint(2496, 224));
+		heart2->Start();
+
+		heart3 = (RedHeart*)app->itemManager->AddItem(ItemType::HEART, iPoint(3120, 272));
+		heart3->Start();
 	}
+
+	
 
 	return true;
 	
@@ -73,6 +138,8 @@ bool Scene2::Start()
 
 bool Scene2::Update(float dt)
 {
+	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
+
 	if ((CheckWin() == 1) && (app->player->godMode == false))
 		app->fade->Fade(this, (Scene*)app->sceneManager->winScene, 1 / dt);
 
@@ -82,6 +149,14 @@ bool Scene2::Update(float dt)
 		app->fade->Fade(this, (Scene*)app->sceneManager->deadScene, 1 / dt);
 		app->sceneManager->lastScene = this;
 		app->player->Disable();
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+	{
+		if (checkpoint1 == true || checkpoint2 == true)
+		{
+			RestartPlayerPosition();
+		}
 	}
 
 	return true;
@@ -102,7 +177,29 @@ bool Scene2::Draw()
 		app->player->Draw();
 
 	app->enemyManager->Draw();
+	app->itemManager->Draw();
 	
+	if (checkpoint1 == true)
+	{
+		if (currentAnim != &app->sceneManager->checkpointKeepAnim)
+		{
+			app->sceneManager->checkpointKeepAnim.Reset();
+			currentAnim = &app->sceneManager->checkpointKeepAnim;
+		}
+		app->render->DrawTexture(app->sceneManager->checkpointTexture, 1552, 445, &currentAnim->GetCurrentFrame());
+		currentAnim->Update();
+	}
+	else if (checkpoint2 == true)
+	{
+		if (currentAnim != &app->sceneManager->checkpointKeepAnim)
+		{
+			app->sceneManager->checkpointKeepAnim.Reset();
+			currentAnim = &app->sceneManager->checkpointKeepAnim;
+		}
+		app->render->DrawTexture(app->sceneManager->checkpointTexture, 3024, 208, &currentAnim->GetCurrentFrame());
+		currentAnim->Update();
+	}
+
 	return ret;
 }
 
@@ -119,19 +216,23 @@ bool Scene2::CleanUp()
 
 	app->enemyManager->DeleteColliders();
 	app->enemyManager->enemies.Clear();
+	wolfs.Clear();
+	executioners.Clear();
 
 	app->itemManager->DeleteColliders();
 	app->itemManager->items.Clear();
+	app->itemManager->CleanUp();
+
 
 	return true;
 }
 
 bool Scene2::RestartPlayerPosition()
 {
-	if (checkPoint1 == true)
+	if (checkpoint1 == true)
 		app->player->SetPosition(1552, 464);
 
-	else if (checkPoint2 == true)
+	else if (checkpoint2 == true)
 		app->player->SetPosition(3024, 208);
 
 	else
@@ -159,13 +260,27 @@ int Scene2::CheckWin()
 			if (playerMidTile == 1170)
 				return 2;
 
-			if (playerMidTile == 1167 && checkPoint2 == false)
-				checkPoint1 = true;
-
+			if (playerMidTile == 1167 && checkpoint2 == false)
+			{
+				checkpoint1 = true;
+				currentAnim = &app->sceneManager->checkpointKeepAnim;
+				if (checkSound1 == false)
+				{
+					app->audio->PlayFx(app->sceneManager->checkpointFx);
+					checkSound1 = true;
+					checkSound2 = false;
+				}
+			}
 			else if (playerMidTile == 1168)
 			{
-				checkPoint2 = true;
-				checkPoint1 = false;
+				checkpoint2 = true;
+				checkpoint1 = false;
+				if (checkSound2 == false)
+				{
+					app->audio->PlayFx(app->sceneManager->checkpointFx);
+					checkSound1 = false;
+					checkSound2 = true;
+				}
 			}
 		}
 

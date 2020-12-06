@@ -49,13 +49,6 @@ private:
 	SDL_Texture* sea;
 
 	// Enemies
-	Executioner* executioner;
-	Executioner* executioner2;
-	Executioner* executioner3;
-	//Wolf* wolf;
-	//Wolf* wolf2;
-	//Wolf* wolf3;
-	//Wolf* wolf4;
 	List<Wolf*> wolfs;
 	List<Executioner*> executioners;
 
@@ -69,7 +62,7 @@ private:
 	RedHeart* heart2;
 	RedHeart* heart3;
 
-	// CheckPoints
+	// Checkpoints
 	bool checkpoint1 = false;
 	bool checkpoint2 = false;
 	bool checkSound1 = false;

@@ -45,14 +45,24 @@ private:
 	SDL_Texture* sea;
 
 	// Checkpoints
-	bool checkPoint1 = false;
-	bool checkPoint2 = false;
+	bool checkpoint1 = false;
+	bool checkpoint2 = false;
+	bool checkSound1 = false;
+	bool checkSound2 = false;
+	Animation* currentAnim;
 
 	// Enemies
-	Executioner* executioner;
-	Executioner* executioner2;
+	List<Wolf*> wolfs;
+	List<Executioner*> executioners;
 
-	Wolf* wolf;
-	Wolf* wolf2;
+	// Collectibles
+	GreenGem* gem1;
+	GreenGem* gem2;
+	GreenGem* gem3;
+	GreenGem* gem4;
+
+	RedHeart* heart1;
+	RedHeart* heart2;
+	RedHeart* heart3;
 
 };

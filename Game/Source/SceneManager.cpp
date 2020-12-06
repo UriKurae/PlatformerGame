@@ -144,7 +144,7 @@ bool SceneManager::Update(float dt)
 {
 	bool ret = true;
 
-	checkpointAnim.speed = 2.0f * dt;
+	checkpointAnim.speed = 4.0f * dt;
 	checkpointKeepAnim.speed = 2.0f * dt;
 
 	ret = HandleInput(dt);

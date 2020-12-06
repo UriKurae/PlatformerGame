@@ -28,7 +28,7 @@ bool IntroScene::Start()
 	intro = app->tex->Load("Assets/Textures/Scenes/intro.png");
 	logo = app->tex->Load("Assets/Textures/Scenes/logo.png");
 	
-	app->audio->PlayMusic("Assets/Audio/Music/track_1.ogg");
+	app->audio->PlayMusic("Assets/Audio/Music/intro_scene.ogg");
 
 	app->render->SetCameraPosition(0,0);
 

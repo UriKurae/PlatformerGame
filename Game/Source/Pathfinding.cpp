@@ -29,7 +29,8 @@ bool PathFinding::Awake(pugi::xml_node & conf)
 
 bool PathFinding::Start()
 {
-	tileX = app->tex->Load("Assets/Textures/Enemies/cross.png");
+	tileX = app->tex->Load("Assets/Textures/Enemies/cross_pathfinding.png");
+
 	return true;
 }
 
@@ -55,7 +56,7 @@ void PathFinding::Draw()
 
 bool PathFinding::CleanUp()
 {
-	app->tex->UnLoad(tileX);
+	app->tex->UnLoad(tileX);	
 
 	return true;
 }
