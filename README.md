@@ -10,17 +10,24 @@ In this game you will play as Zed, a brave adventurer fighting for his fate. On 
 ## Key Features
 - Player movement.
 - Double jump.
+- Player can dodge.
 - Player physics.
 - Jump through platforms when jumping from below.
 - Multiple scenes (intro, gameplay, win, dead).
 - Camera follows the player.
 - Music.
 - Save/Load game state.
+- Volume control.
+- Enemy pathfinding.
+- Checkpoints autosave.
+- Teleportation between checkpoints.
+
  
 ## Controls
 
  - Move the player with WASD.
  - Jump with Space.
+ - Dodge with left shift.
  - Press Space while in the air to do a double jump.
  - Press numpad + or - to raise or lower the music volume.
  - Press the Escape key to quit the game.
@@ -34,6 +41,7 @@ In this game you will play as Zed, a brave adventurer fighting for his fate. On 
  - F6 -> Load previous state.
  - F9 -> View colliders/logic.
  - F10 -> God Mode (ignore collisions, speed multiplied, can fly).
+ - T -> Teleport between checkpoints.
 
 ## Developers
 
@@ -46,11 +54,21 @@ This project is licensed under an unmodified MIT license, which is an OSI-certif
 
 Character sprites: https://rvros.itch.io/animated-pixel-hero
 
+Tiles and background art: https://ansimuz.itch.io/magic-cliffs-environment
+
+License(Tiles and background): http://creativecommons.org/licenses/by/3.0/
+
+Wolf enemy license: http://creativecommons.org/licenses/by/3.0/
+
+Collectibles:
+- Hearts: https://mikiz.itch.io/full-heart-animation
+- Gems: https://laredgames.itch.io/gems-coins-free
+
+Checkpoint: https://sanctumpixel.itch.io/fire-column-pixel-art-effect
+
 Intro music: https://octopupus.itch.io/8-bit-looped-track?download
 
 Gameplay music: https://alecxs-sunders.itch.io/rpgjrpg-5-songs-free-pack
 
-Tiles and background art: https://ansimuz.itch.io/magic-cliffs-environment
 
-License(Tiles and background): http://creativecommons.org/licenses/by/3.0/
 
