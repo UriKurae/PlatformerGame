@@ -6,8 +6,8 @@
   </app>
 
   <audio>
-	<music_volume value="15"/>
-	<fx_volume value="30" />
+	<music_volume value="10"/>
+	<fx_volume value="35" />
   </audio>
 	
   <renderer>

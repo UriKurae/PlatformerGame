@@ -115,6 +115,12 @@ Player::Player() : Module()
 	threeGemAnim.PushBack({ 8,1,5,9 });
 	fourGemAnim.PushBack({ 2,1,5,9 });
 
+	// Dodging Animation Right
+	dodgingToRight.PushBack({218,268,20,26});
+
+	// Dodging Animation Left
+	dodgingToLeft.PushBack({466,269,20,26});
+
 }
 
 Player::~Player()
@@ -153,9 +159,11 @@ bool Player::Start()
 		texture = app->tex->Load("Assets/Textures/Player/player.png");
 		jumpFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
 		hitFx = app->audio->LoadFx("Assets/Audio/Fx/hit.wav");
+		dodgingFx = app->audio->LoadFx("Assets/Audio/Fx/dodging2.wav");
 		healthTexture = app->tex->Load("Assets/Textures/Collectibles/hearts.png");
 		gemsTexture = app->tex->Load("Assets/Textures/Collectibles/gem.png");
 
+		dodgingCooldown = 0;
 
 		speedX = 250.0f;
 		speedY = 500.0f;
@@ -183,7 +191,7 @@ bool Player::Update(float dt)
 	if (jump == true)
 		Jump(dt);
 
-	if (isFalling == true)
+	if ((isFalling == true) && (isDodging == false))
 	{
 		if ((direction == "right") && (currentAnim != &jumpRightAnim))
 		{
@@ -275,7 +283,7 @@ void Player::HandleInput(float dt)
 	}
 	
 
-	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT)
+	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT && (isDodging == false))
 	{
 		if ((currentAnim != &runRightAnim) && (jump == false))
 		{
@@ -303,8 +311,44 @@ void Player::HandleInput(float dt)
 		direction = "right";
 	}
 
+	if ((app->input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::KEY_DOWN) && (dodgingCooldown <= 0))
+	{
+		dodgingCooldown = 1500 * dt;
+		dodgingTime = 800 * dt;
+		isDodging = true;
+		app->audio->PlayFx(dodgingFx);
+	}
 
-	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT)
+	if (dodgingTime > 0)
+	{
+		dodgingTime -= 50 * dt;
+
+		if (direction == "right")
+		{
+			if (currentAnim != &dodgingToRight)
+			{
+				dodgingToRight.Reset();
+				currentAnim = &dodgingToRight;
+			}
+			position.x += 700.0f * dt;
+		}
+		else if (direction == "left")
+		{
+			if (currentAnim != &dodgingToLeft)
+			{
+				dodgingToLeft.Reset();
+				currentAnim = &dodgingToLeft;
+			}
+			position.x -= 700.0f * dt;
+		}
+	}
+	else
+	{
+		isDodging = false;
+		dodgingCooldown -= 50 * dt;
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT && (isDodging == false))
 	{
 		if ((currentAnim != &runLeftAnim) && (jump == false))
 		{
@@ -333,7 +377,7 @@ void Player::HandleInput(float dt)
 	}
 
 	
-	if ((app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (godMode == false))
+	if ((app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (godMode == false) && (isDodging == false))
 	{
 
 		if ((currentAnim != &jumpRightAnim) && (direction == "right"))
@@ -374,7 +418,7 @@ void Player::HandleInput(float dt)
 
 	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE)
 		&& (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE)
-		&& (jump == false))
+		&& (jump == false) && (isDodging == false))
 	{
 		if ((currentAnim != &idleRightAnim) && (currentAnim != &attackRightDownUpAnim) && (direction == "right"))
 		{
@@ -392,7 +436,7 @@ void Player::HandleInput(float dt)
 
 	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT) &&
 		(app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) &&
-		(jump == false))
+		(jump == false) && (isDodging == false))
 	{
 		if ((currentAnim != &idleRightAnim) && (direction == "right"))
 		{
@@ -409,7 +453,7 @@ void Player::HandleInput(float dt)
 
 
 	if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) &&
-		(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN))
+		(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (isDodging == false))
 	{
 		if (currentAnim != &jumpLeftAnim)
 		{
@@ -422,7 +466,7 @@ void Player::HandleInput(float dt)
 
 
 	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT) &&
-		(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN))
+		(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (isDodging == false))
 	{
 		if (currentAnim != &jumpRightAnim)
 		{
@@ -437,7 +481,7 @@ void Player::HandleInput(float dt)
 	if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE) &&
 		(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_IDLE) &&
 		(app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE) &&
-		(isFalling == false))
+		(isFalling == false) && (isDodging == false))
 	{
 		if ((currentAnim != &idleRightAnim) && (currentAnim != &attackRightDownUpAnim) && (direction == "right"))
 		{

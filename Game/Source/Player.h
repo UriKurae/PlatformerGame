@@ -88,6 +88,11 @@ private:
 	float speedX;
 	float speedY;
 
+	// Dodging bool
+	bool isDodging;
+	int dodgingCooldown;
+	int dodgingTime;
+
 	// Constant gravity applied to the player
 	float gravity;
 
@@ -119,6 +124,8 @@ private:
 	Animation fallingLeftAnim;
 	Animation attackRightDownUpAnim;
 	Animation attackLeftDownUpAnim;
+	Animation dodgingToLeft;
+	Animation dodgingToRight;
 
 	// Health animation and texture
 	SDL_Texture* healthTexture;
@@ -138,6 +145,7 @@ private:
 	// Fx
 	int jumpFx;
 	int hitFx;
+	int dodgingFx;
 
 	// Collectibles info
 	int gemsAchieved = 0;
