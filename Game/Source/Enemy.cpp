@@ -12,6 +12,11 @@ Enemy::~Enemy()
 {
 }
 
+bool Enemy::Start()
+{
+	return true;
+}
+
 bool Enemy::Update(float dt)
 {
 	if (currentAnim != nullptr)

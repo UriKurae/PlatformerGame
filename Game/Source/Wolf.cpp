@@ -148,8 +148,8 @@ bool Wolf::Start()
 	speedY = 10;
 
 	blockFall = false;
-	blockRight = false;
-	blockLeft = false;
+	/*blockRight = false;
+	blockLeft = false;*/
 
 	return true;
 }
@@ -313,7 +313,7 @@ bool Wolf::ChaseTarget(float dt)
 
 			if (path[indexPath].x > position.x / app->map->data.tileWidth)
 			{
-				if ((currentAnim != &runRightAnim) && (blockRight == false))
+				if ((currentAnim != &runRightAnim) /*&& (blockRight == false)*/)
 				{
 					runRightAnim.Reset();
 					currentAnim = &runRightAnim;
@@ -326,7 +326,7 @@ bool Wolf::ChaseTarget(float dt)
 
 			if (path[indexPath].x < position.x / app->map->data.tileWidth)
 			{
-				if ((currentAnim != &runLeftAnim) && (blockLeft == false))
+				if ((currentAnim != &runLeftAnim) /*&& (blockLeft == false)*/)
 				{
 					runLeftAnim.Reset();
 					currentAnim = &runLeftAnim;
@@ -385,32 +385,32 @@ void Wolf::HandleCollisions(float dt)
 
 			// Check if the player is facing a collision with his right tile
 			// If he does, we dont allow to walk to the right
-			// If he doesn't, we allow to walk to the right
-			if (wolfIdRight == 1161)
-			{
-				blockRight = true;
-			}
-			else if ((wolfIdBottomRight == 1162) && (wolfIdBottom != 1162))
-			{
-				blockRight = true;
-				jumpLeftAnim.Reset();
-			}
-			else
-			{
-				blockRight = false;
-			}
+			//// If he doesn't, we allow to walk to the right
+			//if (wolfIdRight == 1161)
+			//{
+			//	blockRight = true;
+			//}
+			//else if ((wolfIdBottomRight == 1162) && (wolfIdBottom != 1162))
+			//{
+			//	blockRight = true;
+			//	jumpLeftAnim.Reset();
+			//}
+			//else
+			//{
+			//	blockRight = false;
+			//}
 
 			// Here we check if is facing a wall with his left tile
 			// If he does, we dont allow to move to the left
-			// If he doesn't, we allow to move to the left
-			if (wolfIdLeft == 1161)
-				blockLeft = true;
-			
-			else if ((wolfIdBottomLeft == 1162) && (wolfIdBottom != 1162))
-				blockLeft = true;
-			
-			else
-				blockLeft = false;
+			//// If he doesn't, we allow to move to the left
+			//if (wolfIdLeft == 1161)
+			//	blockLeft = true;
+			//
+			//else if ((wolfIdBottomLeft == 1162) && (wolfIdBottom != 1162))
+			//	blockLeft = true;
+			//
+			//else
+			//	blockLeft = false;
 
 			if (wolfIdRight == 1164)
 			{
@@ -453,7 +453,7 @@ bool Wolf::Load(pugi::xml_node& node)
 	savedPosition.y = node.child("position").attribute("y").as_int();
 	currentState = (EnemyState)node.child("current_state").attribute("value").as_int();
 
-	app->enemyManager->AddEnemy(EnemyType::WOLF, position);
+	//app->enemyManager->AddEnemy(EnemyType::WOLF, position);
 
 	return true;
 }

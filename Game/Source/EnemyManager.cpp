@@ -30,7 +30,7 @@ bool EnemyManager::Update(float dt)
 {
 	ListItem<Enemy*>* item = enemies.start;
 
-	while (item != nullptr)
+	while ((item != nullptr))
 	{
 		item->data->Update(dt);
 		item = item->next;
@@ -45,8 +45,7 @@ void EnemyManager::Draw()
 
 	while (item != nullptr)
 	{
-		if(item->data->isAlive)
-			item->data->Draw();
+		item->data->Draw();
 
 		item = item->next;
 	}

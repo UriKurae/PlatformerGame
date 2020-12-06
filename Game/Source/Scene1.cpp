@@ -45,28 +45,64 @@ bool Scene1::Start()
 		if (app->player->loadedGame == false)
 		{
 			// Enemy instantiation
-			executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100));
-			executioner->Start();
+			
+			executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100)));
+			executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100)));
+			executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(2096, 180)));
 
-			executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100));
-			executioner2->Start();
+			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(400, 250)));
+			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(650, 260)));
+			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(2496, 260)));
+			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(3552, 420)));
+			
+			ListItem<Wolf*>* itWolfs = wolfs.start;
+			while (itWolfs != nullptr)
+			{
+				itWolfs->data->Start();
+				itWolfs = itWolfs->next;
+			}
 
-			executioner3 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(2096, 180));
-			executioner3->Start();
-
-			wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(400, 250));
-			wolf->Start();
-
-			wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(650, 260));
-			wolf2->Start();
-
-			wolf3 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(2496, 260));
-			wolf3->Start();
-
-			wolf4 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(3552, 420));
-			wolf4->Start();
-
+			ListItem<Executioner*>* itExec = executioners.start;
+			while (itExec != nullptr)
+			{
+				itExec->data->Start();
+				itExec = itExec->next;
+			}
 		}
+		else
+		{
+			// Instantiate
+			ListItem<iPoint>* wolfItem = app->sceneManager->wolfSavedPositions.start;
+			while (wolfItem != nullptr)
+			{
+				wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, wolfItem->data));
+
+				wolfItem = wolfItem->next;
+			}
+			
+			ListItem<iPoint>* execItem = app->sceneManager->executionerSavedPositions.start;
+			while (execItem != nullptr)
+			{
+				executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, execItem->data));
+				execItem = execItem->next;
+			}
+
+			// Call starts
+			ListItem<Wolf*>* itWolfs = wolfs.start;
+			while (itWolfs != nullptr)
+			{
+				itWolfs->data->Start();
+				itWolfs = itWolfs->next;
+			}
+
+			ListItem<Executioner*>* itExec = executioners.start;
+			while (itExec != nullptr)
+			{
+				itExec->data->Start();
+				itExec = itExec->next;
+			}
+		}
+
 		// Items instantiation
 		gem1 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(1200, 140));
 		gem1->Start();
@@ -185,6 +221,8 @@ bool Scene1::CleanUp()
 	app->enemyManager->DeleteColliders();
 	app->enemyManager->enemies.Clear();
 	app->enemyManager->CleanUp();
+	wolfs.Clear();
+	executioners.Clear();
 	
 	app->itemManager->DeleteColliders();
 	app->itemManager->items.Clear();

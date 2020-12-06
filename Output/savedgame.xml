@@ -8,7 +8,7 @@
   </audio>
   <map />
   <player>
-    <position x="483" y="245" />
+    <position x="327" y="245" />
   </player>
   <enemymanager />
   <itemmanager />
@@ -16,26 +16,30 @@
     <active_scene value="1" />
     <enemies>
       <executioner>
-        <position x="703" y="209" />
+        <position x="499" y="209" />
         <current_state value="2" />
-        <is_alive value="true" />
+        <is_alive value="false" />
       </executioner>
       <executioner>
-        <position x="747" y="158" />
-        <current_state value="2" />
-        <is_alive value="true" />
+        <position x="471" y="209" />
+        <current_state value="1" />
+        <is_alive value="false" />
       </executioner>
       <executioner>
-        <position x="2732" y="180" />
+        <position x="2798" y="180" />
         <current_state value="0" />
-        <is_alive value="true" />
+        <is_alive value="false" />
       </executioner>
       <wolf>
-        <position x="2516" y="260" />
+        <position x="786" y="260" />
         <current_state value="0" />
       </wolf>
       <wolf>
-        <position x="3654" y="420" />
+        <position x="2428" y="260" />
+        <current_state value="0" />
+      </wolf>
+      <wolf>
+        <position x="3677" y="420" />
         <current_state value="0" />
       </wolf>
     </enemies>

@@ -59,4 +59,7 @@ public:
 
 	int checkpointFx;
 
+	List<iPoint> wolfSavedPositions;
+	List<iPoint> executionerSavedPositions;
+
 };
