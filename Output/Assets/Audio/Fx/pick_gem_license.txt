@@ -1,0 +1,8 @@
+Pick Gem audio effect by David Jesús González López.
+
+To the extent possible under law, the person who associated CC0 with
+Pick Gemaudio effect has waived all copyright and related or neighboring rights
+to Pick Gem audio effect.
+
+You should have received a copy of the CC0 legalcode along with this
+work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
