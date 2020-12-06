@@ -36,8 +36,6 @@ bool EnemyManager::Update(float dt)
 		item = item->next;
 	}
 
-	Draw();
-
 	return true;
 }
 
@@ -47,7 +45,9 @@ void EnemyManager::Draw()
 
 	while (item != nullptr)
 	{
-		item->data->Draw();
+		if(item->data->isAlive)
+			item->data->Draw();
+
 		item = item->next;
 	}
 }

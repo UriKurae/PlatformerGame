@@ -59,8 +59,8 @@ void GreenGem::Draw()
 bool GreenGem::CleanUp()
 {
 	this->active = false;
+	this->collider->pendingToDelete = true;
 	app->itemManager->DeleteItem(this);
-	app->tex->UnLoad(texture);
 
 	return true;
 }

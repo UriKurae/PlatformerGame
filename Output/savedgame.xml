@@ -4,51 +4,59 @@
   <window />
   <textures />
   <audio>
-	 <music_volume value="15" />
+    <music_volume value="15" />
   </audio>
   <map />
-  <itemmanager />
   <enemymanager />
   <scenemanager>
-	 <active_scene value="1" />
-	 <enemies>
-		<executioner>
-		  <position x="559" y="252" />
-		  <current_state value="2" />
-		</executioner>
-		<executioner>
-		  <position x="602" y="240" />
-		  <current_state value="2" />
-		</executioner>
-		<executioner>
-		  <position x="2554" y="180" />
-		  <current_state value="0" />
-		</executioner>
-		<wolf>
-		  <position x="503" y="250" />
-		  <current_state value="0" />
-		</wolf>
-		<wolf>
-		  <position x="673" y="264" />
-		  <current_state value="0" />
-		</wolf>
-		<wolf>
-		  <position x="2413" y="260" />
-		  <current_state value="0" />
-		</wolf>
-		<wolf>
-		  <position x="3645" y="420" />
-		  <current_state value="0" />
-		</wolf>
-	 </enemies>
+    <active_scene value="2" />
+    <enemies>
+      <executioner>
+        <position x="787" y="90" />
+        <current_state value="0" />
+        <is_alive value="true" />
+      </executioner>
+      <executioner>
+        <position x="563" y="200" />
+        <current_state value="0" />
+        <is_alive value="true" />
+      </executioner>
+      <executioner>
+        <position x="1395" y="400" />
+        <current_state value="0" />
+        <is_alive value="true" />
+      </executioner>
+      <executioner>
+        <position x="3491" y="240" />
+        <current_state value="0" />
+        <is_alive value="true" />
+      </executioner>
+      <wolf>
+        <position x="826" y="320" />
+        <current_state value="0" />
+      </wolf>
+      <wolf>
+        <position x="1196" y="208" />
+        <current_state value="0" />
+      </wolf>
+      <wolf>
+        <position x="2922" y="224" />
+        <current_state value="0" />
+      </wolf>
+      <wolf>
+        <position x="4221" y="304" />
+        <current_state value="0" />
+      </wolf>
+    </enemies>
   </scenemanager>
+  <itemmanager />
   <player>
-	 <position x="728" y="260" />
+    <position x="312" y="325" />
   </player>
   <pathfinding />
   <collisions />
   <fade />
   <renderer>
-	 <camera x="55" />
+    <camera x="55" />
   </renderer>
 </save_status>

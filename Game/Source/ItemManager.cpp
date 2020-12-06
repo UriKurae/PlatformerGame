@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "ItemManager.h"
 #include "GreenGem.h"
+#include "RedHeart.h"
 #include "Collisions.h"
 
 ItemManager::ItemManager()
@@ -47,7 +48,7 @@ bool ItemManager::Update(float dt)
 	return true;
 }
 
-bool ItemManager::PostUpdate()
+void ItemManager::Draw()
 {
 	ListItem<Item*>* it = items.start;
 
@@ -59,7 +60,6 @@ bool ItemManager::PostUpdate()
 		it = it->next;
 	}
 
-	return true;
 }
 
 bool ItemManager::CleanUp()
@@ -86,6 +86,9 @@ Item* ItemManager::AddItem(ItemType type, iPoint pos)
 	case ItemType::GEM:
 		item = new GreenGem(pos);
 		break;
+	case ItemType::HEART:
+		item = new RedHeart(pos);
+		break;
 	}
 
 	items.Add(item);
@@ -102,7 +105,6 @@ void ItemManager::DeleteItem(Item* item)
 		{
 			it->data->collider->pendingToDelete = true;
 			items.Del(it);
-
 			break;
 		}
 
@@ -117,7 +119,6 @@ void ItemManager::DeleteColliders()
 	while (it != nullptr)
 	{
 		it->data->collider->pendingToDelete = true;
-
 		it = it->next;
 	}
 

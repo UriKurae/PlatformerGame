@@ -33,24 +33,24 @@ SceneManager::SceneManager()
 	AddScene(winScene, false);
 
 
-	checkPointAnim.PushBack({0,0,11,9});
-	checkPointAnim.PushBack({44,0,12,19});
-	checkPointAnim.PushBack({90,0,15,31});
-	checkPointAnim.PushBack({135,0,17,51});
-	checkPointAnim.PushBack({180,0,16,90});
-	checkPointAnim.PushBack({225,0,17,49});
-	checkPointAnim.PushBack({270,0,17,49});
-	checkPointAnim.PushBack({315,0,17,49});
-	checkPointAnim.PushBack({360,0,17,35});
-	checkPointAnim.loop = false;
+	checkpointAnim.PushBack({0,0,11,9});
+	checkpointAnim.PushBack({44,0,12,19});
+	checkpointAnim.PushBack({90,0,15,31});
+	checkpointAnim.PushBack({135,0,17,51});
+	checkpointAnim.PushBack({180,0,16,90});
+	checkpointAnim.PushBack({225,0,17,49});
+	checkpointAnim.PushBack({270,0,17,49});
+	checkpointAnim.PushBack({315,0,17,49});
+	checkpointAnim.PushBack({360,0,17,35});
+	checkpointAnim.loop = false;
 
-	checkPointKeepAnim.PushBack({ 89,28,17,51 });
-	checkPointKeepAnim.PushBack({ 120,29,16,50 });
-	checkPointKeepAnim.PushBack({ 149,30,17,49 });
-	checkPointKeepAnim.PushBack({ 180,31,17,49 });
-	checkPointKeepAnim.PushBack({ 210,29,17,50 });
-	checkPointKeepAnim.PushBack({ 242,26,17,53 });
-	checkPointKeepAnim.loop = true;
+	checkpointKeepAnim.PushBack({ 89,28,17,51 });
+	checkpointKeepAnim.PushBack({ 120,29,16,50 });
+	checkpointKeepAnim.PushBack({ 149,30,17,49 });
+	checkpointKeepAnim.PushBack({ 180,31,17,49 });
+	checkpointKeepAnim.PushBack({ 210,29,17,50 });
+	checkpointKeepAnim.PushBack({ 242,26,17,53 });
+	checkpointKeepAnim.loop = true;
 }
 
 SceneManager::~SceneManager()
@@ -73,18 +73,19 @@ bool SceneManager::Load(pugi::xml_node& node)
 	pugi::xml_node enemies = node.child("enemies");
 	pugi::xml_node wolf = enemies.child("wolf");
 	pugi::xml_node executioner = enemies.child("executioner");
+
 	while (item != nullptr)
 	{
 		if (item->data->name == "wolf")
 		{
-			if(item->data->isAlive)
+			if(item->data->savedIsAlive)
 				item->data->Load(wolf);
 
 			wolf = wolf.next_sibling("wolf");
 		}
 		else if (item->data->name == "executioner")
 		{
-			if(item->data->isAlive)
+			if(item->data->savedIsAlive)
 				item->data->Load(executioner);
 
 			executioner = executioner.next_sibling("executioner");
@@ -148,8 +149,8 @@ bool SceneManager::Update(float dt)
 {
 	bool ret = true;
 
-	checkPointAnim.speed = 2.0f * dt;
-	checkPointKeepAnim.speed = 2.0f * dt;
+	checkpointAnim.speed = 2.0f * dt;
+	checkpointKeepAnim.speed = 2.0f * dt;
 
 	ret = HandleInput(dt);
 
@@ -206,9 +207,12 @@ bool SceneManager::HandleInput(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_O) == KeyState::KEY_DOWN)
 		app->fade->Fade((Scene*)scene2, (Scene*)scene1, 1 / dt);
+
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		app->fade->Fade(currentScene, scene1, 1 / dt);
 	
 	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
-		app->fade->Fade((Scene*)scene1, (Scene*)scene2, 1 / dt);
+		app->fade->Fade(currentScene, (Scene*)scene2, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 		app->map->viewHitboxes = !app->map->viewHitboxes;

@@ -96,8 +96,8 @@ bool Scene2::Update(float dt)
 		app->player->Disable();
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		RestartPlayerPosition();
+	/*if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		RestartPlayerPosition();*/
 
 	return true;
 }

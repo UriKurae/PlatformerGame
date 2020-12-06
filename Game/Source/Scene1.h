@@ -6,6 +6,7 @@ class Player;
 class Executioner;
 class Wolf;
 class GreenGem;
+class RedHeart;
 class Animation;
 
 
@@ -47,21 +48,28 @@ private:
 	SDL_Texture* clouds;
 	SDL_Texture* sea;
 
+	// Enemies
 	Executioner* executioner;
 	Executioner* executioner2;
 	Executioner* executioner3;
-
 	Wolf* wolf;
 	Wolf* wolf2;
 	Wolf* wolf3;
 	Wolf* wolf4;
 
+	// Collectibles
+	GreenGem* gem1;
+	GreenGem* gem2;
+	GreenGem* gem3;
+	GreenGem* gem4;
 
-	GreenGem* gem;
+	RedHeart* heart1;
+	RedHeart* heart2;
+	RedHeart* heart3;
 
 	// CheckPoints
-	bool checkPoint1 = false;
-	bool checkPoint2 = false;
+	bool checkpoint1 = false;
+	bool checkpoint2 = false;
 	bool checkSound1 = false;
 	bool checkSound2 = false;
 	Animation* currentAnim;

@@ -12,6 +12,7 @@ enum class ItemType
 	NONE = -1,
 	GEM,
 	COIN,
+	HEART,
 };
 
 class Item

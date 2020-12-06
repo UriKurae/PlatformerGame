@@ -241,7 +241,15 @@ void Player::Draw()
 	app->render->DrawTexture(texture,position.x,position.y, &currentAnim->GetCurrentFrame());
 
 	// Draw lifes texture
-	app->render->DrawTexture(healthTexture, position.x - 2, position.y - 2, &currentAnimHeart->GetCurrentFrame());
+	if (lifes <= 3)
+		app->render->DrawTexture(healthTexture, position.x - 2, position.y - 2, &currentAnimHeart->GetCurrentFrame());
+	
+	else if (lifes > 3)
+	{
+		SDL_Rect r = { 1,1,7,6 };
+		app->render->DrawTexture(healthTexture, position.x - 2, position.y - 2, &r);
+		app->render->DrawTexture(healthTexture, position.x - 2, position.y - 9, &currentAnimHeart->GetCurrentFrame());
+	}
 
 	//Draw gems textures
 	if(currentAnimGem != nullptr)
@@ -271,7 +279,6 @@ void Player::HandleInput(float dt)
 
 	if (godMode == true)
 	{
-
 		if (app->input->GetKey(SDL_SCANCODE_W) == KeyState::KEY_REPEAT)
 		{
 			position.y -= 300.0f * dt;
@@ -379,7 +386,6 @@ void Player::HandleInput(float dt)
 	
 	if ((app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (godMode == false) && (isDodging == false))
 	{
-
 		if ((currentAnim != &jumpRightAnim) && (direction == "right"))
 		{
 			jumpRightAnim.speed = 13.0f * dt;
@@ -703,6 +709,33 @@ void Player::PickItem(ItemType type)
 			break;
 		case 4:
 			currentAnimGem = &fourGemAnim;
+			break;
+		}
+	}
+
+	if (type == ItemType::HEART)
+	{
+		++lifes;
+
+		switch (lifes)
+		{
+		case 1:
+			currentAnimHeart = &oneLifesAnim;
+			break;
+		case 2:
+			currentAnimHeart = &twoLifesAnim;
+			break;
+		case 3:
+			currentAnimHeart = &threeLifesAnim;
+			break;
+		case 4:
+			currentAnimHeart = &oneLifesAnim;
+			break;
+		case 5:
+			currentAnimHeart = &twoLifesAnim;
+			break;
+		case 6:
+			currentAnimHeart = &threeLifesAnim;
 			break;
 		}
 	}

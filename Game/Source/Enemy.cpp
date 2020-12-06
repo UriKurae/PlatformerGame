@@ -51,7 +51,7 @@ bool Enemy::Patrol(float dt)
 	return true;
 }
 
-void Enemy::HandleCollisions()
+void Enemy::HandleCollisions(float dt)
 {
 
 }

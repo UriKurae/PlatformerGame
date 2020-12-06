@@ -90,6 +90,9 @@
     <ClCompile Include="Source\GreenGem.cpp">
       <Filter>Items</Filter>
     </ClCompile>
+    <ClCompile Include="Source\RedHeart.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -209,6 +212,9 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\GreenGem.h">
+      <Filter>Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RedHeart.h">
       <Filter>Items</Filter>
     </ClInclude>
   </ItemGroup>

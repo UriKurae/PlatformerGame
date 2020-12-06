@@ -57,8 +57,8 @@ public:
 
 	// Animations for checkPoints
 
-	Animation checkPointAnim;
-	Animation checkPointKeepAnim;
+	Animation checkpointAnim;
+	Animation checkpointKeepAnim;
 
 	int checkpointFx;
 

@@ -44,7 +44,7 @@ public:
 
 	virtual bool CleanUp();
 	
-	virtual void HandleCollisions();
+	virtual void HandleCollisions(float dt);
 
 	virtual bool FindTarget(Player* player, float dt);
 
@@ -78,6 +78,7 @@ public:
 	int attackSpeed;
 
 	bool isAlive;
+	bool savedIsAlive;
 
 	EnemyState currentState;
 	int pathCooldown;

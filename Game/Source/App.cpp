@@ -43,9 +43,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex, true);
 	AddModule(audio, true);
 	AddModule(map, false);
-	AddModule(itemManager, true);
 	AddModule(enemyManager, true);
 	AddModule(sceneManager, true);
+	AddModule(itemManager, true);
 	AddModule(player, true);
 	AddModule(pathFinding, true);
 	AddModule(collisions, true);

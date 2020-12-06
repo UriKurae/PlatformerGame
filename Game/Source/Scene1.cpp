@@ -13,6 +13,7 @@
 #include "Executioner.h"
 #include "ItemManager.h"
 #include "GreenGem.h"
+#include "RedHeart.h"
 #include "Wolf.h"
 #include "FadeToBlack.h"
 #include "Collisions.h"
@@ -65,8 +66,27 @@ bool Scene1::Start()
 
 
 		// Items instantiation
-		gem = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(1200, 140));
-		gem->Start();
+		gem1 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(1200, 140));
+		gem1->Start();
+
+		gem2 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(1642, 96));
+		gem2->Start();
+
+		gem3 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(2144, 512));
+		gem3->Start();
+
+		gem4 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(2976, 544));
+		gem4->Start();
+
+		heart1 = (RedHeart*)app->itemManager->AddItem(ItemType::HEART, iPoint(432, 176));
+		heart1->Start();
+
+		heart2 = (RedHeart*)app->itemManager->AddItem(ItemType::HEART, iPoint(2080, 224));
+		heart2->Start();
+
+		heart3 = (RedHeart*)app->itemManager->AddItem(ItemType::HEART, iPoint(2960, 304));
+		heart3->Start();
+
 
 		// Assets loading and playing
 		app->audio->PlayMusic("Assets/Audio/Music/scene_1.ogg");
@@ -100,7 +120,7 @@ bool Scene1::Update(float dt)
 		RestartPlayerPosition();
 	}
 
-	app->sceneManager->checkPointKeepAnim.speed = 8.0f * dt;
+	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
 	return true;
 }
 
@@ -117,24 +137,24 @@ bool Scene1::Draw()
 	
 	app->player->Draw();
 	app->enemyManager->Draw();
-	gem->Draw();
+	app->itemManager->Draw();
 
-	if (checkPoint1 == true)
+	if (checkpoint1 == true)
 	{
-		if (currentAnim != &app->sceneManager->checkPointKeepAnim)
+		if (currentAnim != &app->sceneManager->checkpointKeepAnim)
 		{
-			app->sceneManager->checkPointKeepAnim.Reset();
-			currentAnim = &app->sceneManager->checkPointKeepAnim;
+			app->sceneManager->checkpointKeepAnim.Reset();
+			currentAnim = &app->sceneManager->checkpointKeepAnim;
 		}
 		app->render->DrawTexture(app->sceneManager->checkpointTexture, 1535, 155, &currentAnim->GetCurrentFrame());
 		currentAnim->Update();
 	}
-	else if (checkPoint2 == true)
+	else if (checkpoint2 == true)
 	{
-		if (currentAnim != &app->sceneManager->checkPointKeepAnim)
+		if (currentAnim != &app->sceneManager->checkpointKeepAnim)
 		{
-			app->sceneManager->checkPointKeepAnim.Reset();
-			currentAnim = &app->sceneManager->checkPointKeepAnim;
+			app->sceneManager->checkpointKeepAnim.Reset();
+			currentAnim = &app->sceneManager->checkpointKeepAnim;
 		}
 		app->render->DrawTexture(app->sceneManager->checkpointTexture, 2256, 268, &currentAnim->GetCurrentFrame());
 		currentAnim->Update();
@@ -159,7 +179,6 @@ bool Scene1::CleanUp()
 	app->enemyManager->DeleteColliders();
 	app->enemyManager->enemies.Clear();
 	
-
 	app->itemManager->DeleteColliders();
 	app->itemManager->items.Clear();
 
@@ -168,11 +187,11 @@ bool Scene1::CleanUp()
 
 bool Scene1::RestartPlayerPosition()
 {
-	if (checkPoint1 == true)
+	if (checkpoint1 == true)
 	{
 		app->player->SetPosition(1535, 176);
 	}
-	else if (checkPoint2 == true)
+	else if (checkpoint2 == true)
 	{
 		app->player->SetPosition(2256, 272);
 	}
@@ -207,10 +226,10 @@ int Scene1::CheckWin()
 				return 2;
 			}
 
-			if (playerMidTile == 1167 && checkPoint2 == false)
+			if (playerMidTile == 1167 && checkpoint2 == false)
 			{
-				checkPoint1 = true;
-				currentAnim = &app->sceneManager->checkPointKeepAnim;
+				checkpoint1 = true;
+				currentAnim = &app->sceneManager->checkpointKeepAnim;
 				if (checkSound1 == false)
 				{
 					app->audio->PlayFx(app->sceneManager->checkpointFx);
@@ -220,8 +239,8 @@ int Scene1::CheckWin()
 			}
 			else if (playerMidTile == 1168)
 			{
- 				checkPoint2 = true;
-				checkPoint1 = false;
+ 				checkpoint2 = true;
+				checkpoint1 = false;
 				if (checkSound2 == false)
 				{
 					app->audio->PlayFx(app->sceneManager->checkpointFx);
@@ -229,7 +248,6 @@ int Scene1::CheckWin()
 					checkSound2 = true;
 				}
 			}
-
 		}
 	
 		layer = layer->next;

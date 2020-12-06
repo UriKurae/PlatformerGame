@@ -207,7 +207,7 @@ bool Wolf::Update(float dt)
 		}
 	}
 
-	HandleCollisions();
+	HandleCollisions(dt);
 
 	if (this->life <= 0)
 		EnemyDies();
@@ -340,7 +340,7 @@ bool Wolf::ChaseTarget(float dt)
 	return false;
 }
 
-void Wolf::HandleCollisions()
+void Wolf::HandleCollisions(float dt)
 {
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 

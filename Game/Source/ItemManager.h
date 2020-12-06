@@ -18,7 +18,7 @@ public:
 
 	bool Update(float dt) override;
 
-	bool PostUpdate() override;
+	void Draw();
 
 	bool CleanUp() override;
 
