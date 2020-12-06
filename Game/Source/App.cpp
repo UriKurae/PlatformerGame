@@ -411,7 +411,7 @@ bool App::SaveGame()
 		item = item->next;
 	}
 
-	bool saveSucceed = file.save_file("savedgame.xml", PUGIXML_TEXT("  "));
+	bool saveSucceed = file.save_file("save_game.xml", PUGIXML_TEXT("  "));
 	if (saveSucceed == false)
 	{
 		LOG("Couldn't save the file. pugi error: %s", pugi::status_internal_error);

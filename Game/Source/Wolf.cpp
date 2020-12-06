@@ -146,6 +146,8 @@ bool Wolf::Start()
 
 	blockFall = false;
 
+	currentState = EnemyState::PATROL;
+
 	return true;
 }
 

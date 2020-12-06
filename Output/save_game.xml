@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<save_status>
+  <window />
+  <input />
+  <textures />
+  <audio>
+    <music_volume value="10" />
+  </audio>
+  <map />
+  <enemymanager />
+  <itemmanager />
+  <scenemanager>
+    <active_scene value="0" />
+    <enemies />
+  </scenemanager>
+  <player>
+    <position x="0" y="0" />
+  </player>
+  <pathfinding />
+  <collisions />
+  <fade />
+  <renderer>
+    <camera x="55" />
+  </renderer>
+</save_status>
