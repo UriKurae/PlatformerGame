@@ -61,16 +61,16 @@ License(Tiles and background): http://creativecommons.org/licenses/by/3.0/
 
 Wolf enemy license: http://creativecommons.org/licenses/by/3.0/
 
-Executioner: https://darkpixel-kronovi.itch.io/undead-executioner
+Executioner enemy sprites: https://darkpixel-kronovi.itch.io/undead-executioner
 
-Collectibles:
+Collectibles' sprites:
 - Hearts: https://mikiz.itch.io/full-heart-animation
 - Gems: https://laredgames.itch.io/gems-coins-free
 
-Checkpoint: https://sanctumpixel.itch.io/fire-column-pixel-art-effect
+Checkpoints' sprite: https://sanctumpixel.itch.io/fire-column-pixel-art-effect
 
 Intro music: https://octopupus.itch.io/8-bit-looped-track?download
 
 Gameplay music: https://alecxs-sunders.itch.io/rpgjrpg-5-songs-free-pack
 
-Checkpoint FX: http://sonidosmp3gratis.com/download.php?id=890&sonido=fuego%201
+Checkpoints' FX: http://sonidosmp3gratis.com/download.php?id=890&sonido=fuego%201
