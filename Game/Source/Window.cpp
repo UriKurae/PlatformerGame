@@ -58,7 +58,7 @@ bool Window::Awake(pugi::xml_node& config)
 		}
 		else
 		{
-			//Get window surface
+			// Get window surface
 			screenSurface = SDL_GetWindowSurface(window);
 		}
 	}
@@ -71,13 +71,13 @@ bool Window::CleanUp()
 {
 	LOG("Destroying SDL window and quitting all SDL systems");
 
-	//Destroy window
+	// Destroy window
 	if(window != NULL)
 	{
 		SDL_DestroyWindow(window);
 	}
 
-	//Quit SDL subsystems
+	// Quit SDL subsystems
 	SDL_Quit();
 	return true;
 }

@@ -126,11 +126,6 @@ public:
 		return true;
 	}
 
-	void DeleteAll()
-	{
-		delete[] data;
-	}
-
 	VALUE* At(unsigned int index)
 	{
 		VALUE* result = NULL;
@@ -185,7 +180,6 @@ public:
 		return ret;
 	}
 
-
 	int BubbleSortOptimized()
 	{
 		int ret = 0;
@@ -208,7 +202,6 @@ public:
 		}
 		return ret;
 	}
-
 
 	int CombSort()
 	{

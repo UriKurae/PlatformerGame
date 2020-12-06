@@ -65,9 +65,6 @@ public:
 	int cameraX;
 	int cameraY;
 
-
-	fPoint offset = { 0,0 };
-
 	bool vsync = false;
 };
 

@@ -17,7 +17,7 @@ private:
 	float currentFrame = 0.0f;
 	int totalFrames = 0;
 	int loopCount = 0;
-	int pingpongDirection = 1;
+	int pingPongDirection = 1;
 	bool hasFinished;
 
 public:
@@ -47,7 +47,7 @@ public:
 			++loopCount;
 
 			if (pingPong)
-				pingpongDirection = -pingpongDirection;
+				pingPongDirection = -pingPongDirection;
 
 			hasFinished = true;
 		}
@@ -65,7 +65,7 @@ public:
 	const SDL_Rect& GetCurrentFrame() const
 	{
 		int actualFrame = currentFrame;
-		if (pingpongDirection == -1)
+		if (pingPongDirection == -1)
 			actualFrame = totalFrames - currentFrame;
 
 		return frames[actualFrame];

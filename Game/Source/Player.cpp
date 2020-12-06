@@ -345,7 +345,7 @@ void Player::HandleInput(float dt)
 				dodgingToRight.Reset();
 				currentAnim = &dodgingToRight;
 			}
-			position.x += 700.0f * dt;
+			position.x += 400.0f * dt;
 		}
 		else if (direction == "left")
 		{
@@ -354,7 +354,7 @@ void Player::HandleInput(float dt)
 				dodgingToLeft.Reset();
 				currentAnim = &dodgingToLeft;
 			}
-			position.x -= 700.0f * dt;
+			position.x -= 400.0f * dt;
 		}
 	}
 	else

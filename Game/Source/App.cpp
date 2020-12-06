@@ -38,8 +38,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
-	AddModule(input,true);
 	AddModule(win, true);
+	AddModule(input,true);
 	AddModule(tex, true);
 	AddModule(audio, true);
 	AddModule(map, false);

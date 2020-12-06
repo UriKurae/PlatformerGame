@@ -76,12 +76,6 @@ bool Render::PreUpdate()
 
 bool Render::Update(float dt)
 {
-	/*if (app->player->active == true)
-	{
-		camera.x = -(app->player->GetPosition().x * 2.0f) + (camera.w / 3);
-		camera.y = (-app->player->GetPosition().y);
-	}*/
-
 	SDL_RenderGetViewport(renderer, &viewport);
 
 	return true;
@@ -209,7 +203,7 @@ bool Render::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b,
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
-	
+
 	int result = -1;
 
 	if(use_camera)
