@@ -77,15 +77,13 @@ bool SceneManager::Load(pugi::xml_node& node)
 	{
 		if (item->data->name == "wolf")
 		{
-			if(item->data->savedIsAlive)
-				item->data->Load(wolf);
+			item->data->Load(wolf);
 
 			wolf = wolf.next_sibling("wolf");
 		}
 		else if (item->data->name == "executioner")
 		{
-			if(item->data->savedIsAlive)
-				item->data->Load(executioner);
+			item->data->Load(executioner);
 
 			executioner = executioner.next_sibling("executioner");
 		}

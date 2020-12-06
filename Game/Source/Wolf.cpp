@@ -132,8 +132,8 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 
 bool Wolf::Start()
 {
-	if (app->player->loadedGame)
-		position = savedPosition;
+	/*if (app->player->loadedGame && savedIsAlive == true)
+		position = savedPosition;*/
 
 	texture = app->enemyManager->wolfTexture;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
@@ -179,7 +179,7 @@ bool Wolf::Update(float dt)
 		}
 	}
 
-	if (this->life > 0 && dt < 0.4f)
+	if ((this->life > 0) && (dt < 0.4f))
 	{
 		// Enemy state machine
 		if (currentState == EnemyState::PATROL)
@@ -217,6 +217,7 @@ bool Wolf::Update(float dt)
 
 	if (collider != nullptr)
 		collider->SetPos(position.x, position.y);
+
 	currentAnim->Update();
 
 	return true;
@@ -276,9 +277,7 @@ bool Wolf::FindTarget(Player* player, float dt)
 
 	indexPath = path.Count() - 1;
 	
-
 	return true;
-
 }
 
 bool Wolf::ChaseTarget(float dt)
@@ -323,7 +322,6 @@ bool Wolf::ChaseTarget(float dt)
 
 				if (currentAnim != &deathRightAnim)
 					position.x += 300.0f * dt;
-
 			}
 
 			if (path[indexPath].x < position.x / app->map->data.tileWidth)
@@ -367,19 +365,19 @@ void Wolf::HandleCollisions(float dt)
 		if (layer->data->name == "HitBoxes")
 		{
 			// Here we get the surrounders player's tiles
-			uint playerIdBottom = layer->data->Get(wolfPosBottom.x, wolfPosBottom.y);
+			uint wolfIdBottom = layer->data->Get(wolfPosBottom.x, wolfPosBottom.y);
 
-			uint playerIdRight = layer->data->Get(wolfPosRight.x, wolfPosRight.y);
-			uint playerIdLeft = layer->data->Get(wolfPosLeft.x, wolfPosLeft.y);
+			uint wolfIdRight = layer->data->Get(wolfPosRight.x, wolfPosRight.y);
+			uint wolfIdLeft = layer->data->Get(wolfPosLeft.x, wolfPosLeft.y);
 
-			uint playerIdBottomRight = layer->data->Get(wolfPosBottomRight.x, wolfPosBottomRight.y);
-			uint playerIdBottomLeft = layer->data->Get(wolfPosBottomLeft.x, wolfPosBottomLeft.y);
+			uint wolfIdBottomRight = layer->data->Get(wolfPosBottomRight.x, wolfPosBottomRight.y);
+			uint wolfIdBottomLeft = layer->data->Get(wolfPosBottomLeft.x, wolfPosBottomLeft.y);
 
 			// Detect platform collision and ignore it if hes jumping upwards
-			if (playerIdBottom == 1162 )
+			if (wolfIdBottom == 1162 )
 				blockFall = true;
 			
-			else if ((playerIdBottom == 1161) && (playerIdRight != 1161))
+			else if ((wolfIdBottom == 1161) && (wolfIdRight != 1161))
 				blockFall = true;
 			
 			else
@@ -388,11 +386,11 @@ void Wolf::HandleCollisions(float dt)
 			// Check if the player is facing a collision with his right tile
 			// If he does, we dont allow to walk to the right
 			// If he doesn't, we allow to walk to the right
-			if (playerIdRight == 1161)
+			if (wolfIdRight == 1161)
 			{
 				blockRight = true;
 			}
-			else if ((playerIdBottomRight == 1162) && (playerIdBottom != 1162))
+			else if ((wolfIdBottomRight == 1162) && (wolfIdBottom != 1162))
 			{
 				blockRight = true;
 				jumpLeftAnim.Reset();
@@ -405,16 +403,16 @@ void Wolf::HandleCollisions(float dt)
 			// Here we check if is facing a wall with his left tile
 			// If he does, we dont allow to move to the left
 			// If he doesn't, we allow to move to the left
-			if (playerIdLeft == 1161)
+			if (wolfIdLeft == 1161)
 				blockLeft = true;
 			
-			else if ((playerIdBottomLeft == 1162) && (playerIdBottom != 1162))
+			else if ((wolfIdBottomLeft == 1162) && (wolfIdBottom != 1162))
 				blockLeft = true;
 			
 			else
 				blockLeft = false;
 
-			if (playerIdRight == 1164)
+			if (wolfIdRight == 1164)
 			{
 				position.x -= 100 * dt;
  				speedX = -speedX;
@@ -427,7 +425,7 @@ void Wolf::HandleCollisions(float dt)
 				currentState = EnemyState::PATROL;
 			}
 
-			if (playerIdLeft == 1164)
+			if (wolfIdLeft == 1164)
 			{
 				position.x += 100 * dt;
 				speedX = -speedX;
@@ -454,6 +452,8 @@ bool Wolf::Load(pugi::xml_node& node)
 	savedPosition.x = node.child("position").attribute("x").as_int();
 	savedPosition.y = node.child("position").attribute("y").as_int();
 	currentState = (EnemyState)node.child("current_state").attribute("value").as_int();
+
+	app->enemyManager->AddEnemy(EnemyType::WOLF, position);
 
 	return true;
 }

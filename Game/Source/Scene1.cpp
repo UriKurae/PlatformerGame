@@ -42,29 +42,31 @@ bool Scene1::Start()
 
 		else playerStartPosition = app->player->SetPosition(250, 5);
 
-		// Enemy instantiation
-		executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100));
-		executioner->Start();
+		if (app->player->loadedGame == false)
+		{
+			// Enemy instantiation
+			executioner = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100));
+			executioner->Start();
 
-		executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100));
-		executioner2->Start();
+			executioner2 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100));
+			executioner2->Start();
 
-		executioner3 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(2096, 180));
-		executioner3->Start();
+			executioner3 = (Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(2096, 180));
+			executioner3->Start();
 
-		wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(400, 250));
-		wolf->Start();
+			wolf = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(400, 250));
+			wolf->Start();
 
-		wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(650, 260));
-		wolf2->Start();
+			wolf2 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(650, 260));
+			wolf2->Start();
 
-		wolf3 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(2496, 260));
-		wolf3->Start();
+			wolf3 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(2496, 260));
+			wolf3->Start();
 
-		wolf4 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(3552, 420));
-		wolf4->Start();
+			wolf4 = (Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(3552, 420));
+			wolf4->Start();
 
-
+		}
 		// Items instantiation
 		gem1 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(1200, 140));
 		gem1->Start();
@@ -123,8 +125,6 @@ bool Scene1::Update(float dt)
 		{
 			RestartPlayerPosition();
 		}
-
-
 	}
 
 	return true;

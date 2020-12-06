@@ -160,7 +160,7 @@ bool Player::Start()
 		jumpFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
 		hitFx = app->audio->LoadFx("Assets/Audio/Fx/hit.wav");
 		dodgingFx = app->audio->LoadFx("Assets/Audio/Fx/dodging.wav");
-		pickGemFx = app->audio->LoadFx("Assets/Audi/Fx/pick_gem.wav");
+		pickGemFx = app->audio->LoadFx("Assets/Audio/Fx/pick_gem.wav");
 		healthTexture = app->tex->Load("Assets/Textures/Collectibles/hearts.png");
 		gemsTexture = app->tex->Load("Assets/Textures/Collectibles/gem.png");
 
