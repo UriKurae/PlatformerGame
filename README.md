@@ -20,7 +20,7 @@ In this game you will play as Zed, a brave adventurer fighting for his fate. On 
 - Volume control.
 - Enemy pathfinding.
 - Checkpoints autosave.
-- Teleportation between checkpoints.
+- Teleportation to the last checkpoint.
 
  
 ## Controls
@@ -29,6 +29,7 @@ In this game you will play as Zed, a brave adventurer fighting for his fate. On 
  - Jump with Space.
  - Dodge with left shift.
  - Press Space while in the air to do a double jump.
+ - Press T key to teleport to the last checkpoint.
  - Press numpad + or - to raise or lower the music volume.
  - Press the Escape key to quit the game.
  
@@ -39,9 +40,9 @@ In this game you will play as Zed, a brave adventurer fighting for his fate. On 
  - F3 -> Start from the beginning of the first level.
  - F5 -> Save the current game state.
  - F6 -> Load previous state.
- - F9 -> View colliders/logic.
+ - F9 -> View colliders/logic/paths.
  - F10 -> God Mode (ignore collisions, speed multiplied, can fly).
- - T -> Teleport between checkpoints.
+ - F11 -> Enable/Disable FPS cap to 30.
 
 ## Developers
 
