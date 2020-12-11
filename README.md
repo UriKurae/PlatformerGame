@@ -37,7 +37,7 @@ In this game you will play as Zed, a brave adventurer fighting for his fate. On 
  
  - F1 -> Start from the first level.
  - F2 -> Start from the second level.
- - F3 -> Start from the beginning of the first level.
+ - F3 -> Start from the beginning of the current level.
  - F5 -> Save the current game state.
  - F6 -> Load previous state.
  - F9 -> View colliders/logic/paths.
