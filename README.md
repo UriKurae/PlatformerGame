@@ -1,4 +1,4 @@
-# Platformer Game
+# Zed's Adventure
 
 ## Description
 
