@@ -13,8 +13,7 @@
 
 MainMenu::MainMenu()
 {
-	name.Create("introScene");
-	count = 200;
+	name.Create("mainMenu");
 }
 
 MainMenu::~MainMenu()
@@ -25,9 +24,9 @@ MainMenu::~MainMenu()
 // Load assets
 bool MainMenu::Start()
 {
+	menuState = MenuState::INITIAL;
 	//intro = app->tex->Load("Assets/Textures/Scenes/intro.png");
 	intro = app->tex->Load("Assets/Textures/Scenes/main_test.png");
-	logo = app->tex->Load("Assets/Textures/Scenes/logo.png");
 	
 	app->audio->PlayMusic("Assets/Audio/Music/intro_scene.ogg");
 
@@ -53,23 +52,22 @@ bool MainMenu::Start()
 
 bool MainMenu::Update(float dt)
 {
-	if ((app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) && (count <= 0) && (showLogo == false))
-		//app->fade->Fade(this, (Scene*)app->sceneManager->scene1, 1 / dt);
-	
+	if (menuState == MenuState::INITIAL)
+	{
+		btnPlay->Update(app->input, dt);
+		btnContinue->Update(app->input, dt);
+		btnSettings->Update(app->input, dt);
+		btnCredits->Update(app->input, dt);
+		btnExit->Update(app->input, dt);
+	}
+	else if (menuState == MenuState::OPTIONS)
+	{
 
-	if ((count >= 100) && (count <= 110))
-		app->fade->Fade(this, this, 1 / dt);
+	}
+	else if (menuState == MenuState::CREDITS)
+	{
 
-	else if (count <= 40)
-		showLogo = false;
-
-	count -= 20 * dt;
-
-	btnPlay->Update(app->input, dt);
-	btnContinue->Update(app->input, dt);
-	btnSettings->Update(app->input, dt);
-	btnCredits->Update(app->input, dt);
-	btnExit->Update(app->input, dt);
+	}
 
 	return true;
 }
@@ -79,17 +77,24 @@ bool MainMenu::Draw()
 {
 	bool ret = true;
 
-	if ((count >= 65) && (showLogo == true))
-		app->render->DrawTexture(logo, 150, 0, NULL);
+	app->render->DrawTexture(intro, 0, 0, NULL);
 
-	else if (count <= 60)
-		app->render->DrawTexture(intro, 0, 0, NULL);
+	if (menuState == MenuState::INITIAL)
+	{
+		btnPlay->Draw(app->render);
+		btnContinue->Draw(app->render);
+		btnSettings->Draw(app->render);
+		btnCredits->Draw(app->render);
+		btnExit->Draw(app->render);
+	}
+	else if (menuState == MenuState::OPTIONS)
+	{
 
-	btnPlay->Draw(app->render);
-	btnContinue->Draw(app->render);
-	btnSettings->Draw(app->render);
-	btnCredits->Draw(app->render);
-	btnExit->Draw(app->render);
+	}
+	else if (menuState == MenuState::CREDITS)
+	{
+
+	}
 
 	return ret;
 }
@@ -97,8 +102,7 @@ bool MainMenu::Draw()
 bool MainMenu::CleanUp()
 {
 	app->tex->UnLoad(intro);
-	app->tex->UnLoad(logo);
-	
+
 	return true;
 }
 

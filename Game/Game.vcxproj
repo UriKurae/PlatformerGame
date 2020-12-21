@@ -106,6 +106,7 @@
     <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\ItemManager.cpp" />
     <ClCompile Include="Source\RedHeart.cpp" />
+    <ClCompile Include="Source\SceneLogo.cpp" />
     <ClCompile Include="Source\Wolf.cpp" />
     <ClCompile Include="Source\SceneMainMenu.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\ItemManager.h" />
     <ClInclude Include="Source\RedHeart.h" />
+    <ClInclude Include="Source\SceneLogo.h" />
     <ClInclude Include="Source\Wolf.h" />
     <ClInclude Include="Source\SceneMainMenu.h" />
     <ClInclude Include="Source\Map.h" />

@@ -6,6 +6,7 @@
 #include "Animation.h"
 
 class SDL_Texture;
+class SceneLogo;
 class MainMenu;
 class Scene1;
 class Scene2;
@@ -48,6 +49,7 @@ public:
 	Scene* nextScene;
 	Scene* savedScene = nullptr;
 
+	SceneLogo* sceneLogo;
 	MainMenu* mainMenu;
 	Scene1* scene1;
 	Scene2* scene2;

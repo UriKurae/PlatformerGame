@@ -6,7 +6,17 @@
 #include "GuiSlider.h"
 #include "GuiCheckBox.h"
 
-struct SDL_Texture;
+class SDL_Texture;
+
+enum class MenuState
+{
+	NONE = -1,
+	INITIAL,
+	OPTIONS,
+	CREDITS,
+
+};
+
 
 class MainMenu : public Scene
 {
@@ -35,12 +45,7 @@ public:
 private:
 
 	SDL_Texture* intro;
-	SDL_Texture* logo;
 
-	float count;
-	bool showLogo = true;
-
-	SDL_Texture* bg;
 
 	// Buttons
 	GuiButton* btnPlay;
@@ -57,5 +62,6 @@ private:
 	GuiCheckBox* cbFullScreen;
 	GuiCheckBox* cbVsync;
 
+	MenuState menuState;
 };
 

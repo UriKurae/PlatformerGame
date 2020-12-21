@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "SceneManager.h"
 #include "SceneMainMenu.h"
+#include "SceneLogo.h"
 #include "Scene1.h"
 #include "Scene2.h"
 #include "DeadScene.h"
@@ -19,13 +20,15 @@ SceneManager::SceneManager()
 {
 	name.Create("scenemanager");
 
+	sceneLogo = new SceneLogo();
 	mainMenu = new MainMenu();
 	scene1 = new Scene1();
 	scene2 = new Scene2();
 	deadScene = new DeadScene();
 	winScene = new WinScene();
 
-	AddScene(mainMenu, true);
+	AddScene(sceneLogo, true);
+	AddScene(mainMenu, false);
 	AddScene(scene1, false);
 	AddScene(scene2, false);
 	AddScene(deadScene, false);
@@ -129,7 +132,7 @@ bool SceneManager::Start()
 	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
 	
-	currentScene = mainMenu;
+	currentScene = sceneLogo;
 
 	// Call all Scenes' start
 	ListItem<Scene*>* item = scenes.start;
@@ -149,7 +152,7 @@ bool SceneManager::Update(float dt)
 {
 	bool ret = true;
 
-	if (onTransition == true)
+	if (onTransition == false)
 	{
 		checkpointAnim.speed = 4.0f * dt;
 		checkpointKeepAnim.speed = 2.0f * dt;
@@ -173,7 +176,7 @@ bool SceneManager::Update(float dt)
 	{
 		if (fadeOutCompleted == false)
 		{
-			transitionAlpha += 3.0f * dt;
+			transitionAlpha += 2.0f * dt;
 
 			if (transitionAlpha > 1.01f)
 			{
@@ -187,7 +190,7 @@ bool SceneManager::Update(float dt)
 		}
 		else
 		{
-			transitionAlpha -= 3.0f * dt;
+			transitionAlpha -= 2.0f * dt;
 
 			if (transitionAlpha < -0.01f)
 			{
@@ -202,7 +205,7 @@ bool SceneManager::Update(float dt)
 	{
 		ChangeScene(currentScene->nextScene);
 	}
-
+	
 	return ret;
 }
 
@@ -216,6 +219,12 @@ bool SceneManager::PostUpdate()
 			item->data->Draw();
 
 		item = item->next;
+	}
+
+	// Draw full screen rectangle in front of everything
+	if (onTransition)
+	{
+		app->render->DrawRectangle({ 0, 0, 1280, 720 }, { 0, 0, 0, (unsigned char)(255.0f * transitionAlpha) });
 	}
 
 	return true;
