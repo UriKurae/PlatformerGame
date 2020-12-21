@@ -197,6 +197,7 @@ bool SceneManager::Update(float dt)
 				transitionAlpha = 0.0f;
 				fadeOutCompleted = false;
 				onTransition = false;
+				nextScene = nullptr;
 			}
 		}
 	}
@@ -300,6 +301,6 @@ void SceneManager::ChangeScene(Scene* scene)
 	transitionAlpha = 0.0f;
 
 	nextScene = scene;
-
+	currentScene = scene;
 	currentScene->transitionRequired = false;
 }
