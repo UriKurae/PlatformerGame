@@ -90,6 +90,9 @@
     <ClCompile Include="Source\EntityManager.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SceneMainMenu.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -212,6 +215,9 @@
       <Filter>Core Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Entity.h" />
+    <ClInclude Include="Source\SceneMainMenu.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
