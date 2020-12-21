@@ -31,6 +31,7 @@ class Collisions;
 class FadeToBlack;
 class DeadScene;
 class PathFinding;
+class EntityManager;
 
 
 class App
@@ -114,6 +115,7 @@ public:
 	Collisions* collisions;
 	FadeToBlack* fade;
 	PathFinding* pathFinding;
+	EntityManager* entityManager;
 
 	
 	pugi::xml_document saveLoadFile;

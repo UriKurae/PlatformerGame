@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Enemy.h"
+#include "Entity.h"
 #include "DynArray.h"
 
-class Executioner : public Enemy
+class Executioner : public Entity
 {
 public:
 	Executioner(iPoint pos);
@@ -13,32 +14,49 @@ public:
 
 	bool Update(float dt) override;
 
-	void Attack();
-
 	void Draw() override;
 
 	bool CleanUp() override;
 
-	void TakeDamage(int damage) override;
+	void TakeDamage(int damage);
 
-	void EnemyDies() override;
+	void Attack();
 
-	bool FindTarget(Player* player, float dt) override;
+	void EnemyDies();
 
-	bool ChaseTarget(float dt) override;
+	bool FindTarget(Player* player, float dt);
 
-	bool Patrol(float dt) override;
+	bool ChaseTarget(float dt);
 
-	void HandleCollisions(float dt) override;
+	bool Patrol(float dt);
+
+	void HandleCollisions(float dt);
 
 	// Load and save functions for each module
-	bool Load(pugi::xml_node&) override;
+	bool Load(pugi::xml_node&);
 
-	bool Save(pugi::xml_node&) override;
+	bool Save(pugi::xml_node&);
 
 
 
 private:
+
+	int speedX;
+	int speedY;
+
+	int life;
+	int damage;
+	int attackSpeed;
+
+	bool isAlive;
+	bool savedIsAlive;
+
+	EnemyState currentState;
+	int pathCooldown;
+
+	Animation* currentAnim;
+
+	DynArray<iPoint> path;
 
 	Animation idleAnim;
 	Animation skillAnim;

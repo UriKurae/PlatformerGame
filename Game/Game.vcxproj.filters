@@ -87,6 +87,9 @@
     <ClCompile Include="Source\RedHeart.cpp">
       <Filter>Items</Filter>
     </ClCompile>
+    <ClCompile Include="Source\EntityManager.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -205,6 +208,10 @@
     <ClInclude Include="Source\RedHeart.h">
       <Filter>Items</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EntityManager.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

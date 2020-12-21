@@ -69,9 +69,9 @@ Enemy* EnemyManager::AddEnemy(EnemyType type, iPoint pos)
 	Enemy* enemy;
 	switch (type)
 	{
-	case EnemyType::EXECUTIONER:
+	/*case EnemyType::EXECUTIONER:
 		enemy = new Executioner(pos);
-		break;	
+		break;	*/
 	case EnemyType::BIRD:
 		enemy = new Ghost(pos);
 		break;

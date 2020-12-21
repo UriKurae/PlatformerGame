@@ -5,6 +5,7 @@
 #include "Textures.h"
 #include "Audio.h"
 #include "Map.h"
+#include "EntityManager.h"
 #include "Player.h"
 #include "SceneManager.h"
 #include "EnemyManager.h"
@@ -29,6 +30,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new Audio();
 	collisions = new Collisions();
 	map = new Map();
+	entityManager = new EntityManager();
 	sceneManager = new SceneManager();
 	enemyManager = new EnemyManager();
 	itemManager = new ItemManager();
@@ -43,6 +45,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex, true);
 	AddModule(audio, true);
 	AddModule(map, false);
+	AddModule(entityManager, true);
 	AddModule(enemyManager, true);
 	AddModule(itemManager, true);
 	AddModule(sceneManager, true);

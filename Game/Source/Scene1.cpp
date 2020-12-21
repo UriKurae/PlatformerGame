@@ -9,6 +9,7 @@
 #include "SceneManager.h"
 #include "Scene2.h"
 #include "Player.h"
+#include "EntityManager.h"
 #include "EnemyManager.h"
 #include "Executioner.h"
 #include "ItemManager.h"
@@ -28,7 +29,7 @@ Scene1::~Scene1()
 }
 
 bool Scene1::Start()
-{	
+{
 	if (this->active == true)
 	{
 		app->map->active = true;
@@ -44,9 +45,10 @@ bool Scene1::Start()
 
 		if (app->player->loadedGame == false)
 		{
-			executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100)));
-			executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100)));
-			
+			//executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100)));
+			//executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100)));
+			executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(400, 100)));
+
 			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(400, 250)));
 			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(650, 260)));
 			
@@ -77,7 +79,7 @@ bool Scene1::Start()
 			ListItem<iPoint>* execItem = app->sceneManager->executionerSavedPositions.start;
 			while (execItem != nullptr)
 			{
-				executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, execItem->data));
+				executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, execItem->data));
 				execItem = execItem->next;
 			}
 
@@ -167,6 +169,7 @@ bool Scene1::Draw()
 	
 	app->player->Draw();
 	app->enemyManager->Draw();
+	app->entityManager->Draw();
 	app->itemManager->Draw();
 
 	if (checkpoint1 == true)
@@ -208,6 +211,9 @@ bool Scene1::CleanUp()
 	app->enemyManager->DeleteColliders();
 	app->enemyManager->enemies.Clear();
 	app->enemyManager->CleanUp();
+
+	app->entityManager->entities.Clear();
+
 	wolfs.Clear();
 	executioners.Clear();
 	

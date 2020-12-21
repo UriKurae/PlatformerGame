@@ -2,6 +2,8 @@
 #include "App.h"
 #include "Textures.h"
 #include "Render.h"
+#include "EntityManager.h"
+#include "Entity.h"
 #include "EnemyManager.h"
 #include "Pathfinding.h"
 #include "Collisions.h"
@@ -12,7 +14,7 @@
 
 
 
-Executioner::Executioner(iPoint pos) : Enemy(pos)
+Executioner::Executioner(iPoint pos) : Entity(pos)
 {
 	name.Create("executioner");
 	
@@ -71,7 +73,7 @@ Executioner::Executioner(iPoint pos) : Enemy(pos)
 
 bool Executioner::Start()
 {
-	texture = app->enemyManager->executionerTexture;
+	texture = app->entityManager->executionerTexture;
 	
 	isAlive = true;
 
@@ -148,7 +150,7 @@ bool Executioner::Update(float dt)
 
 bool Executioner::CleanUp()
 {
-	app->enemyManager->DeleteEnemy(this);
+	app->entityManager->DeleteEntity(this);
 	path.Clear();
 
 	return true;
