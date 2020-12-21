@@ -3,7 +3,7 @@
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
-#include "IntroScene.h"
+#include "SceneMainMenu.h"
 #include "SceneManager.h"
 #include "Window.h"
 #include "Scene.h"
@@ -30,7 +30,7 @@ bool WinScene::Start()
 bool WinScene::Update(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN)
-		app->fade->Fade(this, app->sceneManager->introScene, 1 / dt);
+		app->fade->Fade(this, app->sceneManager->mainMenu, 1 / dt);
 
 	return true;
 }

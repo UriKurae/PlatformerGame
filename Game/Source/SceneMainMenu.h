@@ -6,20 +6,39 @@
 #include "GuiSlider.h"
 #include "GuiCheckBox.h"
 
-class SDL_Texture;
+struct SDL_Texture;
 
 class MainMenu : public Scene
 {
 public:
+	//Constructor
 	MainMenu();
-	virtual ~MainMenu();
 
-	bool Start();
-	bool Update();
-	bool CleanUp();
+	//Destructor
+	~MainMenu();
 
+	// Loads the necessary textures for the map background
+	bool Start() override;
+
+	// Called at the middle of the application loop
+	// Updates the scene's background animations
+	bool Update(float dt) override;
+
+	// Called at the end of the application loop.
+	// Performs the render call of all the parts of the scene's background
+	bool Draw() override;
+
+	bool CleanUp() override;
+
+	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
 private:
+
+	SDL_Texture* intro;
+	SDL_Texture* logo;
+
+	float count;
+	bool showLogo = true;
 
 	SDL_Texture* bg;
 
@@ -38,5 +57,5 @@ private:
 	GuiCheckBox* cbFullScreen;
 	GuiCheckBox* cbVsync;
 
-
 };
+

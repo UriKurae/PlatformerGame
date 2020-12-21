@@ -38,9 +38,6 @@
     <ClCompile Include="Source\DeadScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IntroScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\WinScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -89,6 +86,18 @@
     </ClCompile>
     <ClCompile Include="Source\EntityManager.cpp">
       <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GuiButton.cpp">
+      <Filter>GuiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GuiCheckBox.cpp">
+      <Filter>GuiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GuiManager.cpp">
+      <Filter>GuiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GuiSlider.cpp">
+      <Filter>GuiControls</Filter>
     </ClCompile>
     <ClCompile Include="Source\SceneMainMenu.cpp">
       <Filter>Scenes</Filter>
@@ -159,9 +168,6 @@
     <ClInclude Include="Source\DeadScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\IntroScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WinScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -215,6 +221,21 @@
       <Filter>Core Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Entity.h" />
+    <ClInclude Include="Source\GuiSlider.h">
+      <Filter>GuiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiButton.h">
+      <Filter>GuiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiCheckBox.h">
+      <Filter>GuiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiControl.h">
+      <Filter>GuiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiManager.h">
+      <Filter>GuiControls</Filter>
+    </ClInclude>
     <ClInclude Include="Source\SceneMainMenu.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -240,6 +261,9 @@
     </Filter>
     <Filter Include="Items">
       <UniqueIdentifier>{773a6d36-c19c-4e1e-8c20-ddc3019e02bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GuiControls">
+      <UniqueIdentifier>{2df212e5-7256-447d-89cd-080bf109b697}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

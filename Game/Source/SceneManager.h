@@ -6,9 +6,9 @@
 #include "Animation.h"
 
 class SDL_Texture;
+class MainMenu;
 class Scene1;
 class Scene2;
-class FadeToBlack;
 
 class SceneManager : public Module
 {
@@ -36,6 +36,8 @@ public:
 
 	void AddScene(Scene* scene, bool active);
 
+	void ChangeScene(Scene* scene);
+
 public:
 
 	bool loadedOnScene = false;
@@ -43,9 +45,10 @@ public:
 	List<Scene*> scenes;
 	Scene* lastScene;
 	Scene* currentScene;
+	Scene* nextScene;
 	Scene* savedScene = nullptr;
 
-	IntroScene* introScene;
+	MainMenu* mainMenu;
 	Scene1* scene1;
 	Scene2* scene2;
 	DeadScene* deadScene;
@@ -63,4 +66,9 @@ public:
 	// Lists for enemies saved positions
 	List<iPoint> wolfSavedPositions;
 	List<iPoint> executionerSavedPositions;
+
+
+	bool onTransition = false;
+	bool fadeOutCompleted = false;
+	float transitionAlpha;
 };

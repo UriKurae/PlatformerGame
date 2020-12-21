@@ -2,7 +2,7 @@
 
 #include "Scene.h"
 
-struct SDL_Texture;
+class SDL_Texture;
 
 class DeadScene : public Scene
 {

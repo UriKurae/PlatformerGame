@@ -4,6 +4,7 @@
 #include "SString.h"
 
 class SDL_Texture;
+class GuiControl;
 
 class Scene
 {
@@ -66,10 +67,25 @@ public:
 		}
 	}
 
+	void TransitionToScene(Scene* scene)
+	{
+		transitionRequired = true;
+		nextScene = scene;
+	}
+
+	// Define multiple Gui Event methods
+	virtual bool OnGuiMouseClickEvent(GuiControl* control)
+	{
+		return true;
+	}
+
 public:
 
 	SString name;
 	bool active;
 
 	bool deadOnScene = false;
+
+	bool transitionRequired;
+	Scene* nextScene;
 };

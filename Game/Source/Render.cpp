@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "Render.h"
 #include "Player.h"
-#include "IntroScene.h"
+#include "SceneMainMenu.h"
 #include "DeadScene.h"
 #include "WinScene.h"
 
@@ -168,13 +168,13 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* sec
 	return ret;
 }
 
-bool Render::DrawRectangle(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
+bool Render::DrawRectangle(const SDL_Rect& rect, SDL_Color color, bool filled, bool use_camera) const
 {
 	bool ret = true;
 	uint scale = app->win->GetScale();
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
 	SDL_Rect rec(rect);
 	if(use_camera)
@@ -196,13 +196,13 @@ bool Render::DrawRectangle(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint
 	return ret;
 }
 
-bool Render::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
+bool Render::DrawLine(int x1, int y1, int x2, int y2, SDL_Color color, bool use_camera) const
 {
 	bool ret = true;
 	uint scale = app->win->GetScale();
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
 	int result = -1;
 
@@ -220,13 +220,13 @@ bool Render::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b,
 	return ret;
 }
 
-bool Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
+bool Render::DrawCircle(int x, int y, int radius, SDL_Color color, bool use_camera) const
 {
 	bool ret = true;
 	uint scale = app->win->GetScale();
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
 	int result = -1;
 	SDL_Point points[360];

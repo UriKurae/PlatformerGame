@@ -5,7 +5,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "SceneManager.h"
-#include "IntroScene.h"
+#include "SceneMainMenu.h"
 #include "Scene1.h"
 #include "Scene2.h"
 #include "DeadScene.h"
@@ -19,13 +19,13 @@ SceneManager::SceneManager()
 {
 	name.Create("scenemanager");
 
-	introScene = new IntroScene();
+	mainMenu = new MainMenu();
 	scene1 = new Scene1();
 	scene2 = new Scene2();
 	deadScene = new DeadScene();
 	winScene = new WinScene();
 
-	AddScene(introScene, true);
+	AddScene(mainMenu, true);
 	AddScene(scene1, false);
 	AddScene(scene2, false);
 	AddScene(deadScene, false);
@@ -128,6 +128,8 @@ bool SceneManager::Start()
 {
 	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
+	
+	currentScene = mainMenu;
 
 	// Call all Scenes' start
 	ListItem<Scene*>* item = scenes.start;
@@ -147,23 +149,59 @@ bool SceneManager::Update(float dt)
 {
 	bool ret = true;
 
-	checkpointAnim.speed = 4.0f * dt;
-	checkpointKeepAnim.speed = 2.0f * dt;
-
-	ret = HandleInput(dt);
-
-	// Call each scene update
-	ListItem<Scene*>* item = scenes.start;
-	
-	while (item != nullptr )
+	if (onTransition == true)
 	{
-		if(item->data->active == true)
-			item->data->Update(dt);
+		checkpointAnim.speed = 4.0f * dt;
+		checkpointKeepAnim.speed = 2.0f * dt;
 
-		item = item->next;
+		ret = HandleInput(dt);
+
+		// Call each scene update
+		ListItem<Scene*>* item = scenes.start;
+
+		while (item != nullptr)
+		{
+			if (item->data->active == true)
+				item->data->Update(dt);
+
+			item = item->next;
+		}
+
+		CheckWin();
+	}
+	else
+	{
+		if (fadeOutCompleted == false)
+		{
+			transitionAlpha += 3.0f * dt;
+
+			if (transitionAlpha > 1.01f)
+			{
+				transitionAlpha = 1.0f;
+
+				currentScene->DisableScene();
+				nextScene->EnableScene();
+
+				fadeOutCompleted = true;
+			}
+		}
+		else
+		{
+			transitionAlpha -= 3.0f * dt;
+
+			if (transitionAlpha < -0.01f)
+			{
+				transitionAlpha = 0.0f;
+				fadeOutCompleted = false;
+				onTransition = false;
+			}
+		}
 	}
 
-	CheckWin();
+	if (currentScene != nullptr && currentScene->transitionRequired)
+	{
+		ChangeScene(currentScene->nextScene);
+	}
 
 	return ret;
 }
@@ -244,4 +282,15 @@ void SceneManager::AddScene(Scene* scene, bool active)
 {
 	scene->active = active;
 	scenes.Add(scene);
+}
+
+void SceneManager::ChangeScene(Scene* scene)
+{
+	onTransition = true;
+	fadeOutCompleted = false;
+	transitionAlpha = 0.0f;
+
+	nextScene = scene;
+
+	currentScene->transitionRequired = false;
 }
