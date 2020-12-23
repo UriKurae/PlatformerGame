@@ -129,6 +129,34 @@ bool SceneManager::Save(pugi::xml_node& node)
 
 bool SceneManager::Start()
 {
+	// Initial UI
+	btnResume = new GuiButton(1, { 292,146,57,14 }, "RESUME");
+	btnResume->SetObserver(currentScene);
+
+	btnSettings = new GuiButton(2, { 290, 166, 59, 14 }, "SETTINGS");
+	btnSettings->SetObserver(currentScene);
+
+	btnBackToTitle = new GuiButton(3, {290, 186, 60, 15}, "BACKTOTITLE");
+	btnBackToTitle->SetObserver(currentScene);
+
+	btnExit = new GuiButton(4, { 290, 208, 60, 15 }, "EXIT");
+	btnExit->SetObserver(currentScene);
+
+	// Settings UI
+	sliderMusicVolume = new GuiSlider(6, { 320, 150, 5, 10 }, "SLIDERMUSIC");
+	sliderMusicVolume->SetObserver(currentScene);
+
+	sliderFxVolume = new GuiSlider(7, { 320, 170, 5, 10 }, "SLIDERFX");
+	sliderFxVolume->SetObserver(currentScene);
+
+	fullScreenCheckBox = new GuiCheckBox(8, { 359, 190, 10, 10 }, "FULLSCREEN");
+	fullScreenCheckBox->SetObserver(currentScene);
+
+	vSyncCheckBox = new GuiCheckBox(9, { 359,210,10,10 }, "VSYNC");
+	vSyncCheckBox->SetObserver(currentScene);
+
+	btnBackOptions = new GuiButton(10, { 301, 225, 40, 16 }, "BACKOPTIONS");
+
 	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
 	
@@ -152,6 +180,10 @@ bool SceneManager::Update(float dt)
 {
 	bool ret = true;
 
+	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+	{
+		isPaused = !isPaused;
+	}
 	if (onTransition == false)
 	{
 		checkpointAnim.speed = 4.0f * dt;
@@ -159,18 +191,40 @@ bool SceneManager::Update(float dt)
 
 		ret = HandleInput(dt);
 
-		// Call each scene update
-		ListItem<Scene*>* item = scenes.start;
-
-		while (item != nullptr)
+		if (isPaused == false)
 		{
-			if (item->data->active == true)
-				item->data->Update(dt);
+			// Call each scene update
+			ListItem<Scene*>* item = scenes.start;
 
-			item = item->next;
+			while (item != nullptr)
+			{
+				if (item->data->active == true)
+					item->data->Update(dt);
+
+				item = item->next;
+			}
+
+			CheckWin();
 		}
-
-		CheckWin();
+		else
+		{
+			if (statusMenu == MenuState::INITIAL)
+			{
+				this->btnResume->Update(app->input, dt);
+				this->btnSettings->Update(app->input, dt);
+				this->btnBackToTitle->Update(app->input, dt);
+				this->btnExit->Update(app->input, dt);
+			}
+			else if (statusMenu == MenuState::OPTIONS)
+			{
+				this->sliderMusicVolume->Update(app->input, dt);
+				this->sliderFxVolume->Update(app->input, dt);
+				this->fullScreenCheckBox->Update(app->input, dt);
+				this->vSyncCheckBox->Update(app->input, dt);
+				this->btnBackOptions->Update(app->input, dt);
+			}
+			
+		}
 	}
 	else
 	{
@@ -184,6 +238,7 @@ bool SceneManager::Update(float dt)
 
 				currentScene->DisableScene();
 				nextScene->EnableScene();
+				currentScene = nextScene;
 
 				fadeOutCompleted = true;
 			}
@@ -228,6 +283,11 @@ bool SceneManager::PostUpdate()
 		app->render->DrawRectangle({ 0, 0, 1280, 720 }, { 0, 0, 0, (unsigned char)(255.0f * transitionAlpha) });
 	}
 
+	if (isPaused == true)
+	{
+		ShowPauseMenu();
+	}
+
 	return true;
 }
 
@@ -262,12 +322,6 @@ bool SceneManager::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 		app->map->viewHitboxes = !app->map->viewHitboxes;
 
-	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KeyState::KEY_DOWN)
-		app->audio->VolumeControl(-4);
-
-	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KeyState::KEY_DOWN)
-		app->audio->VolumeControl(4);
-
 	return ret;
 }
 
@@ -301,6 +355,40 @@ void SceneManager::ChangeScene(Scene* scene)
 	transitionAlpha = 0.0f;
 
 	nextScene = scene;
-	currentScene = scene;
+
+	// update all observers of the new scene
+	// Initial menu
+	btnResume->SetObserver(nextScene);
+	btnSettings->SetObserver(nextScene);
+	btnBackToTitle->SetObserver(nextScene);
+	btnExit->SetObserver(nextScene);
+	
+	// Settings menu
+	sliderMusicVolume->SetObserver(nextScene);
+	sliderFxVolume->SetObserver(nextScene);
+	fullScreenCheckBox->SetObserver(nextScene);
+	vSyncCheckBox->SetObserver(nextScene);
+	btnBackOptions->SetObserver(nextScene);
+
 	currentScene->transitionRequired = false;
+}
+
+void SceneManager::ShowPauseMenu()
+{
+	if (statusMenu == MenuState::INITIAL)
+	{
+		this->btnResume->Draw(app->render);
+		this->btnSettings->Draw(app->render);
+		this->btnBackToTitle->Draw(app->render);
+		this->btnExit->Draw(app->render);
+	}
+	else if (statusMenu == MenuState::OPTIONS)
+	{
+		sliderMusicVolume->Draw(app->render);
+		sliderFxVolume->Draw(app->render);
+		fullScreenCheckBox->Draw(app->render);
+		vSyncCheckBox->Draw(app->render);
+		btnBackOptions->Draw(app->render);
+	}
+	
 }

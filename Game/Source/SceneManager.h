@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Module.h"
+#include "GuiButton.h"
+#include "GuiSlider.h"
+#include "GuiCheckBox.h"
 #include "Point.h"
 #include "Scene.h"
 #include "Animation.h"
@@ -10,6 +13,16 @@ class SceneLogo;
 class MainMenu;
 class Scene1;
 class Scene2;
+
+
+enum class MenuState
+{
+	NONE = -1,
+	INITIAL,
+	OPTIONS,
+	CREDITS,
+
+};
 
 class SceneManager : public Module
 {
@@ -39,7 +52,11 @@ public:
 
 	void ChangeScene(Scene* scene);
 
+	void ShowPauseMenu();
+
 public:
+
+	bool isPaused = false;
 
 	bool loadedOnScene = false;
 
@@ -73,4 +90,19 @@ public:
 	bool onTransition = false;
 	bool fadeOutCompleted = false;
 	float transitionAlpha;
+
+	MenuState statusMenu;
+
+	// GUI Buttons In-Game
+	GuiButton* btnResume;
+	GuiButton* btnSettings;
+	GuiButton* btnBackToTitle;
+	GuiButton* btnExit;
+
+	// Options GUI
+	GuiSlider* sliderMusicVolume;
+	GuiSlider* sliderFxVolume;
+	GuiCheckBox* fullScreenCheckBox;
+	GuiCheckBox* vSyncCheckBox;
+	GuiButton* btnBackOptions;
 };

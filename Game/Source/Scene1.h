@@ -39,6 +39,7 @@ public:
 
 	bool CheckCollisions(SDL_Rect& a, SDL_Rect& b) override;
 
+	bool OnGuiMouseClickEvent(GuiControl* control) override;
 	
 private:
 

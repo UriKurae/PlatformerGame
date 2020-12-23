@@ -7,16 +7,7 @@
 #include "GuiCheckBox.h"
 
 class SDL_Texture;
-
-enum class MenuState
-{
-	NONE = -1,
-	INITIAL,
-	OPTIONS,
-	CREDITS,
-
-};
-
+enum class MenuState;
 
 class MainMenu : public Scene
 {
@@ -58,7 +49,7 @@ private:
 	GuiSlider* sliderMusicVolume;
 	GuiSlider* sliderFxVolume;
 	GuiCheckBox* fullScreenCheckBox;
-	GuiCheckBox* vSync;
+	GuiCheckBox* vSyncCheckBox;
 	GuiButton* btnBackOptions;
 
 	// Credits GUI

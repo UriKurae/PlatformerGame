@@ -200,8 +200,13 @@ bool Audio::Load(pugi::xml_node& audioNode)
 	return true;
 }
 
-void Audio::VolumeControl(int index)
+void Audio::SetMusicVolume(int index)
 {
 	musicVolume = index;
 	Mix_VolumeMusic(musicVolume);
+}
+
+void Audio::SetFXVolume(int index)
+{
+	fxVolume = index;
 }

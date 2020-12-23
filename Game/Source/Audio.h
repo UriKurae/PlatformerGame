@@ -38,8 +38,11 @@ public:
 	//Load module content
 	bool Load(pugi::xml_node&) override;
 
-	// Control the volume
-	void VolumeControl(int index);
+	// Control the volume of the Music
+	void SetMusicVolume(int index);
+
+	// Control the volume of the FX
+	void SetFXVolume(int index);
 
 private:
 

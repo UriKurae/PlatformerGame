@@ -59,8 +59,8 @@ bool MainMenu::Start()
 	fullScreenCheckBox = new GuiCheckBox(8, {359, 190, 10, 10}, "FULLSCREEN");
 	fullScreenCheckBox->SetObserver(this);
 
-	vSync = new GuiCheckBox(9, {359,210,10,10}, "VSYNC");
-	vSync->SetObserver(this);
+	vSyncCheckBox = new GuiCheckBox(9, {359,210,10,10}, "VSYNC");
+	vSyncCheckBox->SetObserver(this);
 
 	btnBackOptions = new GuiButton(10, { 300, 226, 43,15 }, "BACKOPTIONS");
 	btnBackOptions->SetObserver(this);
@@ -87,10 +87,12 @@ bool MainMenu::Update(float dt)
 		sliderMusicVolume->Update(app->input, dt);
 		sliderFxVolume->Update(app->input, dt);
 		fullScreenCheckBox->Update(app->input, dt);
-		vSync->Update(app->input, dt);
+		vSyncCheckBox->Update(app->input, dt);
 		btnBackOptions->Update(app->input, dt);
 
-		app->audio->VolumeControl(sliderMusicVolume->GetValue());
+		app->audio->SetMusicVolume(sliderMusicVolume->GetValue());
+		app->audio->SetFXVolume(sliderFxVolume->GetValue());
+		
 	}
 	else if (menuState == MenuState::CREDITS)
 	{
@@ -120,7 +122,7 @@ bool MainMenu::Draw()
 		sliderMusicVolume->Draw(app->render);
 		sliderFxVolume->Draw(app->render);
 		fullScreenCheckBox->Draw(app->render);
-		vSync->Draw(app->render);
+		vSyncCheckBox->Draw(app->render);
 		btnBackOptions->Draw(app->render);
 	}
 	else if (menuState == MenuState::CREDITS)
@@ -134,6 +136,16 @@ bool MainMenu::Draw()
 bool MainMenu::CleanUp()
 {
 	app->tex->UnLoad(intro);
+	delete btnPlay;
+	delete btnContinue;
+	delete btnSettings;
+	delete btnBackCredits;
+	delete btnExit;
+	delete sliderFxVolume;
+	delete sliderMusicVolume;
+	delete fullScreenCheckBox;
+	delete vSyncCheckBox;
+	delete btnBackOptions;
 
 	return true;
 }

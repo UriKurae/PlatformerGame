@@ -206,19 +206,19 @@ bool Scene1::Update(float dt)
 		wItem = wItem->next;
 	}*/
 
+	
+	//for (uint i = 0; i < app->map->data.height; ++i)
+	//{
+	//	for (uint j = 0; i < app->map->data.width; ++j)
+	//	{
+	//		if ((app->map->data.layers[2]->Get(j, i) >= 1161) &&
+	//			CheckCollisions(app->map->GetTileRect(j, i), player->GetSize()))
+	//		{
+	//			// TODO: Implement the player movement when collides
 
-	for (uint i = 0; i < app->map->data.height; ++i)
-	{
-		for (uint j = 0; i < app->map->data.width; ++j)
-		{
-			if ((app->map->data.layers[2]->Get(j, i) >= 1161) &&
-				CheckCollisions(app->map->GetTileRect(j, i), player->GetSize()))
-			{
-				// TODO: Implement the player movement when collides
-
-			}
-		}
-	}
+	//		}
+	//	}
+	//}
 
 	// Check if the player picked a gem
 	ListItem<GreenGem*>* gItem = gems.start;
@@ -395,4 +395,31 @@ bool Scene1::CheckCollisions(SDL_Rect& a, SDL_Rect& b)
 {
 	return ((a.x < b.x + b.w) && (a.x + a.w > b.x) &&
 			(a.y < b.y + b.h) && (a.h + a.y > b.y));
+}
+
+
+bool Scene1::OnGuiMouseClickEvent(GuiControl* control)
+{
+	switch (control->type)
+	{
+		case GuiControlType::BUTTON:
+		{
+			if (control->id == 1)
+			{
+				app->sceneManager->isPaused = false;;
+			}
+			else if (control->id == 2)
+			{
+				app->sceneManager->statusMenu = MenuState::OPTIONS;
+			}
+			else if (control->id == 3)
+			{
+				TransitionToScene((Scene*)app->sceneManager->mainMenu);
+				app->sceneManager->isPaused = false;
+			}
+		}
+		default: break;
+	}
+
+	return true;
 }

@@ -1,4 +1,5 @@
 #include "App.h"
+#include "SceneManager.h"
 #include "Textures.h"
 #include "EntityManager.h"
 #include "Player.h"
@@ -64,12 +65,15 @@ void EntityManager::DeleteEntity(Entity* entity)
 
 bool EntityManager::Update(float dt)
 {
-	ListItem<Entity*>* item = entities.start;
-
-	while ((item != nullptr))
+	if (app->sceneManager->isPaused == false)
 	{
-		item->data->Update(dt);
-		item = item->next;
+		ListItem<Entity*>* item = entities.start;
+
+		while ((item != nullptr))
+		{
+			item->data->Update(dt);
+			item = item->next;
+		}
 	}
 
 	return true;

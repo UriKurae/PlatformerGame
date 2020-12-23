@@ -28,7 +28,7 @@ bool GuiSlider::Update(Input* input, float dt)
             (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) && (state != GuiControlState::PRESSED))
         {
             state = GuiControlState::FOCUSED;
-            // TODO.
+
             if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
                 state = GuiControlState::PRESSED;
 
