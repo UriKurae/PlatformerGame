@@ -4,7 +4,7 @@
 #include "Entity.h"
 #include "DynArray.h"
 
-class Executioner : public Entity
+class Executioner : public Enemy
 {
 public:
 	Executioner(iPoint pos);
@@ -18,19 +18,19 @@ public:
 
 	bool CleanUp() override;
 
-	void TakeDamage(int damage);
+	void TakeDamage(int damage) override;
 
-	void Attack();
+	void Attack() override;
 
-	void EnemyDies();
+	void EnemyDies() override;
 
-	bool FindTarget(Player* player, float dt);
+	bool FindTarget(Player* player, float dt) override;
 
-	bool ChaseTarget(float dt);
+	bool ChaseTarget(float dt) override;
 
-	bool Patrol(float dt);
+	bool Patrol(float dt, iPoint playerPos) override;
 
-	void HandleCollisions(float dt);
+	void HandleCollisions(float dt) override;
 
 	// Load and save functions for each module
 	bool Load(pugi::xml_node&);
@@ -38,27 +38,12 @@ public:
 	bool Save(pugi::xml_node&);
 
 
+public:
+
+	Animation idleAnim;
 
 private:
 
-	int speedX;
-	int speedY;
-
-	int life;
-	int damage;
-	int attackSpeed;
-
-	bool isAlive;
-	bool savedIsAlive;
-
-	EnemyState currentState;
-	int pathCooldown;
-
-	Animation* currentAnim;
-
-	DynArray<iPoint> path;
-
-	Animation idleAnim;
 	Animation skillAnim;
 	Animation deathAnim;
 	Animation hurtAnim;
@@ -66,6 +51,4 @@ private:
 	iPoint offsetPathfinding;
 
 	int indexPath;
-
-
 };

@@ -12,7 +12,7 @@
 #include "DeadScene.h"
 #include "WinScene.h"
 #include "FadeToBlack.h"
-#include "EnemyManager.h"
+#include "EntityManager.h"
 
 #include "SDL/include/SDL_scancode.h"
 
@@ -70,7 +70,7 @@ bool SceneManager::Load(pugi::xml_node& node)
 	else if (count == 2)
 		savedScene = scene2;
 
-	ListItem<Enemy*>* item = app->enemyManager->enemies.start;
+	ListItem<Enemy*>* item = app->entityManager->enemies.start;
 
 	pugi::xml_node enemies = node.child("enemies");
 	pugi::xml_node wolf = enemies.child("wolf");
@@ -114,7 +114,7 @@ bool SceneManager::Save(pugi::xml_node& node)
 
 	node.append_child("active_scene").append_attribute("value").set_value(count);
 	
-	ListItem<Enemy*>* it = app->enemyManager->enemies.start;
+	ListItem<Enemy*>* it = app->entityManager->enemies.start;
 	pugi::xml_node enemies = node.append_child("enemies");
 	
 	while (it != nullptr)
@@ -255,7 +255,7 @@ bool SceneManager::HandleInput(float dt)
 	
 	if ((savedScene != nullptr) && (savedScene != currentScene))
 	{
-		app->player->Disable();
+		//app->player->Disable();
 		app->fade->Fade(currentScene, savedScene, 1 / dt);
 	}
 

@@ -91,12 +91,10 @@
   <ItemGroup>
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\GreenGem.cpp" />
-    <ClCompile Include="Source\Ghost.cpp" />
     <ClCompile Include="Source\Collider.cpp" />
     <ClCompile Include="Source\Collisions.cpp" />
     <ClCompile Include="Source\DeadScene.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
-    <ClCompile Include="Source\EnemyManager.cpp" />
     <ClCompile Include="Source\Executioner.cpp" />
     <ClCompile Include="Source\FadeToBlack.cpp" />
     <ClCompile Include="Source\GuiButton.cpp" />
@@ -129,12 +127,10 @@
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
     <ClInclude Include="Source\GreenGem.h" />
-    <ClInclude Include="Source\Ghost.h" />
     <ClInclude Include="Source\Collider.h" />
     <ClInclude Include="Source\Collisions.h" />
     <ClInclude Include="Source\DeadScene.h" />
     <ClInclude Include="Source\Enemy.h" />
-    <ClInclude Include="Source\EnemyManager.h" />
     <ClInclude Include="Source\Executioner.h" />
     <ClInclude Include="Source\FadeToBlack.h" />
     <ClInclude Include="Source\GuiButton.h" />

@@ -10,6 +10,7 @@
 #include "Scene2.h"
 #include "Player.h"
 #include "EnemyManager.h"
+#include "EntityManager.h"
 #include "Executioner.h"
 #include "ItemManager.h"
 #include "GreenGem.h"
@@ -31,11 +32,11 @@ bool Scene2::Start()
 {
 	if (this->active)
 	{
+		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 20));
+		player->Start();
+	
 		app->map->active = true;
 		app->map->Load("level_2.tmx");
-
-		app->player->Enable();
-		app->player->SetPosition(250, 20);
 
 		sky = app->tex->Load("Assets/Textures/Scenes/sky.png");
 		sea = app->tex->Load("Assets/Textures/Scenes/sea.png");
@@ -43,20 +44,18 @@ bool Scene2::Start()
 
 		app->audio->PlayMusic("Assets/Audio/Music/scene_2.ogg");
 
-		app->player->Enable();
-
-		if ((app->player->loadedGame) && (app->sceneManager->savedScene == this))
-			app->player->SetPosition(app->player->savedPosition.x, app->player->savedPosition.y);
+		if ((player->loadedGame) && (app->sceneManager->savedScene == this))
+			player->SetPosition(player->savedPosition.x, player->savedPosition.y);
 
 		else
-			playerStartPosition = app->player->SetPosition(250, 5);
+			playerStartPosition = player->SetPosition(250, 5);
 
-		if (app->player->loadedGame == false)
+		if (player->loadedGame == false)
 		{
-			executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(528, 290)));
+			executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(528, 290)));
 
-			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(288, 323)));
-			wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, iPoint(800, 323)));
+			wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(288, 323)));
+			wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(800, 323)));
 
 			ListItem<Wolf*>* itWolfs = wolfs.start;
 			while (itWolfs != nullptr)
@@ -77,14 +76,14 @@ bool Scene2::Start()
 			ListItem<iPoint>* wolfItem = app->sceneManager->wolfSavedPositions.start;
 			while (wolfItem != nullptr)
 			{
-				wolfs.Add((Wolf*)app->enemyManager->AddEnemy(EnemyType::WOLF, wolfItem->data));
+				wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, wolfItem->data));
 				wolfItem = wolfItem->next;
 			}
 
 			ListItem<iPoint>* execItem = app->sceneManager->executionerSavedPositions.start;
 			while (execItem != nullptr)
 			{
-				executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, execItem->data));
+				executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, execItem->data));
 				execItem = execItem->next;
 			}
 
@@ -104,27 +103,29 @@ bool Scene2::Start()
 			}
 		}
 
-		// Items instantiation
-		gem1 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(544, 304));
-		gem1->Start();
+		// Items instantiation and initialization
+		gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(544, 304)));
+		gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 336)));
+		gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1136, 112)));
+		gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(3504, 224)));
 
-		gem2 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(2144, 336));
-		gem2->Start();
+		hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(1296, 480)));
+		hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2496, 224)));
+		hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(3120, 272)));
 
-		gem3 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(1136, 112));
-		gem3->Start();
+		ListItem<GreenGem*>* gItem = gems.start;
+		while (gItem != nullptr)
+		{
+			gItem->data->Start();
+			gItem = gItem->next;
+		}
 
-		gem4 = (GreenGem*)app->itemManager->AddItem(ItemType::GEM, iPoint(3504, 224));
-		gem4->Start();
-
-		heart1 = (RedHeart*)app->itemManager->AddItem(ItemType::HEART, iPoint(1296, 480));
-		heart1->Start();
-
-		heart2 = (RedHeart*)app->itemManager->AddItem(ItemType::HEART, iPoint(2496, 224));
-		heart2->Start();
-
-		heart3 = (RedHeart*)app->itemManager->AddItem(ItemType::HEART, iPoint(3120, 272));
-		heart3->Start();
+		ListItem<RedHeart*>* hItem = hearts.start;
+		while (hItem != nullptr)
+		{
+			hItem->data->Start();
+			hItem = hItem->next;
+		}
 	}
 
 	app->sceneManager->currentScene = this;
@@ -136,15 +137,15 @@ bool Scene2::Update(float dt)
 {
 	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
 
-	if ((CheckWin() == 1) && (app->player->godMode == false))
-		app->fade->Fade(this, (Scene*)app->sceneManager->winScene, 1 / dt);
+	if ((CheckWin() == 1) && (player->godMode == false))
+		TransitionToScene((Scene*)app->sceneManager->winScene);
 
-	else if ((CheckWin() == 2) && (app->player->godMode == false))
+	else if ((CheckWin() == 2) && (player->godMode == false))
 	{
 		deadOnScene = true;
-		app->fade->Fade(this, (Scene*)app->sceneManager->deadScene, 1 / dt);
+		TransitionToScene((Scene*)app->sceneManager->winScene);
 		app->sceneManager->lastScene = this;
-		app->player->Disable();
+		player->DisableEntity();
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
@@ -165,13 +166,11 @@ bool Scene2::Draw()
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 
 	if (app->map->active)
-		app->map->Draw();
+		app->map->Draw(player->GetPosition());
 
-	if(app->player->active)
-		app->player->Draw();
+	player->Draw();
 
-	app->enemyManager->Draw();
-	app->itemManager->Draw();
+	app->entityManager->Draw();
 	
 	if (checkpoint1 == true)
 	{
@@ -208,10 +207,11 @@ bool Scene2::CleanUp()
 	app->tex->UnLoad(sea);
 
 	app->map->CleanUp();
-	app->player->Disable();
+	player->DisableEntity();
 
-	app->enemyManager->DeleteColliders();
-	app->enemyManager->enemies.Clear();
+	app->entityManager->entities.Clear();
+	//app->enemyManager->DeleteColliders();
+
 	wolfs.Clear();
 	executioners.Clear();
 
@@ -225,12 +225,12 @@ bool Scene2::CleanUp()
 bool Scene2::RestartPlayerPosition()
 {
 	if (checkpoint1 == true)
-		app->player->SetPosition(1552, 464);
+		player->SetPosition(1552, 464);
 
 	else if (checkpoint2 == true)
-		app->player->SetPosition(3024, 208);
+		player->SetPosition(3024, 208);
 
-	else app->player->SetPosition(250, 70);
+	else player->SetPosition(250, 70);
 
 	return true;
 }
@@ -239,7 +239,7 @@ int Scene2::CheckWin()
 {
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;
 
-	iPoint playerPosTop = app->map->WorldToMap(app->player->GetPosition().x + 8, app->player->GetPosition().y + 15);
+	iPoint playerPosTop = app->map->WorldToMap(player->GetPosition().x + 8, player->GetPosition().y + 15);
 
 	while (layer != NULL)
 	{

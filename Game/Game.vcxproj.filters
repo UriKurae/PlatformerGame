@@ -9,8 +9,6 @@
     <ClCompile Include="Source\External\PugiXml\src\pugixml.cpp">
       <Filter>External\PugiXml</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Map.cpp" />
-    <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PerfTimer.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -18,22 +16,22 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Source\Audio.cpp">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\FadeToBlack.cpp">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Input.cpp">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Render.cpp">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Textures.cpp">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Window.cpp">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\DeadScene.cpp">
       <Filter>Scenes</Filter>
@@ -42,50 +40,37 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Enemy.cpp">
-      <Filter>Enemies</Filter>
+      <Filter>Entities\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Source\Executioner.cpp">
-      <Filter>Enemies</Filter>
+      <Filter>Entities\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Source\Collider.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Source\Collisions.cpp">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Pathfinding.cpp" />
     <ClCompile Include="Source\Scene1.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene2.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Ghost.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Wolf.cpp">
-      <Filter>Enemies</Filter>
+      <Filter>Entities\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Source\Item.cpp">
-      <Filter>Items</Filter>
+      <Filter>Entities\Items</Filter>
     </ClCompile>
     <ClCompile Include="Source\ItemManager.cpp">
-      <Filter>Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\EnemyManager.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneManager.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>Entities\Items</Filter>
     </ClCompile>
     <ClCompile Include="Source\GreenGem.cpp">
-      <Filter>Items</Filter>
+      <Filter>Entities\Items</Filter>
     </ClCompile>
     <ClCompile Include="Source\RedHeart.cpp">
-      <Filter>Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\EntityManager.cpp">
-      <Filter>Core Modules</Filter>
+      <Filter>Entities\Items</Filter>
     </ClCompile>
     <ClCompile Include="Source\GuiButton.cpp">
       <Filter>GuiControls</Filter>
@@ -105,9 +90,23 @@
     <ClCompile Include="Source\SceneLogo.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EntityManager.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Map.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pathfinding.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneManager.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\Defs.h">
       <Filter>Utils</Filter>
@@ -133,11 +132,9 @@
     <ClInclude Include="Source\External\PugiXml\src\pugixml.hpp">
       <Filter>External\PugiXml</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Animation.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\PQueue.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -151,22 +148,22 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Audio.h">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\FadeToBlack.h">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Input.h">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Render.h">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Textures.h">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Window.h">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\DeadScene.h">
       <Filter>Scenes</Filter>
@@ -175,18 +172,17 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Enemy.h">
-      <Filter>Enemies</Filter>
+      <Filter>Entities\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\Executioner.h">
-      <Filter>Enemies</Filter>
+      <Filter>Entities\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\Collider.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Collisions.h">
-      <Filter>Core Modules</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Pathfinding.h" />
     <ClInclude Include="Source\Scene1.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -196,34 +192,21 @@
     <ClInclude Include="Source\Scene2.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Ghost.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Wolf.h">
-      <Filter>Enemies</Filter>
+      <Filter>Entities\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\Item.h">
-      <Filter>Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\EnemyManager.h">
-      <Filter>Enemies</Filter>
+      <Filter>Entities\Items</Filter>
     </ClInclude>
     <ClInclude Include="Source\ItemManager.h">
-      <Filter>Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneManager.h">
-      <Filter>Scenes</Filter>
+      <Filter>Entities\Items</Filter>
     </ClInclude>
     <ClInclude Include="Source\GreenGem.h">
-      <Filter>Items</Filter>
+      <Filter>Entities\Items</Filter>
     </ClInclude>
     <ClInclude Include="Source\RedHeart.h">
-      <Filter>Items</Filter>
+      <Filter>Entities\Items</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EntityManager.h">
-      <Filter>Core Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\GuiSlider.h">
       <Filter>GuiControls</Filter>
     </ClInclude>
@@ -245,6 +228,27 @@
     <ClInclude Include="Source\SceneLogo.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Entity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EntityManager.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Map.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Pathfinding.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Module.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneManager.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -253,23 +257,26 @@
     <Filter Include="External\PugiXml">
       <UniqueIdentifier>{2855ff7f-53a1-413d-a75b-18b4ade921dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core Modules">
-      <UniqueIdentifier>{9c72f086-b4fc-4b7d-be31-bff048c2fae8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utils">
       <UniqueIdentifier>{2cad778a-d356-48b0-9fee-587f1bbb187e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{020d76fb-6e30-480f-a43d-02b145598759}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Enemies">
-      <UniqueIdentifier>{933af5c6-e0e3-45c7-ab49-7b63b58e21cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Items">
-      <UniqueIdentifier>{773a6d36-c19c-4e1e-8c20-ddc3019e02bf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GuiControls">
       <UniqueIdentifier>{2df212e5-7256-447d-89cd-080bf109b697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{fe973c0a-824d-4dbc-a361-60c28ff497e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{9c72f086-b4fc-4b7d-be31-bff048c2fae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Enemies">
+      <UniqueIdentifier>{933af5c6-e0e3-45c7-ab49-7b63b58e21cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Items">
+      <UniqueIdentifier>{773a6d36-c19c-4e1e-8c20-ddc3019e02bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

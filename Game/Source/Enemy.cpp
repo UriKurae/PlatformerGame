@@ -1,15 +1,16 @@
-#include "Enemy.h"
 #include "App.h"
 #include "Textures.h"
 #include "Render.h"
+#include "Enemy.h"
 
-Enemy::Enemy(iPoint pos)
+Enemy::Enemy(iPoint pos) : Entity(pos)
 {
-	position = pos;
+
 }
 
 Enemy::~Enemy()
 {
+
 }
 
 bool Enemy::Start()
@@ -47,12 +48,18 @@ void Enemy::TakeDamage(int damage)
 {
 }
 
+void Enemy::Attack()
+{
+}
+
 void Enemy::EnemyDies()
 {
 }
 
-bool Enemy::Patrol(float dt)
+bool Enemy::Patrol(float dt, iPoint playerPos)
 {
+
+
 	return true;
 }
 

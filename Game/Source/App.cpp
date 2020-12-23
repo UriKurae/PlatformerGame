@@ -6,9 +6,7 @@
 #include "Audio.h"
 #include "Map.h"
 #include "EntityManager.h"
-#include "Player.h"
 #include "SceneManager.h"
-#include "EnemyManager.h"
 #include "ItemManager.h"
 #include "Collisions.h"
 #include "Pathfinding.h"
@@ -32,9 +30,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	map = new Map();
 	entityManager = new EntityManager();
 	sceneManager = new SceneManager();
-	enemyManager = new EnemyManager();
 	itemManager = new ItemManager();
-	player = new Player();
 	pathFinding = new PathFinding();
 	fade = new FadeToBlack();
 
@@ -46,10 +42,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio, true);
 	AddModule(map, false);
 	AddModule(entityManager, true);
-	AddModule(enemyManager, true);
 	AddModule(itemManager, true);
 	AddModule(sceneManager, true);
-	AddModule(player, false);
 	AddModule(pathFinding, true);
 	AddModule(collisions, true);
 	AddModule(fade, true);

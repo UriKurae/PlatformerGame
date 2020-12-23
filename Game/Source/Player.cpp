@@ -6,7 +6,7 @@
 #include "Render.h"
 #include "Player.h"
 #include "Map.h"
-#include "EnemyManager.h"
+#include "EntityManager.h"
 #include "Collisions.h"
 
 
@@ -17,7 +17,7 @@
 #include "SDL/include/SDL.h"
 
 
-Player::Player() : Module()
+Player::Player(iPoint pos) : Entity(pos)
 {
 	name.Create("player");
 	
@@ -154,32 +154,30 @@ bool Player::Start()
 	LOG("Loading player textures");
 
 	// Load the spritesheet for the player
-	if (this->active == true)
-	{
-		texture = app->tex->Load("Assets/Textures/Player/player.png");
-		jumpFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
-		hitFx = app->audio->LoadFx("Assets/Audio/Fx/hit.wav");
-		dodgingFx = app->audio->LoadFx("Assets/Audio/Fx/dodging.wav");
-		pickGemFx = app->audio->LoadFx("Assets/Audio/Fx/pick_gem.wav");
-		pickHeart = app->audio->LoadFx("Assets/Audio/Fx/heart_sound.wav");
-		healthTexture = app->tex->Load("Assets/Textures/Collectibles/hearts.png");
-		gemsTexture = app->tex->Load("Assets/Textures/Collectibles/gem.png");
+	texture = app->tex->Load("Assets/Textures/Player/player.png");
+	jumpFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
+	hitFx = app->audio->LoadFx("Assets/Audio/Fx/hit.wav");
+	dodgingFx = app->audio->LoadFx("Assets/Audio/Fx/dodging.wav");
+	pickGemFx = app->audio->LoadFx("Assets/Audio/Fx/pick_gem.wav");
+	pickHeart = app->audio->LoadFx("Assets/Audio/Fx/heart_sound.wav");
+	healthTexture = app->tex->Load("Assets/Textures/Collectibles/hearts.png");
+	gemsTexture = app->tex->Load("Assets/Textures/Collectibles/gem.png");
 
-		dodgingCooldown = 0;
+	dodgingCooldown = 0;
 
-		gemsAchieved = 0;
+	gemsAchieved = 0;
 
-		speedX = 250.0f;
-		speedY = 500.0f;
-		gravity = 250.0f;
-		jump = false;
-		godMode = false;
-		direction = "right";
+	speedX = 250.0f;
+	speedY = 500.0f;
+	gravity = 250.0f;
+	jump = false;
+	godMode = false;
+	direction = "right";
 		
-		currentAnimHeart = &threeLifesAnim;
-		currentAnim = &idleRightAnim;
-		collider = app->collisions->AddCollider({ (int)position.x + 4, (int)position.y + 5, 10, 22 }, Collider::Type::PLAYER);
-	}
+	currentAnimHeart = &threeLifesAnim;
+	currentAnim = &idleRightAnim;
+	collider = app->collisions->AddCollider({ (int)position.x + 4, (int)position.y + 5, 10, 22 }, Collider::Type::PLAYER);
+
 
 	return true;
 }
@@ -698,7 +696,7 @@ void Player::Attack()
 	else if(direction == "left")
 		attackCollider = app->collisions->AddCollider({ position.x - 10, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
 
-	ListItem<Enemy*>* currEnemy = app->enemyManager->enemies.start;
+	ListItem<Enemy*>* currEnemy = app->entityManager->enemies.start;
 
 	while (currEnemy != nullptr)
 	{
@@ -707,6 +705,7 @@ void Player::Attack()
 			currEnemy->data->TakeDamage(20);
 			LOG("%s has %i life", currEnemy->data->name.GetString(), currEnemy->data->life);
 		}
+
 		currEnemy = currEnemy->next;
 	}
 	
@@ -764,6 +763,11 @@ void Player::PickItem(ItemType type)
 		}
 		app->audio->PlayFx(pickHeart);
 	}
+}
+
+SDL_Rect Player::GetSize() const
+{
+	return collider->rect;
 }
 
 iPoint Player::SetPosition(int x, int y)

@@ -1,6 +1,10 @@
 #pragma once
 
 #include "Module.h"
+
+#include "Enemy.h"
+#include "Item.h"
+
 #include "List.h"
 #include "Point.h"
 #include "Entity.h"
@@ -20,6 +24,8 @@ public:
 public:
 
 	List<Entity*> entities;
+	List<Enemy*> enemies;
+	List<Item*> items;
 	SString name;
 	SDL_Texture* executionerTexture;
 	SDL_Texture* wolfTexture;

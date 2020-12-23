@@ -31,7 +31,7 @@ public:
 
 	bool ChaseTarget(float dt) override;
 
-	bool Patrol(float dt) override;
+	bool Patrol(float dt, iPoint playerPos) override;
 
 	void HandleCollisions(float dt) override;
 

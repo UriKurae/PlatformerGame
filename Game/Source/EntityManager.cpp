@@ -1,7 +1,11 @@
 #include "App.h"
 #include "Textures.h"
 #include "EntityManager.h"
+#include "Player.h"
 #include "Executioner.h"
+#include "Wolf.h"
+#include "GreenGem.h"
+#include "RedHeart.h"
 
 EntityManager::EntityManager()
 {
@@ -22,8 +26,20 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 
 	switch (type)
 	{
-		case EntityType::EXECUTIONER: ret = new Executioner(pos);
+	case EntityType::EXECUTIONER: ret = new Executioner(pos); break;
+	case EntityType::WOLF: ret = new Wolf(pos); break;
+	case EntityType::GEM: ret = new GreenGem(pos); break;
+	case EntityType::HEART: ret = new RedHeart(pos); break;
+	case EntityType::PLAYER: ret = new Player(pos); break;
+	default: break;
 	}
+
+	if (type == EntityType::EXECUTIONER || type == EntityType::WOLF)
+		enemies.Add((Enemy*)ret);
+
+	else if (type == EntityType::GEM || type == EntityType::HEART)
+		items.Add((Item*)ret);
+
 	if (ret != nullptr)
 		entities.Add(ret);
 
@@ -33,7 +49,7 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 void EntityManager::DeleteEntity(Entity* entity)
 {
 
-	ListItem <Entity*> *item = entities.start;
+	ListItem <Entity*>* item = entities.start;
 
 	while (item != nullptr)
 	{

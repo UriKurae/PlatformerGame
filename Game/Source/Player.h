@@ -1,7 +1,7 @@
 #ifndef __MODULE_PLAYER_H__
 #define __MODULE_PLAYER_H__
 
-#include "Module.h"
+#include "Entity.h"
 #include "Animation.h"
 #include "Point.h"
 #include "Collider.h"
@@ -9,28 +9,28 @@
 
 #include "SDL_image/include/SDL_image.h"
 
-class Player : public Module
+class Player : public Entity
 {
 public:
 	// Constructor
-	Player();
+	Player(iPoint pos);
 
 	// Destructor
 	virtual ~Player();
 
 	// Called when the module is activated
 	// Loads the necessary textures for the player
-	bool Start();
+	bool Start() override;
 
 	// Called at the middle of the application loop
 	// Processes new input and handles player movement
-	bool Update(float dt);
+	bool Update(float dt) override;
 
 	// Called at the end of the application loop
 	// Performs the render call of the player sprite
-	void Draw();
+	void Draw() override;
 
-	bool CleanUp();
+	bool CleanUp() override;
 
 	void HandleInput(float dt);
 
@@ -55,6 +55,8 @@ public:
 
 	void PickItem(ItemType type);
 
+	SDL_Rect GetSize() const;
+
 public:
 
 	// Control if the player loaded a saved game
@@ -71,14 +73,8 @@ public:
 
 private:
 
-	// Texture for the player
-	SDL_Texture* texture;
-
-	Collider* collider;
+	// Collider deployed when player attacks
 	Collider* attackCollider;
-
-	// Position of player
-	iPoint position;
 
 	// Direction player is facing at
 	SString direction;

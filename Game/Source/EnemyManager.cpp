@@ -3,7 +3,6 @@
 #include "EnemyManager.h"
 #include "Executioner.h"
 #include "Wolf.h"
-#include "Ghost.h"
 #include "Collisions.h"
 
 
@@ -72,9 +71,7 @@ Enemy* EnemyManager::AddEnemy(EnemyType type, iPoint pos)
 	/*case EnemyType::EXECUTIONER:
 		enemy = new Executioner(pos);
 		break;	*/
-	case EnemyType::BIRD:
-		enemy = new Ghost(pos);
-		break;
+
 	case EnemyType::WOLF:
 		enemy = new Wolf(pos);
 		break;	

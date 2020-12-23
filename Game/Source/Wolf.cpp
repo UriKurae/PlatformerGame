@@ -2,7 +2,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Collisions.h"
-#include "EnemyManager.h"
+#include "EntityManager.h"
 #include "Player.h"
 #include "Wolf.h"
 #include "Map.h"
@@ -132,7 +132,7 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 
 bool Wolf::Start()
 {
-	texture = app->enemyManager->wolfTexture;
+	texture = app->entityManager->wolfTexture;
 	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
 	currentAnim = &walkRightAnim;
 
@@ -176,27 +176,27 @@ bool Wolf::Update(float dt)
 		}
 	}
 
-	if ((this->life > 0) && (dt < 0.4f))
-	{
-		// Enemy state machine
-		if (currentState == EnemyState::PATROL)
-		{
-			if ((Patrol(dt)) && (app->player->GetReachable()) && (app->player->godMode == false))
-				currentState = EnemyState::ALERT;
-		}
+	//if ((this->life > 0) && (dt < 0.4f))
+	//{
+	//	// Enemy state machine
+	//	if (currentState == EnemyState::PATROL)
+	//	{
+	//		if ((Patrol(dt)) && (app->player->GetReachable()) && (app->player->godMode == false))
+	//			currentState = EnemyState::ALERT;
+	//	}
 
-		else if (currentState == EnemyState::ALERT)
-		{
-			if (FindTarget(app->player, dt))
-				currentState = EnemyState::ATTACK;
-		}
+	//	else if (currentState == EnemyState::ALERT)
+	//	{
+	//		if (FindTarget(app->player, dt))
+	//			currentState = EnemyState::ATTACK;
+	//	}
 
-		else if (currentState == EnemyState::ATTACK)
-		{
-			if (ChaseTarget(dt))
-				currentState = EnemyState::PATROL;
-		}
-	}
+	//	else if (currentState == EnemyState::ATTACK)
+	//	{
+	//		if (ChaseTarget(dt))
+	//			currentState = EnemyState::PATROL;
+	//	}
+	//}
 
 	if (this->life == 0)
 	{
@@ -223,7 +223,7 @@ bool Wolf::Update(float dt)
 bool Wolf::CleanUp()
 {
 	this->isAlive = false;
-	app->enemyManager->DeleteEnemy(this);
+	app->entityManager->DeleteEntity(this);
 
 	return true;
 }
@@ -251,12 +251,12 @@ void Wolf::EnemyDies()
 		this->CleanUp();
 }
 
-bool Wolf::Patrol(float dt)
+bool Wolf::Patrol(float dt, iPoint playerPos)
 {
 	position.x += speedX * dt;
 	
-	int vec1 = app->player->GetPosition().x - position.x;
-	int vec2 = app->player->GetPosition().y - position.y;
+	int vec1 = playerPos.x - position.x;
+	int vec2 = playerPos.y - position.y;
 
 	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 150)
 		return true;

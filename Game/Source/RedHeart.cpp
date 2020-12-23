@@ -40,13 +40,6 @@ bool RedHeart::Start()
 bool RedHeart::Update(float dt)
 {
 	idleAnim.speed = 5.0f * dt;
-
-	if (app->player->GetCollider()->Intersects(collider->rect))
-	{
-		app->player->PickItem(type);
-		CleanUp();
-	}
-
 	currentAnim->Update();
 
 	return true;

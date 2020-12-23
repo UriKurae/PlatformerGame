@@ -36,6 +36,8 @@ public:
 
 private:
 
+	Player* player;
+
 	// Player's start position as iPoint  
 	iPoint playerStartPosition;
 
@@ -56,12 +58,6 @@ private:
 	List<Executioner*> executioners;
 
 	// Collectibles
-	GreenGem* gem1;
-	GreenGem* gem2;
-	GreenGem* gem3;
-	GreenGem* gem4;
-
-	RedHeart* heart1;
-	RedHeart* heart2;
-	RedHeart* heart3;
+	List<GreenGem*> gems;
+	List<RedHeart*> hearts;
 };

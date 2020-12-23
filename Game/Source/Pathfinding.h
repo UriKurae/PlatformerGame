@@ -5,6 +5,7 @@
 #include "Point.h"
 #include "PQueue.h"
 #include "DynArray.h"
+#include "List.h"
 
 #include "SDL/include/SDL_pixels.h"
 

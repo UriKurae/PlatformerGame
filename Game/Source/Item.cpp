@@ -3,13 +3,14 @@
 #include "Render.h"
 #include "Item.h"
 
-Item::Item(iPoint pos)
+Item::Item(iPoint pos) : Entity(pos)
 {
-	position = pos;
+
 }
 
 Item::~Item()
 {
+
 }
 
 bool Item::Start()
@@ -33,7 +34,7 @@ bool Item::CleanUp()
 	return true;
 }
 
-ItemType Item::GetType()
-{
-	return type;
-}
+//ItemType Item::GetType()
+//{
+//	return type;
+//}

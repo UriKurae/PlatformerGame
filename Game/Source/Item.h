@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Entity.h"
+
 #include "SString.h"
 #include "Point.h"
 
@@ -15,22 +17,20 @@ enum class ItemType
 	HEART,
 };
 
-class Item
+class Item : public Entity
 {
 public:
 
 	Item(iPoint position);
 	virtual ~Item();
 
-	virtual bool Start();
+	virtual bool Start() override;
 	
-	virtual bool Update(float dt);
+	virtual bool Update(float dt) override;
 	
-	virtual void Draw();
+	virtual void Draw() override;
 	
-	virtual bool CleanUp();
-
-	virtual ItemType GetType();
+	virtual bool CleanUp() override;
 
 public:
 	SString name;

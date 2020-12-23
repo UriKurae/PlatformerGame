@@ -1,31 +1,55 @@
 #pragma once
 
+#include "Point.h"
+#include "SString.h"
+
 class SDL_Texture;
 class Collider;
 
 enum class EntityType
 {
+	PLAYER,
 	EXECUTIONER,
 	WOLF,
-	COINS,
-	LIFE,
+	GEM,
+	HEART,
 	UNKNOWN
 };
 
 class Entity
 {
 public:
-	Entity(iPoint pos) : position(pos) {};
+	Entity(iPoint pos, bool isActive = true) : position(pos) {};
 
 	virtual bool Start() { return true; };
 	virtual bool Update(float dt) { return true; };
 	virtual void Draw() {};
 	virtual bool CleanUp() { return true; };
 
+	virtual void DisableEntity()
+	{
+		if (active == true)
+		{
+			active = false;
+			CleanUp();
+		}
+	};
+	virtual void EnableEntity()
+	{
+		if (active == false)
+		{
+			active = true;
+			Start();
+		}
+	};
+
+
 public:
+	bool active;
+	SString name;
+
 	iPoint position;
 	EntityType type;
 	SDL_Texture* texture;
-	SString name;
 	Collider* collider;
 };

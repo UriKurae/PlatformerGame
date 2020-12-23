@@ -1,20 +1,20 @@
-#include "Executioner.h"
 #include "App.h"
+#include "Input.h"
 #include "Textures.h"
 #include "Render.h"
+#include "Executioner.h"
 #include "EntityManager.h"
 #include "Entity.h"
 #include "EnemyManager.h"
 #include "Pathfinding.h"
 #include "Collisions.h"
-#include "Input.h"
 #include "Player.h"
 #include "Map.h"
+
 #include <math.h>
 
 
-
-Executioner::Executioner(iPoint pos) : Entity(pos)
+Executioner::Executioner(iPoint pos) : Enemy(pos)
 {
 	name.Create("executioner");
 	
@@ -104,32 +104,32 @@ bool Executioner::Update(float dt)
 	if ((currentAnim != &idleAnim) && (hurtAnim.HasFinished()) && (this->life > 0))
 		currentAnim = &idleAnim;
 
-	if (app->player->loadedGame)
-		isAlive = savedIsAlive;
+	/*if (player->loadedGame)
+		isAlive = savedIsAlive;*/
 
-	if (this->life > 0)
-	{
-		if (currentState == EnemyState::PATROL)
-		{
-			currentAnim = &idleAnim;
+	//if (this->life > 0)
+	//{
+	//	if (currentState == EnemyState::PATROL)
+	//	{
+	//		currentAnim = &idleAnim;
 
-			if ((Patrol(dt)) && (app->player->GetReachable()) && (app->player->godMode == false))
-				currentState = EnemyState::ALERT;
-		}
-		else if (currentState == EnemyState::ALERT)
-		{
-			if (FindTarget(app->player, dt))
-				currentState = EnemyState::ATTACK;
-		}
-		else if (currentState == EnemyState::ATTACK)
-		{
-			if (ChaseTarget(dt))
-			{
-				path.Clear();
-				currentState = EnemyState::PATROL;
-			}
-		}
-	}
+	//		if ((Patrol(dt)) && (player->GetReachable()) && (player->godMode == false))
+	//			currentState = EnemyState::ALERT;
+	//	}
+	//	else if (currentState == EnemyState::ALERT)
+	//	{
+	//		if (FindTarget(player, dt))
+	//			currentState = EnemyState::ATTACK;
+	//	}
+	//	else if (currentState == EnemyState::ATTACK)
+	//	{
+	//		if (ChaseTarget(dt))
+	//		{
+	//			path.Clear();
+	//			currentState = EnemyState::PATROL;
+	//		}
+	//	}
+	//}
 
 	if(currentAnim != nullptr)
 		currentAnim->Update();
@@ -262,12 +262,12 @@ bool Executioner::ChaseTarget(float dt)
 	return false;
 }
 
-bool Executioner::Patrol(float dt)
+bool Executioner::Patrol(float dt, iPoint playerPos)
 {
 	position.x += speedX * dt;
 
-	int vec1 = app->player->GetPosition().x - position.x;
-	int vec2 = app->player->GetPosition().y - position.y;
+	int vec1 = playerPos.x - position.x;
+	int vec2 = playerPos.y - position.y;
 
 	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 200)
 		return true;

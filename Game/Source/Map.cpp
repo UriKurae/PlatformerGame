@@ -1,5 +1,6 @@
 
 #include "App.h"
+#include "Window.h"
 #include "Render.h"
 #include "Textures.h"
 #include "Map.h"
@@ -49,7 +50,7 @@ bool Map::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-void Map::Draw()
+void Map::Draw(iPoint playerPos)
 {
 	if (mapLoaded == false) return;
 
@@ -62,8 +63,8 @@ void Map::Draw()
 		int noDraw = layer->data->properties.GetProperty("Nodraw");
 		if (noDraw == 0 || viewHitboxes == true)
 		{
-			int minX = (app->player->GetPosition().x - 300) / data.tileWidth;
-			int maxX = (app->player->GetPosition().x + 448) / data.tileWidth;
+			int minX = (playerPos.x - 300) / data.tileWidth;
+			int maxX = (playerPos.x + 448) / data.tileWidth;
 
 			for (int y = 0; y < data.height; ++y)
 			{
@@ -138,6 +139,15 @@ TileSet* Map::GetTilesetFromTileId(int id) const
 	}
 	
 	return set;
+}
+
+SDL_Rect Map::GetTileRect(int x, int y)
+{
+	iPoint position = MapToWorld(x, y);
+	SDL_Rect r = { position.x * app->win->GetScale(), position.y * app->win->GetScale(),
+		data.tileWidth * app->win->GetScale(), data.tileHeight * app->win->GetScale() };
+
+	return r;
 }
 
 // Get relative Tile rectangle
@@ -385,15 +395,4 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 	}
 	
 	return ret;
-}
-
-bool Map::ScreenLimits()
-{
-
-	int x, w, y, h;
-
-	if (app->player->GetPosition().x )
-
-
-	return true;
 }

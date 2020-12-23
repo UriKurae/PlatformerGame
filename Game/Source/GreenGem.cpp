@@ -37,16 +37,6 @@ bool GreenGem::Start()
 bool GreenGem::Update(float dt)
 {
 	idleAnim.speed = 5.0f * dt;
-
-	if ((collider != nullptr) && (app->player->GetCollider() != nullptr))
-	{
-		if (app->player->GetCollider()->Intersects(collider->rect))
-		{
-			app->player->PickItem(type);
-			CleanUp();
-		}
-	}
-
 	currentAnim->Update();
 
 	return true;

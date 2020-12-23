@@ -45,7 +45,6 @@ struct Properties
 {
 	struct Property
 	{
-		//...
 		SString name;
 		int value;
 	};
@@ -112,7 +111,7 @@ public:
 	bool Awake(pugi::xml_node& conf);
 
 	// Called each loop iteration
-	void Draw();
+	void Draw(iPoint playerPos);
 
 	// Called before quitting
 	bool CleanUp();
@@ -124,8 +123,9 @@ public:
 
 	iPoint WorldToMap(int x, int y) const;
 
-
 	TileSet* GetTilesetFromTileId(int id) const;
+
+	SDL_Rect GetTileRect(int x, int y);
 
 private:
 
@@ -136,8 +136,6 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
-	bool ScreenLimits();
-
 
 public:
 

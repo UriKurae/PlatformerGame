@@ -5,6 +5,8 @@
 
 class SDL_Texture;
 class GuiControl;
+class Item;
+class SDL_Rect;
 
 class Scene
 {
@@ -47,6 +49,11 @@ public:
 	virtual int CheckWin()
 	{
 		return -1;
+	}
+
+	virtual bool CheckCollisions(SDL_Rect& a, SDL_Rect& b)
+	{
+		return true;
 	}
 
 	void EnableScene()

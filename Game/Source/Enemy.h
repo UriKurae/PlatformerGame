@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Point.h"
+#include "Entity.h"
+
 #include "Animation.h"
 #include "Collider.h"
 #include "SString.h"
@@ -29,21 +30,20 @@ enum class EnemyState
 	ATTACK,
 };
 
-class Enemy
+class Enemy : public Entity
 {
 public:
 	Enemy(iPoint pos);
-	Enemy() {};
 
 	virtual ~Enemy();
 
-	virtual bool Start();
+	bool Start() override;
 	
-	virtual bool Update(float dt);
+	bool Update(float dt) override;
 
-	virtual void Draw();
+	void Draw() override;
 
-	virtual bool CleanUp();
+	bool CleanUp() override;
 	
 	virtual void HandleCollisions(float dt);
 
@@ -52,10 +52,12 @@ public:
 	virtual bool ChaseTarget(float dt);
 
 	virtual void TakeDamage(int damage);
+	
+	virtual void Attack();
 
 	virtual void EnemyDies();
 
-	virtual bool Patrol(float dt);
+	virtual bool Patrol(float dt, iPoint playerPos);
 
 	// Load and save functions for each enemy
 	virtual bool Load(pugi::xml_node&)
@@ -68,9 +70,7 @@ public:
 	}
 
 public:
-	SString name;
 
-	iPoint position;
 	iPoint savedPosition;
 	int speedX;
 	int speedY;
@@ -85,7 +85,6 @@ public:
 	EnemyState currentState;
 	int pathCooldown;
 
-	SDL_Texture* texture;
 	Animation* currentAnim;
 	Collider* collider;
 
