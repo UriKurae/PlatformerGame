@@ -32,6 +32,7 @@ bool MainMenu::Start()
 
 	app->render->SetCameraPosition(0,0);
 
+	// Initial buttons
 	btnPlay = new GuiButton(1, { 289, 147, 65, 15 }, "START");
 	btnPlay->SetObserver(this);
 
@@ -46,6 +47,27 @@ bool MainMenu::Start()
 
 	btnExit = new GuiButton(5, { 298, 226, 44, 14 }, "EXIT");
 	btnExit->SetObserver(this);
+
+
+	// Options menu
+	sliderMusicVolume = new GuiSlider(6, { 320, 150, 5, 10 }, "SLIDERMUSIC");
+	sliderMusicVolume->SetObserver(this);
+
+	sliderFxVolume = new GuiSlider(7, {320, 170, 5, 10}, "SLIDERFX");
+	sliderFxVolume->SetObserver(this);
+
+	fullScreenCheckBox = new GuiCheckBox(8, {359, 190, 10, 10}, "FULLSCREEN");
+	fullScreenCheckBox->SetObserver(this);
+
+	vSync = new GuiCheckBox(9, {359,210,10,10}, "VSYNC");
+	vSync->SetObserver(this);
+
+	btnBackOptions = new GuiButton(10, { 300, 226, 43,15 }, "BACKOPTIONS");
+	btnBackOptions->SetObserver(this);
+
+	// Credits menu
+	btnBackCredits = new GuiButton(11, {602,332,20,20}, "BACKCREDITS");
+	btnBackCredits->SetObserver(this);
 
 	return true;
 }
@@ -62,11 +84,17 @@ bool MainMenu::Update(float dt)
 	}
 	else if (menuState == MenuState::OPTIONS)
 	{
+		sliderMusicVolume->Update(app->input, dt);
+		sliderFxVolume->Update(app->input, dt);
+		fullScreenCheckBox->Update(app->input, dt);
+		vSync->Update(app->input, dt);
+		btnBackOptions->Update(app->input, dt);
 
+		app->audio->VolumeControl(sliderMusicVolume->GetValue());
 	}
 	else if (menuState == MenuState::CREDITS)
 	{
-
+		btnBackCredits->Update(app->input, dt);
 	}
 
 	return true;
@@ -89,11 +117,15 @@ bool MainMenu::Draw()
 	}
 	else if (menuState == MenuState::OPTIONS)
 	{
-
+		sliderMusicVolume->Draw(app->render);
+		sliderFxVolume->Draw(app->render);
+		fullScreenCheckBox->Draw(app->render);
+		vSync->Draw(app->render);
+		btnBackOptions->Draw(app->render);
 	}
 	else if (menuState == MenuState::CREDITS)
 	{
-
+		btnBackCredits->Draw(app->render);
 	}
 
 	return ret;
@@ -114,6 +146,11 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	case GuiControlType::BUTTON:
 	{
 		if (control->id == 1) TransitionToScene((Scene*)app->sceneManager->scene1);
+		else if (control->id == 3) menuState = MenuState::OPTIONS;
+		else if (control->id == 4) menuState = MenuState::CREDITS;
+		else if (control->id == 5) return false;
+		else if (control->id == 11) menuState = MenuState::INITIAL;
+		else if (control->id == 10) menuState = MenuState::INITIAL;
 	}
 	default: break;
 	}

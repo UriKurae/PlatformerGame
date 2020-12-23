@@ -202,34 +202,6 @@ bool Audio::Load(pugi::xml_node& audioNode)
 
 void Audio::VolumeControl(int index)
 {
-	if (index < 0)
-	{
-		if (musicVolume <= 0)
-		{
-			musicVolume = 0;
-			LOG("Min music volume reached");
-		}
-		else
-		{
-			musicVolume += index;
-			Mix_VolumeMusic(musicVolume);
-			LOG("%i", musicVolume);
-		}
-
-	}
-
-	if (index > 0)
-	{
-		if (musicVolume >= 125)
-		{
-			musicVolume = 128;
-			LOG("Max music volume reached");
-		}
-		else
-		{
-			musicVolume += index;
-			Mix_VolumeMusic(musicVolume);
-			LOG("%i", musicVolume);
-		}
-	}
+	musicVolume = index;
+	Mix_VolumeMusic(musicVolume);
 }

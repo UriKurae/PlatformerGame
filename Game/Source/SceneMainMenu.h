@@ -47,21 +47,25 @@ private:
 	SDL_Texture* intro;
 
 
-	// Buttons
+	// Principal GUI
 	GuiButton* btnPlay;
 	GuiButton* btnContinue;
 	GuiButton* btnSettings;
 	GuiButton* btnCredits;
 	GuiButton* btnExit;
 
-	// Sliders
+	// Options GUI
 	GuiSlider* sliderMusicVolume;
 	GuiSlider* sliderFxVolume;
+	GuiCheckBox* fullScreenCheckBox;
+	GuiCheckBox* vSync;
+	GuiButton* btnBackOptions;
 
-	// Check-Boxes
-	GuiCheckBox* cbFullScreen;
-	GuiCheckBox* cbVsync;
+	// Credits GUI
+	GuiButton* btnBackCredits;
 
+
+	// Current menu state
 	MenuState menuState;
 };
 
