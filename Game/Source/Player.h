@@ -34,7 +34,7 @@ public:
 
 	void HandleInput(float dt);
 
-	void CameraFollow();
+	void CameraFollow(float dt);
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&);
@@ -71,6 +71,10 @@ public:
 	// Hearts starting position
 	iPoint heartPosition;
 
+	// Speed to run
+	float speedX;
+	float speedY;
+
 private:
 
 	// Collider deployed when player attacks
@@ -82,9 +86,6 @@ private:
 	// Player's life
 	int lifes = 3;
 
-	// Speed to run
-	float speedX;
-	float speedY;
 
 	// Dodging bool
 	bool isDodging;
@@ -93,9 +94,6 @@ private:
 
 	// Constant gravity applied to the player
 	float gravity;
-
-	// Camera offset
-	float camOffset = position.x;
 
 	// Jump mechanic
 	bool jump = false;

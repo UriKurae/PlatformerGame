@@ -32,7 +32,7 @@ bool Scene2::Start()
 {
 	if (this->active)
 	{
-		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 20));
+		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 40));
 		player->Start();
 	
 		app->map->active = true;

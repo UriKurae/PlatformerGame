@@ -232,7 +232,8 @@ bool Player::Update(float dt)
 	else if (direction == "left")
 		collider->SetPos(position.x + 4, position.y + 5);
 
-	CameraFollow();
+	
+	CameraFollow(dt);
 
 	return true;
 }
@@ -549,10 +550,15 @@ void Player::HandleInput(float dt)
 
 }
 
-void Player::CameraFollow()
+void Player::CameraFollow(float dt)
 {
-	app->render->camera.x = -(position.x * 2.0f) + (app->render->camera.w / 3);
-	app->render->camera.y = (-position.y);
+	app->render->camera.x = -(position.x * (int)app->win->GetScale()) + 500;
+	app->render->camera.y = (-position.y * (int)app->win->GetScale()) + 250;
+
+
+	LOG("Player X: %i", position.x);
+	LOG("=================");
+	LOG("Camera X: %i", app->render->camera.x);
 }
 
 
@@ -577,7 +583,6 @@ void Player::OnCollision()
 
 	while (layer != NULL)
 	{
-
 		if (layer->data->name == "HitBoxes")
 		{
 			// Here we get the surrounders player's tiles

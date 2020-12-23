@@ -62,8 +62,11 @@ public:
 	SDL_Rect viewport;
 	SDL_Color background;
 
-	int cameraX;
-	int cameraY;
+	/*int cameraX;
+	int cameraY;*/
+
+	int cameraOffsetX;
+	int cameraOffsetY;
 
 	bool vsync = false;
 };

@@ -1,8 +1,16 @@
+#include "App.h"
+#include "Window.h"
+#include "Render.h"
+
 #include "GuiButton.h"
 
 GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::BUTTON, id)
 {
-    this->bounds = bounds;
+    this->bounds.x = bounds.x;
+    this->bounds.y = bounds.y;
+    this->bounds.w = bounds.w;
+    this->bounds.h = bounds.h;
+
     this->text = text;
 }
 
