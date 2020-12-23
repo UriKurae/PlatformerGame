@@ -1,16 +1,12 @@
 #include "App.h"
 #include "Window.h"
 #include "Render.h"
-
+#include "SceneManager.h"
 #include "GuiButton.h"
 
 GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::BUTTON, id)
 {
-    this->bounds.x = bounds.x;
-    this->bounds.y = bounds.y;
-    this->bounds.w = bounds.w;
-    this->bounds.h = bounds.h;
-
+    this->bounds = bounds;
     this->text = text;
 }
 
@@ -20,6 +16,15 @@ GuiButton::~GuiButton()
 
 bool GuiButton::Update(Input* input, float dt)
 {
+    if (!app->sceneManager->isPaused)
+    {
+        /*uint x, y;
+        app->win->GetWindowSize(x, y);
+
+        bounds.x += (app->render->camera.x) / app->win->GetScale();
+        bounds.y += (app->render->camera.y) / app->win->GetScale();*/
+    }
+
     if (state != GuiControlState::DISABLED)
     {
         int mouseX, mouseY;

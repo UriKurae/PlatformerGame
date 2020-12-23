@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Window.h"
 #include "Audio.h"
 #include "Input.h"
 #include "Textures.h"
@@ -223,7 +224,6 @@ bool SceneManager::Update(float dt)
 				this->vSyncCheckBox->Update(app->input, dt);
 				this->btnBackOptions->Update(app->input, dt);
 			}
-			
 		}
 	}
 	else
@@ -375,6 +375,13 @@ void SceneManager::ChangeScene(Scene* scene)
 
 void SceneManager::ShowPauseMenu()
 {
+	uint x, y;
+	app->win->GetWindowSize(x, y);
+	SDL_Rect r = { 0,0,x,y };
+
+	// Draw blured background
+	app->render->DrawRectangle(r, { 0,0,0,150 });
+
 	if (statusMenu == MenuState::INITIAL)
 	{
 		this->btnResume->Draw(app->render);
