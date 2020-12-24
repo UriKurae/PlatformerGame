@@ -1,11 +1,10 @@
-
 #include "App.h"
 #include "Window.h"
-#include "Render.h"
+#include "Input.h"
 #include "Textures.h"
+#include "Render.h"
 #include "Map.h"
 #include "Player.h"
-#include "Input.h"
 
 #include "Defs.h"
 #include "Log.h"

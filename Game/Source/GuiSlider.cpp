@@ -1,7 +1,9 @@
-#include "GuiSlider.h"
 #include "App.h"
 #include "Window.h"
 #include "Render.h"
+#include "SceneManager.h"
+#include "GuiSlider.h"
+
 #include "Log.h"
 
 GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::SLIDER, id)
@@ -21,14 +23,20 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
 {
     if (initialPos.x != position.x || initialPos.y != position.y)
     {
+        if (app->sceneManager->currentScene == (Scene*)app->sceneManager->mainMenu)
+            bounds.x = position.x;
+        else
+            bounds.x = position.x + (this->value / app->win->GetScale());
+
         initialPos.x = position.x;
         initialPos.y = position.y;
-        bounds.x = position.x + (this->value / app->win->GetScale());
         bounds.y = position.y;
         this->minValue = bounds.x - (this->value / app->win->GetScale());
         this->maxValue = bounds.x + ((100 - this->value) / app->win->GetScale());
-        CalculateValue();
     }
+
+
+    CalculateValue();
 
     if (state != GuiControlState::DISABLED)
     {

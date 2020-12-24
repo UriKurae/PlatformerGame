@@ -5,14 +5,13 @@
 #include "Textures.h"
 #include "Map.h"
 #include "Player.h"
-#include "SceneManager.h"
-#include "SceneMainMenu.h"
 #include "SceneLogo.h"
 #include "Scene1.h"
 #include "Scene2.h"
 #include "DeadScene.h"
 #include "WinScene.h"
-#include "FadeToBlack.h"
+#include "SceneMainMenu.h"
+#include "SceneManager.h"
 #include "EntityManager.h"
 
 #include "SDL/include/SDL_scancode.h"
@@ -144,19 +143,19 @@ bool SceneManager::Start()
 	btnExit->SetObserver(currentScene);
 
 	// Settings UI
-	sliderMusicVolume = new GuiSlider(6, { 320, 150, 5, 10 }, "SLIDERMUSIC");
+	sliderMusicVolume = new GuiSlider(1, { 320, 150, 5, 10 }, "SLIDERMUSIC");
 	sliderMusicVolume->SetObserver(currentScene);
 
-	sliderFxVolume = new GuiSlider(7, { 320, 170, 5, 10 }, "SLIDERFX");
+	sliderFxVolume = new GuiSlider(2, { 320, 170, 5, 10 }, "SLIDERFX");
 	sliderFxVolume->SetObserver(currentScene);
 
-	fullScreenCheckBox = new GuiCheckBox(8, { 359, 190, 10, 10 }, "FULLSCREEN");
+	fullScreenCheckBox = new GuiCheckBox(1, { 359, 190, 10, 10 }, "FULLSCREEN");
 	fullScreenCheckBox->SetObserver(currentScene);
 
-	vSyncCheckBox = new GuiCheckBox(9, { 359,210,10,10 }, "VSYNC");
+	vSyncCheckBox = new GuiCheckBox(2, { 359,210,10,10 }, "VSYNC");
 	vSyncCheckBox->SetObserver(currentScene);
 
-	btnBackOptions = new GuiButton(10, { 301, 225, 60, 15 }, "BACKOPTIONS");
+	btnBackOptions = new GuiButton(5, { 301, 225, 60, 15 }, "BACKOPTIONS");
 
 	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
@@ -258,9 +257,7 @@ bool SceneManager::Update(float dt)
 	}
 
 	if (currentScene != nullptr && currentScene->transitionRequired)
-	{
 		ChangeScene(currentScene->nextScene);
-	}
 	
 	if (currentScene->toExit == true)
 		ret = false;
@@ -282,14 +279,10 @@ bool SceneManager::PostUpdate()
 
 	// Draw full screen rectangle in front of everything
 	if (onTransition)
-	{
 		app->render->DrawRectangle({ 0, 0, 1280, 720 }, { 0, 0, 0, (unsigned char)(255.0f * transitionAlpha) });
-	}
 
 	if (isPaused == true)
-	{
 		ShowPauseMenu();
-	}
 
 	return true;
 }
@@ -344,7 +337,6 @@ void SceneManager::CheckWin()
 		}
 		item = item->next;
 	}
-
 }
 
 void SceneManager::AddScene(Scene* scene, bool active)
@@ -401,6 +393,5 @@ void SceneManager::ShowPauseMenu()
 		fullScreenCheckBox->Draw(app->render);
 		vSyncCheckBox->Draw(app->render);
 		btnBackOptions->Draw(app->render);
-	}
-	
+	}	
 }

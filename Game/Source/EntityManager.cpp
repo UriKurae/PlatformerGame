@@ -1,12 +1,12 @@
 #include "App.h"
-#include "SceneManager.h"
 #include "Textures.h"
-#include "EntityManager.h"
 #include "Player.h"
-#include "Executioner.h"
 #include "Wolf.h"
+#include "Executioner.h"
 #include "GreenGem.h"
 #include "RedHeart.h"
+#include "EntityManager.h"
+#include "SceneManager.h"
 
 EntityManager::EntityManager()
 {

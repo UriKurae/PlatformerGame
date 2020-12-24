@@ -51,23 +51,23 @@ bool MainMenu::Start()
 
 
 	// Options menu
-	sliderMusicVolume = new GuiSlider(6, { 320, 150, 5, 10 }, "SLIDERMUSIC");
+	sliderMusicVolume = new GuiSlider(1, { 320, 150, 5, 10 }, "SLIDERMUSIC");
 	sliderMusicVolume->SetObserver(this);
 
-	sliderFxVolume = new GuiSlider(7, {320, 170, 5, 10}, "SLIDERFX");
+	sliderFxVolume = new GuiSlider(2, {320, 170, 5, 10}, "SLIDERFX");
 	sliderFxVolume->SetObserver(this);
 
-	fullScreenCheckBox = new GuiCheckBox(8, {359, 190, 10, 10}, "FULLSCREEN");
+	fullScreenCheckBox = new GuiCheckBox(1, {359, 190, 10, 10}, "FULLSCREEN");
 	fullScreenCheckBox->SetObserver(this);
 
-	vSyncCheckBox = new GuiCheckBox(9, {359,210,10,10}, "VSYNC");
+	vSyncCheckBox = new GuiCheckBox(2, {359,210,10,10}, "VSYNC");
 	vSyncCheckBox->SetObserver(this);
 
-	btnBackOptions = new GuiButton(10, { 300, 226, 65, 15 }, "BACKOPTIONS");
+	btnBackOptions = new GuiButton(6, { 300, 226, 65, 15 }, "BACKOPTIONS");
 	btnBackOptions->SetObserver(this);
 
 	// Credits menu
-	btnBackCredits = new GuiButton(11, {602,332,20,20}, "BACKCREDITS");
+	btnBackCredits = new GuiButton(7, {602,332,50,15}, "BACKCREDITS");
 	btnBackCredits->SetObserver(this);
 
 	return true;
@@ -128,6 +128,11 @@ bool MainMenu::Draw()
 	}
 	else if (menuState == MenuState::CREDITS)
 	{
+		uint x, y;
+		app->win->GetWindowSize(x, y);
+		SDL_Rect r = { -(app->render->camera.x + 500),-(app->render->camera.y + 250),x,y };
+
+		app->render->DrawRectangle(r, { 0,0,0,225 });
 		btnBackCredits->Draw(app->render);
 	}
 
@@ -162,8 +167,8 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 3) menuState = MenuState::OPTIONS;
 		else if (control->id == 4) menuState = MenuState::CREDITS;
 		else if (control->id == 5) toExit = true;
-		else if (control->id == 11) menuState = MenuState::INITIAL;
-		else if (control->id == 10) menuState = MenuState::INITIAL;
+		else if (control->id == 6) menuState = MenuState::INITIAL;
+		else if (control->id == 7) menuState = MenuState::INITIAL;
 	}
 	default: break;
 	}

@@ -441,6 +441,7 @@ bool Scene1::OnGuiMouseClickEvent(GuiControl* control)
 				toExit = true;
 			}
 		}
+
 		default: break;
 	}
 
