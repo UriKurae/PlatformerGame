@@ -46,6 +46,10 @@ public:
 	
 private:
 
+	// Texture for the lifes on the Gui
+	SDL_Texture* GuiHeartTexture;
+
+	// Player object
 	Player* player;
 
 	// Player's start position as iPoint  
@@ -71,4 +75,6 @@ private:
 	bool checkSound2 = false;
 
 	Animation* currentAnimCheckpoint;
+
+	
 };

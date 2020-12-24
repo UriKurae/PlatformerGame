@@ -75,6 +75,9 @@ public:
 	float speedX;
 	float speedY;
 
+	// Player's life
+	int lifes = 3;
+
 private:
 
 	// Collider deployed when player attacks
@@ -83,8 +86,6 @@ private:
 	// Direction player is facing at
 	SString direction;
 
-	// Player's life
-	int lifes = 3;
 
 	// Dodging bool
 	bool isDodging;

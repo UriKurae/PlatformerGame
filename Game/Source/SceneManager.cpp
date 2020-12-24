@@ -208,6 +208,7 @@ bool SceneManager::Update(float dt)
 			iPoint offset;
 			offset.x = -(app->render->camera.x) / app->win->GetScale();
 			offset.y = -(app->render->camera.y) / app->win->GetScale();
+
 			if (statusMenu == MenuState::INITIAL)
 			{				
 				this->btnResume->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (275 / app->win->GetScale())));
@@ -261,6 +262,9 @@ bool SceneManager::Update(float dt)
 		ChangeScene(currentScene->nextScene);
 	}
 	
+	if (currentScene->toExit == true)
+		ret = false;
+
 	return ret;
 }
 
@@ -302,15 +306,12 @@ bool SceneManager::HandleInput(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		currentScene->TransitionToScene(scene1);
-		//app->fade->Fade(currentScene, scene1, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
 		currentScene->TransitionToScene(scene2);
-		//app->fade->Fade(currentScene, (Scene*)scene2, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KeyState::KEY_DOWN)
 		currentScene->TransitionToScene(currentScene);
-		//app->fade->Fade(currentScene, currentScene, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KeyState::KEY_DOWN)
 		app->RequestSaveGame();
@@ -319,11 +320,7 @@ bool SceneManager::HandleInput(float dt)
 		app->RequestLoadGame();
 	
 	if ((savedScene != nullptr) && (savedScene != currentScene))
-	{
-		//app->player->Disable();
 		currentScene->TransitionToScene(savedScene);
-		//app->fade->Fade(currentScene, savedScene, 1 / dt);
-	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 	{
@@ -364,7 +361,7 @@ void SceneManager::ChangeScene(Scene* scene)
 
 	nextScene = scene;
 
-	// update all observers of the new scene
+	// Update all observers of the new scene
 	// Initial menu
 	btnResume->SetObserver(nextScene);
 	btnSettings->SetObserver(nextScene);

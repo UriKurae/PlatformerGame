@@ -161,7 +161,7 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 		if (control->id == 1) TransitionToScene((Scene*)app->sceneManager->scene1);
 		else if (control->id == 3) menuState = MenuState::OPTIONS;
 		else if (control->id == 4) menuState = MenuState::CREDITS;
-		else if (control->id == 5) return false;
+		else if (control->id == 5) toExit = true;
 		else if (control->id == 11) menuState = MenuState::INITIAL;
 		else if (control->id == 10) menuState = MenuState::INITIAL;
 	}

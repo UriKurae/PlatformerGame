@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Window.h"
 #include "Audio.h"
 #include "Log.h"
 #include "Input.h"
@@ -135,7 +136,9 @@ bool Scene1::Start()
 		sky = app->tex->Load("Assets/Textures/Scenes/sky.png");
 		sea = app->tex->Load("Assets/Textures/Scenes/sea.png");
 		clouds = app->tex->Load("Assets/Textures/Scenes/clouds.png");
-	
+		GuiHeartTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
+
+
 		app->sceneManager->currentScene = this;
 	}
 
@@ -300,14 +303,18 @@ bool Scene1::Draw()
 		currentAnimCheckpoint->Update();
 	}
 
+	DrawGui();
+
 	return ret;
 }
 
 void Scene1::DrawGui()
 {
-
-
-
+	for (uint i = 1; i <= player->lifes; ++i)
+	{
+		SDL_Rect r = { 176,79,16,16 };
+		app->render->DrawTexture(GuiHeartTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / app->win->GetScale()) + 5, &r);
+	}
 }
 
 bool Scene1::CleanUp()
@@ -410,6 +417,8 @@ bool Scene1::CheckCollisions(SDL_Rect& a, SDL_Rect& b)
 
 bool Scene1::OnGuiMouseClickEvent(GuiControl* control)
 {
+	bool ret = true;
+
 	switch (control->type)
 	{
 		case GuiControlType::BUTTON:
@@ -427,9 +436,13 @@ bool Scene1::OnGuiMouseClickEvent(GuiControl* control)
 				TransitionToScene((Scene*)app->sceneManager->mainMenu);
 				app->sceneManager->isPaused = false;
 			}
+			else if (control->id == 4)
+			{
+				toExit = true;
+			}
 		}
 		default: break;
 	}
 
-	return true;
+	return ret;
 }

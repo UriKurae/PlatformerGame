@@ -66,7 +66,7 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
 
 bool GuiSlider::Draw(Render* render)
 {
-    // Draw the right button depending on state
+    // Draw the slider depending on state
     switch (state)
     {
     case GuiControlState::DISABLED: render->DrawRectangle(bounds, { 100, 100, 100, 255 });
@@ -92,8 +92,10 @@ void GuiSlider::CalculateValue()
 
     if (this->value > 100)
         this->value = 100;
+    
     else if (this->value < 0)
         this->value = 0;
+
     LOG("Value of the thing %i", value);
 }
 

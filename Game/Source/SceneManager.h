@@ -21,7 +21,6 @@ enum class MenuState
 	INITIAL,
 	OPTIONS,
 	CREDITS,
-
 };
 
 class SceneManager : public Module

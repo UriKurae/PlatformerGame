@@ -95,4 +95,7 @@ public:
 
 	bool transitionRequired;
 	Scene* nextScene;
+
+	// Indicates when the exit button is pressed
+	bool toExit = false;
 };
