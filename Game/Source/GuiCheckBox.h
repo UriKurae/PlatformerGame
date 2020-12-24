@@ -13,7 +13,7 @@ public:
     GuiCheckBox(uint32 id, SDL_Rect bounds, const char *text);
     virtual ~GuiCheckBox();
 
-    bool Update(Input* input, float dt);
+    bool Update(Input* input, float dt, iPoint position);
     bool Draw(Render* render);
 
 private:

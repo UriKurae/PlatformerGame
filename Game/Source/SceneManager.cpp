@@ -205,13 +205,11 @@ bool SceneManager::Update(float dt)
 		}
 		else
 		{
+			iPoint offset;
+			offset.x = -(app->render->camera.x) / app->win->GetScale();
+			offset.y = -(app->render->camera.y) / app->win->GetScale();
 			if (statusMenu == MenuState::INITIAL)
-			{
-				iPoint offset;
-				offset.x = -(app->render->camera.x) / app->win->GetScale();
-				offset.y = -(app->render->camera.y) / app->win->GetScale();
-				uint x, y;
-				
+			{				
 				this->btnResume->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (275 / app->win->GetScale())));
 				this->btnSettings->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (313 / app->win->GetScale())));
 				this->btnBackToTitle->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (353 / app->win->GetScale())));
@@ -219,11 +217,11 @@ bool SceneManager::Update(float dt)
 			}
 			else if (statusMenu == MenuState::OPTIONS)
 			{
-				this->sliderMusicVolume->Update(app->input, dt);
-				this->sliderFxVolume->Update(app->input, dt);
-				this->fullScreenCheckBox->Update(app->input, dt);
-				this->vSyncCheckBox->Update(app->input, dt);
-				this->btnBackOptions->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
+				this->sliderMusicVolume->Update(app->input, dt, iPoint(offset.x + 634 / app->win->GetScale(), offset.y + (275 / app->win->GetScale())));
+				this->sliderFxVolume->Update(app->input, dt, iPoint(offset.x + 634 / app->win->GetScale(), offset.y + (313 / app->win->GetScale())));
+				this->fullScreenCheckBox->Update(app->input, dt, iPoint(offset.x + 720 / app->win->GetScale(), offset.y + (353 / app->win->GetScale())));
+				this->vSyncCheckBox->Update(app->input, dt, iPoint(offset.x + 720 / app->win->GetScale(), offset.y + (396 / app->win->GetScale())));
+				this->btnBackOptions->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (450 / app->win->GetScale())));
 			}
 		}
 	}
@@ -297,7 +295,10 @@ bool SceneManager::HandleInput(float dt)
 	bool ret = true;
 
 	if ((app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) && (currentScene == scene1 || currentScene == scene2))
+	{
 		isPaused = !isPaused;
+		statusMenu = MenuState::INITIAL;
+	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		currentScene->TransitionToScene(scene1);

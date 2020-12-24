@@ -1,4 +1,7 @@
 #include "GuiSlider.h"
+#include "App.h"
+#include "Window.h"
+#include "Render.h"
 #include "Log.h"
 
 GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::SLIDER, id)
@@ -14,14 +17,24 @@ GuiSlider::~GuiSlider()
 {
 }
 
-bool GuiSlider::Update(Input* input, float dt)
+bool GuiSlider::Update(Input* input, float dt, iPoint position)
 {
-    input->GetMousePosition(pos.x, pos.y);
+    if (bounds.x != position.x || bounds.y != position.y)
+    {
+        bounds.x = position.x;
+        bounds.y = position.y;
+        this->minValue = bounds.x - 25;
+        this->maxValue = bounds.x + bounds.w + 25;
+        CalculateValue();
+    }
 
     if (state != GuiControlState::DISABLED)
     {
-        int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
+
+        // Camera offset applied to the mouse so we can use the options.
+        mouseX += -app->render->camera.x / app->win->GetScale();
+        mouseY += -app->render->camera.y / app->win->GetScale();
 
         // Check collision between mouse and button bounds
         if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
@@ -37,7 +50,7 @@ bool GuiSlider::Update(Input* input, float dt)
         {
             if ((input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT) && (mouseX > minValue) && (mouseX < maxValue))
             {
-                bounds.x = ((pos.x) - (bounds.w / 2));
+                bounds.x = ((mouseX) - (bounds.w / 2));
                 CalculateValue();
             }
             else
@@ -62,7 +75,7 @@ bool GuiSlider::Draw(Render* render)
         break;
     case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 });
         break;
-    case GuiControlState::PRESSED: render->DrawRectangle({((pos.x) - (bounds.w / 2)), bounds.y, bounds.w, bounds.h}, { 0, 255, 255, 255 });
+    case GuiControlState::PRESSED: render->DrawRectangle({(bounds.x) - (bounds.w / 2), bounds.y, bounds.w, bounds.h}, { 0, 255, 255, 255 });
         break;
     case GuiControlState::SELECTED: render->DrawRectangle(bounds, { 0, 255, 0, 255 });
         break;

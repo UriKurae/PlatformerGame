@@ -26,6 +26,10 @@ bool GuiButton::Update(Input* input, float dt, iPoint position)
     {
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
+        
+        // Camera offset applied to the mouse so we can use the options.
+        mouseX += -app->render->camera.x / app->win->GetScale();
+        mouseY += -app->render->camera.y / app->win->GetScale();
 
         // Check collision between mouse and button bounds
         if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 

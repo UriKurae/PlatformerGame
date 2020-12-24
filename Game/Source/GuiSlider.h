@@ -13,7 +13,7 @@ public:
     GuiSlider(uint32 id, SDL_Rect bounds, const char *text);
     virtual ~GuiSlider();
 
-    bool Update(Input* input, float dt);
+    bool Update(Input* input, float dt, iPoint position);
     bool Draw(Render* render);
     void CalculateValue();
     int GetValue() const;
@@ -29,6 +29,7 @@ private:
     int maxValue;
 
     iPoint pos;
+    int mouseX, mouseY;
 };
 
 #endif // __GUISLIDER_H__

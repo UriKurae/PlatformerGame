@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Window.h"
 #include "Audio.h"
 #include "Input.h"
 #include "Render.h"
@@ -33,19 +34,19 @@ bool MainMenu::Start()
 	app->render->SetCameraPosition(0,0);
 
 	// Initial buttons
-	btnPlay = new GuiButton(1, { 289, 147, 65, 15 }, "START");
+	btnPlay = new GuiButton(1, { 575 / (int)app->win->GetScale(), 289 / (int)app->win->GetScale(), 65, 15 }, "START");
 	btnPlay->SetObserver(this);
 
-	btnContinue = new GuiButton(2, { 278, 166, 86, 15 }, "CONTINUE");
+	btnContinue = new GuiButton(2, { 575 / (int)app->win->GetScale(), 331 / (int)app->win->GetScale(), 65, 15 }, "CONTINUE");
 	btnContinue->SetObserver(this);
 
-	btnSettings = new GuiButton(3, { 280, 187, 78, 13 }, "SETTINGS");
+	btnSettings = new GuiButton(3, { 575 / (int)app->win->GetScale(), 372 / (int)app->win->GetScale(), 65, 15 }, "SETTINGS");
 	btnSettings->SetObserver(this);
 
-	btnCredits = new GuiButton(4, { 282, 208, 77, 13 }, "CREDITS");
+	btnCredits = new GuiButton(4, { 575 / (int)app->win->GetScale(), 414 / (int)app->win->GetScale(), 65, 15 }, "CREDITS");
 	btnCredits->SetObserver(this);
 
-	btnExit = new GuiButton(5, { 298, 226, 44, 14 }, "EXIT");
+	btnExit = new GuiButton(5, { 575 / (int)app->win->GetScale(), 455 / (int)app->win->GetScale(), 65, 15 }, "EXIT");
 	btnExit->SetObserver(this);
 
 
@@ -62,7 +63,7 @@ bool MainMenu::Start()
 	vSyncCheckBox = new GuiCheckBox(9, {359,210,10,10}, "VSYNC");
 	vSyncCheckBox->SetObserver(this);
 
-	btnBackOptions = new GuiButton(10, { 300, 226, 43,15 }, "BACKOPTIONS");
+	btnBackOptions = new GuiButton(10, { 300, 226, 65, 15 }, "BACKOPTIONS");
 	btnBackOptions->SetObserver(this);
 
 	// Credits menu
@@ -76,19 +77,19 @@ bool MainMenu::Update(float dt)
 {
 	if (menuState == MenuState::INITIAL)
 	{
-		btnPlay->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
-		btnContinue->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
-		btnSettings->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
-		btnCredits->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
-		btnExit->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
+		btnPlay->Update(app->input, dt, iPoint(575 / app->win->GetScale(), 289 / app->win->GetScale()));
+		btnContinue->Update(app->input, dt, iPoint(575 / app->win->GetScale(), 331 / app->win->GetScale()));
+		btnSettings->Update(app->input, dt, iPoint(575 / app->win->GetScale(), 372 / app->win->GetScale()));
+		btnCredits->Update(app->input, dt, iPoint(575 / app->win->GetScale(),  414 / app->win->GetScale()));
+		btnExit->Update(app->input, dt, iPoint(575 / app->win->GetScale(), 455 / app->win->GetScale()));
 	}
 	else if (menuState == MenuState::OPTIONS)
 	{
-		sliderMusicVolume->Update(app->input, dt);
-		sliderFxVolume->Update(app->input, dt);
-		fullScreenCheckBox->Update(app->input, dt);
-		vSyncCheckBox->Update(app->input, dt);
-		btnBackOptions->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
+		sliderMusicVolume->Update(app->input, dt, iPoint(635 / app->win->GetScale(), 289 / app->win->GetScale()));
+		sliderFxVolume->Update(app->input, dt, iPoint(635 / app->win->GetScale(), 331 / app->win->GetScale()));
+		fullScreenCheckBox->Update(app->input, dt, iPoint(735 / app->win->GetScale(), 372 / app->win->GetScale()));
+		vSyncCheckBox->Update(app->input, dt, iPoint(735 / app->win->GetScale(), 414 / app->win->GetScale()));
+		btnBackOptions->Update(app->input, dt, iPoint(575 / app->win->GetScale(), 455 / app->win->GetScale()));
 
 		app->audio->SetMusicVolume(sliderMusicVolume->GetValue());
 		app->audio->SetFXVolume(sliderFxVolume->GetValue());

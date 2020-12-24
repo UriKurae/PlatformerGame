@@ -1,4 +1,7 @@
 #include "GuiCheckBox.h"
+#include "App.h"
+#include "Window.h"
+#include "Render.h"
 
 GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::CHECKBOX, id)
 {
@@ -10,12 +13,22 @@ GuiCheckBox::~GuiCheckBox()
 {
 }
 
-bool GuiCheckBox::Update(Input* input, float dt)
+bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
 {
+    if (bounds.x != position.x || bounds.y != position.y)
+    {
+        bounds.x = position.x;
+        bounds.y = position.y;
+    }
+
     if (state != GuiControlState::DISABLED)
     {
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
+
+        // Camera offset applied to the mouse so we can use the options.
+        mouseX += -app->render->camera.x / app->win->GetScale();
+        mouseY += -app->render->camera.y / app->win->GetScale();
 
         // Check collision between mouse and button bounds
         if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
