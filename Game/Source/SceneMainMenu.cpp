@@ -76,11 +76,11 @@ bool MainMenu::Update(float dt)
 {
 	if (menuState == MenuState::INITIAL)
 	{
-		btnPlay->Update(app->input, dt);
-		btnContinue->Update(app->input, dt);
-		btnSettings->Update(app->input, dt);
-		btnCredits->Update(app->input, dt);
-		btnExit->Update(app->input, dt);
+		btnPlay->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
+		btnContinue->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
+		btnSettings->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
+		btnCredits->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
+		btnExit->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
 	}
 	else if (menuState == MenuState::OPTIONS)
 	{
@@ -88,7 +88,7 @@ bool MainMenu::Update(float dt)
 		sliderFxVolume->Update(app->input, dt);
 		fullScreenCheckBox->Update(app->input, dt);
 		vSyncCheckBox->Update(app->input, dt);
-		btnBackOptions->Update(app->input, dt);
+		btnBackOptions->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
 
 		app->audio->SetMusicVolume(sliderMusicVolume->GetValue());
 		app->audio->SetFXVolume(sliderFxVolume->GetValue());
@@ -96,7 +96,7 @@ bool MainMenu::Update(float dt)
 	}
 	else if (menuState == MenuState::CREDITS)
 	{
-		btnBackCredits->Update(app->input, dt);
+		btnBackCredits->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
 	}
 
 	return true;

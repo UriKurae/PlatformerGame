@@ -131,10 +131,10 @@ bool SceneManager::Save(pugi::xml_node& node)
 bool SceneManager::Start()
 {
 	// Initial UI
-	btnResume = new GuiButton(1, { 292,146,57,14 }, "RESUME");
+	btnResume = new GuiButton(1, { 292,146,60,15 }, "RESUME");
 	btnResume->SetObserver(currentScene);
 
-	btnSettings = new GuiButton(2, { 290, 166, 59, 14 }, "SETTINGS");
+	btnSettings = new GuiButton(2, { 290, 166, 60, 15 }, "SETTINGS");
 	btnSettings->SetObserver(currentScene);
 
 	btnBackToTitle = new GuiButton(3, {290, 186, 60, 15}, "BACKTOTITLE");
@@ -156,7 +156,7 @@ bool SceneManager::Start()
 	vSyncCheckBox = new GuiCheckBox(9, { 359,210,10,10 }, "VSYNC");
 	vSyncCheckBox->SetObserver(currentScene);
 
-	btnBackOptions = new GuiButton(10, { 301, 225, 40, 16 }, "BACKOPTIONS");
+	btnBackOptions = new GuiButton(10, { 301, 225, 60, 15 }, "BACKOPTIONS");
 
 	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
@@ -207,10 +207,15 @@ bool SceneManager::Update(float dt)
 		{
 			if (statusMenu == MenuState::INITIAL)
 			{
-				this->btnResume->Update(app->input, dt);
-				this->btnSettings->Update(app->input, dt);
-				this->btnBackToTitle->Update(app->input, dt);
-				this->btnExit->Update(app->input, dt);
+				iPoint offset;
+				offset.x = -(app->render->camera.x) / app->win->GetScale();
+				offset.y = -(app->render->camera.y) / app->win->GetScale();
+				uint x, y;
+				
+				this->btnResume->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (275 / app->win->GetScale())));
+				this->btnSettings->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (313 / app->win->GetScale())));
+				this->btnBackToTitle->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (353 / app->win->GetScale())));
+				this->btnExit->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (406 / app->win->GetScale())));
 			}
 			else if (statusMenu == MenuState::OPTIONS)
 			{
@@ -218,7 +223,7 @@ bool SceneManager::Update(float dt)
 				this->sliderFxVolume->Update(app->input, dt);
 				this->fullScreenCheckBox->Update(app->input, dt);
 				this->vSyncCheckBox->Update(app->input, dt);
-				this->btnBackOptions->Update(app->input, dt);
+				this->btnBackOptions->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
 			}
 		}
 	}
@@ -379,7 +384,7 @@ void SceneManager::ShowPauseMenu()
 {
 	uint x, y;
 	app->win->GetWindowSize(x, y);
-	SDL_Rect r = { 0,0,x,y };
+	SDL_Rect r = { -(app->render->camera.x + 500),-(app->render->camera.y + 250),x,y };
 
 	// Draw blured background
 	app->render->DrawRectangle(r, { 0,0,0,150 });

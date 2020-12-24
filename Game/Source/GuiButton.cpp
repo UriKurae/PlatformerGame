@@ -14,15 +14,12 @@ GuiButton::~GuiButton()
 {
 }
 
-bool GuiButton::Update(Input* input, float dt)
+bool GuiButton::Update(Input* input, float dt, iPoint position)
 {
-    if (!app->sceneManager->isPaused)
+    if (bounds.x != position.x || bounds.y != position.y)
     {
-        /*uint x, y;
-        app->win->GetWindowSize(x, y);
-
-        bounds.x += (app->render->camera.x) / app->win->GetScale();
-        bounds.y += (app->render->camera.y) / app->win->GetScale();*/
+        bounds.x = position.x;
+        bounds.y = position.y;
     }
 
     if (state != GuiControlState::DISABLED)
