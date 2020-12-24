@@ -19,12 +19,14 @@ GuiSlider::~GuiSlider()
 
 bool GuiSlider::Update(Input* input, float dt, iPoint position)
 {
-    if (bounds.x != position.x || bounds.y != position.y)
+    if (initialPos.x != position.x || initialPos.y != position.y)
     {
-        bounds.x = position.x;
+        initialPos.x = position.x;
+        initialPos.y = position.y;
+        bounds.x = position.x + (this->value / app->win->GetScale());
         bounds.y = position.y;
-        this->minValue = bounds.x - 25;
-        this->maxValue = bounds.x + bounds.w + 25;
+        this->minValue = bounds.x - (50 / app->win->GetScale());
+        this->maxValue = bounds.x + ((bounds.w + 50) / app->win->GetScale());
         CalculateValue();
     }
 
@@ -50,7 +52,7 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
         {
             if ((input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT) && (mouseX > minValue) && (mouseX < maxValue))
             {
-                bounds.x = ((mouseX) - (bounds.w / 2));
+                bounds.x = ((mouseX) - ((bounds.w / 2) / app->win->GetScale()));
                 CalculateValue();
             }
             else

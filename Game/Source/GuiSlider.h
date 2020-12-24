@@ -28,7 +28,7 @@ private:
     int minValue;
     int maxValue;
 
-    iPoint pos;
+    iPoint initialPos;
     int mouseX, mouseY;
 };
 
