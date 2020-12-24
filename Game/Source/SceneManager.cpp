@@ -217,8 +217,8 @@ bool SceneManager::Update(float dt)
 			}
 			else if (statusMenu == MenuState::OPTIONS)
 			{
-				this->sliderMusicVolume->Update(app->input, dt, iPoint(offset.x + 634 / app->win->GetScale(), offset.y + (275 / app->win->GetScale())));
-				this->sliderFxVolume->Update(app->input, dt, iPoint(offset.x + 634 / app->win->GetScale(), offset.y + (313 / app->win->GetScale())));
+				this->sliderMusicVolume->Update(app->input, dt, iPoint(offset.x + 584 / app->win->GetScale(), offset.y + (275 / app->win->GetScale())));
+				this->sliderFxVolume->Update(app->input, dt, iPoint(offset.x + 584 / app->win->GetScale(), offset.y + (313 / app->win->GetScale())));
 				this->fullScreenCheckBox->Update(app->input, dt, iPoint(offset.x + 720 / app->win->GetScale(), offset.y + (353 / app->win->GetScale())));
 				this->vSyncCheckBox->Update(app->input, dt, iPoint(offset.x + 720 / app->win->GetScale(), offset.y + (396 / app->win->GetScale())));
 				this->btnBackOptions->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (450 / app->win->GetScale())));
