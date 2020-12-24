@@ -7,7 +7,7 @@ class Module;
 
 struct Collider
 {
-	enum Type
+	enum class Type
 	{
 		NONE = -1,
 		ENEMY,

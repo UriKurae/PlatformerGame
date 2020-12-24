@@ -3,7 +3,7 @@
 #include "Render.h"
 #include "Player.h"
 #include "RedHeart.h"
-#include "ItemManager.h"
+#include "EntityManager.h"
 #include "Collisions.h"
 
 RedHeart::RedHeart(iPoint pos) : Item(pos)
@@ -28,8 +28,8 @@ RedHeart::~RedHeart()
 bool RedHeart::Start()
 {
 	this->active = true;
-	texture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
-	collider = app->collisions->AddCollider({ position.x, position.y, 16, 16 }, Collider::Type::ITEM);
+	texture = app->entityManager->collectiblesTexture;
+	collider = app->entityManager->AddCollider({ position.x, position.y, 16, 16 }, Collider::Type::ITEM);
 	currentAnim = &idleAnim;
 
 	type = ItemType::HEART;
@@ -54,8 +54,8 @@ void RedHeart::Draw()
 bool RedHeart::CleanUp()
 {
 	this->active = false;
-	this->collider->pendingToDelete = true;
-	app->itemManager->DeleteItem(this);
+	//this->collider->pendingToDelete = true;   -->   Already done in DeleteEntity()
+	app->entityManager->DeleteEntity(this);
 	app->tex->UnLoad(texture);
 
 	return true;

@@ -245,11 +245,13 @@ bool Scene1::Update(float dt)
 	}
 
 	if ((CheckWin() == 1) && (player->godMode == false))
-		app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1/dt);
+		TransitionToScene(app->sceneManager->scene2);
+		//app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1/dt);
 
 	else if ((CheckWin() == 2) && (player->godMode == false))
 	{
-		app->fade->Fade(this, (Scene*)app->sceneManager->deadScene, 1 / dt);
+		TransitionToScene((Scene*)app->sceneManager->deadScene);
+		//app->fade->Fade(this, (Scene*)app->sceneManager->deadScene, 1 / dt);
 		player->DisableEntity();
 		app->sceneManager->lastScene = this;
 	}
@@ -276,7 +278,6 @@ bool Scene1::Draw()
 	
 	player->Draw();
 	app->entityManager->Draw();
-	app->itemManager->Draw();
 
 	if (checkpoint1 == true)
 	{
@@ -302,6 +303,13 @@ bool Scene1::Draw()
 	return ret;
 }
 
+void Scene1::DrawGui()
+{
+
+
+
+}
+
 bool Scene1::CleanUp()
 {
 	LOG("Freeing scene");
@@ -314,16 +322,18 @@ bool Scene1::CleanUp()
 
 	player->DisableEntity();
 
-	app->entityManager->entities.Clear();
+	app->entityManager->ClearLists();
+	//Should call entity manager cleanup?
 
 	wolfs.Clear();
 	executioners.Clear();
 	gems.Clear();
 	hearts.Clear();
 	
-	app->itemManager->DeleteColliders();
+	// Entity manager handles it
+	/*app->itemManager->DeleteColliders();
 	app->itemManager->items.Clear();
-	app->itemManager->CleanUp();
+	app->itemManager->CleanUp();*/
 
 	return true;
 }

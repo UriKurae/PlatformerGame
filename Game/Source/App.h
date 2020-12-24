@@ -24,9 +24,8 @@ class Scene2;
 class WinScene;
 class Map;
 class SceneManager;
-class ItemManager;
-class Collisions;
-class FadeToBlack;
+//class ItemManager;
+//class FadeToBlack;
 class DeadScene;
 class PathFinding;
 class EntityManager;
@@ -100,16 +99,8 @@ public:
 	Render* render;
 	Textures* tex;
 	Audio* audio;
-	IntroScene* intro;
-	Scene* scene;
-	Scene2* scene2;
-	WinScene* winScene;
-	DeadScene* deadScene;
 	Map* map;
 	SceneManager* sceneManager;
-	ItemManager* itemManager;
-	Collisions* collisions;
-	FadeToBlack* fade;
 	PathFinding* pathFinding;
 	EntityManager* entityManager;
 

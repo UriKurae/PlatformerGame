@@ -7,10 +7,9 @@
 #include "Map.h"
 #include "EntityManager.h"
 #include "SceneManager.h"
-#include "ItemManager.h"
-#include "Collisions.h"
+//#include "ItemManager.h"
 #include "Pathfinding.h"
-#include "FadeToBlack.h"
+//#include "FadeToBlack.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -26,13 +25,13 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	render = new Render();
 	tex = new Textures();
 	audio = new Audio();
-	collisions = new Collisions();
+	//collisions = new Collisions();
 	map = new Map();
 	entityManager = new EntityManager();
 	sceneManager = new SceneManager();
-	itemManager = new ItemManager();
+	//itemManager = new ItemManager();
 	pathFinding = new PathFinding();
-	fade = new FadeToBlack();
+	//fade = new FadeToBlack();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -41,12 +40,12 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex, true);
 	AddModule(audio, true);
 	AddModule(map, false);
-	AddModule(entityManager, true);
-	AddModule(itemManager, true);
 	AddModule(sceneManager, true);
+	AddModule(entityManager, true);
+	//AddModule(itemManager, true);
 	AddModule(pathFinding, true);
-	AddModule(collisions, true);
-	AddModule(fade, true);
+	//AddModule(collisions, true);
+	//AddModule(fade, true);
 
 	// Render last to swap buffer
 	AddModule(render, true);
@@ -104,7 +103,6 @@ bool App::Awake()
 
 		while(item != NULL && ret == true)
 		{
-		
 			ret = item->data->Awake(config.child(item->data->name.GetString()));
 			item = item->next;
 		}

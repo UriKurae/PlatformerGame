@@ -143,7 +143,7 @@ bool Scene2::Update(float dt)
 	else if ((CheckWin() == 2) && (player->godMode == false))
 	{
 		deadOnScene = true;
-		TransitionToScene((Scene*)app->sceneManager->winScene);
+		TransitionToScene((Scene*)app->sceneManager->deadScene);
 		app->sceneManager->lastScene = this;
 		player->DisableEntity();
 	}
@@ -210,14 +210,17 @@ bool Scene2::CleanUp()
 	player->DisableEntity();
 
 	app->entityManager->entities.Clear();
-	//app->enemyManager->DeleteColliders();
+	app->entityManager->DeleteColliders();
+	//Should call entity manager cleanup?
 
 	wolfs.Clear();
 	executioners.Clear();
+	gems.Clear();
+	hearts.Clear();
 
-	app->itemManager->DeleteColliders();
+	/*app->itemManager->DeleteColliders();
 	app->itemManager->items.Clear();
-	app->itemManager->CleanUp();
+	app->itemManager->CleanUp();*/
 
 	return true;
 }

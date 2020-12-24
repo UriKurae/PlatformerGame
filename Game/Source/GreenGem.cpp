@@ -2,7 +2,7 @@
 #include "Textures.h"
 #include "Render.h"
 #include "GreenGem.h"
-#include "ItemManager.h"
+#include "EntityManager.h"
 #include "Player.h"
 #include "Collisions.h"
 
@@ -25,8 +25,8 @@ bool GreenGem::Start()
 {
 	this->active = true;
 
-	texture = app->itemManager->texture;
-	collider = app->collisions->AddCollider({ position.x, position.y, 10,15 }, Collider::Type::ITEM);
+	texture = app->entityManager->collectiblesTexture;
+	collider = app->entityManager->AddCollider({ position.x, position.y, 10,15 }, Collider::Type::ITEM);
 	currentAnim = &idleAnim;
 
 	type = ItemType::GEM;
@@ -52,7 +52,7 @@ bool GreenGem::CleanUp()
 {
 	this->active = false;
 	this->collider->pendingToDelete = true;
-	app->itemManager->DeleteItem(this);
+	app->entityManager->DeleteEntity(this);
 
 	return true;
 }

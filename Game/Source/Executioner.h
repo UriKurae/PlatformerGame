@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Enemy.h"
-#include "Entity.h"
 #include "DynArray.h"
 
 class Executioner : public Enemy

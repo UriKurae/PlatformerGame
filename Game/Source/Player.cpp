@@ -7,7 +7,6 @@
 #include "Player.h"
 #include "Map.h"
 #include "EntityManager.h"
-#include "Collisions.h"
 
 
 #include "List.h"
@@ -176,7 +175,7 @@ bool Player::Start()
 		
 	currentAnimHeart = &threeLifesAnim;
 	currentAnim = &idleRightAnim;
-	collider = app->collisions->AddCollider({ (int)position.x + 4, (int)position.y + 5, 10, 22 }, Collider::Type::PLAYER);
+	collider = app->entityManager->AddCollider({ (int)position.x + 4, (int)position.y + 5, 10, 22 }, Collider::Type::PLAYER);
 
 
 	return true;
@@ -233,7 +232,7 @@ bool Player::Update(float dt)
 		collider->SetPos(position.x + 4, position.y + 5);
 
 	
-	CameraFollow(dt);
+	CameraFollow();
 
 	return true;
 }
@@ -550,15 +549,10 @@ void Player::HandleInput(float dt)
 
 }
 
-void Player::CameraFollow(float dt)
+void Player::CameraFollow()
 {
 	app->render->camera.x = -(position.x * (int)app->win->GetScale()) + 500;
 	app->render->camera.y = (-position.y * (int)app->win->GetScale()) + 250;
-
-
-	LOG("Player X: %i", position.x);
-	LOG("=================");
-	LOG("Camera X: %i", app->render->camera.x);
 }
 
 
@@ -696,10 +690,10 @@ void Player::Jump(float dt)
 void Player::Attack()
 {
 	if(direction == "right")
-		attackCollider = app->collisions->AddCollider({ position.x + 20, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
+		attackCollider = app->entityManager->AddCollider({ position.x + 20, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
 
 	else if(direction == "left")
-		attackCollider = app->collisions->AddCollider({ position.x - 10, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
+		attackCollider = app->entityManager->AddCollider({ position.x - 10, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
 
 	ListItem<Enemy*>* currEnemy = app->entityManager->enemies.start;
 

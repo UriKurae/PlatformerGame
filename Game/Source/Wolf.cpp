@@ -1,13 +1,12 @@
 #include "App.h"
-#include "Render.h"
+#include "Input.h"
 #include "Textures.h"
-#include "Collisions.h"
+#include "Render.h"
 #include "EntityManager.h"
 #include "Player.h"
 #include "Wolf.h"
 #include "Map.h"
 #include "Pathfinding.h"
-#include "Input.h"
 #include "Log.h"
 
 Wolf::Wolf(iPoint pos) : Enemy(pos)
@@ -133,7 +132,7 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 bool Wolf::Start()
 {
 	texture = app->entityManager->wolfTexture;
-	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
+	collider = app->entityManager->AddCollider({ position.x - 2, position.y + 10, 38, 24 }, Collider::Type::ENEMY); // 10 stands for offset
 	currentAnim = &walkRightAnim;
 
 	path.Clear();
@@ -223,7 +222,9 @@ bool Wolf::Update(float dt)
 bool Wolf::CleanUp()
 {
 	this->isAlive = false;
+	collider->pendingToDelete = true;
 	app->entityManager->DeleteEntity(this);
+	path.Clear();
 
 	return true;
 }

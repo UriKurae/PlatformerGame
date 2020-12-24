@@ -28,6 +28,9 @@ public:
 	// Draw Method
 	bool Draw();
 
+	// Draw GUI
+	void DrawGui();
+
 	// Called before quitting
 	bool CleanUp();
 

@@ -30,7 +30,8 @@ bool WinScene::Start()
 bool WinScene::Update(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN)
-		app->fade->Fade(this, app->sceneManager->mainMenu, 1 / dt);
+		TransitionToScene(app->sceneManager->mainMenu);
+		//app->fade->Fade(this, app->sceneManager->mainMenu, 1 / dt);
 
 	return true;
 }

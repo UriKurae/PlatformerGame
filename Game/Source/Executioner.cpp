@@ -2,14 +2,12 @@
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
-#include "Executioner.h"
-#include "EntityManager.h"
-#include "Entity.h"
-#include "EnemyManager.h"
-#include "Pathfinding.h"
-#include "Collisions.h"
 #include "Player.h"
 #include "Map.h"
+#include "Executioner.h"
+#include "EntityManager.h"
+#include "EnemyManager.h"
+#include "Pathfinding.h"
 
 #include <math.h>
 
@@ -78,7 +76,7 @@ bool Executioner::Start()
 	isAlive = true;
 
 	path.Clear();
-	collider = app->collisions->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
+	collider = app->entityManager->AddCollider({ position.x - 2, position.y + 10, 37, 80 }, Collider::Type::ENEMY); // 10 stands for offset
 	currentAnim = &idleAnim;
 
 	offsetPathfinding.x = 21;
@@ -150,6 +148,8 @@ bool Executioner::Update(float dt)
 
 bool Executioner::CleanUp()
 {
+	isAlive = false;
+	collider->pendingToDelete = true;
 	app->entityManager->DeleteEntity(this);
 	path.Clear();
 

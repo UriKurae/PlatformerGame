@@ -181,10 +181,6 @@ bool SceneManager::Update(float dt)
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-	{
-		isPaused = !isPaused;
-	}
 	if (onTransition == false)
 	{
 		checkpointAnim.speed = 4.0f * dt;
@@ -230,7 +226,7 @@ bool SceneManager::Update(float dt)
 	{
 		if (fadeOutCompleted == false)
 		{
-			transitionAlpha += 2.0f * dt;
+			transitionAlpha += 1.30f * dt;
 
 			if (transitionAlpha > 1.01f)
 			{
@@ -245,7 +241,7 @@ bool SceneManager::Update(float dt)
 		}
 		else
 		{
-			transitionAlpha -= 2.0f * dt;
+			transitionAlpha -= 1.30f * dt;
 
 			if (transitionAlpha < -0.01f)
 			{
@@ -295,17 +291,20 @@ bool SceneManager::HandleInput(float dt)
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	if ((app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) && (currentScene == scene1 || currentScene == scene2))
+		isPaused = !isPaused;
 
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		app->fade->Fade(currentScene, scene1, 1 / dt);
+		currentScene->TransitionToScene(scene1);
+		//app->fade->Fade(currentScene, scene1, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_F2) == KeyState::KEY_DOWN)
-		app->fade->Fade(currentScene, (Scene*)scene2, 1 / dt);
+		currentScene->TransitionToScene(scene2);
+		//app->fade->Fade(currentScene, (Scene*)scene2, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KeyState::KEY_DOWN)
-		app->fade->Fade(currentScene, currentScene, 1 / dt);
+		currentScene->TransitionToScene(currentScene);
+		//app->fade->Fade(currentScene, currentScene, 1 / dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KeyState::KEY_DOWN)
 		app->RequestSaveGame();
@@ -316,12 +315,15 @@ bool SceneManager::HandleInput(float dt)
 	if ((savedScene != nullptr) && (savedScene != currentScene))
 	{
 		//app->player->Disable();
-		app->fade->Fade(currentScene, savedScene, 1 / dt);
+		currentScene->TransitionToScene(savedScene);
+		//app->fade->Fade(currentScene, savedScene, 1 / dt);
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
+	{
 		app->map->viewHitboxes = !app->map->viewHitboxes;
-
+		app->entityManager->drawColliders = !app->entityManager->drawColliders;
+	}
 	return ret;
 }
 

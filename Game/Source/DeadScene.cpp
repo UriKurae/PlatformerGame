@@ -32,11 +32,15 @@ bool DeadScene::Update(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN)
 	{
-		if (app->sceneManager->lastScene == (Scene*)app->sceneManager->scene1)
-			app->fade->Fade(this, (Scene*)app->sceneManager->lastScene, 1 / dt);
+		/*if (app->sceneManager->lastScene == (Scene*)app->sceneManager->scene1)
+			TransitionToScene(app->sceneManager->lastScene);
+		//app->fade->Fade(this, (Scene*)app->sceneManager->lastScene, 1 / dt);
 
 		else if (app->sceneManager->lastScene == (Scene*)app->sceneManager->scene2)
-			app->fade->Fade(this, (Scene*)app->sceneManager->lastScene, 1 / dt);
+			TransitionToScene(app->sceneManager->lastScene);
+			//app->fade->Fade(this, (Scene*)app->sceneManager->lastScene, 1 / dt);*/
+
+		TransitionToScene(app->sceneManager->lastScene);
 	}
 
 	return true;

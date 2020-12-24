@@ -34,7 +34,7 @@ public:
 
 	void HandleInput(float dt);
 
-	void CameraFollow(float dt);
+	void CameraFollow();
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&);
@@ -85,7 +85,6 @@ private:
 
 	// Player's life
 	int lifes = 3;
-
 
 	// Dodging bool
 	bool isDodging;
