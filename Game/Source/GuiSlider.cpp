@@ -25,8 +25,8 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
         initialPos.y = position.y;
         bounds.x = position.x + (this->value / app->win->GetScale());
         bounds.y = position.y;
-        this->minValue = bounds.x - (50 / app->win->GetScale());
-        this->maxValue = bounds.x + ((bounds.w + 50) / app->win->GetScale());
+        this->minValue = bounds.x - (this->value / app->win->GetScale());
+        this->maxValue = bounds.x + ((100 - this->value) / app->win->GetScale());
         CalculateValue();
     }
 
