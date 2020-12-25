@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Window.h"
 #include "Audio.h"
 #include "Log.h"
 #include "Input.h"
@@ -286,4 +287,42 @@ int Scene2::CheckWin()
 	}
 
 	return -1;
+}
+
+bool Scene2::OnGuiMouseClickEvent(GuiControl* control)
+{
+	switch (control->type)
+	{
+	case GuiControlType::BUTTON:
+	{
+		if (control->id == 1) app->sceneManager->isPaused = false; // Resume
+		else if (control->id == 2) app->sceneManager->statusMenu = MenuState::OPTIONS; // Settings
+		else if (control->id == 3) // Back to title
+		{
+			TransitionToScene((Scene*)app->sceneManager->mainMenu);
+			app->sceneManager->isPaused = false;
+		}
+		else if (control->id == 4) toExit = true; // Exit
+		else if (control->id == 5) app->sceneManager->statusMenu = MenuState::INITIAL; // Button back from options
+		break;
+	}
+
+	case GuiControlType::SLIDER:
+	{
+		if (control->id == 1) app->audio->SetMusicVolume(app->sceneManager->sliderMusicVolume->GetValue()); // Music volume
+		else if (control->id == 2) app->audio->SetFXVolume(app->sceneManager->sliderFxVolume->GetValue()); // FX volume
+		break;
+	}
+
+	case GuiControlType::CHECKBOX:
+	{
+		if (control->id == 1) app->win->fullscreenWindow = !app->win->fullscreenWindow; // FullScreen
+		else if (control->id == 2) app->render->vsync = !app->render->vsync; // Vsync
+		break;
+	}
+	default: break;
+	}
+
+
+	return true;
 }

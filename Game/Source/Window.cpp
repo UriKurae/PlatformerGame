@@ -34,7 +34,7 @@ bool Window::Awake(pugi::xml_node& config)
 	{
 		// Create window
 
-		flags = SDL_WINDOW_SHOWN;
+		Uint32 flags = SDL_WINDOW_SHOWN;
 		bool fullscreen = config.child("fullscreen").attribute("value").as_bool(false);
 		bool borderless = config.child("borderless").attribute("value").as_bool(false);
 		bool resizable = config.child("resizable").attribute("value").as_bool(false);
@@ -68,8 +68,12 @@ bool Window::Awake(pugi::xml_node& config)
 
 bool Window::Update(float dt)
 {
-	if(fullscreenWindow == true)
-		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+	if (fullscreenWindow == true)
+		SDL_SetWindowFullscreen(window, true);
+
+	else
+		SDL_SetWindowFullscreen(window, false);
+
 
 	return true;
 }

@@ -9,8 +9,6 @@
 #include "Defs.h"
 #include "Log.h"
 
-#define VSYNC false
-
 Render::Render() : Module()
 {
 	name.Create("renderer");
@@ -77,6 +75,11 @@ bool Render::PreUpdate()
 bool Render::Update(float dt)
 {
 	SDL_RenderGetViewport(renderer, &viewport);
+
+	if(vsync)
+		SDL_GL_SetSwapInterval(1);
+	else
+		SDL_GL_SetSwapInterval(0);
 
 	return true;
 }

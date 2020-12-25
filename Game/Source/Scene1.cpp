@@ -1,24 +1,21 @@
 #include "App.h"
 #include "Window.h"
 #include "Audio.h"
-#include "Log.h"
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
+#include "Player.h"
 #include "Map.h"
 #include "Scene1.h"
-#include "SceneManager.h"
 #include "Scene2.h"
-#include "Player.h"
-#include "EntityManager.h"
-#include "EnemyManager.h"
 #include "Executioner.h"
-#include "ItemManager.h"
 #include "GreenGem.h"
 #include "RedHeart.h"
 #include "Wolf.h"
-#include "FadeToBlack.h"
-#include "Collisions.h"
+#include "SceneManager.h"
+#include "EntityManager.h"
+
+#include "Log.h"
 
 Scene1::Scene1()
 {
@@ -417,70 +414,37 @@ bool Scene1::CheckCollisions(SDL_Rect& a, SDL_Rect& b)
 
 bool Scene1::OnGuiMouseClickEvent(GuiControl* control)
 {
-	bool ret = true;
-
 	switch (control->type)
 	{
 		case GuiControlType::BUTTON:
 		{
-			if (control->id == 1) // Resume
-			{
-				app->sceneManager->isPaused = false;
-			}
-
-			else if (control->id == 2) // Settings
-			{
-				app->sceneManager->statusMenu = MenuState::OPTIONS;
-			}
-
+			if (control->id == 1) app->sceneManager->isPaused = false; // Resume
+			else if (control->id == 2) app->sceneManager->statusMenu = MenuState::OPTIONS; // Settings
 			else if (control->id == 3) // Back to title
 			{
 				TransitionToScene((Scene*)app->sceneManager->mainMenu);
 				app->sceneManager->isPaused = false;
 			}
-
-			else if (control->id == 4) // Exit
-			{
-				toExit = true;
-			}
-
-			else if(control->id == 5) // Button back from options
-			{
-				app->sceneManager->statusMenu = MenuState::INITIAL;
-			}
-
+			else if (control->id == 4) toExit = true; // Exit
+			else if(control->id == 5) app->sceneManager->statusMenu = MenuState::INITIAL; // Button back from options
 			break;
 		}
 
 		case GuiControlType::SLIDER:
 		{
-			if (control->id == 1) // Music volume
-			{
-				app->audio->SetMusicVolume(app->sceneManager->sliderMusicVolume->GetValue());
-			}
-
-			else if (control->id == 2) // FX volume
-			{
-				app->audio->SetFXVolume(app->sceneManager->sliderFxVolume->GetValue());
-			}
-
+			if (control->id == 1) app->audio->SetMusicVolume(app->sceneManager->sliderMusicVolume->GetValue()); // Music volume
+			else if (control->id == 2) app->audio->SetFXVolume(app->sceneManager->sliderFxVolume->GetValue()); // FX volume
 			break;
 		}
 
 		case GuiControlType::CHECKBOX:
 		{
-			if (control->id == 1) // FullScreen
-			{
-				app->win->fullscreenWindow = !app->win->fullscreenWindow;
-			}
-
-			else if (control->id == 2) // Vsync
-			{
-				app->render->vsync = !app->render->vsync;
-			}
+			if (control->id == 1) app->win->fullscreenWindow = !app->win->fullscreenWindow; // FullScreen
+			else if (control->id == 2) app->render->vsync = !app->render->vsync; // Vsync
+			break;
 		}
 		default: break;
 	}
 
-	return ret;
+	return true;
 }

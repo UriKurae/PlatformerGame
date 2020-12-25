@@ -2,6 +2,7 @@
 #define __WINDOW_H__
 
 #include "Module.h"
+#include "Defs.h"
 
 struct SDL_Window;
 struct SDL_Surface;
@@ -42,7 +43,7 @@ public:
 	bool fullscreenWindow;
 
 private:
-	Uint32 flags;
+	uint32 flags;
 
 	SString title;
 	uint width;

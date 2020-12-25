@@ -34,6 +34,8 @@ public:
 	// Check if player won
 	int CheckWin();
 
+	bool OnGuiMouseClickEvent(GuiControl* control) override;
+
 private:
 
 	Player* player;

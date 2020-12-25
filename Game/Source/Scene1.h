@@ -40,6 +40,7 @@ public:
 	// Check if player won
 	int CheckWin();
 
+	// Pro way function
 	bool CheckCollisions(SDL_Rect& a, SDL_Rect& b) override;
 
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
