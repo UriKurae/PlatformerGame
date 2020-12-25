@@ -77,7 +77,7 @@ bool GuiCheckBox::Draw(Render* render)
     {
         if (checked)
         {
-            render->DrawTexture(texture, bounds.x / app->win->GetScale(),bounds.y / app->win->GetScale());
+            render->DrawTexture(texture, bounds.x ,bounds.y);
            // render->DrawRectangle(bounds, { 255, 255, 0, 255 });
         }
         else

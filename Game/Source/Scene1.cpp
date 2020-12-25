@@ -147,7 +147,7 @@ bool Scene1::Update(float dt)
 	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
 
 	// Enemies machine states
-	/*ListItem<Executioner*>* eItem = executioners.start;
+	ListItem<Executioner*>* eItem = executioners.start;
 	while (eItem != nullptr)
 	{
 		if (eItem->data->life > 0)
@@ -204,7 +204,7 @@ bool Scene1::Update(float dt)
 		}
 
 		wItem = wItem->next;
-	}*/
+	}
 
 	
 	//for (uint i = 0; i < app->map->data.height; ++i)

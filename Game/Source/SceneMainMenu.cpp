@@ -57,10 +57,10 @@ bool MainMenu::Start()
 	sliderFxVolume = new GuiSlider(2, {320, 170, 5, 10}, "SLIDERFX");
 	sliderFxVolume->SetObserver(this);
 
-	fullScreenCheckBox = new GuiCheckBox(1, {359, 190, 10, 10}, "FULLSCREEN");
+	fullScreenCheckBox = new GuiCheckBox(1, {359, 190, 16, 16}, "FULLSCREEN");
 	fullScreenCheckBox->SetObserver(this);
 
-	vSyncCheckBox = new GuiCheckBox(2, {359,210,10,10}, "VSYNC");
+	vSyncCheckBox = new GuiCheckBox(2, {359,210,16,16}, "VSYNC");
 	vSyncCheckBox->SetObserver(this);
 
 	btnBackOptions = new GuiButton(6, { 300, 226, 65, 15 }, "BACKOPTIONS");
