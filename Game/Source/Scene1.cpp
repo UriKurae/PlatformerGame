@@ -423,25 +423,62 @@ bool Scene1::OnGuiMouseClickEvent(GuiControl* control)
 	{
 		case GuiControlType::BUTTON:
 		{
-			if (control->id == 1)
+			if (control->id == 1) // Resume
 			{
-				app->sceneManager->isPaused = false;;
+				app->sceneManager->isPaused = false;
 			}
-			else if (control->id == 2)
+
+			else if (control->id == 2) // Settings
 			{
 				app->sceneManager->statusMenu = MenuState::OPTIONS;
 			}
-			else if (control->id == 3)
+
+			else if (control->id == 3) // Back to title
 			{
 				TransitionToScene((Scene*)app->sceneManager->mainMenu);
 				app->sceneManager->isPaused = false;
 			}
-			else if (control->id == 4)
+
+			else if (control->id == 4) // Exit
 			{
 				toExit = true;
 			}
+
+			else if(control->id == 5) // Button back from options
+			{
+				app->sceneManager->statusMenu = MenuState::INITIAL;
+			}
+
+			break;
 		}
 
+		case GuiControlType::SLIDER:
+		{
+			if (control->id == 1) // Music volume
+			{
+				app->audio->SetMusicVolume(app->sceneManager->sliderMusicVolume->GetValue());
+			}
+
+			else if (control->id == 2) // FX volume
+			{
+				app->audio->SetFXVolume(app->sceneManager->sliderFxVolume->GetValue());
+			}
+
+			break;
+		}
+
+		case GuiControlType::CHECKBOX:
+		{
+			if (control->id == 1) // FullScreen
+			{
+				app->win->fullscreenWindow = !app->win->fullscreenWindow;
+			}
+
+			else if (control->id == 2) // Vsync
+			{
+				app->render->vsync = !app->render->vsync;
+			}
+		}
 		default: break;
 	}
 
