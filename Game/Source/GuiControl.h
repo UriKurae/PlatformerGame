@@ -49,6 +49,11 @@ public:
         texture = NULL;
     }
 
+    virtual bool Start()
+    {
+        return true;
+    }
+
     virtual bool Update(Input* input, float dt)
     {
         return true;

@@ -149,10 +149,10 @@ bool SceneManager::Start()
 	sliderFxVolume = new GuiSlider(2, { 320, 170, 5, 10 }, "SLIDERFX");
 	sliderFxVolume->SetObserver(currentScene);
 
-	fullScreenCheckBox = new GuiCheckBox(1, { 359, 190, 10, 10 }, "FULLSCREEN");
+	fullScreenCheckBox = new GuiCheckBox(1, { 359, 190, 16, 16 }, "FULLSCREEN");
 	fullScreenCheckBox->SetObserver(currentScene);
 
-	vSyncCheckBox = new GuiCheckBox(2, { 359,210,10,10 }, "VSYNC");
+	vSyncCheckBox = new GuiCheckBox(2, { 359,210,16,16 }, "VSYNC");
 	vSyncCheckBox->SetObserver(currentScene);
 
 	btnBackOptions = new GuiButton(5, { 301, 225, 60, 15 }, "BACKOPTIONS");

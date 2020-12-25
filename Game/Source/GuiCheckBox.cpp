@@ -1,5 +1,6 @@
 #include "GuiCheckBox.h"
 #include "App.h"
+#include "Textures.h"
 #include "Window.h"
 #include "Render.h"
 
@@ -7,10 +8,18 @@ GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiCont
 {
     this->bounds = bounds;
     this->text = text;
+    Start();
 }
 
 GuiCheckBox::~GuiCheckBox()
 {
+}
+
+bool GuiCheckBox::Start()
+{
+    texture = app->tex->Load("Assets/Textures/check.png");
+
+    return true;
 }
 
 bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
@@ -66,8 +75,16 @@ bool GuiCheckBox::Draw(Render* render)
     } break;
     case GuiControlState::NORMAL: 
     {
-        if (checked) render->DrawRectangle(bounds, { 255, 255, 0, 255 });
-        else render->DrawRectangle(bounds, { 0, 255, 0, 255 });
+        if (checked)
+        {
+            render->DrawTexture(texture, bounds.x / app->win->GetScale(),bounds.y / app->win->GetScale());
+           // render->DrawRectangle(bounds, { 255, 255, 0, 255 });
+        }
+        else
+        {
+            render->DrawTexture(texture, bounds.x, bounds.y);
+           // render->DrawRectangle(bounds, { 0, 255, 0, 255 });
+        }
     } break;
     case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 });
         break;
