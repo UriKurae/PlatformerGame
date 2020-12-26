@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Textures.h"
 #include "Window.h"
 #include "Render.h"
 #include "SceneManager.h"
@@ -12,6 +13,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     this->text = text;
     this->minValue = bounds.x - 25;
     this->maxValue = bounds.x + bounds.w + 25;
+    texture = app->tex->Load("Assets/Textures/atlas.png");
     CalculateValue();
 }
 
@@ -62,6 +64,7 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
             {
                 bounds.x = ((mouseX) - ((bounds.w / 2) / app->win->GetScale()));
                 CalculateValue();
+                NotifyObserver();
             }
             else
             {
@@ -76,16 +79,20 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
 
 bool GuiSlider::Draw(Render* render)
 {
+    SDL_Rect sect = {6,106,50,13};
+    render->DrawTexture(texture, minValue, bounds.y - 1, &sect);
+    sect = { 6,87,5,10 };
+    render->DrawTexture(texture, bounds.x, bounds.y, &sect);
     // Draw the slider depending on state
     switch (state)
     {
     case GuiControlState::DISABLED: render->DrawRectangle(bounds, { 100, 100, 100, 255 });
         break;
-    case GuiControlState::NORMAL: render->DrawRectangle(bounds, { 0, 255, 0, 255 });
+    case GuiControlState::NORMAL: //render->DrawRectangle(bounds, { 0, 0, 0, 255 });
         break;
     case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 });
         break;
-    case GuiControlState::PRESSED: render->DrawRectangle({(bounds.x) - (bounds.w / 2), bounds.y, bounds.w, bounds.h}, { 0, 255, 255, 255 });
+    case GuiControlState::PRESSED: //render->DrawRectangle({(bounds.x) - (bounds.w / 2), bounds.y, bounds.w, bounds.h}, { 0, 255, 255, 255 });
         break;
     case GuiControlState::SELECTED: render->DrawRectangle(bounds, { 0, 255, 0, 255 });
         break;

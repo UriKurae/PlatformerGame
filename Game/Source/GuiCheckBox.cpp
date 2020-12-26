@@ -8,7 +8,7 @@ GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiCont
 {
     this->bounds = bounds;
     this->text = text;
-    Start();
+    texture = app->tex->Load("Assets/Textures/atlas.png");
 }
 
 GuiCheckBox::~GuiCheckBox()
@@ -17,7 +17,7 @@ GuiCheckBox::~GuiCheckBox()
 
 bool GuiCheckBox::Start()
 {
-    texture = app->tex->Load("Assets/Textures/check.png");
+   
 
     return true;
 }
@@ -77,13 +77,15 @@ bool GuiCheckBox::Draw(Render* render)
     {
         if (checked)
         {
-            render->DrawTexture(texture, bounds.x ,bounds.y);
+            SDL_Rect sect = { 42,133,17,17 };
+            render->DrawTexture(texture, bounds.x, bounds.y, &sect);
            // render->DrawRectangle(bounds, { 255, 255, 0, 255 });
         }
         else
         {
-            render->DrawTexture(texture, bounds.x, bounds.y);
-           // render->DrawRectangle(bounds, { 0, 255, 0, 255 });
+            SDL_Rect sect = { 15,134,17,17 };
+            render->DrawTexture(texture, bounds.x, bounds.y, &sect);
+           //d render->DrawRectangle(bounds, { 0, 255, 0, 255 });
         }
     } break;
     case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 });

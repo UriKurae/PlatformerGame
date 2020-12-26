@@ -3,9 +3,12 @@
 
 #include "GuiControl.h"
 
+#include "Animation.h"
 #include "Point.h"
 #include "SString.h"
 #include "Point.h"
+
+class Animation;
 
 class GuiButton : public GuiControl
 {
@@ -21,6 +24,8 @@ private:
 
     // Gui Button specific properties
     // Maybe some animation properties for state change?
+    Animation* currentAnim;
+    Animation highlighted;
 };
 
 #endif // __GUIBUTTON_H__
