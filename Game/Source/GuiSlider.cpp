@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Fonts.h"
 #include "Textures.h"
 #include "Window.h"
 #include "Render.h"
@@ -79,8 +80,8 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
 
 bool GuiSlider::Draw(Render* render)
 {
-    SDL_Rect sect = {6,106,50,13};
-    render->DrawTexture(texture, minValue, bounds.y - 1, &sect);
+    SDL_Rect sect = {110,134,55,16};
+    render->DrawTexture(texture, minValue, bounds.y - 3, &sect);
     sect = { 6,87,5,10 };
     render->DrawTexture(texture, bounds.x, bounds.y, &sect);
     // Draw the slider depending on state
@@ -99,6 +100,8 @@ bool GuiSlider::Draw(Render* render)
     default:
         break;
     }
+
+    app->fonts->DrawText(minValue - 20 + (app->render->camera.x) / app->win->GetScale(), bounds.y - 15 + (app->render->camera.y) / app->win->GetScale(), 0, text.GetString());
 
     return false;
 }

@@ -130,16 +130,16 @@ bool SceneManager::Save(pugi::xml_node& node)
 bool SceneManager::Start()
 {
 	// Initial UI
-	btnResume = new GuiButton(1, { 292,146,60,15 }, "RESUME");
+	btnResume = new GuiButton(1, { 290 ,150, 125, 18 }, "RESUME");
 	btnResume->SetObserver(currentScene);
 
-	btnSettings = new GuiButton(2, { 290, 166, 60, 15 }, "SETTINGS");
+	btnSettings = new GuiButton(2, { 290, 170, 125, 18 }, "SETTINGS");
 	btnSettings->SetObserver(currentScene);
 
-	btnBackToTitle = new GuiButton(3, {290, 186, 60, 15}, "BACKTOTITLE");
+	btnBackToTitle = new GuiButton(3, { 290, 190, 125, 18 }, "MAIN MENU");
 	btnBackToTitle->SetObserver(currentScene);
 
-	btnExit = new GuiButton(4, { 290, 208, 60, 15 }, "EXIT");
+	btnExit = new GuiButton(4, { 290, 215, 125, 18 }, "EXIT");
 	btnExit->SetObserver(currentScene);
 
 	// Settings UI
@@ -155,7 +155,7 @@ bool SceneManager::Start()
 	vSyncCheckBox = new GuiCheckBox(2, { 359,210,16,16 }, "VSYNC");
 	vSyncCheckBox->SetObserver(currentScene);
 
-	btnBackOptions = new GuiButton(5, { 301, 225, 60, 15 }, "BACKOPTIONS");
+	btnBackOptions = new GuiButton(5, { 301, 225, 125, 22 }, "BACK");
 
 	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
@@ -210,18 +210,18 @@ bool SceneManager::Update(float dt)
 
 			if (statusMenu == MenuState::INITIAL)
 			{				
-				this->btnResume->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (275 / app->win->GetScale())));
-				this->btnSettings->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (313 / app->win->GetScale())));
-				this->btnBackToTitle->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (353 / app->win->GetScale())));
-				this->btnExit->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (406 / app->win->GetScale())));
+				this->btnResume->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (250 / app->win->GetScale())));
+				this->btnSettings->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (300/ app->win->GetScale())));
+				this->btnBackToTitle->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (350 / app->win->GetScale())));
+				this->btnExit->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (450 / app->win->GetScale())));
 			}
 			else if (statusMenu == MenuState::OPTIONS)
 			{
-				this->sliderMusicVolume->Update(app->input, dt, iPoint(offset.x + 584 / app->win->GetScale(), offset.y + (275 / app->win->GetScale())));
-				this->sliderFxVolume->Update(app->input, dt, iPoint(offset.x + 584 / app->win->GetScale(), offset.y + (313 / app->win->GetScale())));
-				this->fullScreenCheckBox->Update(app->input, dt, iPoint(offset.x + 720 / app->win->GetScale(), offset.y + (353 / app->win->GetScale())));
-				this->vSyncCheckBox->Update(app->input, dt, iPoint(offset.x + 720 / app->win->GetScale(), offset.y + (396 / app->win->GetScale())));
-				this->btnBackOptions->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (450 / app->win->GetScale())));
+				this->sliderMusicVolume->Update(app->input, dt, iPoint(offset.x + 640 / app->win->GetScale(), offset.y + (220 / app->win->GetScale())));
+				this->sliderFxVolume->Update(app->input, dt, iPoint(offset.x + 640 / app->win->GetScale(), offset.y + (300 / app->win->GetScale())));
+				this->fullScreenCheckBox->Update(app->input, dt, iPoint(offset.x + 800 / app->win->GetScale(), offset.y + (350 / app->win->GetScale())));
+				this->vSyncCheckBox->Update(app->input, dt, iPoint(offset.x + 800 / app->win->GetScale(), offset.y + (400 / app->win->GetScale())));
+				this->btnBackOptions->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (500 / app->win->GetScale())));
 			}
 		}
 	}
@@ -278,15 +278,7 @@ bool SceneManager::PostUpdate()
 	}
 
 	// Draw full screen rectangle in front of everything
-	if (onTransition && (currentScene == scene1 || currentScene == scene2))
-	{
-		uint x, y;
-		app->win->GetWindowSize(x, y);
-		SDL_Rect r = { -(app->render->camera.x + app->render->cameraOffsetX) / app->win->GetScale(),-(app->render->camera.y + app->render->cameraOffsetY) / app->win->GetScale(),x,y };
-
-		app->render->DrawRectangle(r, { 0, 0, 0, (unsigned char)(255.0f * transitionAlpha) });
-	}
-	else
+	if (onTransition)
 		app->render->DrawRectangle({ 0, 0, 1280, 720 }, { 0, 0, 0, (unsigned char)(255.0f * transitionAlpha) });
 
 	if (isPaused == true)
@@ -382,12 +374,10 @@ void SceneManager::ShowPauseMenu()
 {
 	uint x, y;
 	app->win->GetWindowSize(x, y);
-	SDL_Rect r = { -(app->render->camera.x + app->render->cameraOffsetX) / app->win->GetScale(),
-				   -(app->render->camera.y + app->render->cameraOffsetY) / app->win->GetScale(),
-					x,y };
+	SDL_Rect r = { -(app->render->camera.x + 500),-(app->render->camera.y + 250),x,y };
 
 	// Draw blured background
-	app->render->DrawRectangle(r, { 0,0,0,150 }, true);
+	app->render->DrawRectangle(r, { 0,0,0,150 });
 
 	if (statusMenu == MenuState::INITIAL)
 	{

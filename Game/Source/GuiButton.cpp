@@ -14,15 +14,16 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     this->text = text;
     texture = app->tex->Load("Assets/Textures/atlas.png");
 
-    highlighted.PushBack({ 5,38,66,21 });
-    highlighted.PushBack({ 78,38,66,21 });
-    highlighted.PushBack({ 151,38,66,21 });
-    highlighted.PushBack({ 227,38,66,21 });
-    highlighted.PushBack({ 151,38,66,21 });
-    highlighted.PushBack({ 78,38,66,21 });
-    highlighted.PushBack({ 5,38,66,21 });
+    highlighted.PushBack({ 2,34,133,26 });
+    highlighted.PushBack({ 140,34,133,26 });
+    highlighted.PushBack({ 279,34,133,26 });
+    highlighted.PushBack({ 421,34,133,26 });
+    highlighted.PushBack({ 279,34,133,26 });
+    highlighted.PushBack({ 140,34,133,26 });
+    highlighted.PushBack({ 2,34,133,26 });
     highlighted.loop = true;
 }
+
 
 GuiButton::~GuiButton()
 {
@@ -75,16 +76,16 @@ bool GuiButton::Update(Input* input, float dt, iPoint position)
 
 bool GuiButton::Draw(Render* render)
 {
-    SDL_Rect sect = { 59,106,60,15 };
+    SDL_Rect sect = { 59,102, 125, 18 };
     render->DrawTexture(texture, bounds.x, bounds.y, &sect);
 
-    app->fonts->DrawText(bounds.x * -app->render->camera.x, bounds.y, 0, text.GetString());
+   
     // Draw the right button depending on state
     switch (state)
     {
     case GuiControlState::DISABLED: render->DrawRectangle(bounds, { 100, 100, 100, 255 });
         break;
-    case GuiControlState::NORMAL: app->fonts->DrawText(bounds.x + (app->render->camera.x) / app->win->GetScale(), bounds.y + (app->render->camera.y) / app->win->GetScale(), 0, text.GetString()); //render->DrawRectangle(bounds, { 0, 255, 0, 255 });
+    case GuiControlState::NORMAL: app->fonts->DrawText(bounds.x + 3 +(app->render->camera.x) / app->win->GetScale(), bounds.y + 3 + (app->render->camera.y) / app->win->GetScale(), 0, text.GetString()); //render->DrawRectangle(bounds, { 0, 255, 0, 255 });
         break;
     case GuiControlState::FOCUSED: 
         //render->DrawRectangle(bounds, { 255, 255, 0, 255 });

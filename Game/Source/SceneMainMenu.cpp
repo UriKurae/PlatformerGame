@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Fonts.h"
 #include "Window.h"
 #include "Audio.h"
 #include "Input.h"
@@ -33,41 +34,46 @@ bool MainMenu::Start()
 
 	app->render->SetCameraPosition(0,0);
 
+
+
+	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
+	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
+
 	// Initial buttons
-	btnPlay = new GuiButton(1, { 575 / (int)app->win->GetScale(), 289 / (int)app->win->GetScale(), 65, 15 }, "START");
+	btnPlay = new GuiButton(1, { 520 / (int)app->win->GetScale(), 250 / (int)app->win->GetScale(), 125, 18 }, "START");
 	btnPlay->SetObserver(this);
 
-	btnContinue = new GuiButton(2, { 575 / (int)app->win->GetScale(), 331 / (int)app->win->GetScale(), 65, 15 }, "CONTINUE");
+	btnContinue = new GuiButton(2, { 520 / (int)app->win->GetScale(), 300 / (int)app->win->GetScale(), 125, 18 }, "CONTINUE");
 	btnContinue->SetObserver(this);
 
-	btnSettings = new GuiButton(3, { 575 / (int)app->win->GetScale(), 372 / (int)app->win->GetScale(), 65, 15 }, "SETTINGS");
+	btnSettings = new GuiButton(3, { 520 / (int)app->win->GetScale(), 350 / (int)app->win->GetScale(), 125, 18 }, "SETTINGS");
 	btnSettings->SetObserver(this);
 
-	btnCredits = new GuiButton(4, { 575 / (int)app->win->GetScale(), 414 / (int)app->win->GetScale(), 65, 15 }, "CREDITS");
+	btnCredits = new GuiButton(4, { 520 / (int)app->win->GetScale(), 400 / (int)app->win->GetScale(), 125, 18 }, "CREDITS");
 	btnCredits->SetObserver(this);
 
-	btnExit = new GuiButton(5, { 575 / (int)app->win->GetScale(), 455 / (int)app->win->GetScale(), 65, 15 }, "EXIT");
+	btnExit = new GuiButton(5, { 520 / (int)app->win->GetScale(), 500 / (int)app->win->GetScale(), 125, 18 }, "EXIT");
 	btnExit->SetObserver(this);
 
 
 	// Options menu
-	sliderMusicVolume = new GuiSlider(1, { 320, 150, 5, 10 }, "SLIDERMUSIC");
+	sliderMusicVolume = new GuiSlider(1, { 635, 280, 5, 10 }, "MUSIC VOLUME");
 	sliderMusicVolume->SetObserver(this);
 
-	sliderFxVolume = new GuiSlider(2, {320, 170, 5, 10}, "SLIDERFX");
+	sliderFxVolume = new GuiSlider(2, {635, 360, 5, 10}, "FX VOLUME");
 	sliderFxVolume->SetObserver(this);
 
-	fullScreenCheckBox = new GuiCheckBox(1, {359, 190, 16, 16}, "FULLSCREEN");
+	fullScreenCheckBox = new GuiCheckBox(1, {735, 410, 16, 16}, "FULLSCREEN");
 	fullScreenCheckBox->SetObserver(this);
 
-	vSyncCheckBox = new GuiCheckBox(2, {359,210,16,16}, "VSYNC");
+	vSyncCheckBox = new GuiCheckBox(2, {735,460,16,16}, "VSYNC");
 	vSyncCheckBox->SetObserver(this);
 
-	btnBackOptions = new GuiButton(6, { 300, 226, 65, 15 }, "BACKOPTIONS");
+	btnBackOptions = new GuiButton(6, { 520, 560, 125, 18 }, "BACK");
 	btnBackOptions->SetObserver(this);
 
 	// Credits menu
-	btnBackCredits = new GuiButton(7, {602,332,50,15}, "BACKCREDITS");
+	btnBackCredits = new GuiButton(7, {602,332,125,18}, "BACK");
 	btnBackCredits->SetObserver(this);
 
 	return true;
@@ -77,19 +83,19 @@ bool MainMenu::Update(float dt)
 {
 	if (menuState == MenuState::INITIAL)
 	{
-		btnPlay->Update(app->input, dt, iPoint(575 / app->win->GetScale(), 289 / app->win->GetScale()));
-		btnContinue->Update(app->input, dt, iPoint(575 / app->win->GetScale(), 331 / app->win->GetScale()));
-		btnSettings->Update(app->input, dt, iPoint(575 / app->win->GetScale(), 372 / app->win->GetScale()));
-		btnCredits->Update(app->input, dt, iPoint(575 / app->win->GetScale(),  414 / app->win->GetScale()));
-		btnExit->Update(app->input, dt, iPoint(575 / app->win->GetScale(), 455 / app->win->GetScale()));
+		btnPlay->Update(app->input, dt, iPoint(520 / app->win->GetScale(), 250 / app->win->GetScale()));
+		btnContinue->Update(app->input, dt, iPoint(520 / app->win->GetScale(), 300 / app->win->GetScale()));
+		btnSettings->Update(app->input, dt, iPoint(520 / app->win->GetScale(), 350 / app->win->GetScale()));
+		btnCredits->Update(app->input, dt, iPoint(520 / app->win->GetScale(),  400 / app->win->GetScale()));
+		btnExit->Update(app->input, dt, iPoint(520 / app->win->GetScale(), 500 / app->win->GetScale()));
 	}
 	else if (menuState == MenuState::OPTIONS)
 	{
-		sliderMusicVolume->Update(app->input, dt, iPoint(635 / app->win->GetScale(), 289 / app->win->GetScale()));
-		sliderFxVolume->Update(app->input, dt, iPoint(635 / app->win->GetScale(), 331 / app->win->GetScale()));
-		fullScreenCheckBox->Update(app->input, dt, iPoint(735 / app->win->GetScale(), 372 / app->win->GetScale()));
-		vSyncCheckBox->Update(app->input, dt, iPoint(735 / app->win->GetScale(), 414 / app->win->GetScale()));
-		btnBackOptions->Update(app->input, dt, iPoint(575 / app->win->GetScale(), 455 / app->win->GetScale()));
+		sliderMusicVolume->Update(app->input, dt, iPoint(635 / app->win->GetScale(), 280 / app->win->GetScale()));
+		sliderFxVolume->Update(app->input, dt, iPoint(635 / app->win->GetScale(), 360 / app->win->GetScale()));
+		fullScreenCheckBox->Update(app->input, dt, iPoint(735 / app->win->GetScale(), 410 / app->win->GetScale()));
+		vSyncCheckBox->Update(app->input, dt, iPoint(735 / app->win->GetScale(), 460 / app->win->GetScale()));
+		btnBackOptions->Update(app->input, dt, iPoint(520 / app->win->GetScale(), 560 / app->win->GetScale()));
 
 		app->audio->SetMusicVolume(sliderMusicVolume->GetValue());
 		app->audio->SetFXVolume(sliderFxVolume->GetValue());

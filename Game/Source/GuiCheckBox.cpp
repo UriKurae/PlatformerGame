@@ -1,4 +1,5 @@
 #include "GuiCheckBox.h"
+#include "Fonts.h"
 #include "App.h"
 #include "Textures.h"
 #include "Window.h"
@@ -65,6 +66,7 @@ bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
 
 bool GuiCheckBox::Draw(Render* render)
 {
+    app->fonts->DrawText(bounds.x - 110 + (app->render->camera.x) / app->win->GetScale(), bounds.y + (app->render->camera.y) / app->win->GetScale(), 0, text.GetString());
     // Draw the right button depending on state
     switch (state)
     {

@@ -140,8 +140,7 @@ bool Scene1::Start()
 		app->sceneManager->currentScene = this;
 	}
 
-	//char lookupTable[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!✕-:©✕ " };
-	char lookupTable[] = { "!]]]]]]]]]],-.]0123456789]]]]]?]ABCDEFGHIJKLMNOPQRST]]]]]]abcdefghijklmnopqrst]]]] " };
+	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
 	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
 
 	return true;

@@ -90,6 +90,7 @@ public:
 
 	SString name;
 	bool active;
+	int uiIndex;
 
 	bool deadOnScene = false;
 
