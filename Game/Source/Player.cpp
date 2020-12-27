@@ -711,9 +711,9 @@ void Player::Attack()
 	attackCollider->pendingToDelete = true;
 }
 
-void Player::PickItem(ItemType type)
+void Player::PickItem(EntityType type)
 {
-	if (type == ItemType::GEM)
+	if (type == EntityType::GEM)
 	{
 		++gemsAchieved;
 
@@ -735,7 +735,7 @@ void Player::PickItem(ItemType type)
 		app->audio->PlayFx(pickGemFx);
 	}
 
-	if (type == ItemType::HEART)
+	if (type == EntityType::HEART)
 	{
 		++lifes;
 

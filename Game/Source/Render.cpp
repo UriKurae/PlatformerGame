@@ -53,6 +53,9 @@ bool Render::Awake(pugi::xml_node& config)
 		camera.y = 0;
 	}
 
+	cameraOffsetX = 500;
+	cameraOffsetY = 250;
+
 	return ret;
 }
 

@@ -24,7 +24,7 @@ public:
 
 	bool CleanUp() override;
 
-	Enemy* AddEnemy(EnemyType type, iPoint pos);
+	Enemy* AddEnemy(EntityType type, iPoint pos);
 	void DeleteEnemy(Enemy* enemy);
 	void DeleteColliders();
 

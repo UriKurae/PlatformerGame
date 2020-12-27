@@ -12,20 +12,11 @@
 #include "SDL_image/include/SDL_image.h"
 #include "PugiXml/src/pugixml.hpp"
 
-
 class Player;
-
-enum class EnemyType
-{
-	NONE = -1,
-	EXECUTIONER,
-	BIRD,
-	WOLF,
-};
 
 enum class EnemyState
 {
-	PATROL = 0,
+	PATROL,
 	ALERT,
 	ATTACK,
 };
@@ -89,5 +80,4 @@ public:
 	Collider* collider;
 
 	DynArray<iPoint> path;
-
 };

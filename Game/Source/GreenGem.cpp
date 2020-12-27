@@ -29,7 +29,7 @@ bool GreenGem::Start()
 	collider = app->entityManager->AddCollider({ position.x, position.y, 10,15 }, Collider::Type::ITEM);
 	currentAnim = &idleAnim;
 
-	type = ItemType::GEM;
+	type = EntityType::GEM;
 
 	return true;
 }

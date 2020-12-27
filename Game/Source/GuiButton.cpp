@@ -2,8 +2,10 @@
 #include "Textures.h"
 #include "Window.h"
 #include "Render.h"
+#include "Fonts.h"
 #include "SceneManager.h"
 #include "GuiButton.h"
+
 
 GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::BUTTON, id)
 {
@@ -75,6 +77,7 @@ bool GuiButton::Draw(Render* render)
     SDL_Rect sect = { 59,106,60,15 };
     render->DrawTexture(texture, bounds.x, bounds.y, &sect);
 
+    app->fonts->DrawText(bounds.x * -app->render->camera.x, bounds.y, 0, text.GetString());
     // Draw the right button depending on state
     switch (state)
     {

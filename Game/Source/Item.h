@@ -9,14 +9,6 @@ class SDL_Texture;
 class Animation;
 class Collider;
 
-enum class ItemType
-{
-	NONE = -1,
-	GEM,
-	COIN,
-	HEART,
-};
-
 class Item : public Entity
 {
 public:
@@ -34,8 +26,6 @@ public:
 
 public:
 	SString name;
-	iPoint position;
-	ItemType type;
 
 	SDL_Texture* texture;
 	Animation* currentAnim;

@@ -32,7 +32,7 @@ bool RedHeart::Start()
 	collider = app->entityManager->AddCollider({ position.x, position.y, 16, 16 }, Collider::Type::ITEM);
 	currentAnim = &idleAnim;
 
-	type = ItemType::HEART;
+	type = EntityType::HEART;
 
 	return true;
 }
@@ -54,9 +54,8 @@ void RedHeart::Draw()
 bool RedHeart::CleanUp()
 {
 	this->active = false;
-	//this->collider->pendingToDelete = true;   -->   Already done in DeleteEntity()
+	this->collider->pendingToDelete = true;
 	app->entityManager->DeleteEntity(this);
-	app->tex->UnLoad(texture);
 
 	return true;
 }

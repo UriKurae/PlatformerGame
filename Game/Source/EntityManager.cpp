@@ -74,8 +74,11 @@ bool EntityManager::Draw()
 
 bool EntityManager::CleanUp()
 {
-	ListItem<Entity*>* item = entities.start;
+	app->tex->UnLoad(executionerTexture);
+	app->tex->UnLoad(wolfTexture);
+	app->tex->UnLoad(collectiblesTexture);
 
+	ListItem<Entity*>* item = entities.start;
 	while ((item != nullptr))
 	{
 		item->data->CleanUp();

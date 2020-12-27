@@ -53,7 +53,7 @@ public:
 
 	bool GetReachable() const;
 
-	void PickItem(ItemType type);
+	void PickItem(EntityType type);
 
 	SDL_Rect GetSize() const;
 

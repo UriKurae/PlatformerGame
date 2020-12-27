@@ -146,6 +146,7 @@ bool Wolf::Start()
 	blockFall = false;
 
 	currentState = EnemyState::PATROL;
+	type = EntityType::WOLF;
 
 	return true;
 }

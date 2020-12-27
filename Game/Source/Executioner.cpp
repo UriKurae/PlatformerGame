@@ -83,8 +83,9 @@ bool Executioner::Start()
 	offsetPathfinding.y = 47;
 
 	speedX = 100;
-	currentState = EnemyState::PATROL;
 	life = 200;
+	currentState = EnemyState::PATROL;
+	type = EntityType::EXECUTIONER;
 
 	return true;
 }

@@ -232,6 +232,8 @@ bool Scene1::Update(float dt)
 		{
 			player->PickItem(gItem->data->type);
 			gItem->data->CleanUp();
+			gems.Del(gItem);
+			break;
 		}
 		gItem = gItem->next;
 	}
@@ -244,18 +246,18 @@ bool Scene1::Update(float dt)
 		{
 			player->PickItem(hItem->data->type);
 			hItem->data->CleanUp();
+			hearts.Del(hItem);
+			break;
 		}
 		hItem = hItem->next;
 	}
 
 	if ((CheckWin() == 1) && (player->godMode == false))
 		TransitionToScene(app->sceneManager->scene2);
-		//app->fade->Fade(this, (Scene*)app->sceneManager->scene2, 1/dt);
 
 	else if ((CheckWin() == 2) && (player->godMode == false))
 	{
 		TransitionToScene((Scene*)app->sceneManager->deadScene);
-		//app->fade->Fade(this, (Scene*)app->sceneManager->deadScene, 1 / dt);
 		player->DisableEntity();
 		app->sceneManager->lastScene = this;
 	}
@@ -280,7 +282,6 @@ bool Scene1::Draw()
 	if(app->map->active == true)
 		app->map->Draw(player->GetPosition());
 	
-	player->Draw();
 	app->entityManager->Draw();
 
 	if (checkpoint1 == true)
