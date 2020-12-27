@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Fonts.h"
 #include "Textures.h"
 #include "Window.h"
 #include "Render.h"
@@ -83,7 +84,7 @@ bool GuiButton::Draw(Render* render)
     {
     case GuiControlState::DISABLED: render->DrawRectangle(bounds, { 100, 100, 100, 255 });
         break;
-    case GuiControlState::NORMAL: //render->DrawRectangle(bounds, { 0, 255, 0, 255 });
+    case GuiControlState::NORMAL: app->fonts->DrawText(bounds.x + (app->render->camera.x) / app->win->GetScale(), bounds.y + (app->render->camera.y) / app->win->GetScale(), 0, text.GetString()); //render->DrawRectangle(bounds, { 0, 255, 0, 255 });
         break;
     case GuiControlState::FOCUSED: 
         //render->DrawRectangle(bounds, { 255, 255, 0, 255 });
