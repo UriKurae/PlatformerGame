@@ -56,10 +56,10 @@ bool MainMenu::Start()
 
 
 	// Options menu
-	sliderMusicVolume = new GuiSlider(1, { 555, 280, 5, 10 }, "MUSIC VOLUME");
+	sliderMusicVolume = new GuiSlider(1, { 555, 280, 5, 10 }, " MUSIC VOLUME");
 	sliderMusicVolume->SetObserver(this);
 
-	sliderFxVolume = new GuiSlider(2, {555, 360, 5, 10}, "FX VOLUME");
+	sliderFxVolume = new GuiSlider(2, {555, 360, 5, 10}, "   FX VOLUME");
 	sliderFxVolume->SetObserver(this);
 
 	fullScreenCheckBox = new GuiCheckBox(1, {735, 410, 16, 16}, "FULLSCREEN");
@@ -90,11 +90,11 @@ bool MainMenu::Update(float dt)
 	}
 	else if (menuState == MenuState::OPTIONS)
 	{
-		sliderMusicVolume->Update(app->input, dt, iPoint(555, 280));
-		sliderFxVolume->Update(app->input, dt, iPoint(555, 360));
-		fullScreenCheckBox->Update(app->input, dt, iPoint(735, 410));
-		vSyncCheckBox->Update(app->input, dt, iPoint(735, 460));
-		btnBackOptions->Update(app->input, dt, iPoint(520, 560));
+		sliderMusicVolume->Update(app->input, dt, iPoint(585, 250));
+		sliderFxVolume->Update(app->input, dt, iPoint(585, 330));
+		fullScreenCheckBox->Update(app->input, dt, iPoint(735, 380));
+		vSyncCheckBox->Update(app->input, dt, iPoint(735, 430));
+		btnBackOptions->Update(app->input, dt, iPoint(520, 530));
 
 		app->audio->SetMusicVolume(sliderMusicVolume->GetValue());
 		app->audio->SetFXVolume(sliderFxVolume->GetValue());
@@ -114,6 +114,7 @@ bool MainMenu::Draw()
 	bool ret = true;
 
 	app->render->DrawTexture(intro, 0, 0, NULL);
+	app->render->DrawRectangle({ 450 / (int)app->win->GetScale(), 190 / (int)app->win->GetScale(), 200, 200 }, { 0,0,0,200 });
 
 	if (menuState == MenuState::INITIAL)
 	{

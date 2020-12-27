@@ -3,7 +3,6 @@
 #include "Textures.h"
 #include "Window.h"
 #include "Render.h"
-#include "Fonts.h"
 #include "SceneManager.h"
 #include "GuiButton.h"
 
@@ -50,8 +49,8 @@ bool GuiButton::Update(Input* input, float dt, iPoint position)
         input->GetMousePosition(mouseX, mouseY);
         
         // Camera offset applied to the mouse so we can use the options.
-        mouseX += -app->render->camera.x / app->win->GetScale();
-        mouseY += -app->render->camera.y / app->win->GetScale();
+        mouseX += -(app->render->camera.x) / (int)app->win->GetScale();
+        mouseY += -(app->render->camera.y) / (int)app->win->GetScale();
 
         // Check collision between mouse and button bounds
         if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 

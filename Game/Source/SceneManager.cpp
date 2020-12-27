@@ -143,10 +143,10 @@ bool SceneManager::Start()
 	btnExit->SetObserver(currentScene);
 
 	// Settings UI
-	sliderMusicVolume = new GuiSlider(1, { 320, 150, 5, 10 }, "SLIDERMUSIC");
+	sliderMusicVolume = new GuiSlider(1, { 320, 150, 5, 10 }, " MUSIC VOLUME");
 	sliderMusicVolume->SetObserver(currentScene);
 
-	sliderFxVolume = new GuiSlider(2, { 320, 170, 5, 10 }, "SLIDERFX");
+	sliderFxVolume = new GuiSlider(2, { 320, 170, 5, 10 }, "   FX VOLUME");
 	sliderFxVolume->SetObserver(currentScene);
 
 	fullScreenCheckBox = new GuiCheckBox(1, { 359, 190, 16, 16 }, "FULLSCREEN");
@@ -155,7 +155,7 @@ bool SceneManager::Start()
 	vSyncCheckBox = new GuiCheckBox(2, { 359,210,16,16 }, "VSYNC");
 	vSyncCheckBox->SetObserver(currentScene);
 
-	btnBackOptions = new GuiButton(5, { 301, 225, 125, 22 }, "BACK");
+	btnBackOptions = new GuiButton(5, { 301, 225, 125, 22 }, "    BACK");
 
 	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
@@ -391,15 +391,21 @@ void SceneManager::ShowPauseMenu()
 	// Draw blured background
 	app->render->DrawRectangle(r, { 0, 0, 0, 150 });
 
+		iPoint offset;
+		offset.x = -(app->render->camera.x);
+		offset.y = -(app->render->camera.y);
 	if (statusMenu == MenuState::INITIAL)
 	{
+		app->render->DrawRectangle({ (offset.x + 500) / (int)app->win->GetScale(),(offset.y + 165) / (int)app->win->GetScale(), 200, 200 }, { 0,0,0,200 });
 		this->btnResume->Draw(app->render);
 		this->btnSettings->Draw(app->render);
 		this->btnBackToTitle->Draw(app->render);
 		this->btnExit->Draw(app->render);
+		
 	}
 	else if (statusMenu == MenuState::OPTIONS)
 	{
+		app->render->DrawRectangle({ (offset.x + 500) / (int)app->win->GetScale(),(offset.y + 165) / (int)app->win->GetScale(), 200, 200 }, { 0,0,0,200 });
 		sliderMusicVolume->Draw(app->render);
 		sliderFxVolume->Draw(app->render);
 		fullScreenCheckBox->Draw(app->render);
