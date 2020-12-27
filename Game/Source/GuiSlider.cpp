@@ -43,8 +43,6 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
         this->maxValue = bounds.x + ((100 - this->value));
     }
 
-    CalculateValue();
-
     if (state != GuiControlState::DISABLED)
     {
         input->GetMousePosition(mouseX, mouseY);
@@ -65,7 +63,7 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
         }
         else if (state == GuiControlState::PRESSED)
         {
-            if ((input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT) && (mouseX > minValue) && (mouseX < maxValue))
+            if ((input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT) && (mouseX > minValue + 3) && (mouseX < maxValue + 3))
             {
                 bounds.x = ((mouseX) - ((bounds.w / 2) / app->win->GetScale()));
                 CalculateValue();
@@ -117,7 +115,7 @@ void GuiSlider::CalculateValue()
     if (this->value > 100)
         this->value = 100;
     
-    else if (this->value < 0)
+    else if (this->value <= 3)
         this->value = 0;
 
     LOG("Value of the thing %i", value);
