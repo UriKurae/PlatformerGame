@@ -7,6 +7,8 @@
 
 GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::CHECKBOX, id)
 {
+    bounds.x /= app->win->GetScale();
+    bounds.y /= app->win->GetScale();
     this->bounds = bounds;
     this->text = text;
     texture = app->tex->Load("Assets/Textures/atlas.png");
@@ -25,6 +27,9 @@ bool GuiCheckBox::Start()
 
 bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
 {
+    position.x /= app->win->GetScale();
+    position.y /= app->win->GetScale();
+
     if (bounds.x != position.x || bounds.y != position.y)
     {
         bounds.x = position.x;

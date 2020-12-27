@@ -10,6 +10,8 @@
 
 GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::SLIDER, id)
 {
+    bounds.x /= app->win->GetScale();
+    bounds.y /= app->win->GetScale();
     this->bounds = bounds;
     this->text = text;
     this->minValue = bounds.x - 25;
@@ -24,6 +26,9 @@ GuiSlider::~GuiSlider()
 
 bool GuiSlider::Update(Input* input, float dt, iPoint position)
 {
+    position.x /= app->win->GetScale();
+    position.y /= app->win->GetScale();
+
     if (initialPos.x != position.x || initialPos.y != position.y)
     {
         if (app->sceneManager->currentScene == (Scene*)app->sceneManager->mainMenu)
@@ -34,8 +39,8 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
         initialPos.x = position.x;
         initialPos.y = position.y;
         bounds.y = position.y;
-        this->minValue = bounds.x - (this->value / app->win->GetScale());
-        this->maxValue = bounds.x + ((100 - this->value) / app->win->GetScale());
+        this->minValue = bounds.x - (this->value);
+        this->maxValue = bounds.x + ((100 - this->value));
     }
 
     CalculateValue();
@@ -79,7 +84,7 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
 
 bool GuiSlider::Draw(Render* render)
 {
-    SDL_Rect sect = {110,134,55,16};
+    SDL_Rect sect = {110,134,110,16};
     render->DrawTexture(texture, minValue, bounds.y - 3, &sect);
     sect = { 6,87,5,10 };
     render->DrawTexture(texture, bounds.x, bounds.y, &sect);
@@ -107,7 +112,7 @@ bool GuiSlider::Draw(Render* render)
 
 void GuiSlider::CalculateValue()
 {
-    this->value = (bounds.x - minValue) * 2;
+    this->value = bounds.x - minValue;
 
     if (this->value > 100)
         this->value = 100;

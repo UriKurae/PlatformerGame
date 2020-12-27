@@ -205,23 +205,23 @@ bool SceneManager::Update(float dt)
 		else
 		{
 			iPoint offset;
-			offset.x = -(app->render->camera.x) / app->win->GetScale();
-			offset.y = -(app->render->camera.y) / app->win->GetScale();
+			offset.x = -(app->render->camera.x);
+			offset.y = -(app->render->camera.y);
 
 			if (statusMenu == MenuState::INITIAL)
 			{				
-				this->btnResume->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (250 / app->win->GetScale())));
-				this->btnSettings->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (300/ app->win->GetScale())));
-				this->btnBackToTitle->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (350 / app->win->GetScale())));
-				this->btnExit->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (450 / app->win->GetScale())));
+				this->btnResume->Update(app->input, dt, iPoint(offset.x + 580, offset.y + 250));
+				this->btnSettings->Update(app->input, dt, iPoint(offset.x + 580, offset.y + 300));
+				this->btnBackToTitle->Update(app->input, dt, iPoint(offset.x + 580, offset.y + 350));
+				this->btnExit->Update(app->input, dt, iPoint(offset.x + 580, offset.y + 450));
 			}
 			else if (statusMenu == MenuState::OPTIONS)
 			{
-				this->sliderMusicVolume->Update(app->input, dt, iPoint(offset.x + 640 / app->win->GetScale(), offset.y + (220 / app->win->GetScale())));
-				this->sliderFxVolume->Update(app->input, dt, iPoint(offset.x + 640 / app->win->GetScale(), offset.y + (300 / app->win->GetScale())));
-				this->fullScreenCheckBox->Update(app->input, dt, iPoint(offset.x + 800 / app->win->GetScale(), offset.y + (350 / app->win->GetScale())));
-				this->vSyncCheckBox->Update(app->input, dt, iPoint(offset.x + 800 / app->win->GetScale(), offset.y + (400 / app->win->GetScale())));
-				this->btnBackOptions->Update(app->input, dt, iPoint(offset.x + 580 / app->win->GetScale(), offset.y + (500 / app->win->GetScale())));
+				this->sliderMusicVolume->Update(app->input, dt, iPoint(offset.x + 620, offset.y + 220));
+				this->sliderFxVolume->Update(app->input, dt, iPoint(offset.x + 620, offset.y + 300));
+				this->fullScreenCheckBox->Update(app->input, dt, iPoint(offset.x + 800, offset.y + 350));
+				this->vSyncCheckBox->Update(app->input, dt, iPoint(offset.x + 800, offset.y + 400));
+				this->btnBackOptions->Update(app->input, dt, iPoint(offset.x + 580, offset.y + 500));
 			}
 		}
 	}
