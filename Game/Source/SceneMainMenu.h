@@ -36,7 +36,7 @@ public:
 private:
 
 	SDL_Texture* intro;
-
+	SDL_Texture* textureCredits;
 
 	// Principal GUI
 	GuiButton* btnPlay;

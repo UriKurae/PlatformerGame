@@ -38,7 +38,6 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
         this->maxValue = bounds.x + ((100 - this->value) / app->win->GetScale());
     }
 
-
     CalculateValue();
 
     if (state != GuiControlState::DISABLED)

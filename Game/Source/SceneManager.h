@@ -72,7 +72,6 @@ public:
 	DeadScene* deadScene;
 	WinScene* winScene;
 
-	SDL_Texture* gemTexture;
 	SDL_Texture* checkpointTexture;
 
 	// Animations for checkPoints
@@ -104,4 +103,6 @@ public:
 	GuiCheckBox* fullScreenCheckBox;
 	GuiCheckBox* vSyncCheckBox;
 	GuiButton* btnBackOptions;
+
+	int uiIndex;
 };

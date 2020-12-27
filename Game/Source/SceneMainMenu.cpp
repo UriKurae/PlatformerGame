@@ -27,32 +27,31 @@ MainMenu::~MainMenu()
 bool MainMenu::Start()
 {
 	menuState = MenuState::INITIAL;
-	//intro = app->tex->Load("Assets/Textures/Scenes/intro.png");
-	intro = app->tex->Load("Assets/Textures/Scenes/main_test.png");
 	
+	intro = app->tex->Load("Assets/Textures/Scenes/main_test.png");
+	textureCredits = app->tex->Load("Assets/Textures/credits.png");
+
 	app->audio->PlayMusic("Assets/Audio/Music/intro_scene.ogg");
 
 	app->render->SetCameraPosition(0,0);
-
-
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
 	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
 
 	// Initial buttons
-	btnPlay = new GuiButton(1, { 520 / (int)app->win->GetScale(), 250 / (int)app->win->GetScale(), 125, 18 }, "START");
+	btnPlay = new GuiButton(1, { 520 / (int)app->win->GetScale(), 250 / (int)app->win->GetScale(), 125, 18 }, "   START");
 	btnPlay->SetObserver(this);
 
-	btnContinue = new GuiButton(2, { 520 / (int)app->win->GetScale(), 300 / (int)app->win->GetScale(), 125, 18 }, "CONTINUE");
+	btnContinue = new GuiButton(2, { 520 / (int)app->win->GetScale(), 300 / (int)app->win->GetScale(), 125, 18 }, "  CONTINUE");
 	btnContinue->SetObserver(this);
 
-	btnSettings = new GuiButton(3, { 520 / (int)app->win->GetScale(), 350 / (int)app->win->GetScale(), 125, 18 }, "SETTINGS");
+	btnSettings = new GuiButton(3, { 520 / (int)app->win->GetScale(), 350 / (int)app->win->GetScale(), 125, 18 }, "  SETTINGS");
 	btnSettings->SetObserver(this);
 
-	btnCredits = new GuiButton(4, { 520 / (int)app->win->GetScale(), 400 / (int)app->win->GetScale(), 125, 18 }, "CREDITS");
+	btnCredits = new GuiButton(4, { 520 / (int)app->win->GetScale(), 400 / (int)app->win->GetScale(), 125, 18 }, "   CREDITS");
 	btnCredits->SetObserver(this);
 
-	btnExit = new GuiButton(5, { 520 / (int)app->win->GetScale(), 500 / (int)app->win->GetScale(), 125, 18 }, "EXIT");
+	btnExit = new GuiButton(5, { 520 / (int)app->win->GetScale(), 500 / (int)app->win->GetScale(), 125, 18 }, "    EXIT");
 	btnExit->SetObserver(this);
 
 
@@ -69,11 +68,11 @@ bool MainMenu::Start()
 	vSyncCheckBox = new GuiCheckBox(2, {735,460,16,16}, "VSYNC");
 	vSyncCheckBox->SetObserver(this);
 
-	btnBackOptions = new GuiButton(6, { 520, 560, 125, 18 }, "BACK");
+	btnBackOptions = new GuiButton(6, { 520, 560, 125, 18 }, "    BACK");
 	btnBackOptions->SetObserver(this);
 
 	// Credits menu
-	btnBackCredits = new GuiButton(7, {602,332,125,18}, "BACK");
+	btnBackCredits = new GuiButton(7, {602,332,125,18}, "    BACK");
 	btnBackCredits->SetObserver(this);
 
 	return true;
@@ -103,7 +102,7 @@ bool MainMenu::Update(float dt)
 	}
 	else if (menuState == MenuState::CREDITS)
 	{
-		btnBackCredits->Update(app->input, dt, iPoint(app->render->camera.x + 500, app->render->camera.y + 250));
+		btnBackCredits->Update(app->input, dt, iPoint((app->render->camera.x + 1012)/app->win->GetScale(), (app->render->camera.y + 665)/app->win->GetScale()));
 	}
 
 	return true;
@@ -139,6 +138,8 @@ bool MainMenu::Draw()
 		SDL_Rect r = { -(app->render->camera.x + 500),-(app->render->camera.y + 250),x,y };
 
 		app->render->DrawRectangle(r, { 0,0,0,225 });
+		app->render->DrawTexture(textureCredits, 0, 0, NULL);
+
 		btnBackCredits->Draw(app->render);
 	}
 

@@ -130,16 +130,16 @@ bool SceneManager::Save(pugi::xml_node& node)
 bool SceneManager::Start()
 {
 	// Initial UI
-	btnResume = new GuiButton(1, { 290 ,150, 125, 18 }, "RESUME");
+	btnResume = new GuiButton(1, { 290 ,150, 125, 18 }, "   RESUME");
 	btnResume->SetObserver(currentScene);
 
-	btnSettings = new GuiButton(2, { 290, 170, 125, 18 }, "SETTINGS");
+	btnSettings = new GuiButton(2, { 290, 170, 125, 18 }, "  SETTINGS");
 	btnSettings->SetObserver(currentScene);
 
-	btnBackToTitle = new GuiButton(3, { 290, 190, 125, 18 }, "MAIN MENU");
+	btnBackToTitle = new GuiButton(3, { 290, 190, 125, 18 }, " MAIN MENU");
 	btnBackToTitle->SetObserver(currentScene);
 
-	btnExit = new GuiButton(4, { 290, 215, 125, 18 }, "EXIT");
+	btnExit = new GuiButton(4, { 290, 215, 125, 18 }, "    EXIT");
 	btnExit->SetObserver(currentScene);
 
 	// Settings UI
@@ -159,7 +159,7 @@ bool SceneManager::Start()
 
 	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
-	
+
 	currentScene = sceneLogo;
 
 	// Call all Scenes' start
@@ -393,5 +393,5 @@ void SceneManager::ShowPauseMenu()
 		fullScreenCheckBox->Draw(app->render);
 		vSyncCheckBox->Draw(app->render);
 		btnBackOptions->Draw(app->render);
-	}	
+	}
 }
