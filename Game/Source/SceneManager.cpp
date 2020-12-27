@@ -278,7 +278,17 @@ bool SceneManager::PostUpdate()
 	}
 
 	// Draw full screen rectangle in front of everything
-	if (onTransition)
+	if (onTransition && (currentScene == scene1 || currentScene == scene2))
+	{
+		uint x, y;
+		app->win->GetWindowSize(x, y);
+		SDL_Rect r = { -(app->render->camera.x + app->render->cameraOffsetX) / app->win->GetScale(),
+					-(app->render->camera.y + app->render->cameraOffsetY) / app->win->GetScale(),
+					x,y };
+
+		app->render->DrawRectangle(r, { 0, 0, 0, (unsigned char)(255.0f * transitionAlpha) });
+	}
+	else
 		app->render->DrawRectangle({ 0, 0, 1280, 720 }, { 0, 0, 0, (unsigned char)(255.0f * transitionAlpha) });
 
 	if (isPaused == true)
@@ -374,10 +384,12 @@ void SceneManager::ShowPauseMenu()
 {
 	uint x, y;
 	app->win->GetWindowSize(x, y);
-	SDL_Rect r = { -(app->render->camera.x + 500),-(app->render->camera.y + 250),x,y };
+	SDL_Rect r = { -(app->render->camera.x + app->render->cameraOffsetX) / app->win->GetScale(),
+				-(app->render->camera.y + app->render->cameraOffsetY) / app->win->GetScale(),
+				x,y };
 
 	// Draw blured background
-	app->render->DrawRectangle(r, { 0,0,0,150 });
+	app->render->DrawRectangle(r, { 0, 0, 0, 150 });
 
 	if (statusMenu == MenuState::INITIAL)
 	{
