@@ -1,24 +1,21 @@
 #include "App.h"
 #include "Window.h"
 #include "Audio.h"
-#include "Log.h"
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
 #include "Map.h"
-#include "Scene1.h"
-#include "SceneManager.h"
 #include "Scene2.h"
+#include "SceneManager.h"
 #include "Player.h"
-#include "EnemyManager.h"
-#include "EntityManager.h"
 #include "Executioner.h"
-#include "ItemManager.h"
 #include "GreenGem.h"
 #include "RedHeart.h"
 #include "Wolf.h"
-#include "FadeToBlack.h"
-#include "Collisions.h"
+#include "EntityManager.h"
+#include "Fonts.h"
+
+#include "Log.h"
 
 Scene2::Scene2()
 {
@@ -131,12 +128,117 @@ bool Scene2::Start()
 
 	app->sceneManager->currentScene = this;
 
+	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
+	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
+
 	return true;
 }
 
 bool Scene2::Update(float dt)
 {
 	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
+
+	// Enemies machine states
+	ListItem<Executioner*>* eItem = executioners.start;
+	while (eItem != nullptr)
+	{
+		if (eItem->data->life > 0)
+		{
+			if (eItem->data->currentState == EnemyState::PATROL)
+			{
+				eItem->data->currentAnim = &eItem->data->idleAnim;
+
+				if ((eItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) && (player->godMode == false))
+					eItem->data->currentState = EnemyState::ALERT;
+			}
+			else if (eItem->data->currentState == EnemyState::ALERT)
+			{
+				if (eItem->data->FindTarget(player, dt))
+					eItem->data->currentState = EnemyState::ATTACK;
+			}
+			else if (eItem->data->currentState == EnemyState::ATTACK)
+			{
+				if (eItem->data->ChaseTarget(dt))
+				{
+					eItem->data->path.Clear();
+					eItem->data->currentState = EnemyState::PATROL;
+				}
+			}
+		}
+
+		eItem = eItem->next;
+	}
+
+
+	ListItem<Wolf*>* wItem = wolfs.start;
+	while (wItem != nullptr)
+	{
+		if (wItem->data->life > 0)
+		{
+			if (wItem->data->currentState == EnemyState::PATROL)
+			{
+				if ((wItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) && (player->godMode == false))
+					wItem->data->currentState = EnemyState::ALERT;
+			}
+			else if (wItem->data->currentState == EnemyState::ALERT)
+			{
+				if (wItem->data->FindTarget(player, dt))
+					wItem->data->currentState = EnemyState::ATTACK;
+			}
+			else if (wItem->data->currentState == EnemyState::ATTACK)
+			{
+				if (wItem->data->ChaseTarget(dt))
+				{
+					wItem->data->path.Clear();
+					wItem->data->currentState = EnemyState::PATROL;
+				}
+			}
+		}
+
+		wItem = wItem->next;
+	}
+
+
+	//for (uint i = 0; i < app->map->data.height; ++i)
+	//{
+	//	for (uint j = 0; i < app->map->data.width; ++j)
+	//	{
+	//		if ((app->map->data.layers[2]->Get(j, i) >= 1161) &&
+	//			CheckCollisions(app->map->GetTileRect(j, i), player->GetSize()))
+	//		{
+	//			// TODO: Implement the player movement when collides
+
+	//		}
+	//	}
+	//}
+
+	// Check if the player picked a gem
+	ListItem<GreenGem*>* gItem = gems.start;
+	while (gItem != nullptr)
+	{
+		if (player->GetCollider()->Intersects(gItem->data->collider->rect))
+		{
+			player->PickItem(gItem->data->type);
+			gItem->data->CleanUp();
+			gems.Del(gItem);
+			break;
+		}
+		gItem = gItem->next;
+	}
+
+	// Check if the player picked a heart
+	ListItem<RedHeart*>* hItem = hearts.start;
+	while (hItem != nullptr)
+	{
+		if (player->GetCollider()->Intersects(hItem->data->collider->rect))
+		{
+			player->PickItem(hItem->data->type);
+			hItem->data->CleanUp();
+			hearts.Del(hItem);
+			break;
+		}
+		hItem = hItem->next;
+	}
 
 	if ((CheckWin() == 1) && (player->godMode == false))
 		TransitionToScene((Scene*)app->sceneManager->winScene);
@@ -162,7 +264,7 @@ bool Scene2::Draw()
 {
 	bool ret = true;
 
-	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
+	app->render->DrawTexture(sky, -200, -60, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 
@@ -252,10 +354,16 @@ int Scene2::CheckWin()
 			uint playerMidTile = layer->data->Get(playerPosTop.x, playerPosTop.y);
 
 			if (playerMidTile == 1166)
+			{
+				player->blockCamera = true;
 				return 1;
+			}
 
 			if (playerMidTile == 1170)
+			{
+				player->blockCamera = true;
 				return 2;
+			}
 
 			if (playerMidTile == 1167 && checkpoint2 == false)
 			{

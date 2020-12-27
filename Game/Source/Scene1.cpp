@@ -137,8 +137,9 @@ bool Scene1::Start()
 		GuiHeartTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
 
 
-		app->sceneManager->currentScene = this;
 	}
+
+	app->sceneManager->currentScene = this;
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
 	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
@@ -275,7 +276,7 @@ bool Scene1::Draw()
 {
 	bool ret = true;
 		
-	app->render->DrawTexture(sky, -200, -10, NULL, 0.65f);
+	app->render->DrawTexture(sky, -200, -60, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 	
@@ -373,10 +374,16 @@ int Scene1::CheckWin()
 			uint playerMidTile = layer->data->Get(playerPosTop.x, playerPosTop.y);
 	
 			if (playerMidTile == 1166)
+			{
+				player->blockCamera = true;
 				return 1;
-	
+			}
+
 			if (playerMidTile == 1170)
+			{
+				player->blockCamera = true;
 				return 2;
+			}
 
 			if (playerMidTile == 1167 && checkpoint2 == false)
 			{

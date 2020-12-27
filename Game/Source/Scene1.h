@@ -78,6 +78,4 @@ private:
 	Animation* currentAnimCheckpoint;
 
 	int uiIndex;
-
-	
 };

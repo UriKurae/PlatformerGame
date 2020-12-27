@@ -171,6 +171,7 @@ bool Player::Start()
 	gravity = 250.0f;
 	jump = false;
 	godMode = false;
+	blockCamera = false;
 	direction = "right";
 		
 	currentAnimHeart = &threeLifesAnim;
@@ -231,8 +232,10 @@ bool Player::Update(float dt)
 	else if (direction == "left")
 		collider->SetPos(position.x + 4, position.y + 5);
 
-	
-	CameraFollow();
+	if (blockCamera == false)
+		CameraFollow();
+
+	//CameraFollow();
 
 	return true;
 }
@@ -551,8 +554,8 @@ void Player::HandleInput(float dt)
 
 void Player::CameraFollow()
 {
-	app->render->camera.x = -(position.x * (int)app->win->GetScale()) + 500;
-	app->render->camera.y = (-position.y * (int)app->win->GetScale()) + 250;
+	app->render->camera.x = -(position.x * (int)app->win->GetScale()) + app->render->cameraOffsetX;
+	app->render->camera.y = -(position.y * (int)app->win->GetScale()) + app->render->cameraOffsetY;
 }
 
 

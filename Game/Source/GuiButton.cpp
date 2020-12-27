@@ -23,6 +23,11 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     highlighted.PushBack({ 140,34,133,26 });
     highlighted.PushBack({ 2,34,133,26 });
     highlighted.loop = true;
+
+    buttonPressed.PushBack( { 197,102,125,18 });
+    buttonPressed.PushBack( { 197,102,125,18 });
+    buttonPressed.PushBack( { 197,102,125,18 });
+    buttonPressed.loop = false;
 }
 
 
@@ -98,9 +103,15 @@ bool GuiButton::Draw(Render* render)
             highlighted.Reset();
             currentAnim = &highlighted;
         }
-        render->DrawTexture(texture, bounds.x - 3, bounds.y - 3, &highlighted.GetCurrentFrame());
+        render->DrawTexture(texture, bounds.x - 3, bounds.y - 3, &currentAnim->GetCurrentFrame());
         break;
-    case GuiControlState::PRESSED: render->DrawRectangle(bounds, { 0, 255, 255, 255 });
+    case GuiControlState::PRESSED: 
+        if (currentAnim != &buttonPressed)
+        {
+            buttonPressed.Reset();
+            currentAnim = &buttonPressed;
+        }
+        render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
         break;
     case GuiControlState::SELECTED: render->DrawRectangle(bounds, { 0, 255, 0, 255 });
         break;

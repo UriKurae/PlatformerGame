@@ -26,6 +26,8 @@ private:
     // Maybe some animation properties for state change?
     Animation* currentAnim;
     Animation highlighted;
+    Animation buttonPressed;
+
 };
 
 #endif // __GUIBUTTON_H__

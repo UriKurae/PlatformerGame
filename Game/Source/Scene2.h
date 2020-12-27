@@ -6,6 +6,7 @@ class Player;
 class Executioner;
 class Wolf;
 class GreenGem;
+class RedHeart;
 class Animation;
 
 class Scene2 : public Scene
@@ -62,4 +63,6 @@ private:
 	// Collectibles
 	List<GreenGem*> gems;
 	List<RedHeart*> hearts;
+
+	int uiIndex;
 };

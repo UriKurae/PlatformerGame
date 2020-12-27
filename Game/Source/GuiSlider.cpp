@@ -84,8 +84,10 @@ bool GuiSlider::Draw(Render* render)
 {
     SDL_Rect sect = {110,134,110,16};
     render->DrawTexture(texture, minValue, bounds.y - 3, &sect);
-    sect = { 6,87,5,10 };
-    render->DrawTexture(texture, bounds.x, bounds.y, &sect);
+
+    sect = { 25,170,6,19 };
+    render->DrawTexture(texture, bounds.x, bounds.y - 5, &sect);
+
     // Draw the slider depending on state
     switch (state)
     {

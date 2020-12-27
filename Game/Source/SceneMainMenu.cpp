@@ -56,10 +56,10 @@ bool MainMenu::Start()
 
 
 	// Options menu
-	sliderMusicVolume = new GuiSlider(1, { 555, 280, 5, 10 }, " MUSIC VOLUME");
+	sliderMusicVolume = new GuiSlider(1, { 555, 280, 5, 15 }, " MUSIC VOLUME");
 	sliderMusicVolume->SetObserver(this);
 
-	sliderFxVolume = new GuiSlider(2, {555, 360, 5, 10}, "   FX VOLUME");
+	sliderFxVolume = new GuiSlider(2, {555, 360, 5, 15}, "   FX VOLUME");
 	sliderFxVolume->SetObserver(this);
 
 	fullScreenCheckBox = new GuiCheckBox(1, {735, 410, 16, 16}, "FULLSCREEN");

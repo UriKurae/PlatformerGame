@@ -59,6 +59,8 @@ public:
 
 public:
 
+	bool blockCamera;
+
 	// Control if the player loaded a saved game
 	bool loadedGame = false;
 
