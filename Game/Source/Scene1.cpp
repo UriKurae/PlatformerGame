@@ -1,5 +1,6 @@
-#include "App.h"
+﻿#include "App.h"
 #include "Window.h"
+#include "Fonts.h"
 #include "Audio.h"
 #include "Input.h"
 #include "Render.h"
@@ -138,6 +139,9 @@ bool Scene1::Start()
 
 		app->sceneManager->currentScene = this;
 	}
+
+	char lookupTable[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!✕-:©✕ " };
+	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
 
 	return true;
 }
@@ -301,6 +305,8 @@ bool Scene1::Draw()
 	}
 
 	DrawGui();
+
+	app->fonts->DrawText(20, 20, uiIndex, "mamaguevo");
 
 	return ret;
 }

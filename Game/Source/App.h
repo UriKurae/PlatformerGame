@@ -29,6 +29,7 @@ class SceneManager;
 class DeadScene;
 class PathFinding;
 class EntityManager;
+class Fonts;
 
 
 class App
@@ -98,6 +99,7 @@ public:
 	Input* input;
 	Render* render;
 	Textures* tex;
+	Fonts* fonts;
 	Audio* audio;
 	Map* map;
 	SceneManager* sceneManager;

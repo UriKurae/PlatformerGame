@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "Input.h"
 #include "Render.h"
+#include "Fonts.h"
 #include "Textures.h"
 #include "Audio.h"
 #include "Map.h"
@@ -31,6 +32,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	sceneManager = new SceneManager();
 	//itemManager = new ItemManager();
 	pathFinding = new PathFinding();
+	fonts = new Fonts();
 	//fade = new FadeToBlack();
 
 	// Ordered for awake / Start / Update
@@ -38,6 +40,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win, true);
 	AddModule(input,true);
 	AddModule(tex, true);
+	AddModule(fonts, true);
 	AddModule(audio, true);
 	AddModule(map, false);
 	AddModule(sceneManager, true);

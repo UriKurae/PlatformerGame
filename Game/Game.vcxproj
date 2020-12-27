@@ -90,6 +90,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\EntityManager.cpp" />
+    <ClCompile Include="Source\Fonts.cpp" />
     <ClCompile Include="Source\GreenGem.cpp" />
     <ClCompile Include="Source\Collider.cpp" />
     <ClCompile Include="Source\DeadScene.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
+    <ClInclude Include="Source\Fonts.h" />
     <ClInclude Include="Source\GreenGem.h" />
     <ClInclude Include="Source\Collider.h" />
     <ClInclude Include="Source\DeadScene.h" />
