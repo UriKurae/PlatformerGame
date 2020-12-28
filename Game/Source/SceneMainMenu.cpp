@@ -74,6 +74,9 @@ bool MainMenu::Start()
 	btnBackCredits = new GuiButton(7, {602,332,125,18}, "    BACK");
 	btnBackCredits->SetObserver(this);
 
+
+	guiDebugDraw = false;
+
 	return true;
 }
 
@@ -117,19 +120,19 @@ bool MainMenu::Draw()
 
 	if (menuState == MenuState::INITIAL)
 	{
-		btnPlay->Draw(app->render);
-		btnContinue->Draw(app->render);
-		btnSettings->Draw(app->render);
-		btnCredits->Draw(app->render);
-		btnExit->Draw(app->render);
+		btnPlay->Draw(app->render, guiDebugDraw);
+		btnContinue->Draw(app->render, guiDebugDraw);
+		btnSettings->Draw(app->render, guiDebugDraw);
+		btnCredits->Draw(app->render, guiDebugDraw);
+		btnExit->Draw(app->render, guiDebugDraw);
 	}
 	else if (menuState == MenuState::OPTIONS)
 	{
-		sliderMusicVolume->Draw(app->render);
-		sliderFxVolume->Draw(app->render);
-		fullScreenCheckBox->Draw(app->render);
-		vSyncCheckBox->Draw(app->render);
-		btnBackOptions->Draw(app->render);
+		sliderMusicVolume->Draw(app->render, guiDebugDraw);
+		sliderFxVolume->Draw(app->render, guiDebugDraw);
+		fullScreenCheckBox->Draw(app->render, guiDebugDraw);
+		vSyncCheckBox->Draw(app->render, guiDebugDraw);
+		btnBackOptions->Draw(app->render, guiDebugDraw);
 	}
 	else if (menuState == MenuState::CREDITS)
 	{
@@ -140,7 +143,7 @@ bool MainMenu::Draw()
 		app->render->DrawRectangle(r, { 0,0,0,225 });
 		app->render->DrawTexture(textureCredits, 0, 0, NULL);
 
-		btnBackCredits->Draw(app->render);
+		btnBackCredits->Draw(app->render, guiDebugDraw);
 	}
 
 	return ret;
@@ -171,6 +174,7 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	case GuiControlType::BUTTON:
 	{
 		if (control->id == 1) TransitionToScene((Scene*)app->sceneManager->scene1); // Play
+		else if (control->id == 2) app->RequestLoadGame();
 		else if (control->id == 3) menuState = MenuState::OPTIONS; // Options
 		else if (control->id == 4) menuState = MenuState::CREDITS; // Credits
 		else if (control->id == 5) toExit = true; // Exit

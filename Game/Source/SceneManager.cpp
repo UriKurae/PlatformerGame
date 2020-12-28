@@ -101,7 +101,7 @@ bool SceneManager::Load(pugi::xml_node& node)
 bool SceneManager::Save(pugi::xml_node& node)
 {
 	ListItem<Scene*>* item = scenes.start;
-	int count = 0;
+	int count = -1;
 
 	while (item != nullptr)
 	{
@@ -325,6 +325,9 @@ bool SceneManager::HandleInput(float dt)
 	if ((savedScene != nullptr) && (savedScene != currentScene))
 		currentScene->TransitionToScene(savedScene);
 
+	if ((app->input->GetKey(SDL_SCANCODE_F8) == KeyState::KEY_DOWN) && (currentScene == scene1 || currentScene == scene2 || currentScene == mainMenu))
+		currentScene->guiDebugDraw = !currentScene->guiDebugDraw;
+
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 	{
 		app->map->viewHitboxes = !app->map->viewHitboxes;
@@ -397,19 +400,19 @@ void SceneManager::ShowPauseMenu()
 	if (statusMenu == MenuState::INITIAL)
 	{
 		app->render->DrawRectangle({ (offset.x + 500) / (int)app->win->GetScale(),(offset.y + 165) / (int)app->win->GetScale(), 200, 200 }, { 0,0,0,200 });
-		this->btnResume->Draw(app->render);
-		this->btnSettings->Draw(app->render);
-		this->btnBackToTitle->Draw(app->render);
-		this->btnExit->Draw(app->render);
+		this->btnResume->Draw(app->render, currentScene->guiDebugDraw);
+		this->btnSettings->Draw(app->render, currentScene->guiDebugDraw);
+		this->btnBackToTitle->Draw(app->render, currentScene->guiDebugDraw);
+		this->btnExit->Draw(app->render, currentScene->guiDebugDraw);
 		
 	}
 	else if (statusMenu == MenuState::OPTIONS)
 	{
 		app->render->DrawRectangle({ (offset.x + 500) / (int)app->win->GetScale(),(offset.y + 165) / (int)app->win->GetScale(), 200, 200 }, { 0,0,0,200 });
-		sliderMusicVolume->Draw(app->render);
-		sliderFxVolume->Draw(app->render);
-		fullScreenCheckBox->Draw(app->render);
-		vSyncCheckBox->Draw(app->render);
-		btnBackOptions->Draw(app->render);
+		sliderMusicVolume->Draw(app->render, currentScene->guiDebugDraw);
+		sliderFxVolume->Draw(app->render, currentScene->guiDebugDraw);
+		fullScreenCheckBox->Draw(app->render, currentScene->guiDebugDraw);
+		vSyncCheckBox->Draw(app->render, currentScene->guiDebugDraw);
+		btnBackOptions->Draw(app->render, currentScene->guiDebugDraw);
 	}
 }

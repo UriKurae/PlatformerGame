@@ -186,8 +186,11 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 
 bool Audio::Save(pugi::xml_node& audioNode)
 {
-	pugi::xml_node tmp = audioNode.append_child("music_volume");
-	tmp.append_attribute("value").set_value(musicVolume);
+	pugi::xml_node m = audioNode.append_child("music_volume");
+	m.append_attribute("value").set_value(musicVolume);
+	
+	pugi::xml_node f = audioNode.append_child("fx_volume");
+	f.append_attribute("value").set_value(fxVolume);
 
 	return true;
 }
@@ -196,6 +199,8 @@ bool Audio::Load(pugi::xml_node& audioNode)
 {
 	musicVolume = audioNode.child("music_volume").attribute("value").as_int();
 	Mix_VolumeMusic(musicVolume);
+
+	fxVolume = audioNode.child("fx_volume").attribute("value").as_int();
 	
 	return true;
 }

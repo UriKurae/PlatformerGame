@@ -127,6 +127,7 @@ bool Scene2::Start()
 	}
 
 	app->sceneManager->currentScene = this;
+	guiDebugDraw = false;
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
 	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);

@@ -26,14 +26,11 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	render = new Render();
 	tex = new Textures();
 	audio = new Audio();
-	//collisions = new Collisions();
 	map = new Map();
 	entityManager = new EntityManager();
 	sceneManager = new SceneManager();
-	//itemManager = new ItemManager();
 	pathFinding = new PathFinding();
 	fonts = new Fonts();
-	//fade = new FadeToBlack();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -45,10 +42,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map, false);
 	AddModule(sceneManager, true);
 	AddModule(entityManager, true);
-	//AddModule(itemManager, true);
 	AddModule(pathFinding, true);
-	//AddModule(collisions, true);
-	//AddModule(fade, true);
 
 	// Render last to swap buffer
 	AddModule(render, true);

@@ -49,12 +49,6 @@ public:
 		camera.y = y;
 	}
 
-	// Load the module
-	bool Load(pugi::xml_node&) override;
-
-	// Save the module
-	bool Save(pugi::xml_node&) override;
-
 public:
 
 	SDL_Renderer* renderer;

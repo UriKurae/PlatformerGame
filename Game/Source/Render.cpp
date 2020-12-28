@@ -102,21 +102,6 @@ bool Render::CleanUp()
 	return true;
 }
 
-bool Render::Load(pugi::xml_node& rendererNode)
-{
-	camera.x = rendererNode.child("camera").attribute("x").as_int(0);
-	camera.y = rendererNode.child("camera").attribute("y").as_int(0);
-
-	return true;
-}
-
-bool Render::Save(pugi::xml_node& renderNode)
-{
-	pugi::xml_node cam = renderNode.append_child("camera");
-	cam.append_attribute("x").set_value(55);
-	return true;
-}
-
 void Render::SetBackgroundColor(SDL_Color color)
 {
 	background = color;

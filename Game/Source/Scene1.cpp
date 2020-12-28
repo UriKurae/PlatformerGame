@@ -157,6 +157,7 @@ bool Scene1::Start()
 	}
 
 	app->sceneManager->currentScene = this;
+	guiDebugDraw = false;
 
 
 	return true;
@@ -287,6 +288,8 @@ bool Scene1::Update(float dt)
 			RestartPlayerPosition();
 	}
 
+	currentAnimCheckpoint->Update();
+
 	currentAnimTimer->Update();
 
 	return true;
@@ -313,7 +316,6 @@ bool Scene1::Draw()
 			currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
 		}
 		app->render->DrawTexture(app->sceneManager->checkpointTexture, 1535, 155, &currentAnimCheckpoint->GetCurrentFrame());
-		currentAnimCheckpoint->Update();
 	}
 	else if (checkpoint2 == true)
 	{
@@ -323,7 +325,6 @@ bool Scene1::Draw()
 			currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
 		}
 		app->render->DrawTexture(app->sceneManager->checkpointTexture, 2256, 268, &currentAnimCheckpoint->GetCurrentFrame());
-		currentAnimCheckpoint->Update();
 	}
 
 	DrawGui();

@@ -14,7 +14,7 @@ public:
     virtual ~GuiSlider();
 
     bool Update(Input* input, float dt, iPoint position);
-    bool Draw(Render* render);
+    bool Draw(Render* render, bool debugDraw);
     void CalculateValue();
     int GetValue() const;
 

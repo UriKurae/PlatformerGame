@@ -14,7 +14,7 @@ public:
     virtual ~GuiCheckBox();
 
     bool Update(Input* input, float dt, iPoint position);
-    bool Draw(Render* render);
+    bool Draw(Render* render, bool debugDraw);
 
 private:
 

@@ -59,7 +59,7 @@ public:
         return true;
     }
 
-    virtual bool Draw(Render* render) const
+    virtual bool Draw(Render* render, bool debugDraw) const
     {
         return true;
     }

@@ -86,7 +86,7 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
     return false;
 }
 
-bool GuiSlider::Draw(Render* render)
+bool GuiSlider::Draw(Render* render, bool debugDraw)
 {
     SDL_Rect sect = {110,134,110,16};
     render->DrawTexture(texture, minValue, bounds.y - 3, &sect);
@@ -97,16 +97,31 @@ bool GuiSlider::Draw(Render* render)
     // Draw the slider depending on state
     switch (state)
     {
-    case GuiControlState::DISABLED: render->DrawRectangle(bounds, { 100, 100, 100, 255 });
+    case GuiControlState::DISABLED: 
+        if(debugDraw)
+            render->DrawRectangle(bounds, { 100, 100, 100, 200 });
         break;
-    case GuiControlState::NORMAL: //render->DrawRectangle(bounds, { 0, 0, 0, 255 });
+
+    case GuiControlState::NORMAL: 
+        if(debugDraw)
+            render->DrawRectangle(bounds, { 0, 0, 0, 200 });
         break;
-    case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 });
+
+    case GuiControlState::FOCUSED: 
+        if(debugDraw)
+            render->DrawRectangle(bounds, { 255, 255, 0, 200 });
         break;
-    case GuiControlState::PRESSED: //render->DrawRectangle({(bounds.x) - (bounds.w / 2), bounds.y, bounds.w, bounds.h}, { 0, 255, 255, 255 });
+
+    case GuiControlState::PRESSED: 
+        if(debugDraw)
+            render->DrawRectangle({(bounds.x) - (bounds.w / 2), bounds.y, bounds.w, bounds.h}, { 0, 255, 255, 255 });
         break;
-    case GuiControlState::SELECTED: render->DrawRectangle(bounds, { 0, 255, 0, 255 });
+
+    case GuiControlState::SELECTED: 
+        if(debugDraw)
+            render->DrawRectangle(bounds, { 0, 255, 0, 200 });
         break;
+
     default:
         break;
     }

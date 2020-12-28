@@ -88,7 +88,7 @@ bool GuiButton::Update(Input* input, float dt, iPoint position)
     return false;
 }
 
-bool GuiButton::Draw(Render* render)
+bool GuiButton::Draw(Render* render, bool debugDraw)
 {
     SDL_Rect sect = { 59,102, 125, 18 };
     render->DrawTexture(texture, bounds.x, bounds.y, &sect);
@@ -97,19 +97,29 @@ bool GuiButton::Draw(Render* render)
     // Draw the right button depending on state
     switch (state)
     {
-    case GuiControlState::DISABLED: render->DrawRectangle(bounds, { 100, 100, 100, 255 });
+    case GuiControlState::DISABLED: 
+        if (debugDraw)
+            render->DrawRectangle(bounds, { 100, 100, 100, 200 });
         break;
-    case GuiControlState::NORMAL:  //render->DrawRectangle(bounds, { 0, 255, 0, 255 });
+
+    case GuiControlState::NORMAL: 
+        if (debugDraw)
+            render->DrawRectangle(bounds, { 0, 255, 0, 200 });
         break;
+
     case GuiControlState::FOCUSED: 
-        //render->DrawRectangle(bounds, { 255, 255, 0, 255 });
+        if (debugDraw)
+            render->DrawRectangle(bounds, { 255, 255, 0, 200 });
+        
         if (currentAnim != &highlighted)
         {
             highlighted.Reset();
             currentAnim = &highlighted;
         }
         render->DrawTexture(texture, bounds.x - 3, bounds.y - 3, &currentAnim->GetCurrentFrame());
+        
         break;
+
     case GuiControlState::PRESSED: 
         if (currentAnim != &buttonPressed)
         {
@@ -117,9 +127,17 @@ bool GuiButton::Draw(Render* render)
             currentAnim = &buttonPressed;
         }
         render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+        
+        if (debugDraw)
+            render->DrawRectangle(bounds, { 0, 255, 255, 200 });
+
         break;
-    case GuiControlState::SELECTED: render->DrawRectangle(bounds, { 0, 255, 0, 255 });
+
+    case GuiControlState::SELECTED: 
+        if (debugDraw)
+            render->DrawRectangle(bounds, { 0, 255, 0, 200 });
         break;
+
     default:
         break;
     }

@@ -64,5 +64,7 @@ private:
 	List<GreenGem*> gems;
 	List<RedHeart*> hearts;
 
+	// Gui font index
 	int uiIndex;
+
 };

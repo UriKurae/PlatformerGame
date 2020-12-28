@@ -44,7 +44,7 @@ public:
 	bool CheckCollisions(SDL_Rect& a, SDL_Rect& b) override;
 
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
-	
+
 private:
 
 	// Texture for the lifes on the Gui
@@ -77,6 +77,7 @@ private:
 
 	Animation* currentAnimCheckpoint;
 
+	// Gui font index
 	int uiIndex;
 	
 	// timer

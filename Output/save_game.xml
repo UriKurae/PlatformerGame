@@ -3,23 +3,30 @@
   <window />
   <input />
   <textures />
+  <fonts />
   <audio>
-    <music_volume value="10" />
+    <music_volume value="50" />
+    <fx_volume value="50" />
   </audio>
   <map />
-  <enemymanager />
-  <itemmanager />
   <scenemanager>
-    <active_scene value="0" />
-    <enemies />
+    <active_scene value="1" />
+    <enemies>
+      <executioner>
+        <position x="393" y="100" />
+        <current_state value="2" />
+        <is_alive value="true" />
+      </executioner>
+      <wolf>
+        <position x="331" y="250" />
+        <current_state value="2" />
+      </wolf>
+      <wolf>
+        <position x="711" y="260" />
+        <current_state value="0" />
+      </wolf>
+    </enemies>
   </scenemanager>
-  <player>
-    <position x="0" y="0" />
-  </player>
   <pathfinding />
-  <collisions />
-  <fade />
-  <renderer>
-    <camera x="55" />
-  </renderer>
+  <renderer />
 </save_status>

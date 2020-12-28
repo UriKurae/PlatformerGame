@@ -24,8 +24,6 @@ class Scene2;
 class WinScene;
 class Map;
 class SceneManager;
-//class ItemManager;
-//class FadeToBlack;
 class DeadScene;
 class PathFinding;
 class EntityManager;

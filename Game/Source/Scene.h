@@ -87,6 +87,9 @@ public:
 	}
 
 public:
+	
+	// Draw Gui rectangles
+	bool guiDebugDraw;
 
 	SString name;
 	bool active;
