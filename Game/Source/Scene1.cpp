@@ -22,6 +22,7 @@ Scene1::Scene1()
 {
 	name.Create("scene1");
 
+	// Pushbacks for timers
 	timerAnimation.PushBack({0,0,25,24});
 	timerAnimation.PushBack({25,0,25,24});
 	timerAnimation.PushBack({50,0,25,24});
@@ -33,6 +34,25 @@ Scene1::Scene1()
 	timerAnimation.PushBack({200,0,25,24});
 	
 	timerAnimation.loop = true;
+
+	// Pushbacks for Hearts
+	heartAnimation.PushBack({ 121, 79, 16, 16 });
+	heartAnimation.PushBack({ 139, 79, 16, 16 });
+	heartAnimation.PushBack({ 157, 79, 16, 16 });
+	heartAnimation.PushBack({ 176, 79, 16, 16 });
+	heartAnimation.PushBack({ 121, 99, 16, 16 });
+	heartAnimation.PushBack({ 139, 99, 16, 16 });
+	//heartAnimation.PushBack({ 157, 99, 16, 16 });
+	//heartAnimation.PushBack({ 176, 99, 16, 16 });
+	heartAnimation.loop = true;
+
+	// Pushbacks for gems
+	gemAnimation.PushBack({2,2,10,15});
+	gemAnimation.PushBack({18,2,10,15});
+	gemAnimation.PushBack({34,2,10,15});
+	gemAnimation.PushBack({50,2,10,15});
+	gemAnimation.loop = true;
+
 }
 
 Scene1::~Scene1()
@@ -148,7 +168,7 @@ bool Scene1::Start()
 		sky = app->tex->Load("Assets/Textures/Scenes/sky.png");
 		sea = app->tex->Load("Assets/Textures/Scenes/sea.png");
 		clouds = app->tex->Load("Assets/Textures/Scenes/clouds.png");
-		GuiHeartTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
+		guiTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
 		
 		timerTexture = app->tex->Load("Assets/Textures/timer.png");
 
@@ -169,6 +189,10 @@ bool Scene1::Update(float dt)
 
 	timerAnimation.speed = 9.5f * dt;
 	timer += 1.0f * dt;
+
+	heartAnimation.speed = 5.0f * dt;
+
+	gemAnimation.speed = 4.0f * dt;
 
 	// Enemies machine states
 	ListItem<Executioner*>* eItem = executioners.start;
@@ -288,9 +312,20 @@ bool Scene1::Update(float dt)
 			RestartPlayerPosition();
 	}
 
-	currentAnimCheckpoint->Update();
+	if (currentAnimCheckpoint != nullptr)
+		currentAnimCheckpoint->Update();
 
-	currentAnimTimer->Update();
+	if (currentAnimTimer != nullptr)
+		currentAnimTimer->Update();
+
+	if (currentAnimGem != nullptr)
+		currentAnimGem->Update();
+
+	if (currentAnimHeart != nullptr)
+		currentAnimHeart->Update();
+
+
+	sprintf_s(timerText, 10, "%.0f", timer);
 
 	return true;
 }
@@ -329,8 +364,6 @@ bool Scene1::Draw()
 
 	DrawGui();
 
-	sprintf_s(timerText, 10, "%.0f", timer);
-
 	return ret;
 }
 
@@ -338,8 +371,14 @@ void Scene1::DrawGui()
 {
 	for (uint i = 1; i <= player->lifes; ++i)
 	{
-		SDL_Rect r = { 176,79,16,16 };
-		app->render->DrawTexture(GuiHeartTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / app->win->GetScale()) + 5, &r);
+		if (currentAnimHeart != nullptr)
+			app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / app->win->GetScale()) + 5, &currentAnimHeart->GetCurrentFrame());
+	}
+
+	for (uint i = 1; i <= player->gemsAchieved; ++i)
+	{
+		if(currentAnimGem != nullptr)
+			app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / app->win->GetScale()) + 25, &currentAnimGem->GetCurrentFrame());
 	}
 
 	if (currentAnimTimer != &timerAnimation)
@@ -348,8 +387,22 @@ void Scene1::DrawGui()
 		currentAnimTimer = &timerAnimation;
 	}
 	
+	if (currentAnimGem != &gemAnimation)
+	{
+		gemAnimation.Reset();
+		currentAnimGem = &gemAnimation;
+	}
+
+	if (currentAnimHeart != &heartAnimation)
+	{
+		heartAnimation.Reset();
+		currentAnimHeart = &heartAnimation;
+	}
+
+	app->render->DrawRectangle({ (-app->render->camera.x / (int)app->win->GetScale()) + 608, (-app->render->camera.y / (int)app->win->GetScale()) + 8, 25, 17 }, {255,177,020,195});
+	
 	app->render->DrawTexture(timerTexture, (-app->render->camera.x / app->win->GetScale()) + 580, (-app->render->camera.y / app->win->GetScale()) + 5, &currentAnimTimer->GetCurrentFrame());
-	app->fonts->DrawText(610, 10, uiIndex, timerText);
+	app->fonts->DrawText(613, 10, uiIndex, timerText);
 }
 
 bool Scene1::CleanUp()

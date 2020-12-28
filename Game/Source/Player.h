@@ -80,6 +80,9 @@ public:
 	// Player's life
 	int lifes = 3;
 
+	// Collectibles info
+	int gemsAchieved = 0;
+
 private:
 
 	// Collider deployed when player attacks
@@ -150,8 +153,7 @@ private:
 	// If the player is on a reachable position or not
 	bool isReachable;
 
-	// Collectibles info
-	int gemsAchieved = 0;
+	
 };
 
 #endif //!__MODULE_PLAYER_H__

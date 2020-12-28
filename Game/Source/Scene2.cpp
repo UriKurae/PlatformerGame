@@ -20,6 +20,37 @@
 Scene2::Scene2()
 {
 	name.Create("scene2");
+
+	// Pushbacks for timers
+	timerAnimation.PushBack({ 0,0,25,24 });
+	timerAnimation.PushBack({ 25,0,25,24 });
+	timerAnimation.PushBack({ 50,0,25,24 });
+	timerAnimation.PushBack({ 75,0,25,24 });
+	timerAnimation.PushBack({ 100,0,25,24 });
+	timerAnimation.PushBack({ 125,0,25,24 });
+	timerAnimation.PushBack({ 150,0,25,24 });
+	timerAnimation.PushBack({ 175,0,25,24 });
+	timerAnimation.PushBack({ 200,0,25,24 });
+
+	timerAnimation.loop = true;
+
+	// Pushbacks for Hearts
+	heartAnimation.PushBack({ 121, 79, 16, 16 });
+	heartAnimation.PushBack({ 139, 79, 16, 16 });
+	heartAnimation.PushBack({ 157, 79, 16, 16 });
+	heartAnimation.PushBack({ 176, 79, 16, 16 });
+	heartAnimation.PushBack({ 121, 99, 16, 16 });
+	heartAnimation.PushBack({ 139, 99, 16, 16 });
+	//heartAnimation.PushBack({ 157, 99, 16, 16 });
+	//heartAnimation.PushBack({ 176, 99, 16, 16 });
+	heartAnimation.loop = true;
+
+	// Pushbacks for gems
+	gemAnimation.PushBack({ 2,2,10,15 });
+	gemAnimation.PushBack({ 18,2,10,15 });
+	gemAnimation.PushBack({ 34,2,10,15 });
+	gemAnimation.PushBack({ 50,2,10,15 });
+	gemAnimation.loop = true;
 }
 
 Scene2::~Scene2()
@@ -129,6 +160,10 @@ bool Scene2::Start()
 	app->sceneManager->currentScene = this;
 	guiDebugDraw = false;
 
+	guiTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
+
+	timerTexture = app->tex->Load("Assets/Textures/timer.png");
+
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
 	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
 
@@ -138,6 +173,13 @@ bool Scene2::Start()
 bool Scene2::Update(float dt)
 {
 	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
+
+	timerAnimation.speed = 9.5f * dt;
+	timer += 1.0f * dt;
+
+	heartAnimation.speed = 5.0f * dt;
+
+	gemAnimation.speed = 4.0f * dt;
 
 	// Enemies machine states
 	ListItem<Executioner*>* eItem = executioners.start;
@@ -258,6 +300,20 @@ bool Scene2::Update(float dt)
 			RestartPlayerPosition();
 	}
 
+	if (currentAnimCheckpoint != nullptr)
+		currentAnimCheckpoint->Update();
+
+	if (currentAnimTimer != nullptr)
+		currentAnimTimer->Update();
+
+	if (currentAnimGem != nullptr)
+		currentAnimGem->Update();
+
+	if (currentAnimHeart != nullptr)
+		currentAnimHeart->Update();
+
+	sprintf_s(timerText, 10, "%.0f", timer);
+
 	return true;
 }
 
@@ -278,28 +334,66 @@ bool Scene2::Draw()
 	
 	if (checkpoint1 == true)
 	{
-		if (currentAnim != &app->sceneManager->checkpointKeepAnim)
+		if (currentAnimCheckpoint != &app->sceneManager->checkpointKeepAnim)
 		{
 			app->sceneManager->checkpointKeepAnim.Reset();
-			currentAnim = &app->sceneManager->checkpointKeepAnim;
+			currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
 		}
 
-		app->render->DrawTexture(app->sceneManager->checkpointTexture, 1552, 445, &currentAnim->GetCurrentFrame());
-		currentAnim->Update();
+		app->render->DrawTexture(app->sceneManager->checkpointTexture, 1552, 445, &currentAnimCheckpoint->GetCurrentFrame());
 	}
 	else if (checkpoint2 == true)
 	{
-		if (currentAnim != &app->sceneManager->checkpointKeepAnim)
+		if (currentAnimCheckpoint != &app->sceneManager->checkpointKeepAnim)
 		{
 			app->sceneManager->checkpointKeepAnim.Reset();
-			currentAnim = &app->sceneManager->checkpointKeepAnim;
+			currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
 		}
 
-		app->render->DrawTexture(app->sceneManager->checkpointTexture, 3024, 208, &currentAnim->GetCurrentFrame());
-		currentAnim->Update();
+		app->render->DrawTexture(app->sceneManager->checkpointTexture, 3024, 208, &currentAnimCheckpoint->GetCurrentFrame());
 	}
 
+	DrawGui();
+
 	return ret;
+}
+
+void Scene2::DrawGui()
+{
+	for (uint i = 1; i <= player->lifes; ++i)
+	{
+		if (currentAnimHeart != nullptr)
+			app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / app->win->GetScale()) + 5, &currentAnimHeart->GetCurrentFrame());
+	}
+
+	for (uint i = 1; i <= player->gemsAchieved; ++i)
+	{
+		if (currentAnimGem != nullptr)
+			app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / app->win->GetScale()) + 25, &currentAnimGem->GetCurrentFrame());
+	}
+
+	if (currentAnimTimer != &timerAnimation)
+	{
+		timerAnimation.Reset();
+		currentAnimTimer = &timerAnimation;
+	}
+
+	if (currentAnimGem != &gemAnimation)
+	{
+		gemAnimation.Reset();
+		currentAnimGem = &gemAnimation;
+	}
+
+	if (currentAnimHeart != &heartAnimation)
+	{
+		heartAnimation.Reset();
+		currentAnimHeart = &heartAnimation;
+	}
+
+	app->render->DrawRectangle({ (-app->render->camera.x / (int)app->win->GetScale()) + 608, (-app->render->camera.y / (int)app->win->GetScale()) + 8, 25, 17 }, { 255,177,020,195 });
+
+	app->render->DrawTexture(timerTexture, (-app->render->camera.x / app->win->GetScale()) + 580, (-app->render->camera.y / app->win->GetScale()) + 5, &currentAnimTimer->GetCurrentFrame());
+	app->fonts->DrawText(613, 10, uiIndex, timerText);
 }
 
 bool Scene2::CleanUp()
@@ -369,7 +463,7 @@ int Scene2::CheckWin()
 			if (playerMidTile == 1167 && checkpoint2 == false)
 			{
 				checkpoint1 = true;
-				currentAnim = &app->sceneManager->checkpointKeepAnim;
+				currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
 				
 				if (checkSound1 == false)
 				{

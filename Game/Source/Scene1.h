@@ -1,14 +1,13 @@
 #pragma once
 
 #include "Scene.h"
+#include "Animation.h"
 
 class Player;
 class Executioner;
 class Wolf;
 class GreenGem;
 class RedHeart;
-class Animation;
-
 
 class Scene1: public Scene
 {
@@ -47,8 +46,8 @@ public:
 
 private:
 
-	// Texture for the lifes on the Gui
-	SDL_Texture* GuiHeartTexture;
+	// Texture for Gui
+	SDL_Texture* guiTexture;
 
 	// Player object
 	Player* player;
@@ -88,5 +87,15 @@ private:
 	SDL_Texture* timerTexture;
 	Animation* currentAnimTimer;
 	Animation timerAnimation;
+
+	// Animation for UI heart
+	SDL_Texture* heartTexture;
+	Animation* currentAnimHeart;
+	Animation heartAnimation;
+
+	// Animation for UI heart
+	SDL_Texture* gemTexture;
+	Animation* currentAnimGem;
+	Animation gemAnimation;
 
 };

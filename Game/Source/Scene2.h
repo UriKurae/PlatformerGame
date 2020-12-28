@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Scene.h"
+#include "Animation.h"
 
 class Player;
 class Executioner;
 class Wolf;
 class GreenGem;
 class RedHeart;
-class Animation;
 
 class Scene2 : public Scene
 {
@@ -26,6 +26,9 @@ public:
 	// Draw Method
 	bool Draw();
 
+	// Draw GUI
+	void DrawGui();
+
 	// Called before quitting
 	bool CleanUp();
 
@@ -41,6 +44,9 @@ private:
 
 	Player* player;
 
+	// Texture for Gui
+	SDL_Texture* guiTexture;
+
 	// Player's start position as iPoint  
 	iPoint playerStartPosition;
 
@@ -54,7 +60,7 @@ private:
 	bool checkpoint2 = false;
 	bool checkSound1 = false;
 	bool checkSound2 = false;
-	Animation* currentAnim;
+	Animation* currentAnimCheckpoint;
 
 	// Enemies
 	List<Wolf*> wolfs;
@@ -66,5 +72,24 @@ private:
 
 	// Gui font index
 	int uiIndex;
+
+	// timer
+	float timer;
+	char timerText[3] = { "\0" };
+
+	// Animation for UI Timer
+	SDL_Texture* timerTexture;
+	Animation* currentAnimTimer;
+	Animation timerAnimation;
+
+	// Animation for UI heart
+	SDL_Texture* heartTexture;
+	Animation* currentAnimHeart;
+	Animation heartAnimation;
+
+	// Animation for UI heart
+	SDL_Texture* gemTexture;
+	Animation* currentAnimGem;
+	Animation gemAnimation;
 
 };
