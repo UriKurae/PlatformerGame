@@ -210,5 +210,6 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 void MainMenu::SetContinueButton(GuiControlState state)
 {
-	btnContinue->state = state;
+	if(btnContinue != nullptr)
+		btnContinue->state = state;
 }

@@ -51,7 +51,7 @@ void GreenGem::Draw()
 bool GreenGem::CleanUp()
 {
 	this->active = false;
-	this->collider->pendingToDelete = true;
+	//this->collider->pendingToDelete = true;
 	app->entityManager->DeleteEntity(this);
 
 	return true;

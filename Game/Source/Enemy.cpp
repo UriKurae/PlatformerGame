@@ -58,8 +58,16 @@ void Enemy::EnemyDies()
 
 bool Enemy::Patrol(float dt, iPoint playerPos)
 {
+	return true;
+}
 
+bool Enemy::Save(pugi::xml_node&)
+{
+	return true;
+}
 
+bool Enemy::Load(pugi::xml_node&)
+{
 	return true;
 }
 

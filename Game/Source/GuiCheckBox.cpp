@@ -62,7 +62,7 @@ bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
         else state = GuiControlState::NORMAL;
     }
 
-    return false;
+    return true;
 }
 
 bool GuiCheckBox::Draw(Render* render, bool debugDraw)

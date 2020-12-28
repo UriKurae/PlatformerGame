@@ -83,7 +83,7 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
         else state = GuiControlState::NORMAL;
     }
 
-    return false;
+    return true;
 }
 
 bool GuiSlider::Draw(Render* render, bool debugDraw)

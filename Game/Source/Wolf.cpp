@@ -70,7 +70,7 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 	deathLeftAnim.PushBack({ 13, 258, 51,24 });
 	deathLeftAnim.loop = false;
 
-	// Right Animations
+	// Right Animations============================================
 
 	// Idle animation
 	idleRightAnim.PushBack({ 716,125,38,24 });
@@ -201,7 +201,7 @@ bool Wolf::Update(float dt)
 bool Wolf::CleanUp()
 {
 	this->isAlive = false;
-	collider->pendingToDelete = true;
+	//collider->pendingToDelete = true;
 	app->entityManager->DeleteEntity(this);
 	path.Clear();
 

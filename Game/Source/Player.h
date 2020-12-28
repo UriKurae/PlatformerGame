@@ -93,7 +93,7 @@ private:
 	SString direction;
 
 	// Dodging bool
-	bool isDodging;
+	bool isDodging = false;
 	int dodgingCooldown;
 	int dodgingTime;
 

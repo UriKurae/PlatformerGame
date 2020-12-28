@@ -85,7 +85,7 @@ bool GuiButton::Update(Input* input, float dt, iPoint position)
     if (currentAnim != nullptr)
         currentAnim->Update();
 
-    return false;
+    return true;
 }
 
 bool GuiButton::Draw(Render* render, bool debugDraw)

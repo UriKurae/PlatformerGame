@@ -19,7 +19,7 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
 
-	bool Update(float dt);
+	bool Update(float dt) override;
 
 	// Called before quitting
 	bool CleanUp();

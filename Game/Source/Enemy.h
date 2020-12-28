@@ -50,15 +50,8 @@ public:
 
 	virtual bool Patrol(float dt, iPoint playerPos);
 
-	// Load and save functions for each enemy
-	virtual bool Load(pugi::xml_node&)
-	{
-		return true;
-	}
-	virtual bool Save(pugi::xml_node&)
-	{
-		return true;
-	}
+	bool Save(pugi::xml_node&);
+	bool Load(pugi::xml_node&);
 
 public:
 
@@ -70,8 +63,8 @@ public:
 	int damage;
 	int attackSpeed;
 
-	bool isAlive;
-	bool savedIsAlive;
+	bool isAlive = true;
+	bool savedIsAlive = false;
 
 	EnemyState currentState;
 	int pathCooldown;

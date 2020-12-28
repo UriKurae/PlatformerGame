@@ -89,7 +89,7 @@ public:
 public:
 	
 	// Draw Gui rectangles
-	bool guiDebugDraw;
+	bool guiDebugDraw = false;
 
 	SString name;
 	bool active;
@@ -97,7 +97,7 @@ public:
 
 	bool deadOnScene = false;
 
-	bool transitionRequired;
+	bool transitionRequired = false;
 	Scene* nextScene;
 
 	// Indicates when the exit button is pressed

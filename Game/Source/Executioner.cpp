@@ -97,38 +97,12 @@ bool Executioner::Update(float dt)
 	deathAnim.speed = 6.0f * dt;
 	skillAnim.speed = 10.0f * dt;
 
-	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
-		app->pathFinding->ResetPath(iPoint(position.x / 16, position.y / 16));
-
 	if ((currentAnim != &idleAnim) && (hurtAnim.HasFinished()) && (this->life > 0))
 		currentAnim = &idleAnim;
 
 	/*if (player->loadedGame)
 		isAlive = savedIsAlive;*/
 
-	//if (this->life > 0)
-	//{
-	//	if (currentState == EnemyState::PATROL)
-	//	{
-	//		currentAnim = &idleAnim;
-
-	//		if ((Patrol(dt)) && (player->GetReachable()) && (player->godMode == false))
-	//			currentState = EnemyState::ALERT;
-	//	}
-	//	else if (currentState == EnemyState::ALERT)
-	//	{
-	//		if (FindTarget(player, dt))
-	//			currentState = EnemyState::ATTACK;
-	//	}
-	//	else if (currentState == EnemyState::ATTACK)
-	//	{
-	//		if (ChaseTarget(dt))
-	//		{
-	//			path.Clear();
-	//			currentState = EnemyState::PATROL;
-	//		}
-	//	}
-	//}
 
 	if(currentAnim != nullptr)
 		currentAnim->Update();
@@ -136,21 +110,22 @@ bool Executioner::Update(float dt)
 	if(collider != nullptr)
 		collider->SetPos(position.x - 2, position.y + 10);
 
-	if(dt < 0.5)
-		HandleCollisions(dt);
+	//if(dt < 0.5)
+	HandleCollisions(dt);
 
 	if (this->life <= 0)
 	{
 		this->isAlive = false;
 		EnemyDies();
 	}
+
 	return true;
 }
 
 bool Executioner::CleanUp()
 {
 	isAlive = false;
-	collider->pendingToDelete = true;
+	//collider->pendingToDelete = true;
 	app->entityManager->DeleteEntity(this);
 	path.Clear();
 

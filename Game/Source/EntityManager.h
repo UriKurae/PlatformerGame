@@ -21,6 +21,9 @@ public:
 	bool Draw();
 	bool CleanUp();
 
+	bool Save(pugi::xml_node&) override;
+	bool Load(pugi::xml_node&) override;
+
 	Entity* CreateEntity(EntityType type, iPoint pos);
 	void DeleteEntity(Entity* entity);
 	void ClearLists();
@@ -39,7 +42,6 @@ public:
 	List<Entity*> entities;
 	List<Enemy*> enemies;
 	List<Item*> items;
-	SString name;
 	SDL_Texture* executionerTexture;
 	SDL_Texture* wolfTexture;
 	SDL_Texture* collectiblesTexture;

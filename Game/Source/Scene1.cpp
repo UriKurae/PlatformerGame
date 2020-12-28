@@ -15,6 +15,7 @@
 #include "Wolf.h"
 #include "SceneManager.h"
 #include "EntityManager.h"
+#include "Pathfinding.h"
 
 #include "Log.h"
 
@@ -61,7 +62,8 @@ bool Scene1::Start()
 {
 	if (this->active == true)
 	{
-		app->entityManager->Start();
+		app->entityManager->Enable();
+		app->pathFinding->Enable();
 
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 5));
 		player->Start();
@@ -339,7 +341,7 @@ bool Scene1::Draw()
 {
 	bool ret = true;
 		
-	app->render->DrawTexture(sky, -200, -60, NULL, 0.65f);
+	app->render->DrawTexture(sky, -200, -80, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 	
@@ -409,29 +411,15 @@ bool Scene1::CleanUp()
 
 	app->map->CleanUp();
 
-	player->DisableEntity();
-
-	app->entityManager->DeleteColliders();
+	//app->entityManager->DeleteColliders();
 	app->entityManager->CleanUp();
 	app->entityManager->ClearLists();
+
 
 	wolfs.Clear();
 	executioners.Clear();
 	gems.Clear();
 	hearts.Clear();
-
-	return true;
-}
-
-bool Scene1::RestartPlayerPosition()
-{
-	if (checkpoint1 == true && checkpoint2 == false)
-		player->SetPosition(1535, 176);
-	
-	else if (checkpoint2 == true)
-		player->SetPosition(2256, 272);
-
-	else player->SetPosition(250, 70);
 
 	return true;
 }

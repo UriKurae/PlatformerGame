@@ -13,6 +13,33 @@ EntityManager::EntityManager()
 	name.Create("entitymanager");
 }
 
+bool EntityManager::Save(pugi::xml_node& node)
+{
+	ListItem<Entity*>* item = entities.start;
+	while (item != nullptr)
+	{
+		pugi::xml_node tmp = node.append_child(item->data->name.GetString());
+		item->data->Save(tmp);
+
+		item = item->next;
+	}
+
+	return true;
+}
+
+bool EntityManager::Load(pugi::xml_node& node)
+{
+	ListItem<Entity*>* item = entities.start;
+	while (item != nullptr)
+	{
+		item->data->Load(node.child(item->data->name.GetString()));
+
+		item = item->next;
+	}
+
+	return true;
+}
+
 bool EntityManager::Start()
 {
 	// Loading all textures for each enemy
@@ -40,10 +67,6 @@ bool EntityManager::Update(float dt)
 
 	if (app->sceneManager->isPaused == false)
 	{
-		// Done in scene manager so map hitboxes and colliders are shown at the same time
-		/*if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-			drawColliders = !drawColliders;*/
-
 		ListItem<Entity*>* item = entities.start;
 
 		while ((item != nullptr))
@@ -74,6 +97,8 @@ bool EntityManager::Draw()
 
 bool EntityManager::CleanUp()
 {
+	DeleteColliders();
+
 	app->tex->UnLoad(executionerTexture);
 	app->tex->UnLoad(wolfTexture);
 	app->tex->UnLoad(collectiblesTexture);

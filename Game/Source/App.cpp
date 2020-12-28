@@ -8,9 +8,7 @@
 #include "Map.h"
 #include "EntityManager.h"
 #include "SceneManager.h"
-//#include "ItemManager.h"
 #include "Pathfinding.h"
-//#include "FadeToBlack.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -35,14 +33,14 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(win, true);
+	AddModule(audio, true);
 	AddModule(input,true);
 	AddModule(tex, true);
-	AddModule(fonts, true);
-	AddModule(audio, true);
 	AddModule(map, false);
 	AddModule(sceneManager, true);
-	AddModule(entityManager, true);
-	AddModule(pathFinding, true);
+	AddModule(entityManager, false);
+	AddModule(fonts, true);
+	AddModule(pathFinding, false);
 
 	// Render last to swap buffer
 	AddModule(render, true);

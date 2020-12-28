@@ -13,21 +13,45 @@
     <active_scene value="1" />
     <enemies>
       <executioner>
-        <position x="421" y="62" />
-        <current_state value="0" />
+        <position x="393" y="97" />
+        <current_state value="2" />
         <is_alive value="true" />
       </executioner>
       <wolf>
-        <position x="486" y="250" />
+        <position x="284" y="250" />
         <current_state value="0" />
       </wolf>
       <wolf>
-        <position x="658" y="264" />
-        <current_state value="2" />
+        <position x="707" y="260" />
+        <current_state value="0" />
       </wolf>
     </enemies>
   </scenemanager>
-  <:anonymous />
+  <entitymanager>
+    <player>
+      <position x="490" y="243" />
+    </player>
+    <executioner>
+      <position x="393" y="97" />
+      <current_state value="2" />
+      <is_alive value="true" />
+    </executioner>
+    <wolf>
+      <position x="284" y="250" />
+      <current_state value="0" />
+    </wolf>
+    <wolf>
+      <position x="707" y="260" />
+      <current_state value="0" />
+    </wolf>
+    <:anonymous />
+    <:anonymous />
+    <:anonymous />
+    <:anonymous />
+    <:anonymous />
+    <:anonymous />
+    <:anonymous />
+  </entitymanager>
   <pathfinding />
   <renderer />
 </save_status>

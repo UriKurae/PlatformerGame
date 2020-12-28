@@ -416,19 +416,6 @@ bool Scene2::CleanUp()
 	return true;
 }
 
-bool Scene2::RestartPlayerPosition()
-{
-	if (checkpoint1 == true)
-		player->SetPosition(1552, 464);
-
-	else if (checkpoint2 == true)
-		player->SetPosition(3024, 208);
-
-	else player->SetPosition(250, 70);
-
-	return true;
-}
-
 int Scene2::CheckWin()
 {
 	ListItem<MapLayer*>* layer = app->map->data.layers.start;

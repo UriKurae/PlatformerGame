@@ -52,7 +52,7 @@ void RedHeart::Draw()
 bool RedHeart::CleanUp()
 {
 	this->active = false;
-	this->collider->pendingToDelete = true;
+	//this->collider->pendingToDelete = true;
 	app->entityManager->DeleteEntity(this);
 
 	return true;

@@ -230,11 +230,7 @@ void Player::Draw()
 bool Player::CleanUp()
 {
 	app->tex->UnLoad(texture);
-
 	gemsAchieved = 0;
-
-	if(collider != nullptr)
-		collider->pendingToDelete = true;
 
 	return true;
 }
