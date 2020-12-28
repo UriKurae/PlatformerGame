@@ -32,12 +32,10 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	// Restart level
-	bool RestartPlayerPosition();
-
 	// Check if player won
 	int CheckWin();
 
+	// Detect any mouse event while the game is paused
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
 private:
@@ -55,13 +53,6 @@ private:
 	SDL_Texture* clouds;
 	SDL_Texture* sea;
 
-	// Checkpoints
-	bool checkpoint1 = false;
-	bool checkpoint2 = false;
-	bool checkSound1 = false;
-	bool checkSound2 = false;
-	Animation* currentAnimCheckpoint;
-
 	// Enemies
 	List<Wolf*> wolfs;
 	List<Executioner*> executioners;
@@ -69,6 +60,11 @@ private:
 	// Collectibles
 	List<GreenGem*> gems;
 	List<RedHeart*> hearts;
+
+	// Checkpoints
+	List<iPoint> checkpoints;
+	ListItem<iPoint>* checkpointItem;
+	Animation* currentAnimCheckpoint;
 
 	// Gui font index
 	int uiIndex;

@@ -296,8 +296,18 @@ bool Scene2::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
 	{
-		if (checkpoint1 == true || checkpoint2 == true)
-			RestartPlayerPosition();
+		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+		{
+			if (checkpointItem != nullptr)
+			{
+				player->SetPosition(checkpointItem->data.x, checkpointItem->data.y);
+
+				if (checkpointItem->next != nullptr)
+					checkpointItem = checkpointItem->next;
+				else
+					checkpointItem->next = checkpoints.start;
+			}
+		}
 	}
 
 	if (currentAnimCheckpoint != nullptr)
@@ -332,25 +342,11 @@ bool Scene2::Draw()
 
 	app->entityManager->Draw();
 	
-	if (checkpoint1 == true)
+	ListItem<iPoint>* item = checkpoints.start;
+	while (item != nullptr)
 	{
-		if (currentAnimCheckpoint != &app->sceneManager->checkpointKeepAnim)
-		{
-			app->sceneManager->checkpointKeepAnim.Reset();
-			currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
-		}
-
-		app->render->DrawTexture(app->sceneManager->checkpointTexture, 1552, 445, &currentAnimCheckpoint->GetCurrentFrame());
-	}
-	else if (checkpoint2 == true)
-	{
-		if (currentAnimCheckpoint != &app->sceneManager->checkpointKeepAnim)
-		{
-			app->sceneManager->checkpointKeepAnim.Reset();
-			currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
-		}
-
-		app->render->DrawTexture(app->sceneManager->checkpointTexture, 3024, 208, &currentAnimCheckpoint->GetCurrentFrame());
+		app->render->DrawTexture(app->sceneManager->checkpointTexture, item->data.x, item->data.y - 19, &currentAnimCheckpoint->GetCurrentFrame());
+		item = item->next;
 	}
 
 	DrawGui();
@@ -457,29 +453,25 @@ int Scene2::CheckWin()
 				return 2;
 			}
 
-			if (playerMidTile == 1167 && checkpoint2 == false)
+			if (playerMidTile == 1167)
 			{
-				checkpoint1 = true;
-				currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
-				
-				if (checkSound1 == false)
+				if (checkpoints.Find(iPoint(1552, 464)) == -1)
 				{
+					checkpoints.Add(iPoint(1552, 464));
+					checkpointItem = checkpoints.start;
 					app->audio->PlayFx(app->sceneManager->checkpointFx);
-					checkSound1 = true;
-					checkSound2 = false;
 				}
+				currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
 			}
 			else if (playerMidTile == 1168)
 			{
-				checkpoint2 = true;
-				checkpoint1 = false;
-				
-				if (checkSound2 == false)
+				if (checkpoints.Find(iPoint(3024, 224)) == -1)
 				{
+					checkpoints.Add(iPoint(3024, 224));
+					checkpointItem = checkpoints.start;
 					app->audio->PlayFx(app->sceneManager->checkpointFx);
-					checkSound1 = false;
-					checkSound2 = true;
 				}
+				currentAnimCheckpoint = &app->sceneManager->checkpointKeepAnim;
 			}
 		}
 
