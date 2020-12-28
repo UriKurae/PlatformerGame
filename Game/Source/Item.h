@@ -29,7 +29,6 @@ public:
 
 	SDL_Texture* texture;
 	Animation* currentAnim;
-	Collider* collider;
 
 	bool active;
 };

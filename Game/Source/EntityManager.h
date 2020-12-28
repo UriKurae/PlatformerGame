@@ -42,11 +42,11 @@ public:
 	List<Entity*> entities;
 	List<Enemy*> enemies;
 	List<Item*> items;
+	List<Collider*> colliders;
+
 	SDL_Texture* executionerTexture;
 	SDL_Texture* wolfTexture;
 	SDL_Texture* collectiblesTexture;
-
-	List<Collider*> colliders;
 
 	uint colliderCount = 0;
 

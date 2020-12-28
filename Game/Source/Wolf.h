@@ -57,7 +57,6 @@ private:
 	Animation deathRightAnim;
 	Animation jumpRightAnim;
 
-
 	int indexPath;
 
 	bool blockFall;

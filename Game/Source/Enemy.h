@@ -70,7 +70,6 @@ public:
 	int pathCooldown;
 
 	Animation* currentAnim;
-	Collider* collider;
 
 	DynArray<iPoint> path;
 };

@@ -201,7 +201,6 @@ bool Wolf::Update(float dt)
 bool Wolf::CleanUp()
 {
 	this->isAlive = false;
-	//collider->pendingToDelete = true;
 	app->entityManager->DeleteEntity(this);
 	path.Clear();
 

@@ -428,13 +428,13 @@ int Scene2::CheckWin()
 		{
 			uint playerMidTile = layer->data->Get(playerPosTop.x, playerPosTop.y);
 
-			if (playerMidTile == 1166)
+			if ((playerMidTile == 1166) && (player->godMode == false))
 			{
 				player->blockCamera = true;
 				return 1;
 			}
 
-			if (playerMidTile == 1170)
+			if ((playerMidTile == 1170) && (player->godMode == false))
 			{
 				player->blockCamera = true;
 				return 2;

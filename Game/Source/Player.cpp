@@ -173,8 +173,7 @@ bool Player::Update(float dt)
 	idleRightAnim.speed = 5.0f * dt;
 
 	// Detect player's input
-	if(blockCamera == false)
-		HandleInput(dt);
+	HandleInput(dt);
 		
 	if (jump == true)
 		Jump(dt);
@@ -197,7 +196,6 @@ bool Player::Update(float dt)
 	if ((blockFall == false) && (godMode == false) && (dt < 2))
 	{
 		position.y += gravity * dt;
-		//gravity += 5 * dt;
 		isFalling = true;
 	}
 
@@ -256,256 +254,258 @@ void Player::HandleInput(float dt)
 		}
 	}
 	
-
-	if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT && (isDodging == false))
+	if (blockCamera == false)
 	{
-		if ((currentAnim != &runRightAnim) && (jump == false))
+		if (app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT && (isDodging == false))
 		{
-			runRightAnim.speed = 8.0f * dt;
-			runRightAnim.Reset();
-			currentAnim = &runRightAnim;
-		}
-
-		if (jump == true)
-		{
-			jumpRightAnim.speed = 15.0f * dt;
-			currentAnim = &jumpRightAnim;
-		}
-
-		if (godMode)
-		{
-			position.x += 300.0f * dt;;
-		}
-
-		if (blockRightMovement == false)
-		{
-			position.x += speedX * dt;
-		}
-
-		direction = "right";
-	}
-
-	if ((app->input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::KEY_DOWN) && (dodgingCooldown <= 0))
-	{
-		dodgingCooldown = 1500 * dt;
-		dodgingTime = 800 * dt;
-		isDodging = true;
-		app->audio->PlayFx(dodgingFx);
-	}
-
-	if (dodgingTime > 0)
-	{
-		dodgingTime -= 50 * dt;
-
-		if (direction == "right")
-		{
-			if (currentAnim != &dodgingToRight)
+			if ((currentAnim != &runRightAnim) && (jump == false))
 			{
-				dodgingToRight.Reset();
-				currentAnim = &dodgingToRight;
+				runRightAnim.speed = 8.0f * dt;
+				runRightAnim.Reset();
+				currentAnim = &runRightAnim;
 			}
 
-			if(blockRightMovement == false)
-				position.x += 400.0f * dt;
-		}
-		else if (direction == "left")
-		{
-			if (currentAnim != &dodgingToLeft)
+			if (jump == true)
 			{
-				dodgingToLeft.Reset();
-				currentAnim = &dodgingToLeft;
+				jumpRightAnim.speed = 15.0f * dt;
+				currentAnim = &jumpRightAnim;
 			}
 
-			if(blockLeftMovement == false)
-				position.x -= 400.0f * dt;
-		}
-	}
-	else
-	{
-		isDodging = false;
-		dodgingCooldown -= 50 * dt;
-	}
+			if (godMode)
+			{
+				position.x += 300.0f * dt;
+			}
 
-	if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) && (isDodging == false))
-	{
-		if ((currentAnim != &runLeftAnim) && (jump == false))
-		{
-			runLeftAnim.speed = 8.0f * dt;
-			runLeftAnim.Reset();
-			currentAnim = &runLeftAnim;
+			if (blockRightMovement == false)
+			{
+				position.x += speedX * dt;
+			}
+
+			direction = "right";
 		}
 
-		if (jump == true)
+		if ((app->input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::KEY_DOWN) && (dodgingCooldown <= 0))
 		{
-			jumpLeftAnim.speed = 15.0f * dt;
-			currentAnim = &jumpLeftAnim;
+			dodgingCooldown = 1500 * dt;
+			dodgingTime = 800 * dt;
+			isDodging = true;
+			app->audio->PlayFx(dodgingFx);
 		}
 
-		if (godMode)
+		if (dodgingTime > 0)
 		{
-			position.x -= 300.0f * dt;
+			dodgingTime -= 50 * dt;
+
+			if (direction == "right")
+			{
+				if (currentAnim != &dodgingToRight)
+				{
+					dodgingToRight.Reset();
+					currentAnim = &dodgingToRight;
+				}
+
+				if (blockRightMovement == false)
+					position.x += 400.0f * dt;
+			}
+			else if (direction == "left")
+			{
+				if (currentAnim != &dodgingToLeft)
+				{
+					dodgingToLeft.Reset();
+					currentAnim = &dodgingToLeft;
+				}
+
+				if (blockLeftMovement == false)
+					position.x -= 400.0f * dt;
+			}
+		}
+		else
+		{
+			isDodging = false;
+			dodgingCooldown -= 50 * dt;
 		}
 
-		if (blockLeftMovement == false)
+		if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) && (isDodging == false))
 		{
-			position.x -= speedX * dt;
+			if ((currentAnim != &runLeftAnim) && (jump == false))
+			{
+				runLeftAnim.speed = 8.0f * dt;
+				runLeftAnim.Reset();
+				currentAnim = &runLeftAnim;
+			}
+
+			if (jump == true)
+			{
+				jumpLeftAnim.speed = 15.0f * dt;
+				currentAnim = &jumpLeftAnim;
+			}
+
+			if (godMode)
+			{
+				position.x -= 300.0f * dt;
+			}
+
+			if (blockLeftMovement == false)
+			{
+				position.x -= speedX * dt;
+			}
+
+			direction = "left";
 		}
 
-		direction = "left";
-	}
 
-	
-	if ((app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (godMode == false) && (isDodging == false))
-	{
-		if ((currentAnim != &jumpRightAnim) && (direction == "right"))
+		if ((app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (godMode == false) && (isDodging == false))
 		{
-			jumpRightAnim.speed = 13.0f * dt;
-			jumpRightAnim.Reset();
-			currentAnim = &jumpRightAnim;
+			if ((currentAnim != &jumpRightAnim) && (direction == "right"))
+			{
+				jumpRightAnim.speed = 13.0f * dt;
+				jumpRightAnim.Reset();
+				currentAnim = &jumpRightAnim;
 
-			app->audio->PlayFx(jumpFx);
+				app->audio->PlayFx(jumpFx);
+			}
+
+			else if ((currentAnim != &jumpLeftAnim) && (direction == "left"))
+			{
+				jumpLeftAnim.speed = 13.0f * dt;
+				jumpLeftAnim.Reset();
+				currentAnim = &jumpLeftAnim;
+
+				app->audio->PlayFx(jumpFx);
+			}
+
+			if (jumpsLeft == 1)
+			{
+				jumpRightAnim.Reset();
+				jumpLeftAnim.Reset();
+
+				app->audio->PlayFx(jumpFx);
+
+			}
+
+			// We shall reset the velocity each time we can jump.
+			if (jumpsLeft > 0)
+			{
+				speedY = 400.0f;
+				jumpsLeft--;
+				jump = true;
+			}
 		}
 
-		else if ((currentAnim != &jumpLeftAnim) && (direction == "left"))
+		if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE)
+			&& (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE)
+			&& (jump == false) && (isDodging == false))
 		{
-			jumpLeftAnim.speed = 13.0f * dt;
-			jumpLeftAnim.Reset();
-			currentAnim = &jumpLeftAnim;
+			if ((currentAnim != &idleRightAnim) && (currentAnim != &attackRightDownUpAnim) && (direction == "right"))
+			{
+				idleRightAnim.Reset();
+				currentAnim = &idleRightAnim;
+			}
 
-			app->audio->PlayFx(jumpFx);
+			else if ((currentAnim != &idleLeftAnim) && (currentAnim != &attackLeftDownUpAnim) && (direction == "left"))
+			{
+				idleLeftAnim.Reset();
+				currentAnim = &idleLeftAnim;
+			}
 		}
 
-		if (jumpsLeft == 1)
+
+		if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT) &&
+			(app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) &&
+			(jump == false) && (isDodging == false))
 		{
-			jumpRightAnim.Reset();
-			jumpLeftAnim.Reset();
+			if ((currentAnim != &idleRightAnim) && (direction == "right"))
+			{
+				idleRightAnim.Reset();
+				currentAnim = &idleRightAnim;
+			}
 
-			app->audio->PlayFx(jumpFx);
-
+			else if ((currentAnim != &idleLeftAnim) && (direction == "left"))
+			{
+				idleLeftAnim.Reset();
+				currentAnim = &idleLeftAnim;
+			}
 		}
 
-		// We shall reset the velocity each time we can jump.
-		if (jumpsLeft > 0)
-		{
-			speedY = 400.0f;
-			jumpsLeft--;
-			jump = true;
-		}
-	}
 
-	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE)
-		&& (app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE)
-		&& (jump == false) && (isDodging == false))
-	{
-		if ((currentAnim != &idleRightAnim) && (currentAnim != &attackRightDownUpAnim) && (direction == "right"))
+		if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) &&
+			(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (isDodging == false))
 		{
-			idleRightAnim.Reset();
+			if (currentAnim != &jumpLeftAnim)
+			{
+				jumpLeftAnim.Reset();
+				currentAnim = &jumpLeftAnim;
+			}
+
+			direction = "left";
+		}
+
+
+		if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT) &&
+			(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (isDodging == false))
+		{
+			if (currentAnim != &jumpRightAnim)
+			{
+				jumpRightAnim.Reset();
+				currentAnim = &jumpRightAnim;
+			}
+
+			direction = "right";
+		}
+
+
+		if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE) &&
+			(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_IDLE) &&
+			(app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE) &&
+			(isFalling == false) && (isDodging == false))
+		{
+			if ((currentAnim != &idleRightAnim) && (currentAnim != &attackRightDownUpAnim) && (direction == "right"))
+			{
+				idleRightAnim.Reset();
+				currentAnim = &idleRightAnim;
+			}
+
+			else if ((currentAnim != &idleLeftAnim) && (currentAnim != &attackLeftDownUpAnim) && (direction == "left"))
+			{
+				idleLeftAnim.Reset();
+				currentAnim = &idleLeftAnim;
+			}
+		}
+
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+		{
+			if (direction == "right")
+			{
+				if (currentAnim != &attackRightDownUpAnim)
+				{
+					attackRightDownUpAnim.speed = 14.0f * dt;
+					currentAnim = &attackRightDownUpAnim;
+				}
+			}
+			else if (direction == "left")
+			{
+				if (currentAnim != &attackLeftDownUpAnim)
+				{
+					attackLeftDownUpAnim.speed = 14.0f * dt;
+					currentAnim = &attackLeftDownUpAnim;
+				}
+			}
+			app->audio->PlayFx(hitFx);
+
+			Attack();
+		}
+
+		if (attackRightDownUpAnim.HasFinished())
+		{
+			attackRightDownUpAnim.Reset();
 			currentAnim = &idleRightAnim;
 		}
 
-		else if ((currentAnim != &idleLeftAnim) && (currentAnim != &attackLeftDownUpAnim) && (direction == "left"))
+		else if (attackLeftDownUpAnim.HasFinished())
 		{
-			idleLeftAnim.Reset();
+			attackLeftDownUpAnim.Reset();
 			currentAnim = &idleLeftAnim;
 		}
-	}
-
-
-	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT) &&
-		(app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) &&
-		(jump == false) && (isDodging == false))
-	{
-		if ((currentAnim != &idleRightAnim) && (direction == "right"))
-		{
-			idleRightAnim.Reset();
-			currentAnim = &idleRightAnim;
-		}
-
-		else if ((currentAnim != &idleLeftAnim) && (direction == "left"))
-		{
-			idleLeftAnim.Reset();
-			currentAnim = &idleLeftAnim;
-		}
-	}
-
-
-	if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) &&
-		(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (isDodging == false))
-	{
-		if (currentAnim != &jumpLeftAnim)
-		{
-			jumpLeftAnim.Reset();
-			currentAnim = &jumpLeftAnim;
-		}
-
-		direction = "left";
-	}
-
-
-	if ((app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_REPEAT) &&
-		(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) && (isDodging == false))
-	{
-		if (currentAnim != &jumpRightAnim)
-		{
-			jumpRightAnim.Reset();
-			currentAnim = &jumpRightAnim;
-		}
-
-		direction = "right";
-	}
-
-
-	if ((app->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_IDLE) &&
-		(app->input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_IDLE) &&
-		(app->input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_IDLE) &&
-		(isFalling == false) && (isDodging == false))
-	{
-		if ((currentAnim != &idleRightAnim) && (currentAnim != &attackRightDownUpAnim) && (direction == "right"))
-		{
-			idleRightAnim.Reset();
-			currentAnim = &idleRightAnim;
-		}
-
-		else if ((currentAnim != &idleLeftAnim) && (currentAnim != &attackLeftDownUpAnim) && (direction == "left"))
-		{
-			idleLeftAnim.Reset();
-			currentAnim = &idleLeftAnim;
-		}
-	}
-
-	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		if (direction == "right")
-		{
-			if (currentAnim != &attackRightDownUpAnim)
-			{
-				attackRightDownUpAnim.speed = 14.0f * dt;
-				currentAnim = &attackRightDownUpAnim;
-			}
-		}
-		else if (direction == "left")
-		{
-			if (currentAnim != &attackLeftDownUpAnim)
-			{
-				attackLeftDownUpAnim.speed = 14.0f * dt;
-				currentAnim = &attackLeftDownUpAnim;
-			}
-		}
-		app->audio->PlayFx(hitFx);
-
-		Attack();
-	}
-
-	if (attackRightDownUpAnim.HasFinished())
-	{
-		attackRightDownUpAnim.Reset();
-		currentAnim = &idleRightAnim;
-	}
-
-	else if (attackLeftDownUpAnim.HasFinished())
-	{
-		attackLeftDownUpAnim.Reset();
-		currentAnim = &idleLeftAnim;
 	}
 
 }

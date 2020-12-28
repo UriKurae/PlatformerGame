@@ -66,7 +66,7 @@ public:
 	bool loadedGame = false;
 
 	// God Mode
-	bool godMode = false;
+	bool godMode;
 
 	// Player saved position
 	iPoint savedPosition;
