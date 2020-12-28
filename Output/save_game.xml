@@ -13,16 +13,16 @@
     <active_scene value="1" />
     <enemies>
       <executioner>
-        <position x="542" y="207" />
-        <current_state value="2" />
+        <position x="421" y="62" />
+        <current_state value="0" />
         <is_alive value="true" />
       </executioner>
       <wolf>
-        <position x="418" y="250" />
-        <current_state value="2" />
+        <position x="486" y="250" />
+        <current_state value="0" />
       </wolf>
       <wolf>
-        <position x="627" y="260" />
+        <position x="658" y="264" />
         <current_state value="2" />
       </wolf>
     </enemies>

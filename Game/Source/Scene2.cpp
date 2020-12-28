@@ -408,18 +408,14 @@ bool Scene2::CleanUp()
 	app->map->CleanUp();
 	player->DisableEntity();
 
-	app->entityManager->entities.Clear();
 	app->entityManager->DeleteColliders();
-	//Should call entity manager cleanup?
+	app->entityManager->CleanUp();
+	app->entityManager->ClearLists();
 
 	wolfs.Clear();
 	executioners.Clear();
 	gems.Clear();
 	hearts.Clear();
-
-	/*app->itemManager->DeleteColliders();
-	app->itemManager->items.Clear();
-	app->itemManager->CleanUp();*/
 
 	return true;
 }

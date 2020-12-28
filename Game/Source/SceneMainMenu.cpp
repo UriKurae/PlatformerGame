@@ -86,7 +86,14 @@ bool MainMenu::Update(float dt)
 	{
 		btnPlay->Update(app->input, dt, iPoint(520, 250));
 		btnContinue->Update(app->input, dt, iPoint(520, 300));
-		btnSettings->Update(app->input, dt, iPoint(520, 350));
+		if (app->sceneManager->saveAvailable == false)
+		{
+			btnContinue->state = GuiControlState::DISABLED;
+		}
+		else
+		{
+			btnSettings->Update(app->input, dt, iPoint(520, 350));
+		}
 		btnCredits->Update(app->input, dt, iPoint(520, 400 ));
 		btnExit->Update(app->input, dt, iPoint(520, 500));
 	}
@@ -199,4 +206,9 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	}
 
 	return true;
+}
+
+void MainMenu::SetContinueButton(GuiControlState state)
+{
+	btnContinue->state = state;
 }

@@ -197,7 +197,7 @@ bool Player::Update(float dt)
 	if ((blockFall == false) && (godMode == false) && (dt < 2))
 	{
 		position.y += gravity * dt;
-		gravity += 5 * dt;
+		//gravity += 5 * dt;
 		isFalling = true;
 	}
 
@@ -565,7 +565,9 @@ void Player::OnCollision()
 				speedY = 0;
 			}
 
-			if ((playerIdMidTile == 1162) || (playerIdTop == 1162) || (playerIdLeft == 1162) || (playerIdRight == 1162) || (playerIdBottom == 1162))
+			if ((playerIdMidTile == 1162) || (playerIdTop == 1162) || (playerIdLeft == 1162) || (playerIdRight == 1162) || 
+				(playerIdBottom == 1162) || (playerIdMidTile == 1161) || (playerIdTop == 1161) || (playerIdLeft == 1161) || 
+				(playerIdRight == 1161))
 			{
 				isReachable = false;
 			}

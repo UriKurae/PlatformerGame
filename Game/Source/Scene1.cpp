@@ -61,6 +61,8 @@ bool Scene1::Start()
 {
 	if (this->active == true)
 	{
+		app->entityManager->Start();
+
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 5));
 		player->Start();
 
@@ -74,7 +76,7 @@ bool Scene1::Start()
 
 		else playerStartPosition = player->SetPosition(250, 20);
 
-		if (player->loadedGame == false)
+		if (app->sceneManager->saveAvailable == true)
 		{
 			//executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100)));
 			//executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100)));
@@ -422,11 +424,6 @@ bool Scene1::CleanUp()
 	executioners.Clear();
 	gems.Clear();
 	hearts.Clear();
-	
-	// Entity manager handles it
-	/*app->itemManager->DeleteColliders();
-	app->itemManager->items.Clear();
-	app->itemManager->CleanUp();*/
 
 	return true;
 }

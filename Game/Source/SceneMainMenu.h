@@ -33,6 +33,8 @@ public:
 
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
+	void SetContinueButton(GuiControlState state);
+
 private:
 
 	SDL_Texture* intro;

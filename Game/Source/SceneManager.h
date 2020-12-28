@@ -59,6 +59,10 @@ public:
 
 	bool loadedOnScene = false;
 
+	// Check if theres a current game saved
+	pugi::xml_document saveAvailableDocument;
+	bool saveAvailable;
+
 	List<Scene*> scenes;
 	Scene* lastScene;
 	Scene* currentScene;

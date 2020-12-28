@@ -90,14 +90,21 @@ bool GuiButton::Update(Input* input, float dt, iPoint position)
 
 bool GuiButton::Draw(Render* render, bool debugDraw)
 {
-    SDL_Rect sect = { 59,102, 125, 18 };
-    render->DrawTexture(texture, bounds.x, bounds.y, &sect);
+    if (state != GuiControlState::DISABLED)
+    {
+        SDL_Rect sect = { 59,102, 125, 18 };
+        render->DrawTexture(texture, bounds.x, bounds.y, &sect);
+    }
+    else
+    {
+        SDL_Rect sect = { 349, 102, 125, 18 };
+        render->DrawTexture(texture, bounds.x, bounds.y, &sect);
+    }
 
-   
     // Draw the right button depending on state
     switch (state)
     {
-    case GuiControlState::DISABLED: 
+    case GuiControlState::DISABLED:
         if (debugDraw)
             render->DrawRectangle(bounds, { 100, 100, 100, 200 });
         break;

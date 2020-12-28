@@ -122,13 +122,19 @@ bool SceneManager::Save(pugi::xml_node& node)
 		it->data->Save(enemies.append_child(it->data->name.GetString()));
 		it = it->next;
 	}
-
+	
 	return true;
 }
 
 
 bool SceneManager::Start()
 {
+	pugi::xml_parse_result resul = saveAvailableDocument.load_file("save_game.xml");
+	if (resul != NULL)
+		saveAvailable = true;
+	else
+		saveAvailable = false;
+
 	// Initial UI
 	btnResume = new GuiButton(1, { 290 ,150, 125, 18 }, "   RESUME");
 	btnResume->SetObserver(currentScene);
@@ -317,7 +323,11 @@ bool SceneManager::HandleInput(float dt)
 		currentScene->TransitionToScene(currentScene);
 
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KeyState::KEY_DOWN)
+	{
 		app->RequestSaveGame();
+		app->sceneManager->mainMenu->SetContinueButton(GuiControlState::NORMAL);
+		saveAvailable = true;
+	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KeyState::KEY_DOWN)
 		app->RequestLoadGame();
