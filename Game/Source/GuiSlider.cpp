@@ -1,8 +1,9 @@
 #include "App.h"
-#include "Fonts.h"
-#include "Textures.h"
+#include "Audio.h"
 #include "Window.h"
+#include "Textures.h"
 #include "Render.h"
+#include "Fonts.h"
 #include "SceneManager.h"
 #include "GuiSlider.h"
 
@@ -17,6 +18,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     this->minValue = bounds.x - 25;
     this->maxValue = bounds.x + bounds.w + 25;
     texture = app->tex->Load("Assets/Textures/atlas.png");
+    fxMouseRelease = app->audio->LoadFx("Assets/Audio/Fx/UI/slider_release.wav");
     CalculateValue();
 }
 
@@ -68,6 +70,10 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
                 bounds.x = ((mouseX) - ((bounds.w / 2) / app->win->GetScale()));
                 CalculateValue();
                 NotifyObserver();
+            }
+            else if ((input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP) && (id == 2))
+            {
+                app->audio->PlayFx(fxMouseRelease);
             }
             else
             {

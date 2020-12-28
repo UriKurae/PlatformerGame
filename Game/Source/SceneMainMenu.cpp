@@ -27,13 +27,12 @@ MainMenu::~MainMenu()
 bool MainMenu::Start()
 {
 	menuState = MenuState::INITIAL;
+	app->render->SetCameraPosition(0,0);
 	
 	intro = app->tex->Load("Assets/Textures/Scenes/main_test.png");
 	textureCredits = app->tex->Load("Assets/Textures/credits.png");
 
 	app->audio->PlayMusic("Assets/Audio/Music/intro_scene.ogg");
-
-	app->render->SetCameraPosition(0,0);
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
 	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);

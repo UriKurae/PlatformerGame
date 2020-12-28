@@ -1,9 +1,10 @@
-#include "GuiCheckBox.h"
-#include "Fonts.h"
 #include "App.h"
-#include "Textures.h"
+#include "Audio.h"
 #include "Window.h"
+#include "Textures.h"
 #include "Render.h"
+#include "Fonts.h"
+#include "GuiCheckBox.h"
 
 GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::CHECKBOX, id)
 {
@@ -12,17 +13,11 @@ GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiCont
     this->bounds = bounds;
     this->text = text;
     texture = app->tex->Load("Assets/Textures/atlas.png");
+    fxMouseClick = app->audio->LoadFx("Assets/Audio/Fx/UI/check_box_release.wav");
 }
 
 GuiCheckBox::~GuiCheckBox()
 {
-}
-
-bool GuiCheckBox::Start()
-{
-   
-
-    return true;
 }
 
 bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
@@ -59,6 +54,7 @@ bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
             // If mouse button pressed -> Generate event!
             if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
             {
+                app->audio->PlayFx(fxMouseClick);
                 checked = !checked;
                 NotifyObserver();
             }

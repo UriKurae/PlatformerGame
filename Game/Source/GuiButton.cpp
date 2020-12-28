@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Audio.h"
 #include "Fonts.h"
 #include "Textures.h"
 #include "Window.h"
@@ -13,7 +14,10 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     bounds.y /= app->win->GetScale();
     this->bounds = bounds;
     this->text = text;
+
     texture = app->tex->Load("Assets/Textures/atlas.png");
+    fxMouseClick = app->audio->LoadFx("Assets/Audio/Fx/UI/button_release.wav");
+   
 
     highlighted.PushBack({ 2,34,133,26 });
     highlighted.PushBack({ 140,34,133,26 });
@@ -71,6 +75,7 @@ bool GuiButton::Update(Input* input, float dt, iPoint position)
             // If mouse button pressed -> Generate event!
             if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
             {
+                app->audio->PlayFx(fxMouseClick);
                 NotifyObserver();
             }
         }

@@ -30,6 +30,9 @@ private:
 
     iPoint initialPos;
     int mouseX, mouseY;
+
+    // Fx's
+    int fxMouseRelease;
 };
 
 #endif // __GUISLIDER_H__

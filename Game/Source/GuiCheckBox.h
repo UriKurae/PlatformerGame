@@ -13,7 +13,6 @@ public:
     GuiCheckBox(uint32 id, SDL_Rect bounds, const char *text);
     virtual ~GuiCheckBox();
 
-    bool Start();
     bool Update(Input* input, float dt, iPoint position);
     bool Draw(Render* render);
 
@@ -22,6 +21,8 @@ private:
     // GuiCheckBox specific properties
     // Maybe some animation properties for state change?
     bool checked;
+
+    int fxMouseClick;
 };
 
 #endif // __GUICHECKBOX_H__

@@ -55,8 +55,10 @@ private:
 	// Credits GUI
 	GuiButton* btnBackCredits;
 
-
 	// Current menu state
 	MenuState menuState;
-};
 
+	// UI Fx
+	int fxClickButton;
+
+};

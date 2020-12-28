@@ -154,11 +154,11 @@ bool Player::Start()
 
 	// Load the spritesheet for the player
 	texture = app->tex->Load("Assets/Textures/Player/player.png");
-	jumpFx = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
-	hitFx = app->audio->LoadFx("Assets/Audio/Fx/hit.wav");
-	dodgingFx = app->audio->LoadFx("Assets/Audio/Fx/dodging.wav");
-	pickGemFx = app->audio->LoadFx("Assets/Audio/Fx/pick_gem.wav");
-	pickHeart = app->audio->LoadFx("Assets/Audio/Fx/heart_sound.wav");
+	jumpFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/jump.wav");
+	hitFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/hit.wav");
+	dodgingFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/dodging.wav");
+	pickGemFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/pick_gem.wav");
+	pickHeart = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/heart_sound.wav");
 	healthTexture = app->tex->Load("Assets/Textures/Collectibles/hearts.png");
 	gemsTexture = app->tex->Load("Assets/Textures/Collectibles/gem.png");
 

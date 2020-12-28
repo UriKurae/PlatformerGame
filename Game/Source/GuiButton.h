@@ -5,10 +5,6 @@
 
 #include "Animation.h"
 #include "Point.h"
-#include "SString.h"
-#include "Point.h"
-
-class Animation;
 
 class GuiButton : public GuiControl
 {
@@ -28,6 +24,8 @@ private:
     Animation highlighted;
     Animation buttonPressed;
 
+    // Fx
+    int fxMouseClick;
 };
 
 #endif // __GUIBUTTON_H__

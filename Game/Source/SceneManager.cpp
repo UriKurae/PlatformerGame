@@ -158,7 +158,7 @@ bool SceneManager::Start()
 	btnBackOptions = new GuiButton(5, { 301, 225, 125, 22 }, "    BACK");
 
 	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
-	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
+	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/checkpoint.wav");
 
 	currentScene = sceneLogo;
 
