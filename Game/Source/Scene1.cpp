@@ -170,11 +170,11 @@ bool Scene1::Start()
 
 		char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
 		uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
+
+		app->sceneManager->currentScene = this;
+	
+		guiDebugDraw = false;
 	}
-
-	app->sceneManager->currentScene = this;
-	guiDebugDraw = false;
-
 
 	return true;
 }
@@ -414,6 +414,7 @@ bool Scene1::CleanUp()
 
 	player->DisableEntity();
 
+	app->entityManager->DeleteColliders();
 	app->entityManager->ClearLists();
 	//Should call entity manager cleanup?
 
@@ -458,12 +459,14 @@ int Scene1::CheckWin()
 			if (playerMidTile == 1166)
 			{
 				player->blockCamera = true;
+				player->DisableEntity();
 				return 1;
 			}
 
 			if (playerMidTile == 1170)
 			{
 				player->blockCamera = true;
+				player->DisableEntity();
 				return 2;
 			}
 

@@ -59,6 +59,7 @@ public:
 
 public:
 
+	// For the camera movement
 	bool blockCamera;
 
 	// Control if the player loaded a saved game
@@ -91,7 +92,6 @@ private:
 	// Direction player is facing at
 	SString direction;
 
-
 	// Dodging bool
 	bool isDodging;
 	int dodgingCooldown;
@@ -105,7 +105,6 @@ private:
 	bool upwards = false;
 	bool isFalling = false;
 	int jumpsLeft = 0;
-
 
 	// Block movements
 	bool blockLeftMovement = false;
@@ -128,21 +127,6 @@ private:
 	Animation dodgingToLeft;
 	Animation dodgingToRight;
 
-	// Health animation and texture
-	SDL_Texture* healthTexture;
-	Animation* currentAnimHeart;
-	Animation threeLifesAnim;
-	Animation twoLifesAnim;
-	Animation oneLifesAnim;
-
-	// Gems animations
-	SDL_Texture* gemsTexture;
-	Animation* currentAnimGem;
-	Animation oneGemAnim;
-	Animation twoGemAnim;
-	Animation threeGemAnim;
-	Animation fourGemAnim;
-
 	// Fx
 	int jumpFx;
 	int hitFx;
@@ -153,7 +137,6 @@ private:
 	// If the player is on a reachable position or not
 	bool isReachable;
 
-	
 };
 
 #endif //!__MODULE_PLAYER_H__

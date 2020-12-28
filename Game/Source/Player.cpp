@@ -8,7 +8,6 @@
 #include "Map.h"
 #include "EntityManager.h"
 
-
 #include "List.h"
 #include "Log.h"
 
@@ -103,17 +102,6 @@ Player::Player(iPoint pos) : Entity(pos)
 	attackLeftDownUpAnim.PushBack({ 471, 227, 19, 32 });
 	attackLeftDownUpAnim.loop = false;
 
-	// Three lifes animation
-	threeLifesAnim.PushBack({ 1,1,7,6 });
-	twoLifesAnim.PushBack({ 9,1,5,6 });
-	oneLifesAnim.PushBack({ 15,1,3,5 });
-
-	// Gems animations
-	oneGemAnim.PushBack({ 20,1,5,9 });
-	twoGemAnim.PushBack({ 14,1,5,9 });
-	threeGemAnim.PushBack({ 8,1,5,9 });
-	fourGemAnim.PushBack({ 2,1,5,9 });
-
 	// Dodging Animation Right
 	dodgingToRight.PushBack({218,268,20,26});
 
@@ -159,8 +147,6 @@ bool Player::Start()
 	dodgingFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/dodging.wav");
 	pickGemFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/pick_gem.wav");
 	pickHeart = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/heart_sound.wav");
-	healthTexture = app->tex->Load("Assets/Textures/Collectibles/hearts.png");
-	gemsTexture = app->tex->Load("Assets/Textures/Collectibles/gem.png");
 
 	dodgingCooldown = 0;
 
@@ -173,8 +159,7 @@ bool Player::Start()
 	godMode = false;
 	blockCamera = false;
 	direction = "right";
-		
-	currentAnimHeart = &threeLifesAnim;
+	
 	currentAnim = &idleRightAnim;
 	collider = app->entityManager->AddCollider({ (int)position.x + 4, (int)position.y + 5, 10, 22 }, Collider::Type::PLAYER);
 
@@ -188,7 +173,8 @@ bool Player::Update(float dt)
 	idleRightAnim.speed = 5.0f * dt;
 
 	// Detect player's input
-	HandleInput(dt);
+	if(blockCamera == false)
+		HandleInput(dt);
 		
 	if (jump == true)
 		Jump(dt);
@@ -221,10 +207,6 @@ bool Player::Update(float dt)
 	}
 
 	currentAnim->Update();
-	currentAnimHeart->Update();
-	
-	if(currentAnimGem != nullptr)
-		currentAnimGem->Update();
 
 	if (direction == "right")
 		collider->SetPos(position.x + 8, position.y + 5);
@@ -234,8 +216,7 @@ bool Player::Update(float dt)
 
 	if (blockCamera == false)
 		CameraFollow();
-
-	//CameraFollow();
+	
 
 	return true;
 }
@@ -244,31 +225,12 @@ void Player::Draw()
 {
 	// Draw player texture
 	app->render->DrawTexture(texture,position.x,position.y, &currentAnim->GetCurrentFrame());
-
-	// Draw lifes texture
-	if (lifes <= 3)
-		app->render->DrawTexture(healthTexture, position.x - 2, position.y - 2, &currentAnimHeart->GetCurrentFrame());
-	
-	else if (lifes > 3)
-	{
-		SDL_Rect r = { 1,1,7,6 };
-		app->render->DrawTexture(healthTexture, position.x - 2, position.y - 2, &r);
-		app->render->DrawTexture(healthTexture, position.x - 2, position.y - 9, &currentAnimHeart->GetCurrentFrame());
-	}
-
-	//Draw gems textures
-	if(currentAnimGem != nullptr)
-		app->render->DrawTexture(gemsTexture, position.x + 20, position.y - 6, &currentAnimGem->GetCurrentFrame());
-
 }
 
 bool Player::CleanUp()
 {
 	app->tex->UnLoad(texture);
-	app->tex->UnLoad(healthTexture);
-	app->tex->UnLoad(gemsTexture);
 
-	currentAnimGem = nullptr;
 	gemsAchieved = 0;
 
 	if(collider != nullptr)
@@ -555,7 +517,7 @@ void Player::HandleInput(float dt)
 void Player::CameraFollow()
 {
 	app->render->camera.x = -(position.x * (int)app->win->GetScale()) + app->render->cameraOffsetX;
-	app->render->camera.y = -(position.y * (int)app->win->GetScale()) + app->render->cameraOffsetY;
+	app->render->camera.y = -(position.y * (int)app->win->GetScale() * 0.8f) + app->render->cameraOffsetY;
 }
 
 
@@ -719,50 +681,12 @@ void Player::PickItem(EntityType type)
 	if (type == EntityType::GEM)
 	{
 		++gemsAchieved;
-
-		switch (gemsAchieved)
-		{
-		case 1:
-			currentAnimGem = &oneGemAnim;
-			break;
-		case 2:
-			currentAnimGem = &twoGemAnim;
-			break;
-		case 3:
-			currentAnimGem = &threeGemAnim;
-			break;
-		case 4:
-			currentAnimGem = &fourGemAnim;
-			break;
-		}
 		app->audio->PlayFx(pickGemFx);
 	}
 
 	if (type == EntityType::HEART)
 	{
 		++lifes;
-
-		switch (lifes)
-		{
-		case 1:
-			currentAnimHeart = &oneLifesAnim;
-			break;
-		case 2:
-			currentAnimHeart = &twoLifesAnim;
-			break;
-		case 3:
-			currentAnimHeart = &threeLifesAnim;
-			break;
-		case 4:
-			currentAnimHeart = &oneLifesAnim;
-			break;
-		case 5:
-			currentAnimHeart = &twoLifesAnim;
-			break;
-		case 6:
-			currentAnimHeart = &threeLifesAnim;
-			break;
-		}
 		app->audio->PlayFx(pickHeart);
 	}
 }

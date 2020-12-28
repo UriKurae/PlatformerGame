@@ -151,7 +151,9 @@ void EntityManager::DeleteColliders()
 
 	while (item != nullptr)
 	{
-		item->data->collider->pendingToDelete = true;
+		if(item->data->collider != nullptr)
+			item->data->collider->pendingToDelete = true;
+		
 		item = item->next;
 	}
 }

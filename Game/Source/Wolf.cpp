@@ -176,28 +176,6 @@ bool Wolf::Update(float dt)
 		}
 	}
 
-	//if ((this->life > 0) && (dt < 0.4f))
-	//{
-	//	// Enemy state machine
-	//	if (currentState == EnemyState::PATROL)
-	//	{
-	//		if ((Patrol(dt)) && (app->player->GetReachable()) && (app->player->godMode == false))
-	//			currentState = EnemyState::ALERT;
-	//	}
-
-	//	else if (currentState == EnemyState::ALERT)
-	//	{
-	//		if (FindTarget(app->player, dt))
-	//			currentState = EnemyState::ATTACK;
-	//	}
-
-	//	else if (currentState == EnemyState::ATTACK)
-	//	{
-	//		if (ChaseTarget(dt))
-	//			currentState = EnemyState::PATROL;
-	//	}
-	//}
-
 	if (this->life == 0)
 	{
 		if (currentAnim != &deathLeftAnim)
