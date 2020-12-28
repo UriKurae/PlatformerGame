@@ -78,4 +78,14 @@ private:
 	Animation* currentAnimCheckpoint;
 
 	int uiIndex;
+	
+	// timer
+	float timer;
+	char timerText[3] = { "\0" };
+
+	// Animation for UI Timer
+	SDL_Texture* timerTexture;
+	Animation* currentAnimTimer;
+	Animation timerAnimation;
+
 };

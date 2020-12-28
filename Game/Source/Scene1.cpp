@@ -21,6 +21,18 @@
 Scene1::Scene1()
 {
 	name.Create("scene1");
+
+	timerAnimation.PushBack({0,0,25,24});
+	timerAnimation.PushBack({25,0,25,24});
+	timerAnimation.PushBack({50,0,25,24});
+	timerAnimation.PushBack({75,0,25,24});
+	timerAnimation.PushBack({100,0,25,24});
+	timerAnimation.PushBack({125,0,25,24});
+	timerAnimation.PushBack({150,0,25,24});
+	timerAnimation.PushBack({175,0,25,24});
+	timerAnimation.PushBack({200,0,25,24});
+	
+	timerAnimation.loop = true;
 }
 
 Scene1::~Scene1()
@@ -33,6 +45,8 @@ bool Scene1::Start()
 	{
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 5));
 		player->Start();
+
+		timer = 0;
 
 		app->map->active = true;
 		app->map->Load("level_1.tmx");
@@ -135,14 +149,15 @@ bool Scene1::Start()
 		sea = app->tex->Load("Assets/Textures/Scenes/sea.png");
 		clouds = app->tex->Load("Assets/Textures/Scenes/clouds.png");
 		GuiHeartTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
+		
+		timerTexture = app->tex->Load("Assets/Textures/timer.png");
 
-
+		char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
+		uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
 	}
 
 	app->sceneManager->currentScene = this;
 
-	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
-	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
 
 	return true;
 }
@@ -150,6 +165,9 @@ bool Scene1::Start()
 bool Scene1::Update(float dt)
 {	
 	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
+
+	timerAnimation.speed = 9.5f * dt;
+	timer += 1.0f * dt;
 
 	// Enemies machine states
 	ListItem<Executioner*>* eItem = executioners.start;
@@ -269,6 +287,8 @@ bool Scene1::Update(float dt)
 			RestartPlayerPosition();
 	}
 
+	currentAnimTimer->Update();
+
 	return true;
 }
 
@@ -308,6 +328,8 @@ bool Scene1::Draw()
 
 	DrawGui();
 
+	sprintf_s(timerText, 10, "%.0f", timer);
+
 	return ret;
 }
 
@@ -318,6 +340,15 @@ void Scene1::DrawGui()
 		SDL_Rect r = { 176,79,16,16 };
 		app->render->DrawTexture(GuiHeartTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / app->win->GetScale()) + 5, &r);
 	}
+
+	if (currentAnimTimer != &timerAnimation)
+	{
+		timerAnimation.Reset();
+		currentAnimTimer = &timerAnimation;
+	}
+	
+	app->render->DrawTexture(timerTexture, (-app->render->camera.x / app->win->GetScale()) + 580, (-app->render->camera.y / app->win->GetScale()) + 5, &currentAnimTimer->GetCurrentFrame());
+	app->fonts->DrawText(610, 10, uiIndex, timerText);
 }
 
 bool Scene1::CleanUp()

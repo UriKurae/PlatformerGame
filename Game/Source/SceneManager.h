@@ -105,4 +105,5 @@ public:
 	GuiButton* btnBackOptions;
 
 	int uiIndex;
+	SDL_Texture* timerTexture;
 };
