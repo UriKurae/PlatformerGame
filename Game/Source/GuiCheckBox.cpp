@@ -101,8 +101,21 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
     break;
 
     case GuiControlState::FOCUSED: 
+        if (checked)
+        {
+            SDL_Rect sect = { 94,165,17,17 };
+            render->DrawTexture(texture, bounds.x, bounds.y, &sect);
+        }
+        else
+        {
+            SDL_Rect sect = { 121,165,17,17 };
+            render->DrawTexture(texture, bounds.x, bounds.y, &sect);
+        }
+        
         if (debugDraw)
-            render->DrawRectangle(bounds, { 255, 255, 0, 200 });
+        {
+            render->DrawRectangle(bounds, { 255, 255, 0, 200 }); 
+        }
         break;
 
     case GuiControlState::PRESSED: 

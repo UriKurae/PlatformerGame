@@ -116,10 +116,10 @@ bool MainMenu::Draw()
 	bool ret = true;
 
 	app->render->DrawTexture(intro, 0, 0, NULL);
-	app->render->DrawRectangle({ 450 / (int)app->win->GetScale(), 190 / (int)app->win->GetScale(), 200, 200 }, { 0,0,0,200 });
 
 	if (menuState == MenuState::INITIAL)
 	{
+		app->render->DrawRectangle({ 450 / (int)app->win->GetScale(), 190 / (int)app->win->GetScale(), 200, 200 }, { 0,0,0,200 });
 		btnPlay->Draw(app->render, guiDebugDraw);
 		btnContinue->Draw(app->render, guiDebugDraw);
 		btnSettings->Draw(app->render, guiDebugDraw);
@@ -128,6 +128,7 @@ bool MainMenu::Draw()
 	}
 	else if (menuState == MenuState::OPTIONS)
 	{
+		app->render->DrawRectangle({ 450 / (int)app->win->GetScale(), 190 / (int)app->win->GetScale(), 200, 200 }, { 0,0,0,200 });
 		sliderMusicVolume->Draw(app->render, guiDebugDraw);
 		sliderFxVolume->Draw(app->render, guiDebugDraw);
 		fullScreenCheckBox->Draw(app->render, guiDebugDraw);

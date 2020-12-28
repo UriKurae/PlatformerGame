@@ -22,15 +22,15 @@ Scene2::Scene2()
 	name.Create("scene2");
 
 	// Pushbacks for timers
-	timerAnimation.PushBack({ 0,0,25,24 });
-	timerAnimation.PushBack({ 25,0,25,24 });
-	timerAnimation.PushBack({ 50,0,25,24 });
-	timerAnimation.PushBack({ 75,0,25,24 });
-	timerAnimation.PushBack({ 100,0,25,24 });
-	timerAnimation.PushBack({ 125,0,25,24 });
-	timerAnimation.PushBack({ 150,0,25,24 });
-	timerAnimation.PushBack({ 175,0,25,24 });
-	timerAnimation.PushBack({ 200,0,25,24 });
+	timerAnimation.PushBack({ 0,125,25,24 });
+	timerAnimation.PushBack({ 25,125,25,24 });
+	timerAnimation.PushBack({ 50,125,25,24 });
+	timerAnimation.PushBack({ 75,125,25,24 });
+	timerAnimation.PushBack({ 100,125,25,24 });
+	timerAnimation.PushBack({ 125,125,25,24 });
+	timerAnimation.PushBack({ 150,125,25,24 });
+	timerAnimation.PushBack({ 175,125,25,24 });
+	timerAnimation.PushBack({ 200,125,25,24 });
 
 	timerAnimation.loop = true;
 
@@ -161,8 +161,6 @@ bool Scene2::Start()
 	guiDebugDraw = false;
 
 	guiTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
-
-	timerTexture = app->tex->Load("Assets/Textures/timer.png");
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
 	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
@@ -392,7 +390,7 @@ void Scene2::DrawGui()
 
 	app->render->DrawRectangle({ (-app->render->camera.x / (int)app->win->GetScale()) + 608, (-app->render->camera.y / (int)app->win->GetScale()) + 8, 25, 17 }, { 255,177,020,195 });
 
-	app->render->DrawTexture(timerTexture, (-app->render->camera.x / app->win->GetScale()) + 580, (-app->render->camera.y / app->win->GetScale()) + 5, &currentAnimTimer->GetCurrentFrame());
+	app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 580, (-app->render->camera.y / app->win->GetScale()) + 5, &currentAnimTimer->GetCurrentFrame());
 	app->fonts->DrawText(613, 10, uiIndex, timerText);
 }
 
@@ -403,6 +401,7 @@ bool Scene2::CleanUp()
 	app->tex->UnLoad(sky);
 	app->tex->UnLoad(clouds);
 	app->tex->UnLoad(sea);
+	app->tex->UnLoad(guiTexture);
 
 	app->map->CleanUp();
 	player->DisableEntity();
