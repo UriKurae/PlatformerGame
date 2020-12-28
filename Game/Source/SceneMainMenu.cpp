@@ -181,8 +181,17 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case GuiControlType::BUTTON:
 	{
-		if (control->id == 1) TransitionToScene((Scene*)app->sceneManager->scene1); // Play
-		else if (control->id == 2) app->RequestLoadGame();
+		if (control->id == 1) // Play
+		{
+			TransitionToScene((Scene*)app->sceneManager->scene1);
+			app->sceneManager->newGame = true;
+		}
+		else if (control->id == 2)
+		{
+			TransitionToScene((Scene*)app->sceneManager->scene1);
+			//app->RequestLoadGame();
+			app->sceneManager->newGame = false;
+		}
 		else if (control->id == 3) menuState = MenuState::OPTIONS; // Options
 		else if (control->id == 4) menuState = MenuState::CREDITS; // Credits
 		else if (control->id == 5) toExit = true; // Exit

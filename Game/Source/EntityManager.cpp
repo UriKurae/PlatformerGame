@@ -97,8 +97,6 @@ bool EntityManager::Draw()
 
 bool EntityManager::CleanUp()
 {
-	DeleteColliders();
-
 	app->tex->UnLoad(executionerTexture);
 	app->tex->UnLoad(wolfTexture);
 	app->tex->UnLoad(collectiblesTexture);
@@ -239,6 +237,7 @@ void EntityManager::ClearLists()
 	entities.Clear();
 	enemies.Clear();
 	items.Clear();
+	colliders.Clear();
 }
 
 Collider* EntityManager::AddCollider(SDL_Rect rect, Collider::Type type, Module* listener)

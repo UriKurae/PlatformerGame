@@ -32,6 +32,8 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     buttonPressed.PushBack( { 197,102,125,18 });
     buttonPressed.PushBack( { 197,102,125,18 });
     buttonPressed.loop = false;
+
+    currentAnim = nullptr;
 }
 
 

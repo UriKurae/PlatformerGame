@@ -61,20 +61,21 @@ public:
 
 	// Check if theres a current game saved
 	pugi::xml_document saveAvailableDocument;
-	bool saveAvailable;
+	bool saveAvailable = false;
+	bool newGame = true;
 
 	List<Scene*> scenes;
-	Scene* lastScene;
-	Scene* currentScene;
-	Scene* nextScene;
+	Scene* lastScene = nullptr;
+	Scene* currentScene = nullptr;
+	Scene* nextScene = nullptr;
 	Scene* savedScene = nullptr;
 
-	SceneLogo* sceneLogo;
-	MainMenu* mainMenu;
-	Scene1* scene1;
-	Scene2* scene2;
-	DeadScene* deadScene;
-	WinScene* winScene;
+	SceneLogo* sceneLogo = nullptr;
+	MainMenu* mainMenu = nullptr;
+	Scene1* scene1 = nullptr;
+	Scene2* scene2 = nullptr;
+	DeadScene* deadScene = nullptr;
+	WinScene* winScene = nullptr;
 
 	SDL_Texture* checkpointTexture;
 

@@ -92,5 +92,4 @@ private:
 	SDL_Texture* gemTexture;
 	Animation* currentAnimGem;
 	Animation gemAnimation;
-
 };
