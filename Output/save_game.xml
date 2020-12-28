@@ -44,13 +44,7 @@
       <position x="707" y="260" />
       <current_state value="0" />
     </wolf>
-    <:anonymous />
-    <:anonymous />
-    <:anonymous />
-    <:anonymous />
-    <:anonymous />
-    <:anonymous />
-    <:anonymous />
+
   </entitymanager>
   <pathfinding />
   <renderer />

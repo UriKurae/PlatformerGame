@@ -411,11 +411,8 @@ bool Scene1::CleanUp()
 
 	app->map->CleanUp();
 
-	//app->entityManager->DeleteColliders();
-	app->entityManager->CleanUp();
-	app->entityManager->ClearLists();
-
-
+	app->entityManager->Disable();
+	
 	wolfs.Clear();
 	executioners.Clear();
 	gems.Clear();

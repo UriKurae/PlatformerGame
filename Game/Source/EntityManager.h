@@ -9,8 +9,6 @@
 #include "Point.h"
 #include "Entity.h"
 
-#define MAX_COLLIDERS 50
-
 class EntityManager : public Module
 {
 public:
@@ -35,6 +33,8 @@ public:
 	// Deletes all the colliders
 	void DeleteColliders();
 
+	void RemoveCollider(Collider* c);
+
 	void DrawColliders();
 	
 public:
@@ -46,8 +46,8 @@ public:
 	SDL_Texture* wolfTexture;
 	SDL_Texture* collectiblesTexture;
 
+	List<Collider*> colliders;
 
-	Collider* colliders[MAX_COLLIDERS] = { nullptr };
 	uint colliderCount = 0;
 
 	bool drawColliders;

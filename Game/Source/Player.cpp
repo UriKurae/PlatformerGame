@@ -652,11 +652,13 @@ void Player::Jump(float dt)
 
 void Player::Attack()
 {
-	if(direction == "right")
-		attackCollider = app->entityManager->AddCollider({ position.x + 20, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
+	if (direction == "right")
+		attackCollider = new Collider({ position.x + 20, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
+	//attackCollider = app->entityManager->AddCollider({ position.x + 20, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
 
-	else if(direction == "left")
-		attackCollider = app->entityManager->AddCollider({ position.x - 10, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
+	else if (direction == "left")
+		attackCollider = new Collider({ position.x - 10, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
+	//attackCollider = app->entityManager->AddCollider({ position.x - 10, position.y, 15, 25 }, Collider::Type::PLAYER_HIT);
 
 	ListItem<Enemy*>* currEnemy = app->entityManager->enemies.start;
 
@@ -671,7 +673,8 @@ void Player::Attack()
 		currEnemy = currEnemy->next;
 	}
 	
-	attackCollider->pendingToDelete = true;
+	delete attackCollider;
+	attackCollider = nullptr;
 }
 
 void Player::PickItem(EntityType type)

@@ -28,7 +28,7 @@ struct Collider
 
 	//Variables
 	SDL_Rect rect;
-	bool pendingToDelete = false;
+	//bool pendingToDelete = false;
 	Type type;
 	Module* listener = nullptr;
 };

@@ -63,7 +63,7 @@ bool EntityManager::Start()
 
 bool EntityManager::Update(float dt)
 {
-	DeleteResidualColliders();
+	//DeleteResidualColliders();
 
 	if (app->sceneManager->isPaused == false)
 	{
@@ -110,13 +110,15 @@ bool EntityManager::CleanUp()
 		item = item->next;
 	}
 
+	ClearLists();
+
 	return true;
 }
 
 bool EntityManager::DeleteResidualColliders()
 {
 	// Delete colliders scheduled for deletion
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	/*for (uint i = 0; i < colliders.Count(); ++i)
 	{
 		if (colliders[i] != nullptr && colliders[i]->pendingToDelete == true)
 		{
@@ -124,7 +126,7 @@ bool EntityManager::DeleteResidualColliders()
 			colliders[i] = nullptr;
 			--colliderCount;
 		}
-	}
+	}*/
 
 	return true;
 }
@@ -163,6 +165,7 @@ void EntityManager::DeleteEntity(Entity* entity)
 	{
 		if (item->data == entity)
 		{
+			RemoveCollider(item->data->collider);
 			entities.Del(item);
 			break;
 		}
@@ -176,17 +179,32 @@ void EntityManager::DeleteColliders()
 
 	while (item != nullptr)
 	{
-		if(item->data->collider != nullptr)
-			item->data->collider->pendingToDelete = true;
-		
+		if (item->data->collider != nullptr)
+		{
+			delete item->data->collider;
+			item->data->collider = nullptr;
+		}
 		item = item->next;
 	}
+}
+
+void EntityManager::RemoveCollider(Collider* c)
+{
+	ListItem<Collider*>* item = colliders.start;
+	while (item != nullptr)
+	{
+		if (c == item->data)
+			colliders.Del(item);
+
+		item = item->next;
+	}
+
 }
 
 void EntityManager::DrawColliders()
 {
 	Uint8 alpha = 80;
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	for (uint i = 0; i < colliders.Count(); ++i)
 	{
 		if (colliders[i] == nullptr)
 			continue;
@@ -227,15 +245,8 @@ Collider* EntityManager::AddCollider(SDL_Rect rect, Collider::Type type, Module*
 {
 	Collider* ret = nullptr;
 
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
-	{
-		if (colliders[i] == nullptr)
-		{
-			ret = colliders[i] = new Collider(rect, type, listener);
-			++colliderCount;
-			break;
-		}
-	}
+	ret = new Collider(rect, type);
+	colliders.Add(ret);
 
 	return ret;
 }
