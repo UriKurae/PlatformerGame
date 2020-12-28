@@ -29,7 +29,6 @@ In this game you will play as Zed, a brave adventurer fighting for his fate. On 
  - Jump with Space.
  - Dodge with left shift.
  - Press Space while in the air to do a double jump.
- - Press T key to teleport to the last checkpoint.
  - Press numpad + or - to raise or lower the music volume.
  - Press the Escape key to quit the game.
  
@@ -40,7 +39,9 @@ In this game you will play as Zed, a brave adventurer fighting for his fate. On 
  - F3 -> Start from the beginning of the current level.
  - F5 -> Save the current game state.
  - F6 -> Load previous state.
- - F9 -> View colliders/logic/paths.
+ - F7 -> Move between the different checkpoints.
+ - F8 -> View GUI bounds rectangles and state in different colors.
+ - F9 -> View colliders/logic/pathfinding paths.
  - F10 -> God Mode (ignore collisions, speed multiplied, can fly).
  - F11 -> Enable/Disable FPS cap to 30.
 
