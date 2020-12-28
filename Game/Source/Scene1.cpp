@@ -368,7 +368,7 @@ void Scene1::DrawGui()
 	for (uint i = 1; i <= player->lifes; ++i)
 	{
 		if (currentAnimHeart != nullptr)
-			app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / app->win->GetScale()) + 5, &currentAnimHeart->GetCurrentFrame());
+			app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / (int)app->win->GetScale()) + 5, &currentAnimHeart->GetCurrentFrame());
 	}
 
 	for (uint i = 1; i <= player->gemsAchieved; ++i)
@@ -415,8 +415,8 @@ bool Scene1::CleanUp()
 	player->DisableEntity();
 
 	app->entityManager->DeleteColliders();
+	app->entityManager->CleanUp();
 	app->entityManager->ClearLists();
-	//Should call entity manager cleanup?
 
 	wolfs.Clear();
 	executioners.Clear();

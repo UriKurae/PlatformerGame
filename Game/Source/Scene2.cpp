@@ -61,6 +61,8 @@ bool Scene2::Start()
 {
 	if (this->active)
 	{
+		app->entityManager->Start();
+
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 40));
 		player->Start();
 	

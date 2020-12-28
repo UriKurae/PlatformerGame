@@ -517,7 +517,7 @@ void Player::HandleInput(float dt)
 void Player::CameraFollow()
 {
 	app->render->camera.x = -(position.x * (int)app->win->GetScale()) + app->render->cameraOffsetX;
-	app->render->camera.y = -(position.y * (int)app->win->GetScale() * 0.8f) + app->render->cameraOffsetY;
+	app->render->camera.y = -(position.y * (int)app->win->GetScale()) + app->render->cameraOffsetY;
 }
 
 

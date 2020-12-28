@@ -198,6 +198,8 @@ bool Map::CleanUp()
 // Load new map
 bool Map::Load(const char* filename)
 {
+	viewHitboxes = false;
+
 	bool ret = true;
 	SString tmp("%s%s", folder.GetString(), filename);
 
