@@ -15,20 +15,44 @@ EntityManager::EntityManager()
 
 bool EntityManager::Save(pugi::xml_node& node)
 {
-	ListItem<Entity*>* item = entities.start;
-	while (item != nullptr)
-	{
-		pugi::xml_node tmp = node.append_child(item->data->name.GetString());
-		item->data->Save(tmp);
+	ListItem<Enemy*>* it = enemies.start;
+	pugi::xml_node enemies = node.append_child("enemies");
 
-		item = item->next;
+	int numExecutioners = 0;
+	int numWolves = 0;
+	while (it != nullptr)
+	{
+		it->data->Save(enemies.append_child(it->data->name.GetString()));
+
+		if (it->data->type == EntityType::EXECUTIONER)
+			numExecutioners += 1;
+		else if (it->data->type == EntityType::WOLF)
+			numWolves += 1;
+
+		it = it->next;
 	}
 
+	pugi::xml_node numEnemies = node.append_child("num_enemies");
+	numEnemies.append_child("executioners").append_attribute("value").set_value(numExecutioners);
+	numEnemies.append_child("wolves").append_attribute("value").set_value(numWolves);
 	return true;
 }
 
 bool EntityManager::Load(pugi::xml_node& node)
 {
+	CleanUp();
+
+	int numWolves = 0;
+	int numExecutioners = 0;
+
+	numExecutioners = node.child("num_enemies").child("executioners").attribute("value").as_int();
+	numWolves = node.child("num_enemies").child("wolves").attribute("value").as_int();
+
+	while (numExecutioners > 0)
+	{
+		
+	}
+
 	ListItem<Entity*>* item = entities.start;
 	while (item != nullptr)
 	{

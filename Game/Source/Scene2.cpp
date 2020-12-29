@@ -404,11 +404,8 @@ bool Scene2::CleanUp()
 	app->tex->UnLoad(guiTexture);
 
 	app->map->CleanUp();
-	player->DisableEntity();
 
-	app->entityManager->DeleteColliders();
-	app->entityManager->CleanUp();
-	app->entityManager->ClearLists();
+	app->entityManager->Disable();
 
 	wolfs.Clear();
 	executioners.Clear();

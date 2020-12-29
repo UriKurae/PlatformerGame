@@ -69,31 +69,39 @@ bool SceneManager::Load(pugi::xml_node& node)
 
 	else if (count == 2)
 		savedScene = scene2;
+	
+	//app->entityManager->CleanUp();
 
-	ListItem<Enemy*>* item = app->entityManager->enemies.start;
+	int numWolves = 0;
+	int numExecutioners = 0;
 
-	pugi::xml_node enemies = node.child("enemies");
-	pugi::xml_node wolf = enemies.child("wolf");
-	pugi::xml_node executioner = enemies.child("executioner");
+	numExecutioners = node.child("num_enemies").child("executioners").attribute("value").as_int();
+	numWolves = node.child("num_enemies").child("wolves").attribute("value").as_int();
 
-	while (item != nullptr)
-	{
-		if (item->data->name == "wolf")
-		{
-			item->data->Load(wolf);
-			wolfSavedPositions.Add(item->data->savedPosition);
+	//ListItem<Enemy*>* item = app->entityManager->enemies.start;
+	//pugi::xml_node enemies = node.child("enemies");
+	//pugi::xml_node wolf = enemies.child("wolf");
+	//pugi::xml_node executioner = enemies.child("executioner");
 
-			wolf = wolf.next_sibling("wolf");
-		}
-		else if (item->data->name == "executioner")
-		{
-			item->data->Load(executioner);
-			executionerSavedPositions.Add(item->data->savedPosition);
+	//while (item != nullptr)
+	//{
+	//	if (item->data->name == "wolf")
+	//	{
 
-			executioner = executioner.next_sibling("executioner");
-		}
-		item = item->next;
-	}
+	//		item->data->Load(wolf);
+	//		//wolfSavedPositions.Add(item->data->savedPosition);
+
+	//		wolf = wolf.next_sibling("wolf");
+	//	}
+	//	else if (item->data->name == "executioner")
+	//	{
+	//		item->data->Load(executioner);
+	//		//executionerSavedPositions.Add(item->data->savedPosition);
+
+	//		executioner = executioner.next_sibling("executioner");
+	//	}
+	//	item = item->next;
+	//}
 
 	return true;
 }
@@ -117,12 +125,24 @@ bool SceneManager::Save(pugi::xml_node& node)
 	ListItem<Enemy*>* it = app->entityManager->enemies.start;
 	pugi::xml_node enemies = node.append_child("enemies");
 	
+	int numExecutioners = 0;
+	int numWolves = 0;
 	while (it != nullptr)
 	{
 		it->data->Save(enemies.append_child(it->data->name.GetString()));
+		
+		if (it->data->type == EntityType::EXECUTIONER)
+			numExecutioners += 1;
+		else if (it->data->type == EntityType::WOLF)
+			numWolves += 1;
+
 		it = it->next;
 	}
 	
+	pugi::xml_node numEnemies = node.append_child("num_enemies");
+	numEnemies.append_child("executioners").append_attribute("value").set_value(numExecutioners);
+	numEnemies.append_child("wolves").append_attribute("value").set_value(numWolves);
+
 	return true;
 }
 

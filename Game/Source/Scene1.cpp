@@ -147,39 +147,41 @@ bool Scene1::Start()
 			//	itExec->data->Start();
 			//	itExec = itExec->next;
 			//}
-			executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(400, 100)));
 
-			wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(400, 250)));
-			wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(650, 260)));
+			// commented
+			//executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(400, 100)));
 
-			// Call the start method for all the enemies
-			ListItem<Wolf*>* itWolfs = wolfs.start;
-			while (itWolfs != nullptr)
-			{
-				itWolfs->data->Start();
-				itWolfs = itWolfs->next;
-			}
+			//wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(400, 250)));
+			//wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(650, 260)));
 
-			ListItem<Executioner*>* itExec = executioners.start;
-			while (itExec != nullptr)
-			{
-				itExec->data->Start();
-				itExec = itExec->next;
-			}
+			//// Call the start method for all the enemies
+			//ListItem<Wolf*>* itWolfs = wolfs.start;
+			//while (itWolfs != nullptr)
+			//{
+			//	itWolfs->data->Start();
+			//	itWolfs = itWolfs->next;
+			//}
+
+			//ListItem<Executioner*>* itExec = executioners.start;
+			//while (itExec != nullptr)
+			//{
+			//	itExec->data->Start();
+			//	itExec = itExec->next;
+			//}
 
 
-			//==================================================================================
+			////==================================================================================
 
-			//Items instantiation
+			////Items instantiation
 
-			gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1200, 140)));
-			gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1642, 96)));
-			gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 512)));
-			gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2976, 544)));
+			//gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1200, 140)));
+			//gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1642, 96)));
+			//gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 512)));
+			//gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2976, 544)));
 
-			hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(432, 176)));
-			hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2080, 224)));
-			hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2960, 304)));
+			//hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(432, 176)));
+			//hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2080, 224)));
+			//hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2960, 304)));
 
 			app->RequestLoadGame();
 		}
