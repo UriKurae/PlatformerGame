@@ -63,11 +63,23 @@ bool SceneManager::Load(pugi::xml_node& node)
 {
 	int count = node.child("active_scene").attribute("value").as_int();
 
-	if (count == 1)
-		savedScene = scene1;
+	ListItem<Scene*> *item = scenes.start;
 
-	else if (count == 2)
-		savedScene = scene2;
+	while (item != nullptr)
+	{
+		item->data->Load(node);
+
+		item = item->next;
+	}
+
+	if (currentScene != mainMenu)
+	{
+		if (count == 1)
+			savedScene = scene1;
+
+		else if (count == 2)
+			savedScene = scene2;
+	}
 
 	return true;
 }
@@ -323,7 +335,7 @@ bool SceneManager::HandleInput(float dt)
 		app->RequestLoadGame();
 	
 	if ((savedScene != nullptr) && (savedScene != currentScene))
-		currentScene->TransitionToScene(savedScene);
+		//currentScene->TransitionToScene(savedScene);
 
 	if ((app->input->GetKey(SDL_SCANCODE_F8) == KeyState::KEY_DOWN) && (currentScene == scene1 || currentScene == scene2 || currentScene == mainMenu))
 		currentScene->guiDebugDraw = !currentScene->guiDebugDraw;

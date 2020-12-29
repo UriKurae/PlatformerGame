@@ -35,7 +35,7 @@ public:
 
 	void SetContinueButton(GuiControlState state);
 
-	bool Load(pugi::xml_node&);
+	bool Load(pugi::xml_node&) override;
 
 private:
 
