@@ -35,6 +35,8 @@ public:
 
 	void SetContinueButton(GuiControlState state);
 
+	bool Load(pugi::xml_node&);
+
 private:
 
 	SDL_Texture* intro;

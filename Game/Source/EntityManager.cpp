@@ -54,6 +54,7 @@ bool EntityManager::Save(pugi::xml_node& node)
 bool EntityManager::Load(pugi::xml_node& node)
 {
 	CleanUp();
+	Start();
 
 	int numWolves = 0;
 	int numExecutioners = 0;
@@ -120,22 +121,11 @@ bool EntityManager::Start()
 
 	drawColliders = false;
 
-	// You must start the entity when it's created
-
-	/*ListItem<Entity*>* item = entities.start;
-	while (item != nullptr)
-	{
-		item->data->Start();
-		item = item->next;
-	}*/
-
 	return true;
 }
 
 bool EntityManager::Update(float dt)
 {
-	//DeleteResidualColliders();
-
 	if (app->sceneManager->isPaused == false)
 	{
 		ListItem<Entity*>* item = entities.start;
@@ -263,11 +253,12 @@ void EntityManager::RemoveCollider(Collider* c)
 	while (item != nullptr)
 	{
 		if (c == item->data)
+		{
 			colliders.Del(item);
-
+			break;
+		}
 		item = item->next;
 	}
-
 }
 
 void EntityManager::DrawColliders()

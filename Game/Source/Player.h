@@ -71,9 +71,6 @@ public:
 	// Player saved position
 	iPoint savedPosition;
 
-	// Hearts starting position
-	iPoint heartPosition;
-
 	// Speed to run
 	float speedX;
 	float speedY;

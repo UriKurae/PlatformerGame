@@ -17,6 +17,8 @@ RedHeart::RedHeart(iPoint pos) : Item(pos)
 	idleAnim.PushBack({ 121, 99, 16, 16 });
 	idleAnim.PushBack({ 139, 99, 16, 16 });
 	idleAnim.loop = true;
+
+	Start();
 }
 
 RedHeart::~RedHeart()

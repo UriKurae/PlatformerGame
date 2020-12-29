@@ -128,6 +128,7 @@ Wolf::Wolf(iPoint pos) : Enemy(pos)
 	deathRightAnim.PushBack({ 700,257,51,24 });
 	deathRightAnim.loop = false;
 
+	Start();
 }
 
 bool Wolf::Start()

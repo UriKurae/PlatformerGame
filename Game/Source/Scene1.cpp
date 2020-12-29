@@ -65,77 +65,19 @@ bool Scene1::Start()
 		app->entityManager->Enable();
 		app->pathFinding->Enable();
 
-		/*player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 5));
-		player->Start();*/
-
 		timer = 0;
 
 		app->map->active = true;
 		app->map->Load("level_1.tmx");
 
-		//if ((player->loadedGame) && (app->sceneManager->savedScene == this))
-		//	player->SetPosition(player->savedPosition.x, player->savedPosition.y);
-
-		//else playerStartPosition = player->SetPosition(250, 20);
-
 		if (app->sceneManager->newGame == true)
 		{
-			player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 5));
-			player->Start(); 
-			playerStartPosition = player->SetPosition(250, 20);
+			player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 20));
 
-			//executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100)));
-			//executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100)));
 			executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(400, 100)));
 
 			wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(400, 250)));
 			wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(650, 260)));
-			
-			// Call the start method for all the enemies
-			ListItem<Wolf*>* itWolfs = wolfs.start;
-			while (itWolfs != nullptr)
-			{
-				itWolfs->data->Start();
-				itWolfs = itWolfs->next;
-			}
-
-			ListItem<Executioner*>* itExec = executioners.start;
-			while (itExec != nullptr)
-			{
-				itExec->data->Start();
-				itExec = itExec->next;
-			}
-
-
-			//==================================================================================
-
-			//Items instantiation
-
-			gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1200, 140)));
-			gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1642, 96)));
-			gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 512)));
-			gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2976, 544)));
-
-			hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(432, 176)));
-			hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2080, 224)));
-			hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2960, 304)));
-
-			// Gems initialization
-			ListItem<GreenGem*>* gItem = gems.start;
-			while (gItem != nullptr)
-			{
-				gItem->data->Start();
-				gItem = gItem->next;
-			}
-
-			// Hearts initialization
-			ListItem<RedHeart*>* hItem = hearts.start;
-			while (hItem != nullptr)
-			{
-				hItem->data->Start();
-				hItem = hItem->next;
-			}
-
 		}
 		else
 		{
@@ -145,85 +87,40 @@ bool Scene1::Start()
 			{
 				if (item->data->name == "player")
 				{
-					player = (Player*)item;
+					player = (Player*)item->data;
 				}
 				else if (item->data->name == "executioner")
 				{
-					executioners.Add((Executioner*)item);
+					executioners.Add((Executioner*)item->data);
 				}
 				else if (item->data->name == "wolf")
 				{
-					wolfs.Add((Wolf*)item);
+					wolfs.Add((Wolf*)item->data);
 				}
-
+				
 				item = item->next;
 			}
-			//ListItem<iPoint>* wolfItem = app->sceneManager->wolfSavedPositions.start;
-			//while (wolfItem != nullptr)
-			//{
-			//	wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, wolfItem->data));
-			//	wolfItem = wolfItem->next;
-			//}
-			//
-			//ListItem<iPoint>* execItem = app->sceneManager->executionerSavedPositions.start;
-			//while (execItem != nullptr)
-			//{
-			//	executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, execItem->data));
-			//	execItem = execItem->next;
-			//}
-
-			//// Call starts
-			//ListItem<Wolf*>* itWolfs = wolfs.start;
-			//while (itWolfs != nullptr)
-			//{
-			//	itWolfs->data->Start();
-			//	itWolfs = itWolfs->next;
-			//}
-
-			//ListItem<Executioner*>* itExec = executioners.start;
-			//while (itExec != nullptr)
-			//{
-			//	itExec->data->Start();
-			//	itExec = itExec->next;
-			//}
-
-			// commented
-			//executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(400, 100)));
-
-			//wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(400, 250)));
-			//wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(650, 260)));
-
-			//// Call the start method for all the enemies
-			//ListItem<Wolf*>* itWolfs = wolfs.start;
-			//while (itWolfs != nullptr)
-			//{
-			//	itWolfs->data->Start();
-			//	itWolfs = itWolfs->next;
-			//}
-
-			//ListItem<Executioner*>* itExec = executioners.start;
-			//while (itExec != nullptr)
-			//{
-			//	itExec->data->Start();
-			//	itExec = itExec->next;
-			//}
-
-
-			////==================================================================================
-
-			////Items instantiation
-
-			//gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1200, 140)));
-			//gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1642, 96)));
-			//gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 512)));
-			//gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2976, 544)));
-
-			//hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(432, 176)));
-			//hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2080, 224)));
-			//hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2960, 304)));
-			
 		}
 	}
+
+	//Items instantiation
+	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1200, 140)));
+	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1642, 96)));
+	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 512)));
+	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2976, 544)));
+
+	hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(432, 176)));
+	hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2080, 224)));
+	hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2960, 304)));
+
+
+	// Player initial position
+	if (checkpoints.Count() > 0)
+		player->position = checkpoints.end->data;
+	else
+		player->position = iPoint(250, 20);
+
+
 	// Assets loading and playing
 	app->audio->PlayMusic("Assets/Audio/Music/scene_1.ogg");
 	sky = app->tex->Load("Assets/Textures/Scenes/sky.png");
@@ -235,16 +132,13 @@ bool Scene1::Start()
 	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
 
 	app->sceneManager->currentScene = this;
-	
 	guiDebugDraw = false;
 
 	return true;
 }
 
 bool Scene1::Update(float dt)
-{	
-	app->sceneManager->checkpointKeepAnim.speed = 8.0f * dt;
-
+{
 	timerAnimation.speed = 9.5f * dt;
 	timer += 1.0f * dt;
 
@@ -360,7 +254,6 @@ bool Scene1::Update(float dt)
 	else if ((CheckWin() == 2) && (player->godMode == false))
 	{
 		TransitionToScene((Scene*)app->sceneManager->deadScene);
-		player->DisableEntity();
 		app->sceneManager->lastScene = this;
 	}
 

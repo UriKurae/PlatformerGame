@@ -15,6 +15,7 @@ GreenGem::GreenGem(iPoint pos) : Item(pos)
 	idleAnim.PushBack({ 50,2,10,15 });
 	idleAnim.loop = true;
 
+	Start();
 }
 
 GreenGem::~GreenGem()

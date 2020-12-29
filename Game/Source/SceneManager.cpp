@@ -61,47 +61,13 @@ SceneManager::~SceneManager()
 
 bool SceneManager::Load(pugi::xml_node& node)
 {
-	int count = 0;
-	count = node.child("active_scene").attribute("value").as_int();
+	int count = node.child("active_scene").attribute("value").as_int();
 
 	if (count == 1)
 		savedScene = scene1;
 
 	else if (count == 2)
 		savedScene = scene2;
-	
-	//app->entityManager->CleanUp();
-
-	int numWolves = 0;
-	int numExecutioners = 0;
-
-	numExecutioners = node.child("num_enemies").child("executioners").attribute("value").as_int();
-	numWolves = node.child("num_enemies").child("wolves").attribute("value").as_int();
-
-	//ListItem<Enemy*>* item = app->entityManager->enemies.start;
-	//pugi::xml_node enemies = node.child("enemies");
-	//pugi::xml_node wolf = enemies.child("wolf");
-	//pugi::xml_node executioner = enemies.child("executioner");
-
-	//while (item != nullptr)
-	//{
-	//	if (item->data->name == "wolf")
-	//	{
-
-	//		item->data->Load(wolf);
-	//		//wolfSavedPositions.Add(item->data->savedPosition);
-
-	//		wolf = wolf.next_sibling("wolf");
-	//	}
-	//	else if (item->data->name == "executioner")
-	//	{
-	//		item->data->Load(executioner);
-	//		//executionerSavedPositions.Add(item->data->savedPosition);
-
-	//		executioner = executioner.next_sibling("executioner");
-	//	}
-	//	item = item->next;
-	//}
 
 	return true;
 }
@@ -127,12 +93,14 @@ bool SceneManager::Save(pugi::xml_node& node)
 	
 	int numExecutioners = 0;
 	int numWolves = 0;
+
 	while (it != nullptr)
 	{
 		it->data->Save(enemies.append_child(it->data->name.GetString()));
 		
 		if (it->data->type == EntityType::EXECUTIONER)
 			numExecutioners += 1;
+
 		else if (it->data->type == EntityType::WOLF)
 			numWolves += 1;
 
@@ -205,6 +173,8 @@ bool SceneManager::Start()
 bool SceneManager::Update(float dt)
 {
 	bool ret = true;
+
+	checkpointKeepAnim.speed = 8.0f * dt;
 
 	if (onTransition == false)
 	{

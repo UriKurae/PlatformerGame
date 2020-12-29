@@ -68,6 +68,8 @@ Executioner::Executioner(iPoint pos) : Enemy(pos)
 	hurtAnim.PushBack({ 1115, 413, 68, 89 });
 	hurtAnim.PushBack({ 1204, 412, 68, 89 });
 	hurtAnim.loop = false;
+
+	Start();
 }
 
 bool Executioner::Start()

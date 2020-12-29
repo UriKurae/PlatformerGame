@@ -187,11 +187,12 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 			app->sceneManager->newGame = true;
 			TransitionToScene((Scene*)app->sceneManager->scene1);
 		}
-		else if (control->id == 2)
+		else if (control->id == 2) // Continue
 		{
 			app->sceneManager->newGame = false;
 			app->RequestLoadGame();
-			TransitionToScene((Scene*)app->sceneManager->scene1);
+			app->sceneManager->Load(app->saveLoadFile.root().child("scenemanager"));
+			TransitionToScene((Scene*)app->sceneManager->savedScene);
 		}
 		else if (control->id == 3) menuState = MenuState::OPTIONS; // Options
 		else if (control->id == 4) menuState = MenuState::CREDITS; // Credits
@@ -222,4 +223,9 @@ void MainMenu::SetContinueButton(GuiControlState state)
 {
 	if(btnContinue != nullptr)
 		btnContinue->state = state;
+}
+
+bool MainMenu::Load(pugi::xml_node&)
+{
+	return false;
 }

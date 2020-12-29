@@ -50,9 +50,6 @@ private:
 	// Player object
 	Player* player;
 
-	// Player's start position as iPoint  
-	iPoint playerStartPosition;
-
 	// Textures of the Scene1
 	SDL_Texture* sky;
 	SDL_Texture* clouds;
