@@ -9,49 +9,16 @@
   <textures />
   <map />
   <scenemanager>
-    <active_scene value="2" />
-    <enemies>
-      <executioner>
-        <position x="458" y="271" />
-        <current_state value="1" />
-        <is_alive value="true" />
-      </executioner>
-      <wolf>
-        <position x="344" y="327" />
-        <current_state value="1" />
-      </wolf>
-      <wolf>
-        <position x="748" y="323" />
-        <current_state value="0" />
-      </wolf>
-    </enemies>
-    <num_enemies>
-      <executioners value="1" />
-      <wolves value="2" />
-    </num_enemies>
+    <active_scene value="1" />
   </scenemanager>
   <entitymanager>
     <player>
-      <position x="350" y="324" />
+      <position x="392" y="244" />
     </player>
-    <enemies>
-      <executioner>
-        <position x="458" y="271" />
-        <current_state value="1" />
-        <is_alive value="true" />
-      </executioner>
-      <wolf>
-        <position x="344" y="327" />
-        <current_state value="1" />
-      </wolf>
-      <wolf>
-        <position x="748" y="323" />
-        <current_state value="0" />
-      </wolf>
-    </enemies>
+    <enemies />
     <num_enemies>
-      <executioners value="1" />
-      <wolves value="2" />
+      <executioners value="0" />
+      <wolves value="0" />
     </num_enemies>
   </entitymanager>
   <fonts />

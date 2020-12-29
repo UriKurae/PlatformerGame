@@ -187,6 +187,7 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 		if (control->id == 1) // Play
 		{
 			app->sceneManager->newGame = true;
+			app->entityManager->CleanUp();
 			TransitionToScene((Scene*)app->sceneManager->scene1);
 		}
 		else if (control->id == 2) // Continue

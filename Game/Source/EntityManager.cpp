@@ -29,13 +29,13 @@ bool EntityManager::Save(pugi::xml_node& node)
 	}
 
 	ListItem<Enemy*>* it = enemies.start;
-	pugi::xml_node enemies = node.append_child("enemies");
+	pugi::xml_node enemiesNode = node.append_child("enemies");
 
 	int numExecutioners = 0;
 	int numWolves = 0;
 	while (it != nullptr)
 	{
-		it->data->Save(enemies.append_child(it->data->name.GetString()));
+		it->data->Save(enemiesNode.append_child(it->data->name.GetString()));
 
 		if (it->data->type == EntityType::EXECUTIONER)
 			numExecutioners += 1;
@@ -99,15 +99,6 @@ bool EntityManager::Load(pugi::xml_node& node)
 
 		item = item->next;
 	}
-
-
-
-	/*while (item != nullptr)
-	{
-		item->data->Load(node.child(item->data->name.GetString()));
-
-		item = item->next;
-	}*/
 
 	return true;
 }
@@ -224,12 +215,15 @@ void EntityManager::DeleteEntity(Entity* entity)
 	{
 		if (item->data == entity)
 		{
+			int index = enemies.Find((Enemy*)item->data);
 			RemoveCollider(item->data->collider);
+			enemies.Del(enemies.At(index));
 			entities.Del(item);
 			break;
 		}
 		item = item->next;
 	}
+
 }
 
 void EntityManager::DeleteColliders()

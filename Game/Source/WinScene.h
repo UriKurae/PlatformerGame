@@ -29,7 +29,7 @@ public:
 
 private:
 
-	SDL_Texture* winTexture;
+	SDL_Texture* winTexture = nullptr;
 
 	int score = 0;
 

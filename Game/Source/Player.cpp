@@ -152,6 +152,7 @@ bool Player::Start()
 	pickHeart = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/heart_sound.wav");
 
 	dodgingCooldown = 0;
+	dodgingTime = 0;
 
 	gemsAchieved = 0;
 
