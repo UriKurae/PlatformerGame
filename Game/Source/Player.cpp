@@ -108,6 +108,8 @@ Player::Player(iPoint pos) : Entity(pos)
 
 	// Dodging Animation Left
 	dodgingToLeft.PushBack({466,269,20,26});
+	
+	Start();
 
 }
 
@@ -152,6 +154,8 @@ bool Player::Start()
 	dodgingCooldown = 0;
 
 	gemsAchieved = 0;
+
+	lifes = 3;
 
 	speedX = 250.0f;
 	speedY = 500.0f;

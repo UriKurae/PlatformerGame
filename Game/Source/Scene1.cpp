@@ -65,21 +65,25 @@ bool Scene1::Start()
 		app->entityManager->Enable();
 		app->pathFinding->Enable();
 
-		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 5));
-		player->Start();
+		/*player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 5));
+		player->Start();*/
 
 		timer = 0;
 
 		app->map->active = true;
 		app->map->Load("level_1.tmx");
 
-		if ((player->loadedGame) && (app->sceneManager->savedScene == this))
-			player->SetPosition(player->savedPosition.x, player->savedPosition.y);
+		//if ((player->loadedGame) && (app->sceneManager->savedScene == this))
+		//	player->SetPosition(player->savedPosition.x, player->savedPosition.y);
 
-		else playerStartPosition = player->SetPosition(250, 20);
+		//else playerStartPosition = player->SetPosition(250, 20);
 
 		if (app->sceneManager->newGame == true)
 		{
+			player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 5));
+			player->Start(); 
+			playerStartPosition = player->SetPosition(250, 20);
+
 			//executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(400, 100)));
 			//executioners.Add((Executioner*)app->enemyManager->AddEnemy(EnemyType::EXECUTIONER, iPoint(600, 100)));
 			executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(400, 100)));
@@ -116,9 +120,44 @@ bool Scene1::Start()
 			hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2080, 224)));
 			hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2960, 304)));
 
+			// Gems initialization
+			ListItem<GreenGem*>* gItem = gems.start;
+			while (gItem != nullptr)
+			{
+				gItem->data->Start();
+				gItem = gItem->next;
+			}
+
+			// Hearts initialization
+			ListItem<RedHeart*>* hItem = hearts.start;
+			while (hItem != nullptr)
+			{
+				hItem->data->Start();
+				hItem = hItem->next;
+			}
+
 		}
 		else
 		{
+			ListItem<Entity*>* item = app->entityManager->entities.start;
+
+			while (item != nullptr)
+			{
+				if (item->data->name == "player")
+				{
+					player = (Player*)item;
+				}
+				else if (item->data->name == "executioner")
+				{
+					executioners.Add((Executioner*)item);
+				}
+				else if (item->data->name == "wolf")
+				{
+					wolfs.Add((Wolf*)item);
+				}
+
+				item = item->next;
+			}
 			//ListItem<iPoint>* wolfItem = app->sceneManager->wolfSavedPositions.start;
 			//while (wolfItem != nullptr)
 			//{
@@ -182,40 +221,22 @@ bool Scene1::Start()
 			//hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(432, 176)));
 			//hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2080, 224)));
 			//hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2960, 304)));
-
-			app->RequestLoadGame();
+			
 		}
-
-		// Gems initialization
-		ListItem<GreenGem*>* gItem = gems.start;
-		while (gItem != nullptr)
-		{
-			gItem->data->Start();
-			gItem = gItem->next;
-		}
-
-		// Hearts initialization
-		ListItem<RedHeart*>* hItem = hearts.start;
-		while (hItem != nullptr)
-		{
-			hItem->data->Start();
-			hItem = hItem->next;
-		}
-
 	}
-		// Assets loading and playing
-		app->audio->PlayMusic("Assets/Audio/Music/scene_1.ogg");
-		sky = app->tex->Load("Assets/Textures/Scenes/sky.png");
-		sea = app->tex->Load("Assets/Textures/Scenes/sea.png");
-		clouds = app->tex->Load("Assets/Textures/Scenes/clouds.png");
-		guiTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
+	// Assets loading and playing
+	app->audio->PlayMusic("Assets/Audio/Music/scene_1.ogg");
+	sky = app->tex->Load("Assets/Textures/Scenes/sky.png");
+	sea = app->tex->Load("Assets/Textures/Scenes/sea.png");
+	clouds = app->tex->Load("Assets/Textures/Scenes/clouds.png");
+	guiTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
 
-		char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
-		uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
+	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
+	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
 
-		app->sceneManager->currentScene = this;
+	app->sceneManager->currentScene = this;
 	
-		guiDebugDraw = false;
+	guiDebugDraw = false;
 
 	return true;
 }
@@ -401,13 +422,13 @@ bool Scene1::Draw()
 
 void Scene1::DrawGui()
 {
-	for (uint i = 1; i <= player->lifes; ++i)
+	for (int i = 1; i <= player->lifes; ++i)
 	{
 		if (currentAnimHeart != nullptr)
 			app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / (int)app->win->GetScale()) + 5, &currentAnimHeart->GetCurrentFrame());
 	}
 
-	for (uint i = 1; i <= player->gemsAchieved; ++i)
+	for (int i = 1; i <= player->gemsAchieved; ++i)
 	{
 		if(currentAnimGem != nullptr)
 			app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / app->win->GetScale()) + 25, &currentAnimGem->GetCurrentFrame());
@@ -430,7 +451,7 @@ void Scene1::DrawGui()
 		heartAnimation.Reset();
 		currentAnimHeart = &heartAnimation;
 	}
-
+	
 	app->render->DrawRectangle({ (-app->render->camera.x / (int)app->win->GetScale()) + 608, (-app->render->camera.y / (int)app->win->GetScale()) + 8, 25, 17 }, {255,177,020,195});
 	
 	app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 580, (-app->render->camera.y / app->win->GetScale()) + 5, &currentAnimTimer->GetCurrentFrame());
@@ -447,7 +468,7 @@ bool Scene1::CleanUp()
 	app->tex->UnLoad(guiTexture);
 
 	app->map->CleanUp();
-
+	
 	app->entityManager->Disable();
 	
 	wolfs.Clear();

@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
+#include "EntityManager.h"
 #include "SceneMainMenu.h"
 #include "SceneManager.h"
 #include "FadeToBlack.h"
@@ -183,14 +184,14 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 		if (control->id == 1) // Play
 		{
-			TransitionToScene((Scene*)app->sceneManager->scene1);
 			app->sceneManager->newGame = true;
+			TransitionToScene((Scene*)app->sceneManager->scene1);
 		}
 		else if (control->id == 2)
 		{
-			TransitionToScene((Scene*)app->sceneManager->scene1);
-			//app->RequestLoadGame();
 			app->sceneManager->newGame = false;
+			app->RequestLoadGame();
+			TransitionToScene((Scene*)app->sceneManager->scene1);
 		}
 		else if (control->id == 3) menuState = MenuState::OPTIONS; // Options
 		else if (control->id == 4) menuState = MenuState::CREDITS; // Credits
