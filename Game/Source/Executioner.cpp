@@ -1,4 +1,5 @@
 #include "App.h"
+#include "SceneManager.h"
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
@@ -152,6 +153,7 @@ void Executioner::EnemyDies()
 
 	if (deathAnim.HasFinished())
 	{	
+		app->sceneManager->executionersKilled += 1;
 		this->CleanUp();
 		deathAnim.Reset();
 	}

@@ -60,13 +60,13 @@ public:
 public:
 
 	// For the camera movement
-	bool blockCamera;
+	bool blockCamera = false;
 
 	// Control if the player loaded a saved game
 	bool loadedGame = false;
 
 	// God Mode
-	bool godMode;
+	bool godMode = false;
 
 	// Player saved position
 	iPoint savedPosition;

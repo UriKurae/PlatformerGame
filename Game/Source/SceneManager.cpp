@@ -426,3 +426,10 @@ void SceneManager::ShowPauseMenu()
 		btnBackOptions->Draw(app->render, currentScene->guiDebugDraw);
 	}
 }
+
+int SceneManager::CalculateFinalScore()
+{
+	score += (wolvesKilled * 10) + (executionersKilled * 20) + (gemsPicked * 5) + heartsPicked;
+
+	return score;
+}

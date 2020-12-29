@@ -1,4 +1,5 @@
 #include "App.h"
+#include "SceneManager.h"
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
@@ -227,7 +228,10 @@ void Wolf::EnemyDies()
 	}
 
 	if (deathLeftAnim.HasFinished())
+	{
+		app->sceneManager->wolvesKilled += 1;
 		this->CleanUp();
+	}
 }
 
 bool Wolf::Patrol(float dt, iPoint playerPos)

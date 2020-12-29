@@ -53,6 +53,8 @@ public:
 
 	void ShowPauseMenu();
 
+	int CalculateFinalScore();
+
 public:
 
 	bool isPaused = false;
@@ -111,4 +113,11 @@ public:
 
 	int uiIndex;
 	SDL_Texture* timerTexture;
+
+	// Player score
+	int score = 0;
+	int wolvesKilled = 0;
+	int executionersKilled = 0;
+	int gemsPicked = 0;
+	int heartsPicked = 0;
 };

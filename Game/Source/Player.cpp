@@ -1,4 +1,5 @@
 #include "App.h"
+#include "SceneManager.h"
 #include "Audio.h"
 #include "Input.h"
 #include "Window.h"
@@ -681,12 +682,14 @@ void Player::PickItem(EntityType type)
 {
 	if (type == EntityType::GEM)
 	{
+		app->sceneManager->gemsPicked += 1;
 		++gemsAchieved;
 		app->audio->PlayFx(pickGemFx);
 	}
 
 	if (type == EntityType::HEART)
 	{
+		app->sceneManager->heartsPicked += 1;
 		++lifes;
 		app->audio->PlayFx(pickHeart);
 	}

@@ -8,6 +8,7 @@
 #include "Scene2.h"
 #include "SceneManager.h"
 #include "Player.h"
+#include "Pathfinding.h"
 #include "Executioner.h"
 #include "GreenGem.h"
 #include "RedHeart.h"
@@ -61,7 +62,8 @@ bool Scene2::Start()
 {
 	if (this->active)
 	{
-		app->entityManager->Start();
+		app->entityManager->Enable();
+		app->pathFinding->Enable();
 
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 40));
 		player->Start();

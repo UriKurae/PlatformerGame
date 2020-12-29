@@ -25,7 +25,18 @@ public:
 	// Called before quitting
 	bool CleanUp() override;
 
+	void DrawFinalScreen();
+
 private:
 
 	SDL_Texture* winTexture;
+
+	int score = 0;
+
+	char wolvesText[4] = { "\0" };
+	char executionerText[4] = { "\0" };
+	char gemsText[4] = { "\0" };
+	char heartText[4] = { "\0" };
+	char finalScoreText[10] = { "\0" };
+
 };
