@@ -104,6 +104,7 @@ bool Scene1::Start()
 				
 				item = item->next;
 			}
+			app->sceneManager->newGame = true;
 		}
 	}
 

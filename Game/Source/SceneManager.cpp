@@ -72,14 +72,12 @@ bool SceneManager::Load(pugi::xml_node& node)
 		item = item->next;
 	}
 
-	if (currentScene != mainMenu)
-	{
-		if (count == 1)
-			savedScene = scene1;
+	if (count == 1)
+		savedScene = scene1;
 
-		else if (count == 2)
-			savedScene = scene2;
-	}
+	else if (count == 2)
+		savedScene = scene2;
+
 
 	return true;
 }
@@ -131,7 +129,18 @@ bool SceneManager::Start()
 {
 	pugi::xml_parse_result resul = saveAvailableDocument.load_file("save_game.xml");
 	if (resul != NULL)
+	{
 		saveAvailable = true;
+		int tmp = app->saveLoadFile.child("save_status").child("scenemanager").child("active_scene").attribute("value").as_int();
+		if (tmp == 1)
+		{
+			savedScene = scene1;
+		}
+		else if (tmp == 2)
+		{
+			savedScene = scene2;
+		}
+	}
 	else
 		saveAvailable = false;
 

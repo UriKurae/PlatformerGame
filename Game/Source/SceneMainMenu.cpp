@@ -24,8 +24,6 @@ MainMenu::~MainMenu()
 // Load assets
 bool MainMenu::Start()
 {
-	app->RequestLoadGame();
-
 	menuState = MenuState::INITIAL;
 	app->render->SetCameraPosition(0,0);
 	
@@ -192,6 +190,7 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 2) // Continue
 		{
 			app->sceneManager->newGame = false;
+			Load();
 			TransitionToScene((Scene*)app->sceneManager->savedScene);
 		}
 		else if (control->id == 3) menuState = MenuState::OPTIONS; // Options
@@ -225,15 +224,25 @@ void MainMenu::SetContinueButton(GuiControlState state)
 		btnContinue->state = state;
 }
 
-bool MainMenu::Load(pugi::xml_node& node)
+bool MainMenu::Load()
 {
+	
+	int tmp = app->saveLoadFile.child("scenemanager").child("active_scene").attribute("value").as_int();
+	if (tmp == 1)
+	{
+		app->sceneManager->savedScene = (Scene*)app->sceneManager->scene1;
+	}
+	else if (tmp == 2)
+	{
+		app->sceneManager->savedScene = (Scene*)app->sceneManager->scene2;
+	}
 
-	int activeScene = node.child("active_scene").attribute("value").as_int();
+	/*int activeScene = node.child("active_scene").attribute("value").as_int();
 
 	if (activeScene == 1)
 		app->sceneManager->savedScene = (Scene*)app->sceneManager->scene1;
 	else if (activeScene == 2)
-		app->sceneManager->savedScene = (Scene*)app->sceneManager->scene2;
+		app->sceneManager->savedScene = (Scene*)app->sceneManager->scene2;*/
 
 
 	return true;

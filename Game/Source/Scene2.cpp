@@ -101,6 +101,7 @@ bool Scene2::Start()
 				item = item->next;
 			}
 		}
+		app->sceneManager->newGame = true;
 	}
 
 	// Items instantiation and initialization
