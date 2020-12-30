@@ -89,7 +89,60 @@ bool Scene1::Start()
 		}
 		else
 		{
-			ListItem<Entity*>* item = app->entityManager->entities.start;
+			pugi::xml_document tmp;
+
+
+			pugi::xml_parse_result resul = tmp.load_file("save_game.xml");
+			if (resul != NULL)
+			{
+				pugi::xml_node node = tmp.child("save_status").child("entitymanager");
+
+				int numWolves = 0;
+				int numExecutioners = 0;
+
+				numExecutioners = node.child("num_enemies").child("executioners").attribute("value").as_int();
+				numWolves = node.child("num_enemies").child("wolves").attribute("value").as_int();
+
+				player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(0, 0));
+
+				while (numExecutioners > 0)
+				{
+					enemies.Add((Enemy*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(0, 0)));
+					numExecutioners -= 1;
+				}
+
+				while (numWolves > 0)
+				{
+					enemies.Add((Enemy*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(0, 0)));
+					numWolves -= 1;
+				}
+
+				ListItem<Entity*>* item = app->entityManager->entities.start;
+				pugi::xml_node executioner = node.child("enemies").child("executioner");
+				pugi::xml_node wolf = node.child("enemies").child("wolf");
+
+				while (item != nullptr)
+				{
+					if (item->data->name == "player")
+					{
+						item->data->Load(node.child("player"));
+					}
+					else if (item->data->name == "executioner")
+					{
+						item->data->Load(executioner);
+						executioner = executioner.next_sibling("executioner");
+					}
+					else if (item->data->name == "wolf")
+					{
+						item->data->Load(wolf);
+						wolf = wolf.next_sibling("wolf");
+					}
+
+					item = item->next;
+				}
+			}		
+
+			/*ListItem<Entity*>* item = app->entityManager->entities.start;
 
 			while (item != nullptr)
 			{
@@ -103,7 +156,7 @@ bool Scene1::Start()
 				}
 				
 				item = item->next;
-			}
+			}*/
 			app->sceneManager->newGame = true;
 		}
 	}

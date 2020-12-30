@@ -226,16 +226,27 @@ void MainMenu::SetContinueButton(GuiControlState state)
 
 bool MainMenu::Load()
 {
+	pugi::xml_document tmp;
 	
-	int tmp = app->saveLoadFile.child("scenemanager").child("active_scene").attribute("value").as_int();
-	if (tmp == 1)
+	
+	pugi::xml_parse_result resul = tmp.load_file("save_game.xml");
+	if (resul != NULL)
 	{
-		app->sceneManager->savedScene = (Scene*)app->sceneManager->scene1;
+		pugi::xml_node node = tmp.child("save_status");
+
+		int saved = node.child("scenemanager").child("active_scene").attribute("value").as_int();
+
+		if (saved == 1)
+		{
+			app->sceneManager->savedScene = (Scene*)app->sceneManager->scene1;
+		}
+		else if (saved == 2)
+		{
+			app->sceneManager->savedScene = (Scene*)app->sceneManager->scene2;
+		}
+
 	}
-	else if (tmp == 2)
-	{
-		app->sceneManager->savedScene = (Scene*)app->sceneManager->scene2;
-	}
+
 
 	/*int activeScene = node.child("active_scene").attribute("value").as_int();
 
