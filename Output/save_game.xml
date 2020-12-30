@@ -13,21 +13,21 @@
   </scenemanager>
   <entitymanager>
     <player>
-      <position x="663" y="260" />
+      <position x="326" y="244" />
     </player>
     <enemies>
       <executioner>
-        <position x="401" y="100" />
-        <current_state value="1" />
+        <position x="403" y="106" />
+        <current_state value="2" />
         <is_alive value="true" />
       </executioner>
       <wolf>
-        <position x="402" y="250" />
+        <position x="319" y="250" />
         <current_state value="0" />
       </wolf>
       <wolf>
-        <position x="740" y="260" />
-        <current_state value="2" />
+        <position x="731" y="260" />
+        <current_state value="0" />
       </wolf>
     </enemies>
     <num_enemies>

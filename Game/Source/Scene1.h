@@ -43,6 +43,8 @@ public:
 	// Detect any mouse event while the game is paused
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
+	bool Load(pugi::xml_node&) override;
+
 private:
 
 	// Texture for Gui

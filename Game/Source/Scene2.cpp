@@ -74,45 +74,78 @@ bool Scene2::Start()
 
 		if (app->sceneManager->newGame == true)
 		{
-			executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(528, 290)));
+			enemies.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(528, 290)));
 
-			wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(288, 323)));
-			wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(800, 323)));
+			enemies.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(288, 323)));
+			enemies.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(800, 323)));
 		}
 		else
 		{
-			ListItem<Entity*>* item = app->entityManager->entities.start;
+			pugi::xml_document tmp;
 
-			while (item != nullptr)
+
+			pugi::xml_parse_result resul = tmp.load_file("save_game.xml");
+			if (resul != NULL)
 			{
-				if (item->data->name == "player")
+				pugi::xml_node node = tmp.child("save_status").child("entitymanager");
+
+				int numWolves = 0;
+				int numExecutioners = 0;
+
+				numExecutioners = node.child("num_enemies").child("executioners").attribute("value").as_int();
+				numWolves = node.child("num_enemies").child("wolves").attribute("value").as_int();
+
+				player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(0, 0));
+
+				while (numExecutioners > 0)
 				{
-					player = (Player*)item->data;
-				}
-				else if (item->data->name == "executioner")
-				{
-					executioners.Add((Executioner*)item->data);
-				}
-				else if (item->data->name == "wolf")
-				{
-					wolfs.Add((Wolf*)item->data);
+					enemies.Add((Enemy*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(0, 0)));
+					numExecutioners -= 1;
 				}
 
-				item = item->next;
+				while (numWolves > 0)
+				{
+					enemies.Add((Enemy*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(0, 0)));
+					numWolves -= 1;
+				}
+
+				ListItem<Entity*>* item = app->entityManager->entities.start;
+				pugi::xml_node executioner = node.child("enemies").child("executioner");
+				pugi::xml_node wolf = node.child("enemies").child("wolf");
+
+				while (item != nullptr)
+				{
+					if (item->data->name == "player")
+					{
+						item->data->Load(node.child("player"));
+					}
+					else if (item->data->name == "executioner")
+					{
+						item->data->Load(executioner);
+						executioner = executioner.next_sibling("executioner");
+					}
+					else if (item->data->name == "wolf")
+					{
+						item->data->Load(wolf);
+						wolf = wolf.next_sibling("wolf");
+					}
+
+					item = item->next;
+				}
 			}
 		}
 		app->sceneManager->newGame = true;
 	}
 
 	// Items instantiation and initialization
-	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(544, 304)));
-	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 336)));
-	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1136, 112)));
-	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(3504, 224)));
+	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(544, 304)));
+	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 336)));
+	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1136, 112)));
+	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(3504, 224)));
 
-	hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(1296, 480)));
-	hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2496, 224)));
-	hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(3120, 272)));
+	items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(1296, 480)));
+	items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2496, 224)));
+	items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(3120, 272)));
 
 	
 	// Player initial position
@@ -148,63 +181,41 @@ bool Scene2::Update(float dt)
 	gemAnimation.speed = 4.0f * dt;
 
 	// Enemies machine states
-	ListItem<Executioner*>* eItem = executioners.start;
+
+	int minX = (player->position.x - 300);
+	int maxX = (player->position.x + 448);
+
+	ListItem<Enemy*>* eItem = enemies.start;
 	while (eItem != nullptr)
 	{
-		if (eItem->data->life > 0)
+		if ((eItem->data->position.x > minX) && (eItem->data->position.x < maxX))
 		{
-			if (eItem->data->currentState == EnemyState::PATROL)
+			if (eItem->data->life > 0)
 			{
-				eItem->data->currentAnim = &eItem->data->idleAnim;
-
-				if ((eItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) && (player->godMode == false))
-					eItem->data->currentState = EnemyState::ALERT;
-			}
-			else if (eItem->data->currentState == EnemyState::ALERT)
-			{
-				if (eItem->data->FindTarget(player, dt))
-					eItem->data->currentState = EnemyState::ATTACK;
-			}
-			else if (eItem->data->currentState == EnemyState::ATTACK)
-			{
-				if (eItem->data->ChaseTarget(dt))
+				if (eItem->data->currentState == EnemyState::PATROL)
 				{
-					eItem->data->path.Clear();
-					eItem->data->currentState = EnemyState::PATROL;
+					//eItem->data->currentAnim = &eItem->data->idleAnim;
+
+					if ((eItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) && (player->godMode == false))
+						eItem->data->currentState = EnemyState::ALERT;
+				}
+				else if (eItem->data->currentState == EnemyState::ALERT)
+				{
+					if (eItem->data->FindTarget(player, dt))
+						eItem->data->currentState = EnemyState::ATTACK;
+				}
+				else if (eItem->data->currentState == EnemyState::ATTACK)
+				{
+					if (eItem->data->ChaseTarget(dt))
+					{
+						eItem->data->path.Clear();
+						eItem->data->currentState = EnemyState::PATROL;
+					}
 				}
 			}
 		}
 
 		eItem = eItem->next;
-	}
-
-
-	ListItem<Wolf*>* wItem = wolfs.start;
-	while (wItem != nullptr)
-	{
-		if (wItem->data->life > 0)
-		{
-			if (wItem->data->currentState == EnemyState::PATROL)
-			{
-				if ((wItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) && (player->godMode == false))
-					wItem->data->currentState = EnemyState::ALERT;
-			}
-			else if (wItem->data->currentState == EnemyState::ALERT)
-			{
-				if (wItem->data->FindTarget(player, dt))
-					wItem->data->currentState = EnemyState::ATTACK;
-			}
-			else if (wItem->data->currentState == EnemyState::ATTACK)
-			{
-				if (wItem->data->ChaseTarget(dt))
-				{
-					wItem->data->path.Clear();
-					wItem->data->currentState = EnemyState::PATROL;
-				}
-			}
-		}
-
-		wItem = wItem->next;
 	}
 
 
@@ -221,32 +232,18 @@ bool Scene2::Update(float dt)
 	//	}
 	//}
 
-	// Check if the player picked a gem
-	ListItem<GreenGem*>* gItem = gems.start;
-	while (gItem != nullptr)
-	{
-		if (player->GetCollider()->Intersects(gItem->data->collider->rect))
-		{
-			player->PickItem(gItem->data->type);
-			gItem->data->CleanUp();
-			gems.Del(gItem);
-			break;
-		}
-		gItem = gItem->next;
-	}
 
-	// Check if the player picked a heart
-	ListItem<RedHeart*>* hItem = hearts.start;
-	while (hItem != nullptr)
+	ListItem<Item*>* it = items.start;
+	while (it != nullptr)
 	{
-		if (player->GetCollider()->Intersects(hItem->data->collider->rect))
+		if (player->GetCollider()->Intersects(it->data->collider->rect))
 		{
-			player->PickItem(hItem->data->type);
-			hItem->data->CleanUp();
-			hearts.Del(hItem);
+			player->PickItem(it->data->type);
+			it->data->CleanUp();
+			items.Del(it);
 			break;
 		}
-		hItem = hItem->next;
+		it = it->next;
 	}
 
 	if ((CheckWin() == 1) && (player->godMode == false))
@@ -365,16 +362,16 @@ bool Scene2::CleanUp()
 	app->tex->UnLoad(sky);
 	app->tex->UnLoad(clouds);
 	app->tex->UnLoad(sea);
-	app->tex->UnLoad(guiTexture);
 
 	app->map->CleanUp();
 
-	app->entityManager->DeleteEntities();
+	player->CleanUp();
 
-	wolfs.Clear();
-	executioners.Clear();
-	gems.Clear();
-	hearts.Clear();
+	app->entityManager->DeleteEntities();
+	app->entityManager->Disable();
+
+	enemies.Clear();
+	items.Clear();
 
 	return true;
 }

@@ -484,3 +484,8 @@ bool Scene1::OnGuiMouseClickEvent(GuiControl* control)
 
 	return true;
 }
+
+bool Scene1::Load(pugi::xml_node&)
+{
+	return false;
+}
