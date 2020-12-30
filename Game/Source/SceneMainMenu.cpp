@@ -1,16 +1,13 @@
 #include "App.h"
-#include "Fonts.h"
-#include "Window.h"
 #include "Audio.h"
+#include "Window.h"
 #include "Input.h"
-#include "Render.h"
 #include "Textures.h"
-#include "EntityManager.h"
+#include "Render.h"
 #include "SceneMainMenu.h"
 #include "SceneManager.h"
-#include "FadeToBlack.h"
+#include "Fonts.h"
 
-#include "Defs.h"
 #include "Log.h"
 
 
@@ -85,6 +82,9 @@ bool MainMenu::Start()
 
 bool MainMenu::Update(float dt)
 {
+	app->render->camera.x = 0;
+	app->render->camera.y = 0;
+
 	if (menuState == MenuState::INITIAL)
 	{
 		btnPlay->Update(app->input, dt, iPoint(520, 250));
@@ -187,7 +187,6 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 		if (control->id == 1) // Play
 		{
 			app->sceneManager->newGame = true;
-			app->entityManager->CleanUp();
 			TransitionToScene((Scene*)app->sceneManager->scene1);
 		}
 		else if (control->id == 2) // Continue

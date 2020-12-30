@@ -62,6 +62,7 @@ bool Scene1::Start()
 {
 	if (this->active == true)
 	{
+		//app->entityManager->CleanUp();
 		app->entityManager->Enable();
 		app->pathFinding->Enable();
 
@@ -70,14 +71,21 @@ bool Scene1::Start()
 		app->map->active = true;
 		app->map->Load("level_1.tmx");
 
+		
 		if (app->sceneManager->newGame == true)
 		{
 			player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 20));
+			
+			// Player initial position
+			if (checkpoints.Count() > 0)
+				player->position = checkpoints.end->data;
+			else
+				player->position = iPoint(250, 20);
 
-			executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(400, 100)));
+			enemies.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(400, 100)));
 
-			wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(400, 250)));
-			wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(650, 260)));
+			enemies.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(400, 250)));
+			enemies.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(650, 260)));
 		}
 		else
 		{
@@ -89,13 +97,9 @@ bool Scene1::Start()
 				{
 					player = (Player*)item->data;
 				}
-				else if (item->data->name == "executioner")
+				else if (item->data->name == "executioner" || item->data->name == "wolf")
 				{
-					executioners.Add((Executioner*)item->data);
-				}
-				else if (item->data->name == "wolf")
-				{
-					wolfs.Add((Wolf*)item->data);
+					enemies.Add((Enemy*)item->data);
 				}
 				
 				item = item->next;
@@ -104,21 +108,14 @@ bool Scene1::Start()
 	}
 
 	//Items instantiation
-	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1200, 140)));
-	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1642, 96)));
-	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 512)));
-	gems.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2976, 544)));
+	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1200, 140)));
+	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1642, 96)));
+	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 512)));
+	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2976, 544)));
 
-	hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(432, 176)));
-	hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2080, 224)));
-	hearts.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2960, 304)));
-
-
-	// Player initial position
-	if (checkpoints.Count() > 0)
-		player->position = checkpoints.end->data;
-	else
-		player->position = iPoint(250, 20);
+	items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(432, 176)));
+	items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2080, 224)));
+	items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2960, 304)));
 
 
 	// Assets loading and playing
@@ -126,7 +123,7 @@ bool Scene1::Start()
 	sky = app->tex->Load("Assets/Textures/Scenes/sky.png");
 	sea = app->tex->Load("Assets/Textures/Scenes/sea.png");
 	clouds = app->tex->Load("Assets/Textures/Scenes/clouds.png");
-	guiTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
+	//guiTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
 	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
@@ -146,64 +143,43 @@ bool Scene1::Update(float dt)
 
 	gemAnimation.speed = 4.0f * dt;
 
+
 	// Enemies machine states
-	ListItem<Executioner*>* eItem = executioners.start;
+
+	int minX = (player->position.x - 300);
+	int maxX = (player->position.x + 448);
+	
+	ListItem<Enemy*>* eItem = enemies.start;
 	while (eItem != nullptr)
 	{
-		if (eItem->data->life > 0)
+		if ((eItem->data->position.x > minX) && (eItem->data->position.x < maxX))
 		{
-			if (eItem->data->currentState == EnemyState::PATROL)
+			if (eItem->data->life > 0)
 			{
-				eItem->data->currentAnim = &eItem->data->idleAnim;
-
-				if ((eItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) && (player->godMode == false))
-					eItem->data->currentState = EnemyState::ALERT;
-			}
-			else if (eItem->data->currentState == EnemyState::ALERT)
-			{
-				if (eItem->data->FindTarget(player, dt))
-					eItem->data->currentState = EnemyState::ATTACK;
-			}
-			else if (eItem->data->currentState == EnemyState::ATTACK)
-			{
-				if (eItem->data->ChaseTarget(dt))
+				if (eItem->data->currentState == EnemyState::PATROL)
 				{
-					eItem->data->path.Clear();
-					eItem->data->currentState = EnemyState::PATROL;
+					//eItem->data->currentAnim = &eItem->data->idleAnim;
+
+					if ((eItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) && (player->godMode == false))
+						eItem->data->currentState = EnemyState::ALERT;
+				}
+				else if (eItem->data->currentState == EnemyState::ALERT)
+				{
+					if (eItem->data->FindTarget(player, dt))
+						eItem->data->currentState = EnemyState::ATTACK;
+				}
+				else if (eItem->data->currentState == EnemyState::ATTACK)
+				{
+					if (eItem->data->ChaseTarget(dt))
+					{
+						eItem->data->path.Clear();
+						eItem->data->currentState = EnemyState::PATROL;
+					}
 				}
 			}
 		}
 
 		eItem = eItem->next;
-	}
-
-
-	ListItem<Wolf*>* wItem = wolfs.start;
-	while (wItem != nullptr)
-	{
-		if (wItem->data->life > 0)
-		{
-			if (wItem->data->currentState == EnemyState::PATROL)
-			{
-				if ((wItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) && (player->godMode == false))
-					wItem->data->currentState = EnemyState::ALERT;
-			}
-			else if (wItem->data->currentState == EnemyState::ALERT)
-			{
-				if (wItem->data->FindTarget(player, dt))
-					wItem->data->currentState = EnemyState::ATTACK;
-			}
-			else if (wItem->data->currentState == EnemyState::ATTACK)
-			{
-				if (wItem->data->ChaseTarget(dt))
-				{
-					wItem->data->path.Clear();
-					wItem->data->currentState = EnemyState::PATROL;
-				}
-			}
-		}
-
-		wItem = wItem->next;
 	}
 
 	
@@ -220,32 +196,18 @@ bool Scene1::Update(float dt)
 	//	}
 	//}
 
-	// Check if the player picked a gem
-	ListItem<GreenGem*>* gItem = gems.start;
-	while (gItem != nullptr)
+	
+	ListItem<Item*>* it = items.start;
+	while (it != nullptr)
 	{
-		if (player->GetCollider()->Intersects(gItem->data->collider->rect))
+		if (player->GetCollider()->Intersects(it->data->collider->rect))
 		{
-			player->PickItem(gItem->data->type);
-			gItem->data->CleanUp();
-			gems.Del(gItem);
+			player->PickItem(it->data->type);
+			it->data->CleanUp();
+			items.Del(it);
 			break;
 		}
-		gItem = gItem->next;
-	}
-
-	// Check if the player picked a heart
-	ListItem<RedHeart*>* hItem = hearts.start;
-	while (hItem != nullptr)
-	{
-		if (player->GetCollider()->Intersects(hItem->data->collider->rect))
-		{
-			player->PickItem(hItem->data->type);
-			hItem->data->CleanUp();
-			hearts.Del(hItem);
-			break;
-		}
-		hItem = hItem->next;
+		it = it->next;
 	}
 
 	if ((CheckWin() == 1) && (player->godMode == false))
@@ -318,13 +280,13 @@ void Scene1::DrawGui()
 	for (int i = 1; i <= player->lifes; ++i)
 	{
 		if (currentAnimHeart != nullptr)
-			app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / (int)app->win->GetScale()) + 5, &currentAnimHeart->GetCurrentFrame());
+			app->render->DrawTexture(app->entityManager->collectiblesTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / (int)app->win->GetScale()) + 5, &currentAnimHeart->GetCurrentFrame());
 	}
 
 	for (int i = 1; i <= player->gemsAchieved; ++i)
 	{
 		if(currentAnimGem != nullptr)
-			app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / app->win->GetScale()) + 25, &currentAnimGem->GetCurrentFrame());
+			app->render->DrawTexture(app->entityManager->collectiblesTexture, (-app->render->camera.x / app->win->GetScale()) + 20 * i, (-app->render->camera.y / app->win->GetScale()) + 25, &currentAnimGem->GetCurrentFrame());
 	}
 
 	if (currentAnimTimer != &timerAnimation)
@@ -347,7 +309,7 @@ void Scene1::DrawGui()
 	
 	app->render->DrawRectangle({ (-app->render->camera.x / (int)app->win->GetScale()) + 608, (-app->render->camera.y / (int)app->win->GetScale()) + 8, 25, 17 }, {255,177,020,195});
 	
-	app->render->DrawTexture(guiTexture, (-app->render->camera.x / app->win->GetScale()) + 580, (-app->render->camera.y / app->win->GetScale()) + 5, &currentAnimTimer->GetCurrentFrame());
+	app->render->DrawTexture(app->entityManager->collectiblesTexture, (-app->render->camera.x / app->win->GetScale()) + 580, (-app->render->camera.y / app->win->GetScale()) + 5, &currentAnimTimer->GetCurrentFrame());
 	app->fonts->DrawText(613, 10, uiIndex, timerText);
 }
 
@@ -358,16 +320,16 @@ bool Scene1::CleanUp()
 	app->tex->UnLoad(sky);
 	app->tex->UnLoad(clouds);
 	app->tex->UnLoad(sea);
-	app->tex->UnLoad(guiTexture);
 
 	app->map->CleanUp();
-	
+
+	player->CleanUp();
+
+	app->entityManager->DeleteEntities();
 	app->entityManager->Disable();
-	
-	wolfs.Clear();
-	executioners.Clear();
-	gems.Clear();
-	hearts.Clear();
+
+	enemies.Clear();
+	items.Clear();
 
 	return true;
 }

@@ -69,11 +69,11 @@ bool Scene2::Start()
 
 		app->map->active = true;
 		app->map->Load("level_2.tmx");
+		
+		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 20));
 
 		if (app->sceneManager->newGame == true)
 		{
-			player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 20));
-
 			executioners.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(528, 290)));
 
 			wolfs.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(288, 323)));
@@ -368,7 +368,7 @@ bool Scene2::CleanUp()
 
 	app->map->CleanUp();
 
-	app->entityManager->Disable();
+	app->entityManager->DeleteEntities();
 
 	wolfs.Clear();
 	executioners.Clear();

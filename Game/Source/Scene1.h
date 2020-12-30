@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scene.h"
+#include "Enemy.h"
 #include "Animation.h"
 
 class Player;
@@ -45,7 +46,7 @@ public:
 private:
 
 	// Texture for Gui
-	SDL_Texture* guiTexture;
+	//SDL_Texture* guiTexture;
 
 	// Player object
 	Player* player;
@@ -56,12 +57,14 @@ private:
 	SDL_Texture* sea;
 
 	// Enemies
-	List<Wolf*> wolfs;
-	List<Executioner*> executioners;
+	List<Enemy*> enemies;
+	/*List<Wolf*> wolfs;
+	List<Executioner*> executioners;*/
 
 	// Collectibles
-	List<GreenGem*> gems;
-	List<RedHeart*> hearts;
+	List<Item*> items;
+	//List<GreenGem*> gems;
+	//List<RedHeart*> hearts;
 
 	// Checkpoints
 	List<iPoint> checkpoints;

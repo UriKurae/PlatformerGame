@@ -235,6 +235,7 @@ bool Player::CleanUp()
 {
 	app->tex->UnLoad(texture);
 	gemsAchieved = 0;
+	app->entityManager->DeleteEntity(this);
 
 	return true;
 }

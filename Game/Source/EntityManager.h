@@ -25,13 +25,14 @@ public:
 	Entity* CreateEntity(EntityType type, iPoint pos);
 	void DeleteEntity(Entity* entity);
 	void ClearLists();
-	bool DeleteResidualColliders();
 
 	// Adds a new collider to the list
 	Collider* AddCollider(SDL_Rect rect, Collider::Type type, Module* listener = nullptr);
 	
 	// Deletes all the colliders
 	void DeleteColliders();
+
+	void DeleteEntities();
 
 	void RemoveCollider(Collider* c);
 

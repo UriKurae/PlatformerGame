@@ -165,22 +165,6 @@ bool EntityManager::CleanUp()
 	return true;
 }
 
-bool EntityManager::DeleteResidualColliders()
-{
-	// Delete colliders scheduled for deletion
-	/*for (uint i = 0; i < colliders.Count(); ++i)
-	{
-		if (colliders[i] != nullptr && colliders[i]->pendingToDelete == true)
-		{
-			delete colliders[i];
-			colliders[i] = nullptr;
-			--colliderCount;
-		}
-	}*/
-
-	return true;
-}
-
 Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 {
 	Entity* ret = nullptr;
@@ -237,6 +221,16 @@ void EntityManager::DeleteColliders()
 			delete item->data->collider;
 			item->data->collider = nullptr;
 		}
+		item = item->next;
+	}
+}
+
+void EntityManager::DeleteEntities()
+{
+	ListItem<Entity*>* item = entities.start;
+	while (item != nullptr)
+	{
+		item->data->CleanUp();
 		item = item->next;
 	}
 }
