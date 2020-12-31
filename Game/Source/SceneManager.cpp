@@ -343,11 +343,18 @@ bool SceneManager::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KeyState::KEY_DOWN)
 		app->RequestLoadGame();
 	
-	if ((savedScene != nullptr) && (savedScene != currentScene))
-		//currentScene->TransitionToScene(savedScene);
 
-	if ((app->input->GetKey(SDL_SCANCODE_F8) == KeyState::KEY_DOWN) && (currentScene == scene1 || currentScene == scene2 || currentScene == mainMenu))
-		currentScene->guiDebugDraw = !currentScene->guiDebugDraw;
+	// F7 done in the current scene (1 or 2)
+
+
+	if (app->input->GetKey(SDL_SCANCODE_F8) == KeyState::KEY_DOWN)
+	{
+		if ((currentScene == scene1 || currentScene == scene2) && isPaused)
+			currentScene->guiDebugDraw = !currentScene->guiDebugDraw;
+
+		else if(currentScene == mainMenu)
+			currentScene->guiDebugDraw = !currentScene->guiDebugDraw;
+	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
 	{
@@ -415,9 +422,10 @@ void SceneManager::ShowPauseMenu()
 	// Draw blured background
 	app->render->DrawRectangle(r, { 0, 0, 0, 150 });
 
-		iPoint offset;
-		offset.x = -(app->render->camera.x);
-		offset.y = -(app->render->camera.y);
+	iPoint offset;
+	offset.x = -(app->render->camera.x);
+	offset.y = -(app->render->camera.y);
+
 	if (statusMenu == MenuState::INITIAL)
 	{
 		app->render->DrawRectangle({ (offset.x + 500) / (int)app->win->GetScale(),(offset.y + 165) / (int)app->win->GetScale(), 200, 200 }, { 0,0,0,200 });

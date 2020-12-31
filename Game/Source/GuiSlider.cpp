@@ -14,6 +14,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     bounds.x /= app->win->GetScale();
     bounds.y /= app->win->GetScale();
     this->bounds = bounds;
+    this->bounds.h = bounds.h + 1;
     this->text = text;
     this->minValue = bounds.x - 25;
     this->maxValue = bounds.x + bounds.w + 25;

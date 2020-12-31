@@ -68,6 +68,7 @@ bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
 bool GuiCheckBox::Draw(Render* render, bool debugDraw)
 {
     app->fonts->DrawText(bounds.x - 110 + (app->render->camera.x) / app->win->GetScale(), bounds.y + (app->render->camera.y) / app->win->GetScale(), 0, text.GetString());
+   
     // Draw the right button depending on state
     switch (state)
     {
@@ -78,7 +79,7 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
             if (checked) render->DrawRectangle(bounds, { 100, 100, 100, 255 });
             else render->DrawRectangle(bounds, { 100, 100, 100, 255 });
         }
-    } 
+    }
     break;
 
     case GuiControlState::NORMAL: 
@@ -87,16 +88,18 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
         {
             SDL_Rect sect = { 42,133,17,17 };
             render->DrawTexture(texture, bounds.x, bounds.y, &sect);
+
+            if (debugDraw)
+                render->DrawRectangle(bounds, { 0, 255, 0, 200 }); // Green
         }
         else
         {
             SDL_Rect sect = { 15,134,17,17 };
             render->DrawTexture(texture, bounds.x, bounds.y, &sect);
+
+            if (debugDraw)
+                render->DrawRectangle(bounds, { 255, 0, 0, 200 }); // Red
         }
-
-        if (debugDraw)
-            render->DrawRectangle(bounds, { 0, 255, 0, 200 });
-
     } 
     break;
 
@@ -116,7 +119,7 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
         {
             render->DrawRectangle(bounds, { 255, 255, 0, 200 }); 
         }
-        break;
+    break;
 
     case GuiControlState::PRESSED: 
         if (debugDraw)
@@ -126,10 +129,10 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
     case GuiControlState::SELECTED: 
         if (debugDraw)
             render->DrawRectangle(bounds, { 0, 255, 0, 200 });
-        break;
+    break;
 
     default:
-        break;
+    break;
     }
 
     return false;

@@ -75,15 +75,21 @@ bool Scene1::Start()
 		if (app->sceneManager->newGame == true)
 		{
 			player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(250, 20));
-			
+
 			// Player initial position
-			if (checkpoints.Count() > 0)
-				player->position = checkpoints.end->data;
+			if (deadOnScene)
+			{
+				if (checkpoints.Count() > 0)
+					player->position = checkpoints.end->data;
+				else
+					player->position = iPoint(250, 20);
+
+				deadOnScene = false;
+			}
 			else
 				player->position = iPoint(250, 20);
 
 			enemies.Add((Executioner*)app->entityManager->CreateEntity(EntityType::EXECUTIONER, iPoint(400, 100)));
-
 			enemies.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(400, 250)));
 			enemies.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(650, 260)));
 
@@ -110,22 +116,6 @@ bool Scene1::Start()
 				Load(node);
 
 			}
-
-			/*ListItem<Entity*>* item = app->entityManager->entities.start;
-
-			while (item != nullptr)
-			{
-				if (item->data->name == "player")
-				{
-					player = (Player*)item->data;
-				}
-				else if (item->data->name == "executioner" || item->data->name == "wolf")
-				{
-					enemies.Add((Enemy*)item->data);
-				}
-				
-				item = item->next;
-			}*/
 			app->sceneManager->newGame = true;
 		}
 	}
@@ -375,6 +365,7 @@ int Scene1::CheckWin()
 			if ((playerMidTile == 1170) && (player->godMode == false))
 			{
 				player->blockCamera = true;
+				deadOnScene = true;
 				return 2;
 			}
 
@@ -490,13 +481,13 @@ bool Scene1::Load(pugi::xml_node& node)
 
 		while (numGems > 0)
 		{
-			items.Add((Item*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(0, 0)));
+			items.Add((Item*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(0, -50)));
 			numGems -= 1;
 		}
 
 		while (numHearts > 0)
 		{
-			items.Add((Item*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(0, 0)));
+			items.Add((Item*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(0, -50)));
 			numHearts -= 1;
 		}
 
@@ -529,7 +520,7 @@ bool Scene1::Load(pugi::xml_node& node)
 			}
 			else if (item->data->name == "redheart")
 			{
-				item->data->Load(wolf);
+				item->data->Load(hearts);
 				hearts = hearts.next_sibling("redheart");
 			}
 
@@ -539,6 +530,3 @@ bool Scene1::Load(pugi::xml_node& node)
 
 	return false;
 }
-
-
-

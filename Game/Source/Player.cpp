@@ -122,11 +122,13 @@ bool Player::Load(pugi::xml_node& playerNode)
 	loadedGame = true;
 	position.x = playerNode.child("position").attribute("x").as_float();
 	position.y = playerNode.child("position").attribute("y").as_float();
-
 	position.y -= 8;
 
 	savedPosition = position;
 
+	gemsAchieved = playerNode.child("gems_achieved").attribute("value").as_int();
+	lifes = playerNode.child("hearts").attribute("value").as_int();
+	
 	return true;
 }
 
@@ -136,6 +138,12 @@ bool Player::Save(pugi::xml_node& playerNode)
 	pugi::xml_node player = playerNode.append_child("position");
 	player.append_attribute("x").set_value(position.x);
 	player.append_attribute("y").set_value(position.y);
+	
+	pugi::xml_node g = playerNode.append_child("gems_achieved");
+	g.append_attribute("value").set_value(gemsAchieved);
+
+	pugi::xml_node h = playerNode.append_child("hearts");
+	h.append_attribute("value").set_value(lifes);
 
 	return true;
 }

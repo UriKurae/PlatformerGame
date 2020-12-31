@@ -13,12 +13,11 @@
   </scenemanager>
   <entitymanager>
     <player>
-      <position x="250" y="242" />
+      <position x="2138" y="290" />
+      <gems_achieved value="1" />
+      <hearts value="4" />
     </player>
     <items>
-      <greengem>
-        <position x="1200" y="140" />
-      </greengem>
       <greengem>
         <position x="1642" y="96" />
       </greengem>
@@ -32,28 +31,25 @@
         <position x="432" y="176" />
       </redheart>
       <redheart>
-        <position x="2080" y="224" />
-      </redheart>
-      <redheart>
         <position x="2960" y="304" />
       </redheart>
     </items>
     <num_items>
-      <gems value="4" />
-      <hearts value="3" />
+      <gems value="3" />
+      <hearts value="2" />
     </num_items>
     <enemies>
       <executioner>
-        <position x="393" y="113" />
+        <position x="317" y="96" />
         <current_state value="2" />
         <is_alive value="true" />
       </executioner>
       <wolf>
-        <position x="475" y="250" />
+        <position x="375" y="250" />
         <current_state value="0" />
       </wolf>
       <wolf>
-        <position x="698" y="260" />
+        <position x="622" y="260" />
         <current_state value="0" />
       </wolf>
     </enemies>

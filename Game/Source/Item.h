@@ -25,8 +25,6 @@ public:
 	virtual bool CleanUp() override;
 
 public:
-	SDL_Texture* texture;
 	Animation* currentAnim;
 
-	bool active;
 };

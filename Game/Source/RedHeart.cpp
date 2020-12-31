@@ -41,6 +41,7 @@ bool RedHeart::Update(float dt)
 {
 	idleAnim.speed = 5.0f * dt;
 	currentAnim->Update();
+	collider->SetPos(position.x, position.y);
 
 	return true;
 }
