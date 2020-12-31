@@ -173,7 +173,7 @@ bool Scene1::Update(float dt)
 				{
 					//eItem->data->currentAnim = &eItem->data->idleAnim;
 
-					if ((eItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) && (player->godMode == false))
+					if ((eItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) /*&& (player->godMode == false)*/)
 						eItem->data->currentState = EnemyState::ALERT;
 				}
 				else if (eItem->data->currentState == EnemyState::ALERT)
@@ -449,6 +449,7 @@ bool Scene1::Load(pugi::xml_node& node)
 	if (this->active == true)
 	{
 		app->entityManager->DeleteEntities();
+		enemies.Clear();
 
 		pugi::xml_node nod = node.next_sibling("entitymanager");
 
