@@ -102,7 +102,7 @@ int PathFinding::MovementCost(int x, int y) const
 		}
 		else if (id == 1162)
 		{
-			ret = 0;
+			ret = 3;
 		}
 		else
 		{
@@ -116,7 +116,7 @@ int PathFinding::MovementCost(int x, int y) const
 DynArray<iPoint>* PathFinding::ComputePath(int x, int y)
 {
 	path.Clear();
-	iPoint goal = app->map->WorldToMap(x, y);
+	iPoint goal = app->map->WorldToMap(x + 5, y + 11);
 
 	int index = 0;
 	path.PushBack(goal);
@@ -135,8 +135,6 @@ DynArray<iPoint>* PathFinding::ComputePath(int x, int y)
 
 bool PathFinding::IsWalkable(int x, int y) const
 {
-	// L10: TODO 3: return true only if x and y are within map limits
-	// and the tile is walkable (tile id 0 in the navigation layer)
 	ListItem<MapLayer*>* lay = app->map->data.layers.start;
 	if (lay->data->Get(x, y) != 0)
 	{
@@ -148,7 +146,7 @@ bool PathFinding::IsWalkable(int x, int y) const
 void PathFinding::PropagateAStar(Player* player)
 {
 	iPoint curr;
-	goalAStar = app->map->WorldToMap(player->GetPosition().x, player->GetPosition().y);
+	goalAStar = app->map->WorldToMap(player->GetPosition().x + 5 , player->GetPosition().y + 11);
 	while (frontier.Pop(curr))
 	{
 

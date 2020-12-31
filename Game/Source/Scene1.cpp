@@ -66,7 +66,7 @@ bool Scene1::Start()
 		app->entityManager->Enable();
 		app->pathFinding->Enable();
 
-		timer = 0;
+		timer = 99;
 
 		app->map->active = true;
 		app->map->Load("level_1.tmx");
@@ -150,7 +150,7 @@ bool Scene1::Start()
 bool Scene1::Update(float dt)
 {
 	timerAnimation.speed = 9.5f * dt;
-	timer += 1.0f * dt;
+	timer -= 1.0f * dt;
 
 	heartAnimation.speed = 5.0f * dt;
 
@@ -173,7 +173,7 @@ bool Scene1::Update(float dt)
 				{
 					//eItem->data->currentAnim = &eItem->data->idleAnim;
 
-					if ((eItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) && (player->godMode == false))
+					if ((eItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) /*&& (player->godMode == false)*/)
 						eItem->data->currentState = EnemyState::ALERT;
 				}
 				else if (eItem->data->currentState == EnemyState::ALERT)
@@ -257,6 +257,12 @@ bool Scene1::Update(float dt)
 	if (currentAnimHeart != nullptr)
 		currentAnimHeart->Update();
 
+
+	if (timer <= 0)
+	{
+		TransitionToScene((Scene*)app->sceneManager->deadScene);
+		app->sceneManager->lastScene = this;
+	}
 
 	sprintf_s(timerText, 10, "%.0f", timer);
 
@@ -449,6 +455,7 @@ bool Scene1::Load(pugi::xml_node& node)
 	if (this->active == true)
 	{
 		app->entityManager->DeleteEntities();
+		enemies.Clear();
 
 		pugi::xml_node nod = node.next_sibling("entitymanager");
 

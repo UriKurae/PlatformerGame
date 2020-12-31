@@ -86,6 +86,8 @@ bool Executioner::Start()
 	offsetPathfinding.x = 21;
 	offsetPathfinding.y = 47;
 
+	pathCooldown = 0;
+
 	speedX = 100;
 	life = 200;
 	currentState = EnemyState::PATROL;
@@ -253,8 +255,6 @@ bool Executioner::Patrol(float dt, iPoint playerPos)
 
 	int vec1 = playerPos.x - position.x;
 	int vec2 = playerPos.y - position.y;
-	LOG("Exec pos x %d y %d", position.x, position.y);
-	LOG("Player pos x %d y %d", playerPos.x, playerPos.y);
 
 	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 200)
 		return true;

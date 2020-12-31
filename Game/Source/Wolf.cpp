@@ -145,6 +145,8 @@ bool Wolf::Start()
 	speedX = 100;
 	speedY = 10;
 
+	pathCooldown = 0;
+
 	blockFall = false;
 
 	currentState = EnemyState::PATROL;

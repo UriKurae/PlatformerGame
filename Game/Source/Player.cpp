@@ -123,6 +123,8 @@ bool Player::Load(pugi::xml_node& playerNode)
 	position.x = playerNode.child("position").attribute("x").as_float();
 	position.y = playerNode.child("position").attribute("y").as_float();
 
+	position.y -= 8;
+
 	savedPosition = position;
 
 	return true;
@@ -569,7 +571,7 @@ void Player::OnCollision()
 			}
 
 			if ((playerIdMidTile == 1162) || (playerIdTop == 1162) || (playerIdLeft == 1162) || (playerIdRight == 1162) || 
-				(playerIdTopRight == 1162) || (playerIdTopLeft == 1162) || (playerIdMidTile == 1161) || 
+				(playerIdTopRight == 1162) || (playerIdTopLeft == 1162) || (playerIdMidTile == 1161) ||
 				(playerIdTop == 1161) || (playerIdLeft == 1161) || (playerIdRight == 1161))
 			{
 				isReachable = false;
