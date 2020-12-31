@@ -317,6 +317,10 @@ bool Wolf::ChaseTarget(float dt)
 			}
 		}
 	}
+	else if (path.Count() <= 0)
+	{
+		currentState = EnemyState::PATROL;
+	}
 
 	return false;
 }

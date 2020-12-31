@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Log.h"
 #include "SceneManager.h"
 #include "Input.h"
 #include "Textures.h"
@@ -238,6 +239,10 @@ bool Executioner::ChaseTarget(float dt)
 				position.x -= 100 * dt;
 		}
 	}
+	else if (path.Count() <= 0)
+	{
+		currentState = EnemyState::PATROL;
+	}
 	
 	return false;
 }
@@ -248,6 +253,8 @@ bool Executioner::Patrol(float dt, iPoint playerPos)
 
 	int vec1 = playerPos.x - position.x;
 	int vec2 = playerPos.y - position.y;
+	LOG("Exec pos x %d y %d", position.x, position.y);
+	LOG("Player pos x %d y %d", playerPos.x, playerPos.y);
 
 	if (sqrt(pow(vec1, 2) + pow(vec2, 2)) < 200)
 		return true;

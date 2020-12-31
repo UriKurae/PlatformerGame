@@ -53,7 +53,7 @@ bool EntityManager::Save(pugi::xml_node& node)
 
 bool EntityManager::Load(pugi::xml_node& node)
 {
-	CleanUp();
+	/*CleanUp();
 	Start();
 
 	int numWolves = 0;
@@ -98,7 +98,7 @@ bool EntityManager::Load(pugi::xml_node& node)
 		}
 
 		item = item->next;
-	}
+	}*/
 
 	return true;
 }
@@ -233,6 +233,7 @@ void EntityManager::DeleteEntities()
 		item->data->CleanUp();
 		item = item->next;
 	}
+	ClearLists();
 }
 
 void EntityManager::RemoveCollider(Collider* c)

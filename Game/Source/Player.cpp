@@ -569,8 +569,8 @@ void Player::OnCollision()
 			}
 
 			if ((playerIdMidTile == 1162) || (playerIdTop == 1162) || (playerIdLeft == 1162) || (playerIdRight == 1162) || 
-				(playerIdBottom == 1162) || (playerIdMidTile == 1161) || (playerIdTop == 1161) || (playerIdLeft == 1161) || 
-				(playerIdRight == 1161))
+				(playerIdTopRight == 1162) || (playerIdTopLeft == 1162) || (playerIdMidTile == 1161) || 
+				(playerIdTop == 1161) || (playerIdLeft == 1161) || (playerIdRight == 1161))
 			{
 				isReachable = false;
 			}
