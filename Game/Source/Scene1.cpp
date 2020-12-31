@@ -66,7 +66,7 @@ bool Scene1::Start()
 		app->entityManager->Enable();
 		app->pathFinding->Enable();
 
-		timer = 0;
+		timer = 99;
 
 		app->map->active = true;
 		app->map->Load("level_1.tmx");
@@ -150,7 +150,7 @@ bool Scene1::Start()
 bool Scene1::Update(float dt)
 {
 	timerAnimation.speed = 9.5f * dt;
-	timer += 1.0f * dt;
+	timer -= 1.0f * dt;
 
 	heartAnimation.speed = 5.0f * dt;
 
@@ -257,6 +257,12 @@ bool Scene1::Update(float dt)
 	if (currentAnimHeart != nullptr)
 		currentAnimHeart->Update();
 
+
+	if (timer <= 0)
+	{
+		TransitionToScene((Scene*)app->sceneManager->deadScene);
+		app->sceneManager->lastScene = this;
+	}
 
 	sprintf_s(timerText, 10, "%.0f", timer);
 
