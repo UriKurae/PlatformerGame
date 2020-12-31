@@ -13,24 +13,25 @@ In this game you will play as Zed, a brave adventurer fighting for his fate. On 
 - Player can dodge.
 - Player physics.
 - Jump through platforms when jumping from below.
-- Multiple scenes (intro, gameplay, win, dead).
+- GUI Controls.
+- Multiple scenes (main menu, gameplay, win, dead).
 - Camera follows the player.
 - Music.
 - Save/Load game state.
 - Volume control.
 - Enemy pathfinding.
 - Checkpoints autosave.
-- Teleportation to the last checkpoint.
+- Teleportation between checkpoint.
 
  
 ## Controls
 
  - Move the player with WASD.
  - Jump with Space.
+ - Attack with the right mouse button.
  - Dodge with left shift.
  - Press Space while in the air to do a double jump.
- - Press numpad + or - to raise or lower the music volume.
- - Press the Escape key to quit the game.
+ - Press the Escape key to pop the Pause Menu.
  
  ### Debug keys
  
