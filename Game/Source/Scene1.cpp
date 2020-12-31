@@ -86,6 +86,16 @@ bool Scene1::Start()
 
 			enemies.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(400, 250)));
 			enemies.Add((Wolf*)app->entityManager->CreateEntity(EntityType::WOLF, iPoint(650, 260)));
+
+			//Items instantiation
+			items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1200, 140)));
+			items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1642, 96)));
+			items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 512)));
+			items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2976, 544)));
+
+			items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(432, 176)));
+			items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2080, 224)));
+			items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2960, 304)));
 		}
 		else
 		{
@@ -120,15 +130,6 @@ bool Scene1::Start()
 		}
 	}
 
-	//Items instantiation
-	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1200, 140)));
-	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1642, 96)));
-	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 512)));
-	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2976, 544)));
-
-	items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(432, 176)));
-	items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2080, 224)));
-	items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(2960, 304)));
 
 
 	// Assets loading and playing
@@ -455,17 +456,25 @@ bool Scene1::Load(pugi::xml_node& node)
 	if (this->active == true)
 	{
 		app->entityManager->DeleteEntities();
+		items.Clear();
 		enemies.Clear();
 
 		pugi::xml_node nod = node.next_sibling("entitymanager");
 
+		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(0, 0));
+
 		int numWolves = 0;
 		int numExecutioners = 0;
+
+		int numGems = 0;
+		int numHearts = 0;
 
 		numExecutioners = nod.child("num_enemies").child("executioners").attribute("value").as_int();
 		numWolves = nod.child("num_enemies").child("wolves").attribute("value").as_int();
 
-		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER, iPoint(0, 0));
+		numGems = nod.child("num_items").child("gems").attribute("value").as_int();
+		numHearts = nod.child("num_items").child("hearts").attribute("value").as_int();
+
 
 		while (numExecutioners > 0)
 		{
@@ -479,9 +488,23 @@ bool Scene1::Load(pugi::xml_node& node)
 			numWolves -= 1;
 		}
 
+		while (numGems > 0)
+		{
+			items.Add((Item*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(0, 0)));
+			numGems -= 1;
+		}
+
+		while (numHearts > 0)
+		{
+			items.Add((Item*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(0, 0)));
+			numHearts -= 1;
+		}
+
 		ListItem<Entity*>* item = app->entityManager->entities.start;
 		pugi::xml_node executioner = nod.child("enemies").child("executioner");
 		pugi::xml_node wolf = nod.child("enemies").child("wolf");
+		pugi::xml_node gems = nod.child("items").child("greengem");
+		pugi::xml_node hearts = nod.child("items").child("redheart");
 
 		while (item != nullptr)
 		{
@@ -498,6 +521,16 @@ bool Scene1::Load(pugi::xml_node& node)
 			{
 				item->data->Load(wolf);
 				wolf = wolf.next_sibling("wolf");
+			}
+			else if (item->data->name == "greengem")
+			{
+				item->data->Load(gems);
+				gems = gems.next_sibling("greengem");
+			}
+			else if (item->data->name == "redheart")
+			{
+				item->data->Load(wolf);
+				hearts = hearts.next_sibling("redheart");
 			}
 
 			item = item->next;

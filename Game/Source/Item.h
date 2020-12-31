@@ -25,8 +25,6 @@ public:
 	virtual bool CleanUp() override;
 
 public:
-	SString name;
-
 	SDL_Texture* texture;
 	Animation* currentAnim;
 

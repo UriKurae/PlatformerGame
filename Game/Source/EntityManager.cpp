@@ -17,6 +17,7 @@ bool EntityManager::Save(pugi::xml_node& node)
 {
 	ListItem<Entity*>* item = entities.start;
 
+
 	while (item != nullptr)
 	{
 		if (item->data->type == EntityType::PLAYER)
@@ -27,6 +28,33 @@ bool EntityManager::Save(pugi::xml_node& node)
 
 		item = item->next;
 	}
+
+	
+
+	ListItem<Entity*>* items = entities.start;
+	pugi::xml_node itemsNode = node.append_child("items");
+
+	int numGems = 0;
+	int numHearts = 0;
+
+	while (items != nullptr)
+	{
+		if (items->data->type == EntityType::GEM || items->data->type == EntityType::HEART)
+		{
+			items->data->Save(itemsNode.append_child(items->data->name.GetString()));
+
+			if (items->data->type == EntityType::GEM)
+				numGems += 1;
+			else if (items->data->type == EntityType::HEART)
+				numHearts += 1;
+		}
+
+		items = items->next;
+	}
+
+	pugi::xml_node numItems = node.append_child("num_items");
+	numItems.append_child("gems").append_attribute("value").set_value(numGems);
+	numItems.append_child("hearts").append_attribute("value").set_value(numHearts);
 
 	ListItem<Enemy*>* it = enemies.start;
 	pugi::xml_node enemiesNode = node.append_child("enemies");

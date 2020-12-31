@@ -59,3 +59,20 @@ bool RedHeart::CleanUp()
 
 	return true;
 }
+
+bool RedHeart::Load(pugi::xml_node& node)
+{
+	position.x = node.child("position").attribute("x").as_int();
+	position.y = node.child("position").attribute("y").as_int();
+
+	return true;
+}
+
+bool RedHeart::Save(pugi::xml_node& node)
+{
+	pugi::xml_node heart = node.append_child("position");
+	heart.append_attribute("x").set_value(position.x);
+	heart.append_attribute("y").set_value(position.y);
+
+	return true;
+}
