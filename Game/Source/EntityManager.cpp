@@ -227,9 +227,19 @@ void EntityManager::DeleteEntity(Entity* entity)
 	{
 		if (item->data == entity)
 		{
-			int index = enemies.Find((Enemy*)item->data);
 			RemoveCollider(item->data->collider);
-			enemies.Del(enemies.At(index));
+			
+			if ((entity->type == EntityType::WOLF) || (entity->type == EntityType::EXECUTIONER))
+			{
+				int index = enemies.Find((Enemy*)item->data);
+				enemies.Del(enemies.At(index));
+			}
+			else if ((entity->type == EntityType::GEM) || (entity->type == EntityType::HEART))
+			{
+				int index = items.Find((Item*)item->data);
+				items.Del(items.At(index));
+			}
+
 			entities.Del(item);
 			break;
 		}
