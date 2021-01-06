@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scene.h"
+#include "GuiButton.h"
 
 class SDL_Texture;
 
@@ -24,6 +25,8 @@ public:
 	// Called before quitting
 	bool CleanUp() override;
 
+	bool OnGuiMouseClickEvent(GuiControl* control) override;
+
 public:
 
 	Module* lastScene;
@@ -31,4 +34,7 @@ public:
 private:
 
 	SDL_Texture* deadTexture;
+
+	GuiButton* btnRestartLevel;
+	GuiButton* btnBackToMenu;
 };
