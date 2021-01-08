@@ -13,6 +13,8 @@ GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiCont
     this->bounds = bounds;
     this->text = text;
     texture = app->tex->Load("Assets/Textures/atlas.png");
+    fxMouseClick = app->audio->LoadFx("Assets/Audio/Fx/UI/button_release.wav");
+    fxMouseHover = app->audio->LoadFx("Assets/Audio/Fx/UI/button_hover.wav");
     fxMouseClick = app->audio->LoadFx("Assets/Audio/Fx/UI/check_box_release.wav");
 }
 
@@ -44,6 +46,12 @@ bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
         if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
             (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
         {
+            if (mouseFxDone == false)
+            {
+                app->audio->PlayFx(fxMouseHover);
+                mouseFxDone = true;
+            }
+
             state = GuiControlState::FOCUSED;
 
             if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
@@ -59,7 +67,11 @@ bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
                 NotifyObserver();
             }
         }
-        else state = GuiControlState::NORMAL;
+        else
+        {
+            mouseFxDone = false;
+            state = GuiControlState::NORMAL;
+        }
     }
 
     return true;

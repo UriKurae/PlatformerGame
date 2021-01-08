@@ -22,7 +22,11 @@ private:
     // Maybe some animation properties for state change?
     bool checked;
 
+    // Fx
     int fxMouseClick;
+    int fxMouseHover;
+
+    bool mouseFxDone = false;
 };
 
 #endif // __GUICHECKBOX_H__

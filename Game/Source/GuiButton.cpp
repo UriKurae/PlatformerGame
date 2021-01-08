@@ -17,6 +17,8 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 
     texture = app->tex->Load("Assets/Textures/atlas.png");
     fxMouseClick = app->audio->LoadFx("Assets/Audio/Fx/UI/button_release.wav");
+    fxMouseHover = app->audio->LoadFx("Assets/Audio/Fx/UI/button_hover.wav");
+    mouseFxDone = false;
    
 
     highlighted.PushBack({ 2,34,133,26 });
@@ -67,6 +69,11 @@ bool GuiButton::Update(Input* input, float dt, iPoint position)
         if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
             (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
         {
+            if (mouseFxDone == false)
+            {
+                app->audio->PlayFx(fxMouseHover);
+                mouseFxDone = true;
+            }
             state = GuiControlState::FOCUSED;
 
             if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
@@ -81,7 +88,11 @@ bool GuiButton::Update(Input* input, float dt, iPoint position)
                 NotifyObserver();
             }
         }
-        else state = GuiControlState::NORMAL;
+        else
+        {
+            mouseFxDone = false;
+            state = GuiControlState::NORMAL;
+        }
     }
 
     if (currentAnim != nullptr)

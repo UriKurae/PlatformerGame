@@ -26,6 +26,9 @@ private:
 
     // Fx
     int fxMouseClick;
+    int fxMouseHover;
+
+    bool mouseFxDone = false;
 };
 
 #endif // __GUIBUTTON_H__
