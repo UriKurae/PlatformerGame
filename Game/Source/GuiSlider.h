@@ -31,6 +31,10 @@ private:
 
     // Fx's
     int fxMouseRelease;
+    int fxMouseClick;
+    int fxMouseHover;
+
+    bool mouseFxDone = false;
 };
 
 #endif // __GUISLIDER_H__

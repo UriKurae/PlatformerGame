@@ -22,6 +22,10 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 
     texture = app->tex->Load("Assets/Textures/Gui/atlas.png");
     fxMouseRelease = app->audio->LoadFx("Assets/Audio/Fx/UI/slider_release.wav");
+
+    fxMouseClick = app->audio->LoadFx("Assets/Audio/Fx/UI/button_release.wav");
+    fxMouseHover = app->audio->LoadFx("Assets/Audio/Fx/UI/button_hover.wav");
+    mouseFxDone = false;
     
     CalculateValue();
 }
@@ -61,6 +65,11 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
         if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
             (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) && (state != GuiControlState::PRESSED))
         {
+            if (mouseFxDone == false)
+            {
+                app->audio->PlayFx(fxMouseHover);
+                mouseFxDone = true;
+            }
             state = GuiControlState::FOCUSED;
 
             if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
@@ -84,7 +93,11 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
                 state = GuiControlState::NORMAL;
             }
         }
-        else state = GuiControlState::NORMAL;
+        else
+        {
+            state = GuiControlState::NORMAL;
+            mouseFxDone = false;
+        }
     }
 
     return true;
@@ -94,7 +107,7 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
 {
     // Box
     SDL_Rect sect = { 110,134,110,16 };
-    render->DrawTexture(texture, minValue, bounds.y - 3, &sect);
+    render->DrawTexture(texture, minValue, bounds.y, &sect);
 
     // Sword
     sect = { 25,170,6,19 };
