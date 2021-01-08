@@ -89,9 +89,11 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
 
 bool GuiSlider::Draw(Render* render, bool debugDraw)
 {
+    // Box
     SDL_Rect sect = {110,134,110,16};
     render->DrawTexture(texture, minValue, bounds.y - 3, &sect);
 
+    // Sword
     sect = { 25,170,6,19 };
     render->DrawTexture(texture, bounds.x, bounds.y - 5, &sect);
 
@@ -111,11 +113,15 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
     case GuiControlState::FOCUSED: 
         if(debugDraw)
             render->DrawRectangle(bounds, { 255, 255, 0, 200 });
+
+        sect = { 24,197,8,21 };
+        render->DrawTexture(texture, (bounds.x) - (bounds.w / 2), bounds.y - 5, &sect);
+
         break;
 
     case GuiControlState::PRESSED: 
         if(debugDraw)
-            render->DrawRectangle({(bounds.x) - (bounds.w / 2), bounds.y, bounds.w, bounds.h}, { 0, 255, 255, 255 });
+            render->DrawRectangle({(bounds.x) - (bounds.w / 2) + 2, bounds.y, bounds.w, bounds.h}, { 0, 255, 255, 255 });
         break;
 
     case GuiControlState::SELECTED: 
