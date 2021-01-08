@@ -9,6 +9,15 @@
 DeadScene::DeadScene()
 {
 	name.Create("DeadScene");
+
+	playerKneelDown.PushBack({ 64, 345, 22, 24 });
+	playerKneelDown.PushBack({ 115, 345, 22, 24 });
+	playerKneelDown.PushBack({ 166, 345, 22, 24 });
+	playerKneelDown.loop = false;
+
+	playerOnKnees.PushBack({ 217, 345, 22, 24 });
+	playerOnKnees.PushBack({ 266, 345, 22, 24 });
+	playerOnKnees.loop = true;
 }
 
 DeadScene::~DeadScene()
@@ -20,6 +29,7 @@ bool DeadScene::Start()
 	if (this->active == true)
 	{
 		deadTexture = app->tex->Load("Assets/Textures/Scenes/lose.png");
+		playerTexture = app->tex->Load("Assets/Textures/Player/player.png");
 		app->render->SetCameraPosition(0, 0);
 
 		btnRestartLevel = new GuiButton(1, { 520, 300, 125, 18 }, "  RESTART");
@@ -27,6 +37,8 @@ bool DeadScene::Start()
 
 		btnBackToMenu = new GuiButton(2, { 520, 350, 125, 18 }, "BACK TO MENU");
 		btnBackToMenu->SetObserver(this);
+
+		currentPlayerAnim = &playerKneelDown;
 	}
 
 	return true;
@@ -34,8 +46,22 @@ bool DeadScene::Start()
 
 bool DeadScene::Update(float dt)
 {
+	playerKneelDown.speed = 2.0f * dt;
+	playerOnKnees.speed = 1.0f * dt;
+
+	if (playerKneelDown.HasFinished())
+	{
+		if (currentPlayerAnim != &playerOnKnees)
+		{
+			playerOnKnees.Reset();
+			currentPlayerAnim = &playerOnKnees;
+		}
+	}
+
 	btnRestartLevel->Update(app->input, dt, iPoint(520, 300));
 	btnBackToMenu->Update(app->input, dt, iPoint(520, 350));
+
+	currentPlayerAnim->Update();
 
 	return true;
 }
@@ -48,6 +74,9 @@ bool DeadScene::Draw()
 	
 	btnBackToMenu->Draw(app->render, guiDebugDraw);
 	btnRestartLevel->Draw(app->render, guiDebugDraw);
+
+	if (app->sceneManager->fadeOutCompleted == false)
+		app->render->DrawTexture(playerTexture, 300, 255, &currentPlayerAnim->GetCurrentFrame());
 
 	return ret;
 }

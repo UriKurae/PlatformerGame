@@ -15,7 +15,7 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     this->bounds = bounds;
     this->text = text;
 
-    texture = app->tex->Load("Assets/Textures/atlas.png");
+    texture = app->tex->Load("Assets/Textures/Gui/atlas.png");
     fxMouseClick = app->audio->LoadFx("Assets/Audio/Fx/UI/button_release.wav");
    
 

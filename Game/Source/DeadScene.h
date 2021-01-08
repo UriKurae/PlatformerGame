@@ -34,7 +34,12 @@ public:
 private:
 
 	SDL_Texture* deadTexture;
+	SDL_Texture* playerTexture;
 
 	GuiButton* btnRestartLevel;
 	GuiButton* btnBackToMenu;
+
+	Animation* currentPlayerAnim;
+	Animation playerKneelDown;
+	Animation playerOnKnees;
 };
