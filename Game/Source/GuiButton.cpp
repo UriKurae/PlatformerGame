@@ -30,14 +30,14 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     animButtonHighlighted.PushBack({ 2,34,133,26 });
     animButtonHighlighted.loop = true;
 
-    animButtonMouseInside.PushBack({ 207, 102, 125,18 });
-    animButtonMouseInside.PushBack({ 207, 102, 125,18 });
-    animButtonMouseInside.PushBack({ 207, 102, 125,18 });
+    animButtonMouseInside.PushBack({ 199, 102, 125,18 });
+    animButtonMouseInside.PushBack({ 199, 102, 125,18 });
+    animButtonMouseInside.PushBack({ 199, 102, 125,18 });
     animButtonMouseInside.loop = false;
 
-    animButtonPressed.PushBack({ 352,102,125,18 });
-    animButtonPressed.PushBack( { 352,102,125,18 });
-    animButtonPressed.PushBack( { 352,102,125,18 });
+    animButtonPressed.PushBack({ 344,102,125,18 });
+    animButtonPressed.PushBack( { 344,102,125,18 });
+    animButtonPressed.PushBack( { 344,102,125,18 });
     animButtonPressed.loop = false;
 
     currentAnim = nullptr;
@@ -117,7 +117,7 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
     }
     else
     {
-        SDL_Rect sect = { 504, 102, 125, 18 };
+        SDL_Rect sect = { 491, 102, 125, 18 };
         render->DrawTexture(texture, bounds.x, bounds.y, &sect);
     }
 
