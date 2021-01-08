@@ -130,7 +130,7 @@ bool Scene1::Start()
 	//guiTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
-	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
+	uiIndex = app->fonts->Load("Assets/Fonts/fonts.png", lookupTable, 1);
 
 	app->sceneManager->currentScene = this;
 	guiDebugDraw = false;

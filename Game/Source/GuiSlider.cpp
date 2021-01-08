@@ -18,7 +18,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     this->text = text;
     this->minValue = bounds.x - 25;
     this->maxValue = bounds.x + bounds.w + 25;
-    texture = app->tex->Load("Assets/Textures/atlas.png");
+    texture = app->tex->Load("Assets/Textures/Gui/atlas.png");
     fxMouseRelease = app->audio->LoadFx("Assets/Audio/Fx/UI/slider_release.wav");
     CalculateValue();
 }

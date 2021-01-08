@@ -33,7 +33,7 @@ bool MainMenu::Start()
 	app->audio->PlayMusic("Assets/Audio/Music/intro_scene.ogg");
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
-	uiIndex = app->fonts->Load("Assets/Textures/fonts.png", lookupTable, 1);
+	uiIndex = app->fonts->Load("Assets/Fonts/fonts.png", lookupTable, 1);
 
 	// Initial buttons
 	btnPlay = new GuiButton(1, { 520, 250, 125, 18 }, "   START");

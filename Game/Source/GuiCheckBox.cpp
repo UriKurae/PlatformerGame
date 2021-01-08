@@ -12,7 +12,9 @@ GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiCont
     bounds.y /= app->win->GetScale();
     this->bounds = bounds;
     this->text = text;
-    texture = app->tex->Load("Assets/Textures/atlas.png");
+
+    texture = app->tex->Load("Assets/Textures/Gui/atlas.png");
+
     fxMouseClick = app->audio->LoadFx("Assets/Audio/Fx/UI/button_release.wav");
     fxMouseHover = app->audio->LoadFx("Assets/Audio/Fx/UI/button_hover.wav");
     fxMouseClick = app->audio->LoadFx("Assets/Audio/Fx/UI/check_box_release.wav");
