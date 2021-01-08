@@ -21,19 +21,24 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     mouseFxDone = false;
    
 
-    highlighted.PushBack({ 2,34,133,26 });
-    highlighted.PushBack({ 140,34,133,26 });
-    highlighted.PushBack({ 279,34,133,26 });
-    highlighted.PushBack({ 421,34,133,26 });
-    highlighted.PushBack({ 279,34,133,26 });
-    highlighted.PushBack({ 140,34,133,26 });
-    highlighted.PushBack({ 2,34,133,26 });
-    highlighted.loop = true;
+    animButtonHighlighted.PushBack({ 2,34,133,26 });
+    animButtonHighlighted.PushBack({ 140,34,133,26 });
+    animButtonHighlighted.PushBack({ 279,34,133,26 });
+    animButtonHighlighted.PushBack({ 421,34,133,26 });
+    animButtonHighlighted.PushBack({ 279,34,133,26 });
+    animButtonHighlighted.PushBack({ 140,34,133,26 });
+    animButtonHighlighted.PushBack({ 2,34,133,26 });
+    animButtonHighlighted.loop = true;
 
-    buttonPressed.PushBack( { 197,102,125,18 });
-    buttonPressed.PushBack( { 197,102,125,18 });
-    buttonPressed.PushBack( { 197,102,125,18 });
-    buttonPressed.loop = false;
+    animButtonMouseInside.PushBack({ 207, 102, 125,18 });
+    animButtonMouseInside.PushBack({ 207, 102, 125,18 });
+    animButtonMouseInside.PushBack({ 207, 102, 125,18 });
+    animButtonMouseInside.loop = false;
+
+    animButtonPressed.PushBack({ 352,102,125,18 });
+    animButtonPressed.PushBack( { 352,102,125,18 });
+    animButtonPressed.PushBack( { 352,102,125,18 });
+    animButtonPressed.loop = false;
 
     currentAnim = nullptr;
 }
@@ -48,7 +53,7 @@ bool GuiButton::Update(Input* input, float dt, iPoint position)
     position.x /= app->win->GetScale();
     position.y /= app->win->GetScale();
 
-    highlighted.speed = 10.0f * dt;
+    animButtonHighlighted.speed = 10.0f * dt;
 
     if (bounds.x != position.x || bounds.y != position.y)
     {
@@ -98,6 +103,8 @@ bool GuiButton::Update(Input* input, float dt, iPoint position)
     if (currentAnim != nullptr)
         currentAnim->Update();
 
+    animButtonHighlighted.Update();
+
     return true;
 }
 
@@ -110,7 +117,7 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
     }
     else
     {
-        SDL_Rect sect = { 349, 102, 125, 18 };
+        SDL_Rect sect = { 504, 102, 125, 18 };
         render->DrawTexture(texture, bounds.x, bounds.y, &sect);
     }
 
@@ -131,20 +138,23 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         if (debugDraw)
             render->DrawRectangle(bounds, { 255, 255, 0, 200 });
         
-        if (currentAnim != &highlighted)
+        if (currentAnim != &animButtonMouseInside)
         {
-            highlighted.Reset();
-            currentAnim = &highlighted;
+            animButtonHighlighted.Reset();
+            animButtonMouseInside.Reset();
+            currentAnim = &animButtonMouseInside;
         }
-        render->DrawTexture(texture, bounds.x - 3, bounds.y - 3, &currentAnim->GetCurrentFrame());
+
+        render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+        render->DrawTexture(texture, bounds.x - 3, bounds.y - 3, &animButtonHighlighted.GetCurrentFrame());
         
         break;
 
     case GuiControlState::PRESSED: 
-        if (currentAnim != &buttonPressed)
+        if (currentAnim != &animButtonPressed)
         {
-            buttonPressed.Reset();
-            currentAnim = &buttonPressed;
+            animButtonPressed.Reset();
+            currentAnim = &animButtonPressed;
         }
         render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
         

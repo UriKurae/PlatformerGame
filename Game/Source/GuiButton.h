@@ -21,8 +21,9 @@ private:
     // Gui Button specific properties
     // Maybe some animation properties for state change?
     Animation* currentAnim;
-    Animation highlighted;
-    Animation buttonPressed;
+    Animation animButtonHighlighted;
+    Animation animButtonPressed;
+    Animation animButtonMouseInside;
 
     // Fx
     int fxMouseClick;
