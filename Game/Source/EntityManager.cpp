@@ -145,6 +145,7 @@ bool EntityManager::Start()
 
 bool EntityManager::Update(float dt)
 {
+	OPTICK_EVENT();
 	if (app->sceneManager->isPaused == false)
 	{
 		ListItem<Entity*>* item = entities.start;

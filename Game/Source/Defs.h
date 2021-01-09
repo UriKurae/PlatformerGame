@@ -2,6 +2,7 @@
 #define __DEFS_H__
 
 #include <stdio.h>
+#include "Optick/include/optick.h"
 
 //  NULL just in case ----------------------
 
