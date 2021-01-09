@@ -338,6 +338,7 @@ bool Scene1::CleanUp()
 	app->entityManager->DeleteEntities();
 	app->entityManager->Disable();
 
+	RELEASE(player);
 	enemies.Clear();
 	items.Clear();
 
