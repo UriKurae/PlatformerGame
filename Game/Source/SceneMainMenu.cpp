@@ -29,7 +29,7 @@ bool MainMenu::Start()
 	
 	intro = app->tex->Load("Assets/Textures/Scenes/main_menu.png");
 	textureCredits = app->tex->Load("Assets/Textures/credits.png");
-	textureLicense = app->tex->Load("Assets/Textures/license_2.png");
+	textureLicense = app->tex->Load("Assets/Textures/license_3.png");
 
 	app->audio->PlayMusic("Assets/Audio/Music/intro_scene.ogg");
 
