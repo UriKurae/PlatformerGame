@@ -25,7 +25,9 @@ public:
 	// Called before quitting
 	bool CleanUp() override;
 
-	void DrawFinalScreen();
+	bool OnGuiMouseClickEvent(GuiControl* control);
+
+	void DrawScore();
 
 private:
 
@@ -39,4 +41,10 @@ private:
 	char heartText[4] = { "\0" };
 	char finalScoreText[10] = { "\0" };
 
+
+	GuiButton* btnBackToMenu;
+	GuiButton* btnSeeScore;
+	GuiButton* btnBackSeeScore;
+
+	bool showScore;
 };

@@ -41,6 +41,7 @@ private:
 
 	SDL_Texture* intro;
 	SDL_Texture* textureCredits;
+	SDL_Texture* textureLicense;
 
 	// Principal GUI
 	GuiButton* btnPlay;
@@ -58,6 +59,8 @@ private:
 
 	// Credits GUI
 	GuiButton* btnBackCredits;
+	GuiButton* btnShowLicense;
+	GuiButton* btnBackLicense;
 
 	// Current menu state
 	MenuState menuState;

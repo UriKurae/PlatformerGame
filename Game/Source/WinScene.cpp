@@ -9,7 +9,6 @@
 #include "SceneManager.h"
 #include "Window.h"
 #include "Scene.h"
-#include "FadeToBlack.h"
 #include "WinScene.h"
 
 WinScene::WinScene()
@@ -28,6 +27,17 @@ bool WinScene::Start()
 
 	score = app->sceneManager->CalculateFinalScore();
 
+	btnSeeScore = new GuiButton(1, { 520,350,125,18 }, " SEE SCORE");
+	btnSeeScore->SetObserver(this);
+
+	btnBackToMenu = new GuiButton(2, { 520,400,125,18 }, "BACK TO MENU");
+	btnBackToMenu->SetObserver(this);
+
+	btnBackSeeScore = new GuiButton(3, { 900,700,125,18 }, "    BACK");
+	btnBackSeeScore->SetObserver(this);
+
+	showScore = false;
+
 	return true;
 }
 
@@ -35,7 +45,11 @@ bool WinScene::Update(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN)
 		TransitionToScene(app->sceneManager->mainMenu);
-		//app->fade->Fade(this, app->sceneManager->mainMenu, 1 / dt);
+
+
+	btnSeeScore->Update(app->input, dt, iPoint(520, 350));
+	btnBackToMenu->Update(app->input, dt, iPoint(520, 400));
+	btnBackSeeScore->Update(app->input, dt, iPoint(1010, 670));
 
 	return true;
 }
@@ -44,18 +58,47 @@ bool WinScene::Draw()
 {
 	app->render->DrawTexture(winTexture, 0, 0, NULL);
 
-	DrawFinalScreen();
-
+	if (!showScore)
+	{
+		btnSeeScore->Draw(app->render, guiDebugDraw);
+		btnBackToMenu->Draw(app->render, guiDebugDraw);
+	}
+	else if (showScore)
+	{
+		DrawScore();
+		btnBackSeeScore->Draw(app->render, guiDebugDraw);
+	}
 	return true;
 }
 
 bool WinScene::CleanUp()
 {
 	app->tex->UnLoad(winTexture);
+
+	delete btnBackSeeScore;
+	delete btnBackToMenu;
+	delete btnSeeScore;
+	
 	return true;
 }
 
-void WinScene::DrawFinalScreen()
+bool WinScene::OnGuiMouseClickEvent(GuiControl* control)
+{
+	// Back to menu
+	if (control->id == 1)
+		showScore = true;
+		
+	else if (control->id == 2)
+		TransitionToScene(app->sceneManager->mainMenu);
+	
+	else if (control->id == 3)
+		showScore = false;
+
+
+	return true;
+}
+
+void WinScene::DrawScore()
 {
 	uint x, y;
 	app->win->GetWindowSize(x, y);
@@ -63,6 +106,7 @@ void WinScene::DrawFinalScreen()
 	int offsetX = app->win->GetScale();
 	SDL_Rect r = { 240 / offsetX, 340 / offsetY, 780 / offsetX, 230 / offsetY };
 
+	app->render->DrawRectangle({ 0,0,(int)x,(int)y }, { 0,0,0,120 });
 	app->render->DrawRectangle(r, { 0,0,0,225 });
 
 	sprintf_s(wolvesText, 4, "%d", app->sceneManager->wolvesKilled);
@@ -84,5 +128,4 @@ void WinScene::DrawFinalScreen()
 	sprintf_s(finalScoreText, 4, "%d", score);
 	app->fonts->DrawText(260 / offsetX, 520 / offsetY, 0, "AMAZING! YOUR FINAL SCORE IS");
 	app->fonts->DrawText(970 / offsetX, 520 / offsetY, 0, finalScoreText);
-
 }

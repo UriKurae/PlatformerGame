@@ -27,8 +27,9 @@ bool MainMenu::Start()
 	menuState = MenuState::INITIAL;
 	app->render->SetCameraPosition(0,0);
 	
-	intro = app->tex->Load("Assets/Textures/Scenes/main_test.png");
+	intro = app->tex->Load("Assets/Textures/Scenes/main_menu.png");
 	textureCredits = app->tex->Load("Assets/Textures/credits.png");
+	textureLicense = app->tex->Load("Assets/Textures/license_2.png");
 
 	app->audio->PlayMusic("Assets/Audio/Music/intro_scene.ogg");
 
@@ -45,7 +46,7 @@ bool MainMenu::Start()
 	btnSettings = new GuiButton(3, { 520, 350, 125, 18 }, "  SETTINGS");
 	btnSettings->SetObserver(this);
 
-	btnCredits = new GuiButton(4, { 520, 400, 125, 18 }, "   CREDITS");
+	btnCredits = new GuiButton(4, { 520, 400, 125, 18 }, "  CREDITS");
 	btnCredits->SetObserver(this);
 
 	btnExit = new GuiButton(5, { 520, 500, 125, 18 }, "    EXIT");
@@ -72,6 +73,11 @@ bool MainMenu::Start()
 	btnBackCredits = new GuiButton(7, {602,332,125,18}, "    BACK");
 	btnBackCredits->SetObserver(this);
 
+	btnShowLicense = new GuiButton(8, { 602,292,125,18 }, "  LICENSE");
+	btnShowLicense->SetObserver(this);
+
+	btnBackLicense = new GuiButton(9, { 602, 332, 125, 18 }, "    BACK");
+	btnBackLicense->SetObserver(this);
 
 	guiDebugDraw = false;
 
@@ -113,6 +119,11 @@ bool MainMenu::Update(float dt)
 	else if (menuState == MenuState::CREDITS)
 	{
 		btnBackCredits->Update(app->input, dt, iPoint((app->render->camera.x + 1012), (app->render->camera.y + 665)));
+		btnShowLicense->Update(app->input, dt, iPoint((app->render->camera.x + 1012), (app->render->camera.y + 610)));
+	}
+	else if (menuState == MenuState::LICENSE)
+	{
+		btnBackLicense->Update(app->input, dt, iPoint((app->render->camera.x + 1012), (app->render->camera.y + 665)));
 	}
 
 	return true;
@@ -149,10 +160,22 @@ bool MainMenu::Draw()
 		app->win->GetWindowSize(x, y);
 		SDL_Rect r = { -(app->render->camera.x + 500),-(app->render->camera.y + 250),x,y };
 
-		app->render->DrawRectangle(r, { 0,0,0,225 });
+		app->render->DrawRectangle(r, { 0,0,0,170 });
 		app->render->DrawTexture(textureCredits, 0, 0, NULL);
 
+		btnShowLicense->Draw(app->render, guiDebugDraw);
 		btnBackCredits->Draw(app->render, guiDebugDraw);
+	}
+	else if (menuState == MenuState::LICENSE)
+	{
+		uint x, y;
+		app->win->GetWindowSize(x, y);
+		SDL_Rect r = { -(app->render->camera.x + 500),-(app->render->camera.y + 250),x,y };
+
+		app->render->DrawRectangle(r, { 0,0,0,170 });
+		app->render->DrawTexture(textureLicense, 0, 0, NULL);
+		
+		btnBackLicense->Draw(app->render, guiDebugDraw);
 	}
 
 	return ret;
@@ -161,6 +184,9 @@ bool MainMenu::Draw()
 bool MainMenu::CleanUp()
 {
 	app->tex->UnLoad(intro);
+	app->tex->UnLoad(textureCredits);
+	app->tex->UnLoad(textureLicense);
+
 	delete btnPlay;
 	delete btnContinue;
 	delete btnSettings;
@@ -171,6 +197,8 @@ bool MainMenu::CleanUp()
 	delete fullScreenCheckBox;
 	delete vSyncCheckBox;
 	delete btnBackOptions;
+	delete btnShowLicense;
+	delete btnBackLicense;
 
 	return true;
 }
@@ -198,6 +226,8 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 5) toExit = true; // Exit
 		else if (control->id == 6) menuState = MenuState::INITIAL; // Back from options
 		else if (control->id == 7) menuState = MenuState::INITIAL; // Back from credits
+		else if (control->id == 8) menuState = MenuState::LICENSE; // Show game license
+		else if (control->id == 9) menuState = MenuState::CREDITS; // Back to credits
 		break;
 	}
 	case GuiControlType::SLIDER:
