@@ -34,7 +34,7 @@ bool MainMenu::Start()
 	app->audio->PlayMusic("Assets/Audio/Music/intro_scene.ogg");
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
-	uiIndex = app->fonts->Load("Assets/Fonts/fonts.png", lookupTable, 1);
+	uiIndex = app->fonts->Load("Assets/Fonts/font.png", lookupTable, 1);
 
 	// Initial buttons
 	btnPlay = new GuiButton(1, { 520, 250, 125, 18 }, "   START");
@@ -97,10 +97,7 @@ bool MainMenu::Update(float dt)
 		{
 			btnContinue->state = GuiControlState::DISABLED;
 		}
-		else
-		{
-			btnSettings->Update(app->input, dt, iPoint(520, 350));
-		}
+		btnSettings->Update(app->input, dt, iPoint(520, 350));
 		btnCredits->Update(app->input, dt, iPoint(520, 400 ));
 		btnExit->Update(app->input, dt, iPoint(520, 500));
 	}

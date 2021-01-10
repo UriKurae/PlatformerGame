@@ -121,7 +121,7 @@ bool Scene2::Start()
 	app->audio->PlayMusic("Assets/Audio/Music/scene_2.ogg");
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
-	uiIndex = app->fonts->Load("Assets/Fonts/fonts.png", lookupTable, 1);
+	uiIndex = app->fonts->Load("Assets/Fonts/font.png", lookupTable, 1);
 	
 	app->sceneManager->currentScene = this;
 	guiDebugDraw = false;
@@ -176,21 +176,6 @@ bool Scene2::Update(float dt)
 		eItem = eItem->next;
 	}
 
-
-	//for (uint i = 0; i < app->map->data.height; ++i)
-	//{
-	//	for (uint j = 0; i < app->map->data.width; ++j)
-	//	{
-	//		if ((app->map->data.layers[2]->Get(j, i) >= 1161) &&
-	//			CheckCollisions(app->map->GetTileRect(j, i), player->GetSize()))
-	//		{
-	//			// TODO: Implement the player movement when collides
-
-	//		}
-	//	}
-	//}
-
-
 	ListItem<Item*>* it = items.start;
 	while (it != nullptr)
 	{
@@ -215,19 +200,16 @@ bool Scene2::Update(float dt)
 		player->DisableEntity();
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
 	{
-		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+		if (checkpointItem != nullptr)
 		{
-			if (checkpointItem != nullptr)
-			{
-				player->SetPosition(checkpointItem->data.x, checkpointItem->data.y);
+			player->SetPosition(checkpointItem->data.x, checkpointItem->data.y);
 
-				if (checkpointItem->next != nullptr)
-					checkpointItem = checkpointItem->next;
-				else
-					checkpointItem->next = checkpoints.start;
-			}
+			if (checkpointItem->next != nullptr)
+				checkpointItem = checkpointItem->next;
+			else
+				checkpointItem->next = checkpoints.start;
 		}
 	}
 

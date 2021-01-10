@@ -128,7 +128,7 @@ bool Scene1::Start()
 	clouds = app->tex->Load("Assets/Textures/Scenes/clouds.png");
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
-	uiIndex = app->fonts->Load("Assets/Fonts/fonts.png", lookupTable, 1);
+	uiIndex = app->fonts->Load("Assets/Fonts/font.png", lookupTable, 1);
 
 	app->sceneManager->currentScene = this;
 	guiDebugDraw = false;

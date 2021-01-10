@@ -131,7 +131,7 @@ bool SceneManager::Start()
 	btnBackToTitle = new GuiButton(3, { 290, 190, 125, 18 }, "  MAIN MENU");
 	btnBackToTitle->SetObserver(currentScene);
 
-	btnExit = new GuiButton(4, { 290, 215, 125, 18 }, "   EXIT");
+	btnExit = new GuiButton(4, { 290, 215, 125, 18 }, "    EXIT");
 	btnExit->SetObserver(currentScene);
 
 	// Settings UI
@@ -147,7 +147,7 @@ bool SceneManager::Start()
 	vSyncCheckBox = new GuiCheckBox(2, { 359,210,16,16 }, "VSYNC");
 	vSyncCheckBox->SetObserver(currentScene);
 
-	btnBackOptions = new GuiButton(5, { 301, 225, 125, 22 }, "  BACK");
+	btnBackOptions = new GuiButton(5, { 301, 225, 125, 22 }, "    BACK");
 
 	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/checkpoint.wav");
@@ -253,7 +253,7 @@ bool SceneManager::Update(float dt)
 	if (currentScene != nullptr && currentScene->transitionRequired)
 		ChangeScene(currentScene->nextScene);
 	
-	if (currentScene->toExit == true && currentScene != nullptr)
+	if (currentScene != nullptr && currentScene->toExit == true)
 		ret = false;
 
 	return ret;
@@ -329,7 +329,7 @@ bool SceneManager::HandleInput(float dt)
 		currentScene->guiDebugDraw = !currentScene->guiDebugDraw;
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)
+	if ((app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN) && (isPaused == false))
 	{
 		app->map->viewHitboxes = !app->map->viewHitboxes;
 		app->entityManager->drawColliders = !app->entityManager->drawColliders;
