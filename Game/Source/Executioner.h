@@ -19,8 +19,6 @@ public:
 
 	void TakeDamage(int damage) override;
 
-	void Attack() override;
-
 	void EnemyDies() override;
 
 	bool FindTarget(Player* player, float dt) override;

@@ -202,14 +202,6 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
 
 void GuiSlider::CalculateValue()
 {
-	/*this->value = bounds.x - minValue;
-
-	if (this->value > 100)
-		this->value = 100;
-	
-	else if (this->value <= 3)
-		this->value = 0;*/
-
 	this->value = bounds.x - minValue;
 
 	if (this->value > 100)
@@ -226,9 +218,6 @@ void GuiSlider::CalculateValue()
 	{
 		app->audio->SetFxVolume(this->value);
 	}
-
-
-	LOG("Value of the thing %i", value);
 }
 
 int GuiSlider::GetValue() const

@@ -48,10 +48,6 @@ void Enemy::TakeDamage(int damage)
 {
 }
 
-void Enemy::Attack()
-{
-}
-
 void Enemy::EnemyDies()
 {
 }

@@ -422,10 +422,6 @@ bool Wolf::Save(pugi::xml_node& node)
 	return true;
 }
 
-void Wolf::Attack()
-{
-}
-
 void Wolf::Draw()
 {
 	app->render->DrawTexture(texture, position.x, position.y, &currentAnim->GetCurrentFrame());

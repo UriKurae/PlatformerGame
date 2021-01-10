@@ -125,7 +125,6 @@ bool Executioner::Update(float dt)
 bool Executioner::CleanUp()
 {
 	isAlive = false;
-	//collider->pendingToDelete = true;
 	app->entityManager->DeleteEntity(this);
 	path.Clear();
 
@@ -157,10 +156,6 @@ void Executioner::EnemyDies()
 		this->CleanUp();
 		deathAnim.Reset();
 	}
-}
-
-void Executioner::Attack()
-{
 }
 
 void Executioner::Draw()

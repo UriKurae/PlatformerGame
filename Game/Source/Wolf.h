@@ -17,8 +17,6 @@ public:
 
 	bool Update(float dt) override;
 
-	void Attack();
-
 	void Draw() override;
 
 	bool CleanUp() override;

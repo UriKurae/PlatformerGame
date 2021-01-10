@@ -43,8 +43,6 @@ public:
 	virtual bool ChaseTarget(float dt);
 
 	virtual void TakeDamage(int damage);
-	
-	virtual void Attack();
 
 	virtual void EnemyDies();
 
