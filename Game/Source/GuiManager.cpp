@@ -19,6 +19,32 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type)
 	return control;
 }
 
+void GuiManager::DestroyGuiControl(GuiControl* entity)
+{
+}
+
+void GuiManager::AddGuiControl(GuiControl* entity)
+{
+}
+
+GuiManager::GuiManager()
+{
+}
+
+GuiManager::~GuiManager()
+{
+}
+
+bool GuiManager::Awake(pugi::xml_node&)
+{
+	return true;
+}
+
+bool GuiManager::Start()
+{
+	return true;
+}
+
 bool GuiManager::Update(float dt)
 {
 	accumulatedTime += dt;
@@ -32,6 +58,11 @@ bool GuiManager::Update(float dt)
 		doLogic = false;
 	}
 
+	return true;
+}
+
+bool GuiManager::CleanUp()
+{
 	return true;
 }
 

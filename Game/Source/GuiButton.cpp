@@ -50,8 +50,8 @@ GuiButton::~GuiButton()
 
 bool GuiButton::Update(Input* input, float dt, iPoint position)
 {
-    position.x /= app->win->GetScale();
-    position.y /= app->win->GetScale();
+    position.x /= (int)app->win->GetScale();
+    position.y /= (int)app->win->GetScale();
 
     animButtonHighlighted.speed = 10.0f * dt;
 
@@ -134,10 +134,7 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
             render->DrawRectangle(bounds, { 0, 255, 0, 200 });
         break;
 
-    case GuiControlState::FOCUSED: 
-        if (debugDraw)
-            render->DrawRectangle(bounds, { 255, 255, 0, 200 });
-        
+    case GuiControlState::FOCUSED:
         if (currentAnim != &animButtonMouseInside)
         {
             animButtonHighlighted.Reset();
@@ -147,6 +144,9 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
 
         render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
         render->DrawTexture(texture, bounds.x - 3, bounds.y - 3, &animButtonHighlighted.GetCurrentFrame());
+
+        if (debugDraw)
+            render->DrawRectangle(bounds, { 255, 255, 0, 200 });
         
         break;
 
@@ -172,7 +172,7 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         break;
     }
 
-    app->fonts->DrawText(bounds.x + 3 + (app->render->camera.x) / app->win->GetScale(), bounds.y + 3 + (app->render->camera.y) / app->win->GetScale(), 0, text.GetString());
+    app->fonts->DrawText(bounds.x + 3 + (app->render->camera.x) / (int)app->win->GetScale(), bounds.y + 3 + (app->render->camera.y) / (int)app->win->GetScale(), 0, text.GetString());
    
     return false;
 }

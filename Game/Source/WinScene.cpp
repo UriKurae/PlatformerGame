@@ -22,6 +22,8 @@ WinScene::~WinScene()
 
 bool WinScene::Start()
 {
+	status = SceneState::INITIAL;
+
 	winTexture = app->tex->Load("Assets/Textures/Scenes/win.png");
 	app->render->SetCameraPosition(0, 0);
 
@@ -37,6 +39,7 @@ bool WinScene::Start()
 	btnBackSeeScore->SetObserver(this);
 
 	showScore = false;
+	guiDebugDraw = false;
 
 	return true;
 }
@@ -46,10 +49,15 @@ bool WinScene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN)
 		TransitionToScene(app->sceneManager->mainMenu);
 
-
-	btnSeeScore->Update(app->input, dt, iPoint(520, 350));
-	btnBackToMenu->Update(app->input, dt, iPoint(520, 400));
-	btnBackSeeScore->Update(app->input, dt, iPoint(1010, 670));
+	if (status == SceneState::INITIAL)
+	{
+		btnSeeScore->Update(app->input, dt, iPoint(520, 350));
+		btnBackToMenu->Update(app->input, dt, iPoint(520, 400));
+	}
+	else if (status == SceneState::SCORE)
+	{
+		btnBackSeeScore->Update(app->input, dt, iPoint(1010, 670));
+	}
 
 	return true;
 }
@@ -58,12 +66,12 @@ bool WinScene::Draw()
 {
 	app->render->DrawTexture(winTexture, 0, 0, NULL);
 
-	if (!showScore)
+	if (status == SceneState::INITIAL)
 	{
 		btnSeeScore->Draw(app->render, guiDebugDraw);
 		btnBackToMenu->Draw(app->render, guiDebugDraw);
 	}
-	else if (showScore)
+	else if (status == SceneState::SCORE)
 	{
 		DrawScore();
 		btnBackSeeScore->Draw(app->render, guiDebugDraw);
@@ -86,13 +94,13 @@ bool WinScene::OnGuiMouseClickEvent(GuiControl* control)
 {
 	// Back to menu
 	if (control->id == 1)
-		showScore = true;
+		status = SceneState::SCORE;
 		
 	else if (control->id == 2)
 		TransitionToScene(app->sceneManager->mainMenu);
 	
 	else if (control->id == 3)
-		showScore = false;
+		status = SceneState::INITIAL;
 
 
 	return true;

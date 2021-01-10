@@ -17,8 +17,8 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     this->bounds = bounds;
     this->bounds.h = bounds.h + 1;
     this->text = text;
-    this->minValue = bounds.x - 25;
-    this->maxValue = bounds.x + bounds.w + 25;
+    this->minValue = bounds.x;
+    this->maxValue = bounds.x + bounds.w;
 
     texture = app->tex->Load("Assets/Textures/Gui/atlas.png");
     fxMouseRelease = app->audio->LoadFx("Assets/Audio/Fx/UI/slider_release.wav");
@@ -36,21 +36,21 @@ GuiSlider::~GuiSlider()
 
 bool GuiSlider::Update(Input* input, float dt, iPoint position)
 {
-    position.x /= app->win->GetScale();
-    position.y /= app->win->GetScale();
+    position.x /= (int)app->win->GetScale();
+    position.y /= (int)app->win->GetScale();
 
     if (initialPos.x != position.x || initialPos.y != position.y)
     {
         if (app->sceneManager->currentScene == (Scene*)app->sceneManager->mainMenu)
             bounds.x = position.x;
         else
-            bounds.x = position.x + (this->value / app->win->GetScale());
+            bounds.x = position.x + (this->value);
 
         initialPos.x = position.x;
         initialPos.y = position.y;
         bounds.y = position.y;
         this->minValue = bounds.x - (this->value);
-        this->maxValue = bounds.x + ((100 - this->value));
+        this->maxValue = bounds.x + (100 - this->value);
     }
 
     if (state != GuiControlState::DISABLED)
@@ -58,8 +58,8 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
         input->GetMousePosition(mouseX, mouseY);
 
         // Camera offset applied to the mouse so we can use the options.
-        mouseX += -app->render->camera.x / app->win->GetScale();
-        mouseY += -app->render->camera.y / app->win->GetScale();
+        mouseX += -app->render->camera.x / (int)app->win->GetScale();
+        mouseY += -app->render->camera.y / (int)app->win->GetScale();
 
         // Check collision between mouse and button bounds
         if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
@@ -80,7 +80,7 @@ bool GuiSlider::Update(Input* input, float dt, iPoint position)
         {
             if ((input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT) && (mouseX > minValue + 3) && (mouseX < maxValue + 3))
             {
-                bounds.x = ((mouseX) - ((bounds.w / 2) / app->win->GetScale()));
+                bounds.x = ((mouseX) - ((bounds.w / 2) / (int)app->win->GetScale()));
                 CalculateValue();
                 NotifyObserver();
             }
@@ -127,20 +127,21 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
         break;
 
     case GuiControlState::FOCUSED: 
-        if(debugDraw)
-            render->DrawRectangle(bounds, { 255, 255, 0, 200 });
-
         sect = { 23,197,9,21 };
         render->DrawTexture(texture, ((bounds.x) - (bounds.w / 2)), bounds.y - 5, &sect);
 
+        if (debugDraw)
+            render->DrawRectangle(bounds, { 255, 255, 0, 200 });
+
         break;
 
-    case GuiControlState::PRESSED: 
-        if(debugDraw)
-            render->DrawRectangle({(bounds.x) - (bounds.w / 2) - 2, bounds.y, bounds.w, bounds.h}, { 0, 255, 255, 255 });
-
+    case GuiControlState::PRESSED:
         sect = { 67, 196, 9,21 };
         render->DrawTexture(texture, (bounds.x - (bounds.w / 2)), bounds.y - 5, &sect);
+        
+        if (debugDraw)
+            render->DrawRectangle(bounds, { 0, 255, 255, 255 });
+        
         break;
 
     case GuiControlState::SELECTED: 
@@ -152,7 +153,7 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
         break;
     }
 
-    app->fonts->DrawText(minValue - 20 + (app->render->camera.x) / app->win->GetScale(), bounds.y - 15 + (app->render->camera.y) / app->win->GetScale(), 0, text.GetString());
+    app->fonts->DrawText(minValue - 20 + (app->render->camera.x) / (int)app->win->GetScale(), bounds.y - 15 + (app->render->camera.y) / (int)app->win->GetScale(), 0, text.GetString());
 
     return false;
 }

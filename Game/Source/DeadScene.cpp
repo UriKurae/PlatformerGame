@@ -39,6 +39,7 @@ bool DeadScene::Start()
 		btnBackToMenu->SetObserver(this);
 
 		currentPlayerAnim = &playerKneelDown;
+		guiDebugDraw = false;
 	}
 
 	return true;

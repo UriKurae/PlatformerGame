@@ -112,6 +112,9 @@ public:
 	GuiCheckBox* vSyncCheckBox;
 	GuiButton* btnBackOptions;
 
+	int musicVolume = 25;
+	int fxVolume = 25;
+
 	int uiIndex;
 	SDL_Texture* timerTexture;
 

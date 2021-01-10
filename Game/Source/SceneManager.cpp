@@ -234,8 +234,8 @@ bool SceneManager::Update(float dt)
 			}
 			else if (statusMenu == MenuState::OPTIONS)
 			{
-				this->sliderMusicVolume->Update(app->input, dt, iPoint(offset.x + 620, offset.y + 220));
-				this->sliderFxVolume->Update(app->input, dt, iPoint(offset.x + 620, offset.y + 300));
+				this->sliderMusicVolume->Update(app->input, dt, iPoint(offset.x + 580, offset.y + 220));
+				this->sliderFxVolume->Update(app->input, dt, iPoint(offset.x + 580, offset.y + 300));
 				this->fullScreenCheckBox->Update(app->input, dt, iPoint(offset.x + 800, offset.y + 350));
 				this->vSyncCheckBox->Update(app->input, dt, iPoint(offset.x + 800, offset.y + 400));
 				this->btnBackOptions->Update(app->input, dt, iPoint(offset.x + 580, offset.y + 500));
@@ -276,7 +276,7 @@ bool SceneManager::Update(float dt)
 	if (currentScene != nullptr && currentScene->transitionRequired)
 		ChangeScene(currentScene->nextScene);
 	
-	if (currentScene->toExit == true)
+	if (currentScene->toExit == true && currentScene != nullptr)
 		ret = false;
 
 	return ret;
@@ -349,11 +349,7 @@ bool SceneManager::HandleInput(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F8) == KeyState::KEY_DOWN)
 	{
-		if ((currentScene == scene1 || currentScene == scene2) && isPaused)
-			currentScene->guiDebugDraw = !currentScene->guiDebugDraw;
-
-		else if(currentScene == mainMenu)
-			currentScene->guiDebugDraw = !currentScene->guiDebugDraw;
+		currentScene->guiDebugDraw = !currentScene->guiDebugDraw;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KeyState::KEY_DOWN)

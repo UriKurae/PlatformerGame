@@ -43,8 +43,8 @@ bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
         input->GetMousePosition(mouseX, mouseY);
 
         // Camera offset applied to the mouse so we can use the options.
-        mouseX += -app->render->camera.x / app->win->GetScale();
-        mouseY += -app->render->camera.y / app->win->GetScale();
+        mouseX += -app->render->camera.x / (int)app->win->GetScale();
+        mouseY += -app->render->camera.y / (int)app->win->GetScale();
 
         // Check collision between mouse and button bounds
         if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
@@ -83,7 +83,7 @@ bool GuiCheckBox::Update(Input* input, float dt, iPoint position)
 
 bool GuiCheckBox::Draw(Render* render, bool debugDraw)
 {
-    app->fonts->DrawText(bounds.x - 110 + (app->render->camera.x) / app->win->GetScale(), bounds.y + (app->render->camera.y) / app->win->GetScale(), 0, text.GetString());
+    app->fonts->DrawText(bounds.x - 110 + (app->render->camera.x) / (int)app->win->GetScale(), bounds.y + (app->render->camera.y) / (int)app->win->GetScale(), 0, text.GetString());
    
     // Draw the right button depending on state
     switch (state)

@@ -103,7 +103,6 @@ public:
 	SceneManager* sceneManager;
 	PathFinding* pathFinding;
 	EntityManager* entityManager;
-
 	
 	pugi::xml_document saveLoadFile;
 	pugi::xml_node saveState;

@@ -4,6 +4,12 @@
 
 struct SDL_Texture;
 
+enum class SceneState
+{
+	INITIAL = 0,
+	SCORE,
+};
+
 class WinScene : public Scene
 {
 public:
@@ -47,4 +53,6 @@ private:
 	GuiButton* btnBackSeeScore;
 
 	bool showScore;
+
+	SceneState status;
 };

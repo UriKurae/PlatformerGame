@@ -10,8 +10,6 @@
 //#pragma comment(lib, "../Game/Source/External/SDL/libx86/SDL2.lib")
 //#pragma comment(lib, "../Game/Source/External/SDL/libx86/SDL2main.lib")
 
-#include "Optick/include/optick.h"
-
 #include <stdlib.h>
 
 enum MainState
@@ -84,7 +82,6 @@ int main(int argc, char* args[])
 			{
 				if (app->Update() == false)
 					state = CLEAN;
-				OPTICK_FRAME("Main Loop");
 			}
 			break;
 
