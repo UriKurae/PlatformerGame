@@ -227,7 +227,7 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	case GuiControlType::SLIDER:
 	{
 		if (control->id == 1) app->audio->SetMusicVolume(sliderMusicVolume->GetValue()); // Music
-		else if (control->id == 2) app->audio->SetMusicVolume(sliderFxVolume->GetValue()); // FX
+		else if (control->id == 2) app->audio->SetFxVolume(sliderFxVolume->GetValue()); // FX
 		break;
 	}
 	case GuiControlType::CHECKBOX:
@@ -271,15 +271,6 @@ bool MainMenu::Load()
 		}
 
 	}
-
-
-	/*int activeScene = node.child("active_scene").attribute("value").as_int();
-
-	if (activeScene == 1)
-		app->sceneManager->savedScene = (Scene*)app->sceneManager->scene1;
-	else if (activeScene == 2)
-		app->sceneManager->savedScene = (Scene*)app->sceneManager->scene2;*/
-
 
 	return true;
 }
