@@ -1218,10 +1218,10 @@ PUGI__NS_BEGIN
 
 	static const unsigned char chartype_table[256] =
 	{
-		55,  0,	0,	0,	0,	0,	0,	0,	  0,	12,  12,  0,	0,	63,  0,	0,	// 0-15
-		0,	0,	0,	0,	0,	0,	0,	0,	  0,	0,	0,	0,	0,	0,	0,	0,	// 16-31
-		8,	0,	6,	0,	0,	0,	7,	6,	  0,	0,	0,	0,	0,	96,  64,  0,	// 32-47
-		64,  64,  64,  64,  64,  64,  64,  64,	 64,  64,  192, 0,	1,	0,	48,  0,	// 48-63
+		55,  0,	0,	0,	0,	0,	0,	0,	 0,	12,  12,  0,	0,	63,  0,	0,	// 0-15
+		0,	0,	0,	0,	0,	0,	0,	0,	 0,	0,	0,	0,	0,	0,	0,	0,	// 16-31
+		8,	0,	6,	0,	0,	0,	7,	6,	 0,	0,	0,	0,	0,	96,  64,  0,	// 32-47
+		64,  64,  64,  64,  64,  64,  64,  64,	64,  64,  192, 0,	1,	0,	48,  0,	// 48-63
 		0,	192, 192, 192, 192, 192, 192, 192,	192, 192, 192, 192, 192, 192, 192, 192, // 64-79
 		192, 192, 192, 192, 192, 192, 192, 192,	192, 192, 192, 0,	0,	16,  0,	192, // 80-95
 		0,	192, 192, 192, 192, 192, 192, 192,	192, 192, 192, 192, 192, 192, 192, 192, // 96-111
@@ -1240,23 +1240,23 @@ PUGI__NS_BEGIN
 	enum chartypex_t
 	{
 		ctx_special_pcdata = 1,	// Any symbol >= 0 and < 32 (except \t, \r, \n), &, <, >
-		ctx_special_attr = 2,	 // Any symbol >= 0 and < 32 (except \t), &, <, >, "
-		ctx_start_symbol = 4,	  // Any symbol > 127, a-z, A-Z, _
-		ctx_digit = 8,			  // 0-9
-		ctx_symbol = 16			  // Any symbol > 127, a-z, A-Z, 0-9, _, -, .
+		ctx_special_attr = 2,	// Any symbol >= 0 and < 32 (except \t), &, <, >, "
+		ctx_start_symbol = 4,	 // Any symbol > 127, a-z, A-Z, _
+		ctx_digit = 8,			 // 0-9
+		ctx_symbol = 16			 // Any symbol > 127, a-z, A-Z, 0-9, _, -, .
 	};
 	
 	static const unsigned char chartypex_table[256] =
 	{
-		3,  3,  3,  3,  3,  3,  3,  3,	 3,  0,  2,  3,  3,  2,  3,  3,	 // 0-15
-		3,  3,  3,  3,  3,  3,  3,  3,	 3,  3,  3,  3,  3,  3,  3,  3,	 // 16-31
-		0,  0,  2,  0,  0,  0,  3,  0,	 0,  0,  0,  0,  0, 16, 16,  0,	 // 32-47
-		24, 24, 24, 24, 24, 24, 24, 24,	24, 24, 0,  0,  3,  0,  3,  0,	 // 48-63
+		3,  3,  3,  3,  3,  3,  3,  3,	3,  0,  2,  3,  3,  2,  3,  3,	// 0-15
+		3,  3,  3,  3,  3,  3,  3,  3,	3,  3,  3,  3,  3,  3,  3,  3,	// 16-31
+		0,  0,  2,  0,  0,  0,  3,  0,	0,  0,  0,  0,  0, 16, 16,  0,	// 32-47
+		24, 24, 24, 24, 24, 24, 24, 24,	24, 24, 0,  0,  3,  0,  3,  0,	// 48-63
 
 		0,  20, 20, 20, 20, 20, 20, 20,	20, 20, 20, 20, 20, 20, 20, 20,	// 64-79
 		20, 20, 20, 20, 20, 20, 20, 20,	20, 20, 20, 0,  0,  0,  0,  20,	// 80-95
 		0,  20, 20, 20, 20, 20, 20, 20,	20, 20, 20, 20, 20, 20, 20, 20,	// 96-111
-		20, 20, 20, 20, 20, 20, 20, 20,	20, 20, 20, 0,  0,  0,  0,  0,	 // 112-127
+		20, 20, 20, 20, 20, 20, 20, 20,	20, 20, 20, 0,  0,  0,  0,  0,	// 112-127
 
 		20, 20, 20, 20, 20, 20, 20, 20,	20, 20, 20, 20, 20, 20, 20, 20,	// 128+
 		20, 20, 20, 20, 20, 20, 20, 20,	20, 20, 20, 20, 20, 20, 20, 20,
@@ -1985,14 +1985,14 @@ PUGI__NS_BEGIN
 
 	// Parser utilities
 	#define PUGI__ENDSWITH(c, e)		((c) == (e) || ((c) == 0 && endch == (e)))
-	#define PUGI__SKIPWS()			  { while (PUGI__IS_CHARTYPE(*s, ct_space)) ++s; }
+	#define PUGI__SKIPWS()			 { while (PUGI__IS_CHARTYPE(*s, ct_space)) ++s; }
 	#define PUGI__OPTSET(OPT)			( optmsk & (OPT) )
 	#define PUGI__PUSHNODE(TYPE)		{ cursor = append_new_node(cursor, alloc, TYPE); if (!cursor) PUGI__THROW_ERROR(status_out_of_memory, s); }
-	#define PUGI__POPNODE()			 { cursor = cursor->parent; }
+	#define PUGI__POPNODE()			{ cursor = cursor->parent; }
 	#define PUGI__SCANFOR(X)			{ while (*s != 0 && !(X)) ++s; }
-	#define PUGI__SCANWHILE(X)		  { while (X) ++s; }
+	#define PUGI__SCANWHILE(X)		 { while (X) ++s; }
 	#define PUGI__SCANWHILE_UNROLL(X)	{ for (;;) { char_t ss = s[0]; if (PUGI__UNLIKELY(!(X))) { break; } ss = s[1]; if (PUGI__UNLIKELY(!(X))) { s += 1; break; } ss = s[2]; if (PUGI__UNLIKELY(!(X))) { s += 2; break; } ss = s[3]; if (PUGI__UNLIKELY(!(X))) { s += 3; break; } s += 4; } }
-	#define PUGI__ENDSEG()			  { ch = *s; *s = 0; ++s; }
+	#define PUGI__ENDSEG()			 { ch = *s; *s = 0; ++s; }
 	#define PUGI__THROW_ERROR(err, m)	return error_offset = m, error_status = err, static_cast<char_t*>(0)
 	#define PUGI__CHECK_ERROR(err, m)	{ if (*s == 0) PUGI__THROW_ERROR(err, m); }
 
@@ -10793,17 +10793,17 @@ PUGI__NS_BEGIN
 		//					| EqualityExpr '=' RelationalExpr
 		//					| EqualityExpr '!=' RelationalExpr
 		// RelationalExpr ::= AdditiveExpr
-		//					  | RelationalExpr '<' AdditiveExpr
-		//					  | RelationalExpr '>' AdditiveExpr
-		//					  | RelationalExpr '<=' AdditiveExpr
-		//					  | RelationalExpr '>=' AdditiveExpr
+		//					 | RelationalExpr '<' AdditiveExpr
+		//					 | RelationalExpr '>' AdditiveExpr
+		//					 | RelationalExpr '<=' AdditiveExpr
+		//					 | RelationalExpr '>=' AdditiveExpr
 		// AdditiveExpr ::= MultiplicativeExpr
 		//					| AdditiveExpr '+' MultiplicativeExpr
 		//					| AdditiveExpr '-' MultiplicativeExpr
 		// MultiplicativeExpr ::= UnaryExpr
-		//						  | MultiplicativeExpr '*' UnaryExpr
-		//						  | MultiplicativeExpr 'div' UnaryExpr
-		//						  | MultiplicativeExpr 'mod' UnaryExpr
+		//						 | MultiplicativeExpr '*' UnaryExpr
+		//						 | MultiplicativeExpr 'div' UnaryExpr
+		//						 | MultiplicativeExpr 'mod' UnaryExpr
 		xpath_ast_node* parse_expression()
 		{
 			return parse_expression_rec(parse_path_or_unary_expression(), 0);

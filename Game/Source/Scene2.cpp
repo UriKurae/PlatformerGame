@@ -97,8 +97,8 @@ bool Scene2::Start()
 
 	// Items instantiation and initialization
 	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(544, 304)));
+	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1136, 70)));
 	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(2144, 336)));
-	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(1136, 112)));
 	items.Add((GreenGem*)app->entityManager->CreateEntity(EntityType::GEM, iPoint(3504, 224)));
 
 	items.Add((RedHeart*)app->entityManager->CreateEntity(EntityType::HEART, iPoint(1296, 480)));
@@ -258,7 +258,7 @@ bool Scene2::Draw()
 {
 	bool ret = true;
 
-	app->render->DrawTexture(sky, -200, -60, NULL, 0.65f);
+	app->render->DrawTexture(sky, -200, -250, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 
@@ -414,7 +414,7 @@ bool Scene2::OnGuiMouseClickEvent(GuiControl* control)
 	case GuiControlType::SLIDER:
 	{
 		if (control->id == 1) app->audio->SetMusicVolume(app->sceneManager->sliderMusicVolume->GetValue()); // Music volume
-		else if (control->id == 2) app->audio->SetFXVolume(app->sceneManager->sliderFxVolume->GetValue()); // FX volume
+		else if (control->id == 2) app->audio->SetFxVolume(app->sceneManager->sliderFxVolume->GetValue()); // FX volume
 		break;
 	}
 

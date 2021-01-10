@@ -97,29 +97,6 @@ bool SceneManager::Save(pugi::xml_node& node)
 	}
 
 	node.append_child("active_scene").append_attribute("value").set_value(count);
-	
-	//ListItem<Enemy*>* it = app->entityManager->enemies.start;
-	//pugi::xml_node enemies = node.append_child("enemies");
-	//
-	//int numExecutioners = 0;
-	//int numWolves = 0;
-
-	//while (it != nullptr)
-	//{
-	//	it->data->Save(enemies.append_child(it->data->name.GetString()));
-	//	
-	//	if (it->data->type == EntityType::EXECUTIONER)
-	//		numExecutioners += 1;
-
-	//	else if (it->data->type == EntityType::WOLF)
-	//		numWolves += 1;
-
-	//	it = it->next;
-	//}
-	//
-	//pugi::xml_node numEnemies = node.append_child("num_enemies");
-	//numEnemies.append_child("executioners").append_attribute("value").set_value(numExecutioners);
-	//numEnemies.append_child("wolves").append_attribute("value").set_value(numWolves);
 
 	return true;
 }
@@ -151,10 +128,10 @@ bool SceneManager::Start()
 	btnSettings = new GuiButton(2, { 290, 170, 125, 18 }, "  SETTINGS");
 	btnSettings->SetObserver(currentScene);
 
-	btnBackToTitle = new GuiButton(3, { 290, 190, 125, 18 }, " MAIN MENU");
+	btnBackToTitle = new GuiButton(3, { 290, 190, 125, 18 }, "  MAIN MENU");
 	btnBackToTitle->SetObserver(currentScene);
 
-	btnExit = new GuiButton(4, { 290, 215, 125, 18 }, "    EXIT");
+	btnExit = new GuiButton(4, { 290, 215, 125, 18 }, "   EXIT");
 	btnExit->SetObserver(currentScene);
 
 	// Settings UI
@@ -170,7 +147,7 @@ bool SceneManager::Start()
 	vSyncCheckBox = new GuiCheckBox(2, { 359,210,16,16 }, "VSYNC");
 	vSyncCheckBox->SetObserver(currentScene);
 
-	btnBackOptions = new GuiButton(5, { 301, 225, 125, 22 }, "    BACK");
+	btnBackOptions = new GuiButton(5, { 301, 225, 125, 22 }, "  BACK");
 
 	checkpointTexture = app->tex->Load("Assets/Textures/Scenes/checkpoint.png");
 	checkpointFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/checkpoint.wav");

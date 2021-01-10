@@ -46,9 +46,6 @@ bool WinScene::Start()
 
 bool WinScene::Update(float dt)
 {
-	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN)
-		TransitionToScene(app->sceneManager->mainMenu);
-
 	if (status == SceneState::INITIAL)
 	{
 		btnSeeScore->Update(app->input, dt, iPoint(520, 350));
@@ -68,6 +65,14 @@ bool WinScene::Draw()
 
 	if (status == SceneState::INITIAL)
 	{
+		uint x, y;
+		app->win->GetWindowSize(x, y);
+		int offsetY = app->win->GetScale();
+		int offsetX = app->win->GetScale();
+		SDL_Rect r = { 468 / offsetX, 294 / offsetY, 350 / offsetX, 200 / offsetY };
+
+		app->render->DrawRectangle(r, { 0,0,0,225 });
+
 		btnSeeScore->Draw(app->render, guiDebugDraw);
 		btnBackToMenu->Draw(app->render, guiDebugDraw);
 	}
@@ -133,7 +138,7 @@ void WinScene::DrawScore()
 	app->fonts->DrawText(260 / offsetX, 480 / offsetY, 0, "TOTAL HEARTS PICKED");
 	app->fonts->DrawText(970 / offsetX, 480 / offsetY, 0, heartText);
 
-	sprintf_s(finalScoreText, 4, "%d", score);
+	sprintf_s(finalScoreText, 4, "%03i", score);
 	app->fonts->DrawText(260 / offsetX, 520 / offsetY, 0, "AMAZING! YOUR FINAL SCORE IS");
-	app->fonts->DrawText(970 / offsetX, 520 / offsetY, 0, finalScoreText);
+	app->fonts->DrawText(930 / offsetX, 520 / offsetY, 0, finalScoreText);
 }

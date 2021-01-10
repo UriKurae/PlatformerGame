@@ -320,7 +320,7 @@ bool Map::LoadMap()
 bool Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 {
 	bool ret = true;
-	 
+	
 	set->firstgid = tileset_node.attribute("firstgid").as_int();
 	set->name = tileset_node.attribute("name").value();
 	set->tileWidth = tileset_node.attribute("tilewidth").as_int();

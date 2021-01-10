@@ -10,31 +10,31 @@ class GuiSlider : public GuiControl
 {
 public:
 
-    GuiSlider(uint32 id, SDL_Rect bounds, const char *text);
-    virtual ~GuiSlider();
+	GuiSlider(uint32 id, SDL_Rect bounds, const char *text);
+	virtual ~GuiSlider();
 
-    bool Update(Input* input, float dt, iPoint position);
-    bool Draw(Render* render, bool debugDraw);
-    void CalculateValue();
-    int GetValue() const;
+	bool Update(Input* input, float dt, iPoint position);
+	bool Draw(Render* render, bool debugDraw);
+	void CalculateValue();
+	int GetValue() const;
 
 private:
 
-    SDL_Rect slider;
-    int value;
+	SDL_Rect slider;
+	int value;
 
-    int minValue;
-    int maxValue;
+	int minValue;
+	int maxValue;
 
-    iPoint initialPos;
-    int mouseX, mouseY;
+	iPoint initialPos;
+	int mouseX, mouseY;
 
-    // Fx's
-    int fxMouseRelease;
-    int fxMouseClick;
-    int fxMouseHover;
+	// Fx's
+	int fxMouseRelease;
+	int fxMouseClick;
+	int fxMouseHover;
 
-    bool mouseFxDone = false;
+	bool mouseFxDone = false;
 };
 
 #endif // __GUISLIDER_H__

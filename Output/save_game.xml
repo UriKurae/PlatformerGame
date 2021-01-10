@@ -13,7 +13,7 @@
   </scenemanager>
   <entitymanager>
     <player>
-      <position x="2138" y="290" />
+      <position x="1752" y="181" />
       <gems_achieved value="1" />
       <hearts value="4" />
     </player>

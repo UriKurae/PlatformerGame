@@ -10,23 +10,23 @@ class GuiCheckBox : public GuiControl
 {
 public:
 
-    GuiCheckBox(uint32 id, SDL_Rect bounds, const char *text);
-    virtual ~GuiCheckBox();
+	GuiCheckBox(uint32 id, SDL_Rect bounds, const char *text);
+	virtual ~GuiCheckBox();
 
-    bool Update(Input* input, float dt, iPoint position);
-    bool Draw(Render* render, bool debugDraw);
+	bool Update(Input* input, float dt, iPoint position);
+	bool Draw(Render* render, bool debugDraw);
 
 private:
 
-    // GuiCheckBox specific properties
-    // Maybe some animation properties for state change?
-    bool checked;
+	// GuiCheckBox specific properties
+	// Maybe some animation properties for state change?
+	bool checked;
 
-    // Fx
-    int fxMouseClick;
-    int fxMouseHover;
+	// Fx
+	int fxMouseClick;
+	int fxMouseHover;
 
-    bool mouseFxDone = false;
+	bool mouseFxDone = false;
 };
 
 #endif // __GUICHECKBOX_H__

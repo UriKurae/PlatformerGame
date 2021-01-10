@@ -211,7 +211,17 @@ void Audio::SetMusicVolume(int index)
 	Mix_VolumeMusic(musicVolume);
 }
 
-void Audio::SetFXVolume(int index)
+void Audio::SetFxVolume(int index)
 {
 	fxVolume = index;
+}
+
+int Audio::GetMusicVolume()
+{
+	return musicVolume;
+}
+
+int Audio::GetFxVolume()
+{
+	return fxVolume;
 }

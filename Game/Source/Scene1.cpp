@@ -62,7 +62,6 @@ bool Scene1::Start()
 {
 	if (this->active == true)
 	{
-		//app->entityManager->CleanUp();
 		app->entityManager->Enable();
 		app->pathFinding->Enable();
 
@@ -127,7 +126,6 @@ bool Scene1::Start()
 	sky = app->tex->Load("Assets/Textures/Scenes/sky.png");
 	sea = app->tex->Load("Assets/Textures/Scenes/sea.png");
 	clouds = app->tex->Load("Assets/Textures/Scenes/clouds.png");
-	//guiTexture = app->tex->Load("Assets/Textures/Collectibles/collectibles.png");
 
 	char lookupTable[] = { "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " };
 	uiIndex = app->fonts->Load("Assets/Fonts/fonts.png", lookupTable, 1);
@@ -162,9 +160,7 @@ bool Scene1::Update(float dt)
 			{
 				if (eItem->data->currentState == EnemyState::PATROL)
 				{
-					//eItem->data->currentAnim = &eItem->data->idleAnim;
-
-					if ((eItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) /*&& (player->godMode == false)*/)
+					if ((eItem->data->Patrol(dt, player->GetPosition())) && (player->GetReachable()) && (player->godMode == false))
 						eItem->data->currentState = EnemyState::ALERT;
 				}
 				else if (eItem->data->currentState == EnemyState::ALERT)
@@ -185,21 +181,6 @@ bool Scene1::Update(float dt)
 
 		eItem = eItem->next;
 	}
-
-	
-	//for (uint i = 0; i < app->map->data.height; ++i)
-	//{
-	//	for (uint j = 0; i < app->map->data.width; ++j)
-	//	{
-	//		if ((app->map->data.layers[2]->Get(j, i) >= 1161) &&
-	//			CheckCollisions(app->map->GetTileRect(j, i), player->GetSize()))
-	//		{
-	//			// TODO: Implement the player movement when collides
-
-	//		}
-	//	}
-	//}
-
 	
 	ListItem<Item*>* it = items.start;
 	while (it != nullptr)
@@ -264,7 +245,7 @@ bool Scene1::Draw()
 {
 	bool ret = true;
 		
-	app->render->DrawTexture(sky, -200, -80, NULL, 0.65f);
+	app->render->DrawTexture(sky, -200, -250, NULL, 0.65f);
 	app->render->DrawTexture(clouds, -200, 180, NULL, 0.75f);
 	app->render->DrawTexture(sea, -200, 395, NULL, 0.85f);
 	
@@ -427,7 +408,7 @@ bool Scene1::OnGuiMouseClickEvent(GuiControl* control)
 		case GuiControlType::SLIDER:
 		{
 			if (control->id == 1) app->audio->SetMusicVolume(app->sceneManager->sliderMusicVolume->GetValue()); // Music volume
-			else if (control->id == 2) app->audio->SetFXVolume(app->sceneManager->sliderFxVolume->GetValue()); // FX volume
+			else if (control->id == 2) app->audio->SetFxVolume(app->sceneManager->sliderFxVolume->GetValue()); // FX volume
 			break;
 		}
 

@@ -42,7 +42,14 @@ public:
 	void SetMusicVolume(int index);
 
 	// Control the volume of the FX
-	void SetFXVolume(int index);
+	void SetFxVolume(int index);
+
+	// Get the volume of the Music
+	int GetMusicVolume();
+
+	// Get the volume of the FX
+	int GetFxVolume();
+
 
 private:
 
