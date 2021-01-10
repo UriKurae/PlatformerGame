@@ -237,9 +237,6 @@
     <ClInclude Include="Source\Fonts.h">
       <Filter>Modules\Core</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h">
-      <Filter>Icon</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -272,13 +269,5 @@
     <Filter Include="Modules\Core">
       <UniqueIdentifier>{58d49baa-ad08-449a-87f0-72fd1643e94c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Icon">
-      <UniqueIdentifier>{2a7d41b6-830c-4259-81e3-eed6c423a314}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Game1.rc">
-      <Filter>Icon</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>
