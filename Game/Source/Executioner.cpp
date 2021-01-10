@@ -106,24 +106,18 @@ bool Executioner::Update(float dt)
 	if ((currentAnim != &idleAnim) && (hurtAnim.HasFinished()) && (this->life > 0))
 		currentAnim = &idleAnim;
 
-	/*if (player->loadedGame)
-		isAlive = savedIsAlive;*/
-
-
-	if(currentAnim != nullptr)
-		currentAnim->Update();
-
-	if(collider != nullptr)
-		collider->SetPos(position.x - 2, position.y + 10);
-
-	//if(dt < 0.5)
 	HandleCollisions(dt);
 
 	if (this->life <= 0)
 	{
-		this->isAlive = false;
 		EnemyDies();
 	}
+
+	if (collider != nullptr)
+		collider->SetPos(position.x - 2, position.y + 10);
+
+	if (currentAnim != nullptr)
+		currentAnim->Update();
 
 	return true;
 }
@@ -153,6 +147,7 @@ void Executioner::EnemyDies()
 {
 	if (currentAnim != &deathAnim)
 	{
+		deathAnim.Reset();
 		currentAnim = &deathAnim;
 	}
 

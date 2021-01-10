@@ -209,7 +209,7 @@ bool Scene2::Update(float dt)
 			if (checkpointItem->next != nullptr)
 				checkpointItem = checkpointItem->next;
 			else
-				checkpointItem->next = checkpoints.start;
+				checkpointItem = checkpoints.start;
 		}
 	}
 
