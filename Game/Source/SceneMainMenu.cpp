@@ -29,7 +29,7 @@ bool MainMenu::Start()
 	
 	intro = app->tex->Load("Assets/Textures/Scenes/main_menu.png");
 	textureCredits = app->tex->Load("Assets/Textures/credits.png");
-	textureLicense = app->tex->Load("Assets/Textures/license_3.png");
+	textureLicense = app->tex->Load("Assets/Textures/license.png");
 
 	app->audio->PlayMusic("Assets/Audio/Music/intro_scene.ogg");
 
@@ -239,7 +239,8 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	case GuiControlType::CHECKBOX:
 	{
 		if (control->id == 1) app->win->fullscreenWindow = !app->win->fullscreenWindow; // FullScreen
-		else if (control->id == 2) app->render->vsync = !app->render->vsync; // Vsync
+		else if (control->id == 2) 
+			app->render->vsync = !app->render->vsync; // Vsync
 		break;
 	}
 	default: break;

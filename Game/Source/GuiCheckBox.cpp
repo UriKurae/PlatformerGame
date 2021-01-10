@@ -18,6 +18,8 @@ GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiCont
     fxMouseClick = app->audio->LoadFx("Assets/Audio/Fx/UI/button_release.wav");
     fxMouseHover = app->audio->LoadFx("Assets/Audio/Fx/UI/button_hover.wav");
     fxMouseClick = app->audio->LoadFx("Assets/Audio/Fx/UI/check_box_release.wav");
+
+    checked = false;
 }
 
 GuiCheckBox::~GuiCheckBox()
