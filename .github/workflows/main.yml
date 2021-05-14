@@ -44,25 +44,34 @@ jobs:
           path: ./build/$${{ env.RELEASE_NAME }}
 
       - name: Create Release
-        uses: "marvinpinto/action-automatic-releases@latest"
+        id: create_release
+        #uses: "marvinpinto/action-automatic-releases@latest"
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: latest
-          title: RELEASE TITLE
+          tag_name: TAG NAME
+          release_name: RELEASE NAME
+          draft: false
           prerelease: false
-          files: |
-            LICENSE
-            README.md
-            Output
-            Build/Release/Game.exe
-            '**/Output/**'
+          #repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          #automatic_release_tag: latest
+          #title: RELEASE TITLE
+          #prerelease: false
+          #files: |
+            #LICENSE
+            #README.md
+            #Output
+            #Build/Release/Game.exe
+            #'**/Output/**'
 
       - name: Upload Artifact to Release
-        uses: actions/upload-release-asset@v1.0.1
+        id: upload_artifact_to_release
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build/${{ env.RELEASE_NAME }}.zip
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Output/
           asset_name: ${{ env.RELEASE_NAME }}.zip
           asset_content_type: application/zip
