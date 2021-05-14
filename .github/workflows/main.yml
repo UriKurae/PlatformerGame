@@ -43,16 +43,6 @@ jobs:
           name: ${{ env.RELEASE_NAME }}.zip
           path: ./build/$${{ env.RELEASE_NAME }}
 
-      - name: Upload Artifact to Release
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ secrets.upload-artifact.outputs-upload_url }}
-          asset_path: ./build/${{ env.RELEASE_NAME }}.zip
-          asset_name: ${{ env.RELEASE_NAME }}.zip
-          asset_content_type: application/zip
-
       - name: Create Release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -66,3 +56,13 @@ jobs:
             Output
             Build/Release/Game.exe
             '**/Output/**'
+
+      - name: Upload Artifact to Release
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./build/${{ env.RELEASE_NAME }}.zip
+          asset_name: ${{ env.RELEASE_NAME }}.zip
+          asset_content_type: application/zip
