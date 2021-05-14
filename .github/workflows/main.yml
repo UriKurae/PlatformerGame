@@ -24,6 +24,7 @@ jobs:
       - name: Build
         uses: actions/checkout@v2
 
+
       - name: Generate Artifact
         env:
           RELEASE_NAME: The Hunter Odyssey Alpha
@@ -35,13 +36,6 @@ jobs:
           7z a ./${{ env.RELEASE_NAME }}.zip ./${{env.RELEASE_NAME }}
           dir
         shell: cmd
-
-      - name: Upload Artifact
-        id: upload-artifact 
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.RELEASE_NAME }}.zip
-          path: ./build/$${{ env.RELEASE_NAME }}
 
       - name: Create Release
         id: create_release
@@ -65,6 +59,7 @@ jobs:
             Output
             Release/Game.exe
 
+
       - name: Upload Artifact to Release
         id: upload_artifact_to_release
         uses: actions/upload-release-asset@v1
@@ -72,6 +67,6 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/${{ env.RELEASE_NAME }}.zip
+          asset_path: ./Output/
           asset_name: ${{ env.RELEASE_NAME }}.zip
           asset_content_type: application/zip
