@@ -41,11 +41,11 @@ jobs:
           #automatic_release_tag: latest
           #title: RELEASE TITLE
           #prerelease: false
-          files: |
-            LICENSE
-            README.md
-            Output
-            Release/Game.exe    
+          #files: |
+            #LICENSE
+            #README.md
+            #Output
+            #Release/Game.exe
 
 
       - name: Generate Artifact
