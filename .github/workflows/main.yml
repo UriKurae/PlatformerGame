@@ -25,18 +25,6 @@ jobs:
         uses: actions/checkout@v2
 
 
-      - name: Generate Artifact
-        env:
-          RELEASE_NAME: The Hunter Odyssey Alpha
-        run: |
-          msbuild.exe Development.sln /p:Configuration=Release /p:Platform=x86
-          copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
-          copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
-          cd build
-          7z a ./${{ env.RELEASE_NAME }}.zip ./${{env.RELEASE_NAME }}
-          dir
-        shell: cmd
-
       - name: Create Release
         id: create_release
         #uses: "marvinpinto/action-automatic-releases@latest"
@@ -57,7 +45,20 @@ jobs:
             LICENSE
             README.md
             Output
-            Release/Game.exe
+            Release/Game.exe    
+
+
+      - name: Generate Artifact
+        env:
+          RELEASE_NAME: The Hunter Odyssey Alpha
+        run: |
+          msbuild.exe Development.sln /p:Configuration=Release /p:Platform=x86
+          copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
+          copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
+          cd build
+          7z a ./${{ env.RELEASE_NAME }}.zip ./${{env.RELEASE_NAME }}
+          dir
+        shell: cmd
 
 
       - name: Upload Artifact to Release
