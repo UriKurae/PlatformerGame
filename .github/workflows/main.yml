@@ -50,20 +50,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: TAG NAME
-          release_name: RELEASE NAME
+          tag_name: latest
+          release_name: ${{ env.RELEASE_NAME }}
+          body: Info of the release
           draft: false
           prerelease: false
           #repo_token: "${{ secrets.GITHUB_TOKEN }}"
           #automatic_release_tag: latest
           #title: RELEASE TITLE
           #prerelease: false
-          #files: |
-            #LICENSE
-            #README.md
-            #Output
-            #Build/Release/Game.exe
-            #'**/Output/**'
+          files: |
+            LICENSE
+            README.md
+            Output
+            Release/Game.exe
 
       - name: Upload Artifact to Release
         id: upload_artifact_to_release
