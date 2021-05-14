@@ -24,7 +24,36 @@ jobs:
       - name: Build
         uses: actions/checkout@v2
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Generate Artifact
+        env:
+          RELEASE_NAME: The Hunter Odyssey Alpha
+        run: |
+          msbuild.exe Development.sln /p:Configuration=Release /p:Platform=x86
+          copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
+          copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
+          cd build
+          7z a ./${{ env.RELEASE_NAME }}.zip ./${{env.RELEASE_NAME }}
+          dir
+        shell: cmd
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.RELEASE_NAME }}.zip
+          path: ./build/$${{ env.RELEASE_NAME }}
+
+      - name: Upload Artifact to Release
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./build/${{ env.RELEASE_NAME }}.zip
+          asset_name: ${{ env.RELEASE_NAME }}.zip
+          asset_content_type: application/zip
+
+      - name: Create Release
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: latest
