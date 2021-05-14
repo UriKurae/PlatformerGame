@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: latest
-          release_name: ${{ env.RELEASE_NAME }}
+          release_name: release name
           body: Info of the release
           draft: false
           prerelease: false
